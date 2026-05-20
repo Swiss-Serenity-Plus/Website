@@ -1,0 +1,161 @@
+.hero {
+  position: relative;
+  min-height: 90vh;
+  padding-top: 72px;
+  overflow: hidden;
+  background: var(--c-bg);
+}
+
+/* Transition de fond en bas du Hero vers la section suivante (Notre engagement = surface) */
+.hero::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 18%;
+  background: linear-gradient(to bottom, transparent 0%, var(--c-surface) 100%);
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* SVG montagnes décoratives — derrière tout le contenu */
+.mountainsSvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Photo R2 — ancrée à droite, sensiblement plus contenue pour libérer la zone texte */
+.imageWrap {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 48%;
+  max-width: 880px;
+  overflow: hidden;
+  z-index: 2;
+}
+
+@media (min-width: 1280px) {
+  .imageWrap { width: 46%; }
+}
+
+@media (min-width: 1600px) {
+  .imageWrap { width: 44%; }
+}
+
+/* Fondu gauche : la photo s'estompe dans le fond crème — courbe douce sans cassure */
+.imageWrap::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: linear-gradient(
+    to right,
+    var(--c-bg) 0%,
+    rgba(247, 245, 241, 0.96) 14%,
+    rgba(247, 245, 241, 0.72) 30%,
+    rgba(247, 245, 241, 0.25) 50%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+/* Fondu bas : transition progressive vers la section suivante, plus aucune cassure */
+.imageWrap::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  background: linear-gradient(
+    to top,
+    var(--c-bg) 0%,
+    rgba(247, 245, 241, 0.92) 14%,
+    rgba(247, 245, 241, 0.5) 30%,
+    rgba(247, 245, 241, 0.12) 44%,
+    transparent 56%
+  );
+  pointer-events: none;
+}
+
+.mountainImg {
+  object-fit: cover;
+  object-position: center 8%;
+}
+
+/* Texte — premier plan, ancré à gauche (aligné sur le header) */
+.inner {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--sp-3);
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-8);
+  padding-block: var(--sp-12);
+  min-height: calc(90vh - 72px);
+  justify-content: center;
+  position: relative;
+  z-index: 4;
+}
+
+@media (min-width: 1024px) {
+  .inner {
+    flex-direction: row;
+    align-items: center;
+    padding-inline: var(--sp-6);
+    padding-block: 0;
+  }
+}
+
+.content {
+  flex: 0 0 56%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  max-width: 620px;
+}
+
+@media (min-width: 1280px) {
+  .content { flex: 0 0 60%; max-width: 660px; }
+}
+
+.title {
+  font-size: 40px;
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--c-text);
+  text-wrap: balance;
+}
+
+@media (min-width: 1024px) {
+  .title { font-size: 52px; }
+}
+
+@media (min-width: 1280px) {
+  .title { font-size: 58px; }
+}
+
+@media (min-width: 1600px) {
+  .title { font-size: 64px; }
+}
+
+.subtitle {
+  font-size: 18px;
+  color: var(--c-text-muted);
+  line-height: 1.7;
+  max-width: 520px;
+}
+
+.ctas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-top: var(--sp-2);
+}

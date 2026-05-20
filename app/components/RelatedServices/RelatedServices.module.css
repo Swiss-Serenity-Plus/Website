@@ -1,0 +1,32 @@
+.section {
+  padding-block: var(--sp-12);
+  background: var(--c-bg);
+  border-top: 1px solid var(--c-border);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-8);
+}
+
+.title { font-size: 28px; }
+
+@media (min-width: 768px) {
+  .title { font-size: 36px; }
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-3);
+}
+
+@media (min-width: 768px) {
+  .grid { grid-template-columns: repeat(2, 1fr); gap: var(--sp-4); }
+}
+
+@media (min-width: 1024px) {
+  .grid { grid-template-columns: repeat(4, 1fr); }
+}

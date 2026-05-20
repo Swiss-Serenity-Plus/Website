@@ -1,0 +1,31 @@
+.accent {
+  position: absolute;
+  width: 60%;
+  max-width: 720px;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.left {
+  left: -4%;
+  bottom: -6%;
+}
+
+.right {
+  right: -4%;
+  top: -8%;
+  transform: scaleX(-1);
+}
+
+.subtle { opacity: 0.45; }
+.medium { opacity: 0.7; }
+
+@media (max-width: 767px) {
+  .accent { width: 80%; opacity: 0.35; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .accent { opacity: 0.3; }
+}

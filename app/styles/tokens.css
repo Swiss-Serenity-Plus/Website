@@ -1,0 +1,41 @@
+:root {
+  /* Couleurs */
+  --c-text: #062445;
+  --c-text-muted: #4a5a6f;
+  --c-bg: #f7f5f1;
+  --c-surface: #ffffff;
+  --c-accent-primary: #b42c2a;
+  --c-accent-secondary: #977b57;
+  --c-border: #e8e3d8;
+  --c-overlay-dark: rgba(6, 36, 69, 0.85);
+  --c-success: #5a7a4f;
+  --c-error: #b42c2a;
+  --c-focus-ring: rgba(180, 44, 42, 0.3);
+
+  /* Typographie */
+  --font-display: "Fraunces", serif;
+  --font-body: "Inter", sans-serif;
+
+  /* Spacing */
+  --sp-1: 8px;
+  --sp-2: 16px;
+  --sp-3: 24px;
+  --sp-4: 32px;
+  --sp-6: 48px;
+  --sp-8: 64px;
+  --sp-12: 96px;
+  --sp-16: 128px;
+
+  /* Layout */
+  --container-max: 1280px;
+  --container-narrow: 720px;
+  --radius-card: 16px;
+
+  /* Transitions */
+  --transition-default: 400ms cubic-bezier(0.22, 1, 0.36, 1);
+  --transition-fast: 300ms ease-out;
+
+  /* Élévations partagées (utilisées au survol des cards) */
+  --shadow-card-hover: 0 6px 20px rgba(6, 36, 69, 0.08);
+  --shadow-card-hover-strong: 0 8px 32px rgba(6, 36, 69, 0.12);
+}

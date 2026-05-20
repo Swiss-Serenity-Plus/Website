@@ -1,0 +1,129 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+}
+
+.label {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--c-text);
+}
+
+.wrapper {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  border: 1px solid var(--c-border);
+  border-radius: 8px;
+  background: var(--c-surface);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+  overflow: visible;
+}
+
+.wrapper:focus-within {
+  border-color: var(--c-accent-primary);
+  box-shadow: 0 0 0 3px var(--c-focus-ring);
+}
+
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 12px;
+  background: transparent;
+  border: 0;
+  border-right: 1px solid var(--c-border);
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--c-text);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.flag {
+  font-size: 18px;
+  line-height: 1;
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+}
+
+.dial {
+  font-weight: 500;
+}
+
+.chevron,
+.chevronOpen {
+  transition: transform var(--transition-fast);
+  color: var(--c-text-muted);
+}
+
+.chevronOpen { transform: rotate(180deg); }
+
+.input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px var(--sp-2);
+  border: 0;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--c-text);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  z-index: 30;
+  max-height: 320px;
+  overflow-y: auto;
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(6, 36, 69, 0.18);
+  padding: 6px;
+  list-style: none;
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  color: var(--c-text);
+}
+
+.optionActive,
+.option:hover {
+  background: rgba(151, 123, 87, 0.1);
+}
+
+.optionName {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.optionDial {
+  color: var(--c-text-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.optionCheck {
+  color: var(--c-accent-primary);
+}
+
+.separator {
+  height: 1px;
+  background: var(--c-border);
+  margin: 6px 6px;
+}

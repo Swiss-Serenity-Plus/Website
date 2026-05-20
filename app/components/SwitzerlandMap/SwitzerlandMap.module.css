@@ -1,0 +1,99 @@
+.wrap {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  padding-bottom: 48px;
+}
+
+.svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+.background {
+  fill: rgba(6, 36, 69, 0.06);
+  stroke: rgba(6, 36, 69, 0.14);
+  stroke-width: 1.2;
+  stroke-linejoin: round;
+}
+
+/* Entrance only — opacity + blur, pas de transform pour éviter le conflit avec :hover */
+@keyframes cantonFadeIn {
+  from {
+    opacity: 0;
+    filter: blur(3px);
+  }
+  to {
+    opacity: 1;
+    filter: none;
+  }
+}
+
+.canton {
+  fill: rgba(151, 123, 87, 0.3);
+  stroke: rgba(151, 123, 87, 0.6);
+  stroke-width: 1;
+  stroke-linejoin: round;
+  cursor: pointer;
+  /* Une seule animation — pas de pulse qui entre en conflit avec transition: filter */
+  animation: cantonFadeIn 0.6s ease both;
+  /* Transition uniquement sur les propriétés modifiées au :hover */
+  transition: fill 200ms ease, filter 200ms ease, transform 200ms ease;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+/* CSS :hover pur — n'interrompt aucune animation, pas de flash */
+.canton:hover {
+  fill: rgba(151, 123, 87, 0.78);
+  filter: drop-shadow(0 0 14px rgba(151, 123, 87, 0.58));
+  transform: scale(1.015);
+}
+
+/* Tooltip */
+.tooltip {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #fff;
+  border: 1px solid var(--c-border);
+  border-radius: 9999px;
+  padding: 7px 16px;
+  box-shadow: 0 4px 18px rgba(6, 36, 69, 0.1);
+  opacity: 0;
+  transition: opacity 150ms ease;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.tooltipVisible {
+  opacity: 1;
+}
+
+.tooltipDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c-accent-secondary);
+  flex-shrink: 0;
+}
+
+.tooltipName {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--c-text);
+}
+
+.tooltipTag {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--c-accent-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}

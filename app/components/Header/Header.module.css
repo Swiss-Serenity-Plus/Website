@@ -1,0 +1,104 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  transition: background-color var(--transition-default), box-shadow var(--transition-default);
+  background: transparent;
+}
+
+.scrolled {
+  background: var(--c-bg);
+  box-shadow: 0 1px 0 var(--c-border);
+}
+
+.inner {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--sp-3);
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-4);
+}
+
+@media (min-width: 768px) {
+  .inner { padding-inline: var(--sp-6); }
+}
+
+.logo { display: flex; align-items: center; flex-shrink: 0; }
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+}
+
+.navLink {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--c-text);
+  text-decoration: none;
+  position: relative;
+  transition: color var(--transition-fast);
+}
+
+.navLink::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--c-accent-secondary);
+  transition: width var(--transition-fast);
+}
+
+.navLink:hover::after { width: 100%; }
+.navLink:hover { color: var(--c-accent-secondary); }
+
+.navCta { margin-left: var(--sp-2); }
+
+.burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.burgerLine {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--c-text);
+  border-radius: 2px;
+  transition: transform var(--transition-fast), opacity var(--transition-fast);
+}
+
+@media (max-width: 767px) {
+  .burger { display: flex; }
+
+  .nav {
+    position: fixed;
+    inset: 72px 0 0 0;
+    background: var(--c-bg);
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--sp-4) var(--sp-3);
+    gap: var(--sp-3);
+    transform: translateX(100%);
+    transition: transform var(--transition-default);
+    border-top: 1px solid var(--c-border);
+  }
+
+  .navOpen { transform: translateX(0); }
+
+  .navLink { font-size: 18px; }
+
+  .navCta { margin-left: 0; margin-top: var(--sp-2); }
+}
