@@ -73,26 +73,29 @@ export default function StructurationPage() {
         ],
       }}
       values={{
+        eyebrow: "Les valeurs qui nous guident",
         title: "Rigueur, clarté et fiabilité au service de votre organisation",
         columns: [
-          { title: "Rigueur", text: "Chaque processus est documenté, chaque décision tracée. Vous avez une visibilité totale sur votre organisation." },
+          { title: "Rigueur", text: "Chaque demande, chaque suivi et chaque échange est traité avec méthode, attention et précision." },
           { title: "Clarté", text: "Des outils simples, des procédures compréhensibles. L'efficacité sans la complexité." },
-          { title: "Fiabilité", text: "Une organisation qui fonctionne même quand vous n'êtes pas là. La sérénité par la structure." },
+          { title: "Fiabilité", text: "Une organisation qui fonctionne même en votre absence, avec des suivis clairs, fluides et continus." },
         ],
       }}
       process={{
+        title: "Une collaboration pensée avec méthode",
         columns: [
-          { title: "Échange initial", text: "Un entretien approfondi pour comprendre votre activité, vos contraintes et vos objectifs." },
-          { title: "Audit", text: "Identification des ajustements nécessaires pour fluidifier les échanges, clarifier les suivis et améliorer l'organisation globale de votre activité." },
-          { title: "Plan d'action", text: "Proposition d'une feuille de route claire et priorisée, validée avec vous avant mise en oeuvre." },
-          { title: "Mise en oeuvre", text: "Déploiement des solutions, accompagnement au changement et suivi des résultats." },
+          { title: "Premier échange", text: "Un entretien approfondi pour comprendre votre activité, vos contraintes et vos besoins." },
+          { title: "Analyse de vos besoins et priorités", text: "Identification des ajustements nécessaires pour fluidifier les échanges, clarifier les suivis et améliorer l'organisation globale de votre activité." },
+          { title: "Solutions et Actions concrètes", text: "Définition des outils, méthodes et solutions adaptés à votre fonctionnement et aux réalités de votre activité." },
+          { title: "Suivi et Ajustements", text: "Suivi des actions mises en place et ajustements selon l'évolution de votre activité et de vos besoins." },
         ],
       }}
       results={{
+        title: "Les bénéfices d'une organisation plus fluide",
         columns: [
           { icon: Clock, title: "Plus de temps pour l'essentiel", text: "Des échanges mieux coordonnés et des suivis plus clairs pour limiter les pertes de temps et les demandes répétitives." },
           { icon: Smile, title: "Une activité plus fluide et plus sereine", text: "Une organisation plus claire et mieux coordonnée pour assurer des suivis fiables et une meilleure continuité dans les échanges et les actions." },
-          { icon: TrendingUp, title: "Développement facilité", text: "Une base solide pour accueillir de nouveaux collaborateurs ou de nouveaux clients sereinement." },
+          { icon: TrendingUp, title: "Développement facilité", text: "Des échanges et des suivis mieux maîtrisés pour accompagner plus efficacement l'évolution de vos projets, de votre organisation et de vos priorités." },
         ],
       }}
     />
