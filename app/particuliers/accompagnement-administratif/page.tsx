@@ -52,6 +52,7 @@ export default function AccompagnementAdministratifPage() {
       currentHref="/particuliers/accompagnement-administratif"
       schema={serviceSchema}
       targetAudience={{
+        eyebrow: null,
         description: "Pensé pour les personnes souhaitant gagner en sérénité face à des démarches administratives ou des situations de vie nécessitant soutien et organisation.",
         profiles: [
           "Seniors souhaitant un soutien administratif et organisationnel dans leurs démarches et lors des étapes importante de la vie.",
@@ -73,6 +74,7 @@ export default function AccompagnementAdministratifPage() {
         ],
       }}
       values={{
+        eyebrow: "Nos valeurs",
         title: "Rigueur, discrétion et bienveillance dans chaque accompagnement",
         columns: [
           { title: "Bienveillance", text: "Une écoute attentive et un accompagnement à votre rythme, sans jugement et avec une patience sincère." },

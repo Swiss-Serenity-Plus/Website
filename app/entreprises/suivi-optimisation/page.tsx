@@ -52,6 +52,7 @@ export default function SuiviOptimisationPage() {
       currentHref="/entreprises/suivi-optimisation"
       schema={serviceSchema}
       targetAudience={{
+        eyebrow: null,
         description: "Ce service s'adresse aux dirigeants qui ont besoin d'un suivi régulier et rigoureux sans mobiliser de ressources internes dédiées.",
         profiles: [
           "Dirigeants qui manquent de temps pour le suivi opérationnel",

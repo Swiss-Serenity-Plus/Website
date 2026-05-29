@@ -52,6 +52,7 @@ export default function StructurationPage() {
       currentHref="/entreprises/structuration-organisation"
       schema={serviceSchema}
       targetAudience={{
+        eyebrow: null,
         description: "Ce service s'adresse aux dirigeants et entrepreneurs qui ressentent que leur organisation interne freine leur développement.",
         profiles: [
           "PME en croissance dont les processus n'ont pas suivi le rythme",
