@@ -3,11 +3,13 @@ import Container from "../Container/Container";
 import { CheckCircle2 } from "lucide-react";
 import styles from "./TargetAudience.module.css";
 
+type Profile = string | { title: string; text: string };
+
 interface TargetAudienceProps {
   eyebrow?: string | null;
   title?: string;
   description: string;
-  profiles: string[];
+  profiles: Profile[];
 }
 
 export default function TargetAudience({
@@ -30,7 +32,14 @@ export default function TargetAudience({
             {profiles.map((p, i) => (
               <li key={i} className={styles.profile}>
                 <CheckCircle2 size={18} color="var(--c-accent-secondary)" strokeWidth={1.5} aria-hidden="true" className={styles.profileIcon} />
-                <span className={styles.profileText}>{p}</span>
+                {typeof p === "string" ? (
+                  <span className={styles.profileText}>{p}</span>
+                ) : (
+                  <div className={styles.profileStructured}>
+                    <strong className={styles.profileTitle}>{p.title}</strong>
+                    <span className={styles.profileDesc}>{p.text}</span>
+                  </div>
+                )}
               </li>
             ))}
           </ul>

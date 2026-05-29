@@ -90,9 +90,9 @@ export default function StructurationPage() {
       }}
       results={{
         columns: [
-          { icon: Clock, title: "Moins de temps perdu", text: "Des processus clairs et documentés qui réduisent les questions répétitives et les erreurs." },
-          { icon: Smile, title: "Plus de sérénité", text: "Une organisation qui tourne sans votre présence constante. Vous vous concentrez sur la valeur." },
-          { icon: TrendingUp, title: "Croissance facilitée", text: "Une base solide pour accueillir de nouveaux collaborateurs ou de nouveaux clients sereinement." },
+          { icon: Clock, title: "Plus de temps pour l'essentiel", text: "Des échanges mieux coordonnés et des suivis plus clairs pour limiter les pertes de temps et les demandes répétitives." },
+          { icon: Smile, title: "Une activité plus fluide et plus sereine", text: "Une organisation plus claire et mieux coordonnée pour assurer des suivis fiables et une meilleure continuité dans les échanges et les actions." },
+          { icon: TrendingUp, title: "Développement facilité", text: "Une base solide pour accueillir de nouveaux collaborateurs ou de nouveaux clients sereinement." },
         ],
       }}
     />

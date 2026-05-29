@@ -21,7 +21,7 @@ interface ServicePageTemplateProps {
     eyebrow?: string | null;
     title?: string;
     description: string;
-    profiles: string[];
+    profiles: (string | { title: string; text: string })[];
   };
   deliverables: {
     eyebrow?: string;

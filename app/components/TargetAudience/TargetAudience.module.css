@@ -73,3 +73,21 @@
 .profileText {
   white-space: pre-line;
 }
+
+.profileStructured {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.profileTitle {
+  font-weight: 600;
+  color: var(--c-text);
+  font-size: 16px;
+}
+
+.profileDesc {
+  font-size: 15px;
+  color: var(--c-text-muted);
+  line-height: 1.5;
+}

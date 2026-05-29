@@ -43,7 +43,7 @@ export default function SuiviOptimisationPage() {
     <ServicePageTemplate
       eyebrow="Entreprises"
       title="Pilotage & Développement commercial"
-      subtitle="Un regard régulier sur votre activité pour anticiper, ajuster et optimiser. Continuité et précision au service de votre performance."
+      subtitle="Support stratégique pour favoriser votre croissance et renforcer la relation avec vos clients"
       breadcrumbs={[
         { label: "Accueil", href: "/" },
         { label: "Entreprises", href: "/#services" },
@@ -53,12 +53,13 @@ export default function SuiviOptimisationPage() {
       schema={serviceSchema}
       targetAudience={{
         eyebrow: null,
-        description: "Ce service s'adresse aux dirigeants qui ont besoin d'un suivi régulier et rigoureux sans mobiliser de ressources internes dédiées.",
+        title: "Un partenaire de confiance et opérationnel pour tous les secteurs d'activité",
+        description: "Une présence externalisée fiable et efficace pour contribuer activement à votre croissance.",
         profiles: [
-          "Dirigeants qui manquent de temps pour le suivi opérationnel",
-          "Entreprises avec un portefeuille clients à animer régulièrement",
-          "PME qui souhaitent optimiser leurs relations fournisseurs",
-          "Indépendants en croissance qui veulent structurer leur suivi",
+          { title: "Indépendants, Commerces & PME", text: "Développement commercial, opportunités de croissance et nouveaux partenariats" },
+          { title: "Cabinets médicaux & EMS", text: "Recherche de solutions, d'équipements et de partenaires adaptés aux besoins du terrain" },
+          { title: "Communes, Fondations & Associations", text: "Développement de projets, services et collaborations de proximité" },
+          { title: "Entreprises souhaitant dynamiser leur activité", text: "Renforcement du suivi client et développement de nouvelles opportunités" },
         ],
       }}
       deliverables={{
