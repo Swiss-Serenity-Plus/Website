@@ -42,7 +42,7 @@ export default function StructurationPage() {
   return (
     <ServicePageTemplate
       eyebrow="Entreprises"
-      title="Structuration & Organisation de l'activité"
+      title="Coordination & Performance opérationnelle"
       subtitle="Simplifier et fluidifier votre organisation pour que vous puissiez vous concentrer sur ce qui compte vraiment: votre activité principale et votre croissance."
       breadcrumbs={[
         { label: "Accueil", href: "/" },
@@ -53,23 +53,24 @@ export default function StructurationPage() {
       schema={serviceSchema}
       targetAudience={{
         eyebrow: null,
-        description: "Ce service s'adresse aux dirigeants et entrepreneurs qui ressentent que leur organisation interne freine leur développement.",
+        title: "Contextes d'intervention",
+        description: "Un accompagnement pensé pour les structures souhaitant améliorer la coordination entre les différents intervenants internes, renforcer leur organisation et gagner en efficacité au quotidien.",
         profiles: [
-          "PME en croissance dont les processus n'ont pas suivi le rythme",
-          "Indépendants qui souhaitent professionnaliser leur fonctionnement",
-          "Dirigeants qui passent trop de temps dans l'administratif",
-          "Entreprises en phase de transition ou de restructuration",
+          "Communes, Institutions ou EMS souhaitant améliorer la circulation des informations et la coordination administrative au quotidien.",
+          "Dirigeants ou Indépendants souhaitant alléger leur gestion quotidienne et bénéficier d'un soutien fiable dans la coordination de leurs activités.",
+          "PME ou structures en développement souhaitant renforcer leur organisation et harmoniser leur fonctionnement interne.",
+          "PPE et autres activités recherchant un appui dans l'organisation de leurs échanges, le suivi des demandes et leur gestion administrative courante.",
         ],
       }}
       deliverables={{
         title: "Ce que nous mettons en place ensemble",
         items: [
-          "Audit complet de votre organisation actuelle",
-          "Cartographie des processus existants",
-          "Identification et suppression des points de friction",
+          "Analyse et clarification des échanges, des rôles et des responsabilités",
+          "Structuration des suivis, des demandes et des priorités quotidiennes",
+          "Soutien dans la gestion administrative et le suivi opérationnel",
           "Mise en place d'outils simples et adaptés pour faciliter les suivis et les échanges",
-          "Création de procédures standardisées",
-          "Formation et accompagnement à la prise en main",
+          "Coordination des informations, des tâches et des échanges entre les différents intervenants",
+          "Accompagnement personnalisé selon les besoins et le fonctionnement de votre structure",
         ],
       }}
       values={{
@@ -77,7 +78,7 @@ export default function StructurationPage() {
         title: "Rigueur, clarté et fiabilité au service de votre organisation",
         columns: [
           { title: "Rigueur", text: "Chaque demande, chaque suivi et chaque échange est traité avec méthode, attention et précision." },
-          { title: "Clarté", text: "Des outils simples, des procédures compréhensibles. L'efficacité sans la complexité." },
+          { title: "Clarté", text: "Des outils simples, des échanges facilités et des méthodes compréhensibles pour gagner en efficacité sans complexifier votre fonctionnement." },
           { title: "Fiabilité", text: "Une organisation qui fonctionne même en votre absence, avec des suivis clairs, fluides et continus." },
         ],
       }}
