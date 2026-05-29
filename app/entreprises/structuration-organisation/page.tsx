@@ -66,7 +66,7 @@ export default function StructurationPage() {
           "Audit complet de votre organisation actuelle",
           "Cartographie des processus existants",
           "Identification et suppression des points de friction",
-          "Mise en place d'outils de suivi adaptés",
+          "Mise en place d'outils simples et adaptés pour faciliter les suivis et les échanges",
           "Création de procédures standardisées",
           "Formation et accompagnement à la prise en main",
         ],
