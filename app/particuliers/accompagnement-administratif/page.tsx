@@ -42,8 +42,8 @@ export default function AccompagnementAdministratifPage() {
   return (
     <ServicePageTemplate
       eyebrow="Particuliers"
-      title="Accompagnement administratif des Particuliers"
-      subtitle="Un soutien bienveillant et discret pour vos démarches administratives du quotidien et les étapes importantes de votre vie."
+      title="Un accompagnement personnalisé"
+      subtitle="Un soutien bienveillant et discret pour simplifier vos démarches administratives et vous accompagner dans les étapes importantes de votre vie."
       breadcrumbs={[
         { label: "Accueil", href: "/" },
         { label: "Particuliers" },
@@ -52,23 +52,24 @@ export default function AccompagnementAdministratifPage() {
       currentHref="/particuliers/accompagnement-administratif"
       schema={serviceSchema}
       targetAudience={{
-        description: "Ce service s'adresse à toute personne qui souhaite être accompagnée dans des démarches administratives complexes ou chronophages.",
+        description: "Pensé pour les personnes souhaitant gagner en sérénité face à des démarches administratives ou des situations de vie nécessitant soutien et organisation.",
         profiles: [
-          "Séniors qui souhaitent un soutien dans leurs démarches du quotidien",
-          "Expatriés qui découvrent les procédures administratives suisses",
-          "Personnes traversant une étape clé (succession, déménagement, retraite)",
-          "Toute personne débordée par des démarches administratives",
+          "Seniors souhaitant un soutien administratif et organisationnel dans leurs démarches et lors des étapes importante de la vie.",
+          "Expatriés et frontaliers confrontés aux démarches administratives suisses ou transfrontalières.",
+          "Toute personne confrontée à une étape importante de la vie nécessitant organisation et accompagnement (Retraite, déménagement, entrée en EMS...)",
+          "Celui ou Celle\nà la recherche d'une meilleure qualité de vie et de plus de sérénité face aux démarches administratives.",
         ],
       }}
       deliverables={{
-        title: "Un accompagnement sur mesure à chaque étape",
+        eyebrow: "Un soutien adapté à chaque besoin",
+        title: "Un soutien concret au quotidien",
         items: [
           "Gestion et suivi de vos courriers administratifs",
-          "Accompagnement dans les démarches auprès des administrations",
+          "Soutien dans vos échanges avec les organismes et administrations (AVS, AI, Caisses maladie, Home, EMS, Assurances...)",
           "Organisation et classement de vos documents importants",
-          "Aide dans la compréhension des procédures complexes",
+          "Aide à la compréhension des démarches et procédures complexes",
           "Coordination avec les différents interlocuteurs",
-          "Soutien lors d'étapes de vie importantes (succession, retraite, déménagement)",
+          "Soutien organisationnel et administratif lors d'étapes importantes de la vie (retraite, entrée en EMS, hospitalisation...)",
         ],
       }}
       values={{

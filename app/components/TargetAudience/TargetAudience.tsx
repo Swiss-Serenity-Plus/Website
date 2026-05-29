@@ -30,7 +30,7 @@ export default function TargetAudience({
             {profiles.map((p, i) => (
               <li key={i} className={styles.profile}>
                 <CheckCircle2 size={18} color="var(--c-accent-secondary)" strokeWidth={1.5} aria-hidden="true" className={styles.profileIcon} />
-                <span>{p}</span>
+                <span className={styles.profileText}>{p}</span>
               </li>
             ))}
           </ul>
