@@ -52,6 +52,24 @@
   color: var(--c-bg);
 }
 
+.dark {
+  background: var(--c-text);
+  color: #ffffff;
+  border-color: var(--c-accent-secondary);
+}
+
+.dark:hover {
+  background: #0a3260;
+  border-color: var(--c-accent-secondary);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(6, 36, 69, 0.24);
+}
+
+.dark:active {
+  transform: translateY(0);
+  box-shadow: none;
+}
+
 .ghost {
   background: transparent;
   color: var(--c-text);

@@ -66,7 +66,7 @@ export default function Header() {
             </Link>
           ))}
           <div className={styles.navCta}>
-            <Button href="/contact" variant="primary" size="sm">
+            <Button href="/contact" variant="dark" size="sm">
               Prendre contact
             </Button>
           </div>

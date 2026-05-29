@@ -68,7 +68,7 @@ export default function ContactForm() {
         <textarea id="message" name="message" required rows={5} className={styles.textarea} placeholder="Quelques mots sur votre projet et sur votre demande ..." />
       </div>
       <div className={styles.submitRow}>
-        <Button type="submit" variant="primary" size="lg" className={styles.submitBtn} icon={<Send size={18} />}>
+        <Button type="submit" variant="dark" size="lg" className={styles.submitBtn} icon={<Send size={18} />}>
           Envoyer le message
         </Button>
         <p className={styles.confidentialite}><em>Votre demande reste strictement confidentielle.</em></p>

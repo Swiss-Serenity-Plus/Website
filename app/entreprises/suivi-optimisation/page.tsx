@@ -42,7 +42,7 @@ export default function SuiviOptimisationPage() {
   return (
     <ServicePageTemplate
       eyebrow="Entreprises"
-      title="Suivi & Optimisation de l'activité"
+      title="Pilotage & Développement commercial"
       subtitle="Un regard régulier sur votre activité pour anticiper, ajuster et optimiser. Continuité et précision au service de votre performance."
       breadcrumbs={[
         { label: "Accueil", href: "/" },
@@ -73,14 +73,16 @@ export default function SuiviOptimisationPage() {
         ],
       }}
       values={{
-        title: "Discrétion, précision et continuité dans chaque mission",
+        eyebrow: "Notre engagement",
+        title: "Performance, Précision et Continuité au service de votre développement",
         columns: [
-          { title: "Discrétion", text: "Une présence discrète mais constante. Je m'intègre dans votre fonctionnement sans le perturber." },
-          { title: "Précision", text: "Chaque détail compte. Aucune information importante ne passe entre les mailles." },
-          { title: "Continuité", text: "Un suivi régulier et cohérent dans le temps. Pas de rupture, pas de perte d'information." },
+          { title: "Performance", text: "Des solutions adaptées pour soutenir efficacement vos objectifs de développement." },
+          { title: "Précision", text: "Une attention portée à chaque détail pour un travail précis et fiable." },
+          { title: "Continuité", text: "Une présence stable et cohérente pour maintenir la continuité des échanges, préserver le lien relationnel et assurer une dynamique durable." },
         ],
       }}
       process={{
+        title: "Une collaboration pensée pour votre activité",
         columns: [
           { title: "Premier Échange", text: "Comprendre votre activité, vos priorités et vos enjeux de développement." },
           { title: "Analyse et identification des opportunités", text: "Evaluer l'existant, identifier les axes d'amélioration et les leviers de croissance." },
