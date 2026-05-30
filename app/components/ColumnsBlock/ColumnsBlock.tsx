@@ -12,6 +12,7 @@ interface Column {
 interface ColumnsBlockProps {
   eyebrow?: string;
   title: string;
+  description?: string;
   columns: Column[];
   variant?: "default" | "numbered" | "values" | "results";
   background?: "bg" | "surface";
@@ -21,6 +22,7 @@ interface ColumnsBlockProps {
 export default function ColumnsBlock({
   eyebrow,
   title,
+  description,
   columns,
   variant = "default",
   background = "bg",
@@ -33,13 +35,14 @@ export default function ColumnsBlock({
         <div className={styles.header}>
           {eyebrow && <p className="eyebrow">{eyebrow}</p>}
           <h2 className={styles.title}>{title}</h2>
+          {description && <p className={styles.description}>{description}</p>}
         </div>
         <div className={gridClass}>
           {columns.map((col, i) => (
             <div key={i} className={`${styles.col} ${styles[`variant_${variant}`]}`}>
               {variant === "numbered" && (
                 <span className={styles.number} aria-hidden="true">
-                  .{String(i + 1).padStart(2, "0")}
+                  {String(i + 1).padStart(2, "0")}
                 </span>
               )}
               {variant === "results" && col.icon && (

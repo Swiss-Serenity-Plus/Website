@@ -34,12 +34,14 @@ interface ServicePageTemplateProps {
     columns: { title: string; text: string }[];
   };
   process: {
+    eyebrow?: string;
     title?: string;
     columns: { title: string; text: string }[];
   };
   results: {
     eyebrow?: string;
     title?: string;
+    description?: string;
     columns: { title: string; text: string; icon?: LucideIcon }[];
   };
   ctaTitle?: string;
@@ -107,7 +109,7 @@ export default function ServicePageTemplate({
           background="surface"
         />
         <ColumnsBlock
-          eyebrow="Notre méthode"
+          eyebrow={process.eyebrow ?? "Notre méthode"}
           title={process.title ?? "Un accompagnement en quatre étapes"}
           columns={process.columns}
           variant="numbered"
@@ -117,6 +119,7 @@ export default function ServicePageTemplate({
         <ColumnsBlock
           eyebrow={results.eyebrow ?? "Résultats concrets"}
           title={results.title ?? "Ce que vous gagnez concrètement"}
+          description={results.description}
           columns={results.columns}
           variant="results"
           background="surface"

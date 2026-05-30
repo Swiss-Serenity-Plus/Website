@@ -110,7 +110,7 @@ export default function AProposPage() {
         <section className={styles.section}>
           <Container narrow>
             <div className={styles.content}>
-              <h2 className={styles.h2}>Mes valeurs</h2>
+              <h2 className={styles.h2}>Notre Engagement</h2>
               <p>
                 Rigueur, discrétion, fiabilité. Ce ne sont pas des mots pour moi, ce sont les fondations de chaque mission. Votre confiance est précieuse; je la traite comme telle.
               </p>

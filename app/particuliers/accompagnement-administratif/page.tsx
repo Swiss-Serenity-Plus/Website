@@ -83,18 +83,21 @@ export default function AccompagnementAdministratifPage() {
         ],
       }}
       process={{
+        eyebrow: "Notre prise en charge",
         columns: [
-          { title: "Premier contact", text: "Un entretien chaleureux pour comprendre votre situation, vos besoins et les démarches à accomplir." },
+          { title: "Premier contact", text: "Un entretien chaleureux, à votre écoute, pour comprendre votre situation, vos attentes et les démarches à envisager." },
           { title: "Évaluation", text: "Analyse complète de votre dossier et identification des priorités et des échéances." },
           { title: "Plan d'accompagnement", text: "Proposition d'un accompagnement adapté à votre rythme et à vos besoins spécifiques." },
-          { title: "Suivi bienveillant", text: "Gestion des démarches avec vous, en vous tenant informé à chaque étape." },
+          { title: "Suivi bienveillant", text: "Une prise en charge discrète et attentive, avec un suivi régulier à chaque étape." },
         ],
       }}
       results={{
+        eyebrow: "Des bénéfices concrets",
         title: "Ce que vous y gagnez",
+        description: "Un accompagnement fiable et structuré pour alléger vos préoccupations administratives et retrouver davantage de tranquillité d'esprit.",
         columns: [
-          { icon: Leaf, title: "Sérénité retrouvée", text: "Vous déléguez ce qui vous pèse à quelqu'un de fiable. Vous vous concentrez sur l'essentiel." },
-          { icon: BadgeCheck, title: "Aucune démarche manquée", text: "Un suivi rigoureux des échéances et des procédures pour éviter oublis et complications." },
+          { icon: Leaf, title: "Un quotidien plus serein", text: "Vous déléguez ce qui vous pèse à quelqu'un de fiable. Vous vous concentrez sur l'essentiel." },
+          { icon: BadgeCheck, title: "Une charge mentale allégée", text: "Un suivi rigoureux des échéances et des procédures pour éviter oublis et complications." },
           { icon: Users, title: "Du temps pour vos priorités", text: "Un soutien discret et personnalisé pour vous permettre de vous concentrer sur vos priorités et vos loisirs en toute sérénité." },
         ],
       }}
