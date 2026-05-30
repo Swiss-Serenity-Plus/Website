@@ -5,6 +5,7 @@ import Footer from "../components/Footer/Footer";
 import PageHero from "../components/PageHero/PageHero";
 import ContactCTA from "../components/ContactCTA/ContactCTA";
 import Container from "../components/Container/Container";
+import MesValeurs from "../components/MesValeurs/MesValeurs";
 import styles from "./page.module.css";
 import { SITE_URL, OG_IMAGE, OG_DEFAULTS } from "../lib/seo";
 
@@ -107,6 +108,7 @@ export default function AProposPage() {
             </div>
           </Container>
         </section>
+        <MesValeurs />
         <ContactCTA />
       </main>
       <Footer />
