@@ -56,7 +56,7 @@
   flex-direction: column;
   align-items: center;
   gap: var(--sp-3);
-  margin-bottom: var(--sp-10);
+  margin-bottom: var(--sp-8);
   text-align: center;
 }
 
@@ -107,7 +107,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--sp-4);
-  margin-bottom: var(--sp-5);
+  margin-bottom: var(--sp-6);
 }
 
 @media (min-width: 640px) {
