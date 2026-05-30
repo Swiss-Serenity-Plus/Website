@@ -46,22 +46,140 @@
   display: block;
 }
 
-.section {
-  padding-block: var(--sp-12);
+.valeurs {
+  padding-block: var(--sp-16);
   background: var(--c-bg);
 }
 
-.content {
+.valeursHeader {
   display: flex;
   flex-direction: column;
-  gap: var(--sp-4);
-  font-size: 17px;
-  color: var(--c-text-muted);
-  line-height: 1.8;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-bottom: var(--sp-10);
+  text-align: center;
 }
 
-.h2 {
-  font-size: 26px;
+.valeursTopLine {
+  width: 48px;
+  height: 2px;
+  background: var(--c-accent-secondary);
+  border-radius: 9999px;
+}
+
+.valeursTitle {
+  font-family: var(--font-display);
+  font-size: 52px;
+  font-weight: 400;
   color: var(--c-text);
-  margin-top: var(--sp-2);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+@media (min-width: 768px) {
+  .valeursTitle { font-size: 72px; }
+}
+
+.valeursSep {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  margin-top: var(--sp-1);
+}
+
+.valeursSepLine {
+  width: 48px;
+  height: 1px;
+  background: var(--c-accent-secondary);
+  display: block;
+}
+
+.valeursSepDiamond {
+  width: 8px;
+  height: 8px;
+  background: var(--c-accent-secondary);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+  display: block;
+}
+
+.valeursGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-5);
+}
+
+@media (min-width: 640px) {
+  .valeursGrid { grid-template-columns: 1fr 1fr; }
+}
+
+.valeurCard {
+  padding: var(--sp-5) var(--sp-6);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--c-border);
+  background: var(--c-surface);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.valeurCardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--sp-3);
+}
+
+.valeurCardTitle {
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 400;
+  color: var(--c-text);
+}
+
+.valeurCardIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid rgba(151, 123, 87, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.valeurCardText {
+  font-size: 16px;
+  color: var(--c-text-muted);
+  line-height: 1.65;
+}
+
+.valeursQuote {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--sp-4);
+  padding: var(--sp-5) var(--sp-6);
+  background: var(--c-surface);
+  border-radius: var(--radius-card);
+  border: 1px solid var(--c-border);
+}
+
+.valeursQuoteMark {
+  font-family: var(--font-display);
+  font-size: 52px;
+  line-height: 0.85;
+  color: var(--c-accent-secondary);
+  flex-shrink: 0;
+}
+
+.valeursQuoteInner {
+  border-left: 2px solid var(--c-accent-secondary);
+  padding-left: var(--sp-4);
+}
+
+.valeursQuoteText {
+  font-size: 17px;
+  color: var(--c-text-muted);
+  line-height: 1.7;
 }

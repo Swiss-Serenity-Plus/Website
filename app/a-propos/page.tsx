@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import Image from "next/image";
+import { Handshake, Target, Lock, HeartHandshake } from "lucide-react";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 import PageHero from "../components/PageHero/PageHero";
@@ -107,16 +108,40 @@ export default function AProposPage() {
             </div>
           </Container>
         </section>
-        <section className={styles.section}>
-          <Container narrow>
-            <div className={styles.content}>
-              <h2 className={styles.h2}>Notre Engagement</h2>
-              <p>
-                Rigueur, discrétion, fiabilité. Ce ne sont pas des mots pour moi, ce sont les fondations de chaque mission. Votre confiance est précieuse; je la traite comme telle.
-              </p>
-              <p>
-                J'accompagne aussi bien des PME en pleine croissance que des particuliers qui traversent des étapes administratives complexes. Dans les deux cas, mon engagement est le même: être présente, disponible, et pleinement investie dans votre réussite.
-              </p>
+        <section className={styles.valeurs}>
+          <Container>
+            <div className={styles.valeursHeader}>
+              <div className={styles.valeursTopLine} />
+              <h2 className={styles.valeursTitle}>Mes valeurs</h2>
+              <div className={styles.valeursSep}>
+                <span className={styles.valeursSepLine} />
+                <span className={styles.valeursSepDiamond} />
+                <span className={styles.valeursSepLine} />
+              </div>
+            </div>
+            <div className={styles.valeursGrid}>
+              {([
+                { Icon: Handshake, title: "Engagement", text: "Une présence impliquée, réactive et pleinement investie." },
+                { Icon: Target, title: "Rigueur", text: "Précision, méthode et exigence dans le moindre détail." },
+                { Icon: Lock, title: "Discrétion", text: "Discrétion et confidentialité au cœur de tous les échanges." },
+                { Icon: HeartHandshake, title: "Bienveillance", text: "Une approche humaine, attentive et respectueuse." },
+              ] as const).map(({ Icon, title, text }) => (
+                <div key={title} className={styles.valeurCard}>
+                  <div className={styles.valeurCardHeader}>
+                    <h3 className={styles.valeurCardTitle}>{title}</h3>
+                    <div className={styles.valeurCardIcon} aria-hidden="true">
+                      <Icon size={22} color="var(--c-accent-secondary)" strokeWidth={1.5} />
+                    </div>
+                  </div>
+                  <p className={styles.valeurCardText}>{text}</p>
+                </div>
+              ))}
+            </div>
+            <div className={styles.valeursQuote}>
+              <span className={styles.valeursQuoteMark} aria-hidden="true">"</span>
+              <blockquote className={styles.valeursQuoteInner}>
+                <p className={styles.valeursQuoteText}>Professionnels comme Particuliers, mon engagement reste le même : exigence, attention et implication dans chaque collaboration.</p>
+              </blockquote>
             </div>
           </Container>
         </section>
