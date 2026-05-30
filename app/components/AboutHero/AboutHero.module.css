@@ -1,0 +1,100 @@
+.section {
+  background: var(--c-bg);
+  padding-block: var(--sp-8) var(--sp-12);
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--sp-4);
+}
+
+.breadcrumbWrap {
+  margin-bottom: var(--sp-6);
+}
+
+/* ── Grid ────────────────────────────────────────────── */
+.heroGrid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: var(--sp-8);
+  align-items: center;
+}
+
+/* ── Text card ───────────────────────────────────────── */
+.textCard {
+  background: transparent;
+  border: 1px solid var(--c-border);
+  border-radius: 24px;
+  padding: var(--sp-6);
+}
+
+.h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: var(--c-text);
+  font-size: clamp(40px, 5vw, 56px);
+  line-height: 1.05;
+  margin: 0;
+}
+
+.tagline {
+  font-family: var(--font-display);
+  font-weight: 500;
+  color: var(--c-text);
+  font-size: clamp(24px, 3.2vw, 34px);
+  line-height: 1.2;
+  margin: var(--sp-3) 0 0;
+}
+
+/* ── Photo wrap ──────────────────────────────────────── */
+.photoWrap {
+  position: relative;
+  border-radius: 24px;
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+  box-shadow: 0 8px 32px rgba(6, 36, 69, 0.10);
+}
+
+.photo {
+  object-fit: cover;
+  object-position: center top;
+}
+
+.placeholder {
+  width: 100%;
+  height: 100%;
+  background: var(--c-border);
+}
+
+/* ── Animations ──────────────────────────────────────── */
+.animate {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 400ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Responsive ──────────────────────────────────────── */
+@media (max-width: 860px) {
+  .section {
+    padding-block: var(--sp-6) var(--sp-8);
+  }
+
+  .heroGrid {
+    grid-template-columns: 1fr;
+    gap: var(--sp-6);
+  }
+
+  .textCard {
+    padding: var(--sp-4);
+    order: 0;
+  }
+
+  .photoWrap {
+    aspect-ratio: 4 / 5;
+    order: 1;
+  }
+}

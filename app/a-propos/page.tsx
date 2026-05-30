@@ -1,8 +1,7 @@
 import { Metadata } from "next";
-import Image from "next/image";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
-import PageHero from "../components/PageHero/PageHero";
+import AboutHero from "../components/AboutHero/AboutHero";
 import ContactCTA from "../components/ContactCTA/ContactCTA";
 import Container from "../components/Container/Container";
 import MesValeurs from "../components/MesValeurs/MesValeurs";
@@ -70,41 +69,21 @@ export default function AProposPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <Header />
       <main>
-        <PageHero
-          eyebrow="À propos"
-          title="Mireille Dayer, votre bras droit stratégique"
-          subtitle="Fondatrice de Swiss Serenity Plus®, j'accompagne dirigeants et particuliers en Suisse romande avec rigueur, discrétion et engagement."
-          breadcrumbs={[
-            { label: "Accueil", href: "/" },
-            { label: "À propos" },
-          ]}
-        />
+        <AboutHero />
         <section className={styles.intro}>
           <Container>
-            <div className={styles.introGrid}>
-              <div className={styles.introText}>
-                <p className="eyebrow">Parcours</p>
-                <h2 className={styles.h2}>Une expertise construite sur le terrain</h2>
-                <p>
-                  Franco-Suisse et ayant suivi mes études et mes formations professionnelles en Suisse et en France, j'évolue depuis plus de vingt ans dans des environnements exigeants mêlant développement commercial, coordination opérationnelle et relation client.
-                </p>
-                <p>
-                  Mon expérience dans les secteurs de la Banque, des Compléments Alimentaires et des Dispositifs Médicaux m'a permis de développer une approche à la fois rigoureuse, humaine et orientée résultats, avec une compréhension concrète des réalités du terrain et des exigences propres aux environnements français et suisses.
-                </p>
-                <p>
-                  Swiss Serenity Plus® est née de cette conviction : les Entreprises comme les Particuliers ont besoin d'un véritable bras droit de confiance capable d'apporter structure, fluidité et sérénité.
-                </p>
-              </div>
-              <div className={styles.portraitWrap}>
-                <Image
-                  src="https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/image.png"
-                  alt="Mireille Dayer, fondatrice de Swiss Serenity Plus"
-                  width={520}
-                  height={680}
-                  className={styles.portrait}
-                  priority
-                />
-              </div>
+            <div className={styles.introText}>
+              <p className="eyebrow">Parcours</p>
+              <h2 className={styles.h2}>Une expertise construite sur le terrain</h2>
+              <p>
+                Franco-Suisse et ayant suivi mes études et mes formations professionnelles en Suisse et en France, j&apos;évolue depuis plus de vingt ans dans des environnements exigeants mêlant développement commercial, coordination opérationnelle et relation client.
+              </p>
+              <p>
+                Mon expérience dans les secteurs de la Banque, des Compléments Alimentaires et des Dispositifs Médicaux m&apos;a permis de développer une approche à la fois rigoureuse, humaine et orientée résultats, avec une compréhension concrète des réalités du terrain et des exigences propres aux environnements français et suisses.
+              </p>
+              <p>
+                Swiss Serenity Plus® est née de cette conviction : les Entreprises comme les Particuliers ont besoin d&apos;un véritable bras droit de confiance capable d&apos;apporter structure, fluidité et sérénité.
+              </p>
             </div>
           </Container>
         </section>
