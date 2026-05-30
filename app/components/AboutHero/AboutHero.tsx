@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import Image from "next/image";
-import Breadcrumb from "../Breadcrumb/Breadcrumb";
+import Link from "next/link";
 import styles from "./AboutHero.module.css";
 
 interface AboutHeroProps {
@@ -11,19 +11,19 @@ interface AboutHeroProps {
 }
 
 export default function AboutHero({
-  photoUrl,
+  photoUrl = "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/image.png",
   photoAlt = "Mireille Dayer, fondatrice de Swiss Serenity Plus",
 }: AboutHeroProps) {
-  const cardRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLDivElement>(null);
   const photoRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    const card = cardRef.current;
+    const text = textRef.current;
     const photo = photoRef.current;
-    if (!card || !photo) return;
+    if (!text || !photo) return;
 
     const raf = requestAnimationFrame(() => {
-      card.classList.add(styles.visible);
+      text.classList.add(styles.visible);
       setTimeout(() => photo.classList.add(styles.visible), 120);
     });
 
@@ -32,33 +32,34 @@ export default function AboutHero({
 
   return (
     <section className={styles.section}>
-      <div className={styles.breadcrumbWrap}>
-        <Breadcrumb
-          items={[{ label: "Accueil", href: "/" }, { label: "À propos" }]}
-        />
-      </div>
-
       <div className={styles.heroGrid}>
-        <div className={`${styles.textCard} ${styles.animate}`} ref={cardRef}>
-          <h1 className={styles.h1}>Mireille Dayer</h1>
+        {/* Colonne texte */}
+        <div className={`${styles.textCol} ${styles.animate}`} ref={textRef}>
+          <nav aria-label="Fil d'ariane" className={styles.breadcrumb}>
+            <Link href="/" className={styles.breadcrumbLink}>Accueil</Link>
+            <span className={styles.breadcrumbSep} aria-hidden="true">/</span>
+            <span className={styles.breadcrumbCurrent} aria-current="page">À propos</span>
+          </nav>
+
+          <span className={styles.traitDore} aria-hidden="true" />
+
+          <h1 className={styles.h1}>Mireille<br />Dayer</h1>
+
           <p className={styles.tagline}>
             votre bras droit de confiance pour le développement et
             l&apos;organisation de vos activités
           </p>
         </div>
 
+        {/* Colonne photo */}
         <div className={`${styles.photoWrap} ${styles.animate}`} ref={photoRef}>
-          {photoUrl ? (
-            <Image
-              src={photoUrl}
-              alt={photoAlt}
-              fill
-              className={styles.photo}
-              priority
-            />
-          ) : (
-            <div className={styles.placeholder} aria-hidden="true" />
-          )}
+          <Image
+            src={photoUrl}
+            alt={photoAlt}
+            fill
+            className={styles.photo}
+            priority
+          />
         </div>
       </div>
     </section>
