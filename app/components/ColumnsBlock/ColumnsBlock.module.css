@@ -13,6 +13,20 @@
   max-width: 560px;
 }
 
+.headerImageWrap {
+  width: 80px;
+  height: 80px;
+  margin-bottom: var(--sp-1);
+  flex-shrink: 0;
+}
+
+.headerImage {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  display: block;
+}
+
 .title {
   font-size: 30px;
 }

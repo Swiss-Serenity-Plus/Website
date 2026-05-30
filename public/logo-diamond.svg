@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%" fill="none" role="img" aria-labelledby="diamond-title diamond-desc">
+  <title id="diamond-title">Diamant — qualité et excellence</title>
+  <desc id="diamond-desc">Logo diamant vectoriel représentant la qualité et le sens du détail de Swiss Serenity Plus</desc>
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%"   stop-color="#F6E08E"/>
+      <stop offset="48%"  stop-color="#D8B54A"/>
+      <stop offset="100%" stop-color="#B8860B"/>
+    </linearGradient>
+  </defs>
+  <!-- Silhouette externe -->
+  <path d="M176,92 L336,92 L436,218 L256,448 L76,218 Z"
+        stroke="url(#goldGrad)" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Ceinture (girdle) -->
+  <line x1="76" y1="218" x2="436" y2="218"
+        stroke="url(#goldGrad)" stroke-width="11" stroke-linecap="round"/>
+  <!-- Couronne : arêtes vers le point étoile (256, 155) -->
+  <line x1="176" y1="92"  x2="256" y2="155" stroke="url(#goldGrad)" stroke-width="9" stroke-linecap="round"/>
+  <line x1="336" y1="92"  x2="256" y2="155" stroke="url(#goldGrad)" stroke-width="9" stroke-linecap="round"/>
+  <line x1="76"  y1="218" x2="256" y2="155" stroke="url(#goldGrad)" stroke-width="9" stroke-linecap="round"/>
+  <line x1="436" y1="218" x2="256" y2="155" stroke="url(#goldGrad)" stroke-width="9" stroke-linecap="round"/>
+  <!-- Pavillon : axe vertical central -->
+  <line x1="256" y1="218" x2="256" y2="448" stroke="url(#goldGrad)" stroke-width="9" stroke-linecap="round"/>
+  <!-- Pavillon : deux arêtes diagonales internes (grand V) -->
+  <line x1="176" y1="218" x2="256" y2="448" stroke="url(#goldGrad)" stroke-width="9" stroke-linecap="round"/>
+  <line x1="336" y1="218" x2="256" y2="448" stroke="url(#goldGrad)" stroke-width="9" stroke-linecap="round"/>
+</svg>

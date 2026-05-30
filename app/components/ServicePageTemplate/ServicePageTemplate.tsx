@@ -32,6 +32,7 @@ interface ServicePageTemplateProps {
     eyebrow?: string;
     title: string;
     columns: { title: string; text: string }[];
+    image?: string;
   };
   process: {
     eyebrow?: string;
@@ -107,6 +108,7 @@ export default function ServicePageTemplate({
           columns={values.columns}
           variant="values"
           background="surface"
+          headerImage={values.image}
         />
         <ColumnsBlock
           eyebrow={process.eyebrow ?? "Notre méthode"}

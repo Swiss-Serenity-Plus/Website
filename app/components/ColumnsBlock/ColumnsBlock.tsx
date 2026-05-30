@@ -1,5 +1,6 @@
 // ColumnsBlock — générique 3 colonnes. Variants: default, numbered (.01 .02...), values, results.
 import type { LucideIcon } from "lucide-react";
+import Image from "next/image";
 import Container from "../Container/Container";
 import styles from "./ColumnsBlock.module.css";
 
@@ -17,6 +18,7 @@ interface ColumnsBlockProps {
   variant?: "default" | "numbered" | "values" | "results";
   background?: "bg" | "surface";
   cols?: 2 | 3 | 4;
+  headerImage?: string;
 }
 
 export default function ColumnsBlock({
@@ -27,12 +29,18 @@ export default function ColumnsBlock({
   variant = "default",
   background = "bg",
   cols,
+  headerImage,
 }: ColumnsBlockProps) {
   const gridClass = cols === 2 ? styles.grid2 : cols === 4 ? styles.grid4 : styles.grid;
   return (
     <section className={`${styles.section} ${styles[`bg_${background}`]}`}>
       <Container>
         <div className={styles.header}>
+          {headerImage && (
+            <div className={styles.headerImageWrap} aria-hidden="true">
+              <Image src={headerImage} alt="" width={80} height={80} className={styles.headerImage} unoptimized />
+            </div>
+          )}
           {eyebrow && <p className="eyebrow">{eyebrow}</p>}
           <h2 className={styles.title}>{title}</h2>
           {description && <p className={styles.description}>{description}</p>}

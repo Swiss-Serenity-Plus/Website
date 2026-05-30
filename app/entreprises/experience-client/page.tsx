@@ -75,6 +75,7 @@ export default function ExperienceClientPage() {
       values={{
         eyebrow: "Nos valeurs",
         title: "Qualité, professionnalisme et sens du détail",
+        image: "/logo-diamond.svg",
         columns: [
           { title: "Qualité", text: "Chaque point de contact client est pensé pour offrir une expérience cohérente et de haute tenue." },
           { title: "Professionnalisme", text: "Une image soignée et des interactions maîtrisées qui renforcent la crédibilité et la qualité perçue de votre structure." },
