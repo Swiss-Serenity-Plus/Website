@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Image from "next/image";
-import { Handshake, Target, Lock, HeartHandshake } from "lucide-react";
+import { Handshake, Target, Lock, HeartHandshake, Quote } from "lucide-react";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 import PageHero from "../components/PageHero/PageHero";
@@ -129,16 +129,18 @@ export default function AProposPage() {
                 <div key={title} className={styles.valeurCard}>
                   <div className={styles.valeurCardHeader}>
                     <h3 className={styles.valeurCardTitle}>{title}</h3>
-                    <div className={styles.valeurCardIcon} aria-hidden="true">
-                      <Icon size={22} color="var(--c-accent-secondary)" strokeWidth={1.5} />
-                    </div>
+                    <span className={styles.valeurCardIcon} aria-hidden="true">
+                      <Icon size={20} color="var(--c-accent-secondary)" strokeWidth={1.5} />
+                    </span>
                   </div>
                   <p className={styles.valeurCardText}>{text}</p>
                 </div>
               ))}
             </div>
             <div className={styles.valeursQuote}>
-              <span className={styles.valeursQuoteMark} aria-hidden="true">"</span>
+              <div className={styles.valeursQuoteIconWrap} aria-hidden="true">
+                <Quote size={22} color="var(--c-accent-secondary)" strokeWidth={1.5} />
+              </div>
               <blockquote className={styles.valeursQuoteInner}>
                 <p className={styles.valeursQuoteText}>Professionnels comme Particuliers, mon engagement reste le même : exigence, attention et implication dans chaque collaboration.</p>
               </blockquote>
