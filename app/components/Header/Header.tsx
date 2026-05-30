@@ -11,7 +11,7 @@ import styles from "./Header.module.css";
 const navItems = [
   { label: "Accueil", href: "/" },
   { label: "Domaines d'intervention", href: "/#services" },
-  { label: "Swiss Serenity Plus", href: "/a-propos" },
+  { label: "À propos", href: "/a-propos" },
   { label: "Contact", href: "/contact" },
 ];
 
