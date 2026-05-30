@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import Image from "next/image";
-import { Handshake, Target, Lock, HeartHandshake } from "lucide-react";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 import PageHero from "../components/PageHero/PageHero";
@@ -105,43 +104,6 @@ export default function AProposPage() {
                   priority
                 />
               </div>
-            </div>
-          </Container>
-        </section>
-        <section className={styles.valeurs}>
-          <Container>
-            <div className={styles.valeursHeader}>
-              <div className={styles.valeursTopLine} />
-              <h2 className={styles.valeursTitle}>Mes valeurs</h2>
-              <div className={styles.valeursSep}>
-                <span className={styles.valeursSepLine} />
-                <span className={styles.valeursSepDiamond} />
-                <span className={styles.valeursSepLine} />
-              </div>
-            </div>
-            <div className={styles.valeursGrid}>
-              {([
-                { Icon: Handshake, title: "Engagement", text: "Une présence impliquée, réactive et pleinement investie." },
-                { Icon: Target, title: "Rigueur", text: "Précision, méthode et exigence dans le moindre détail." },
-                { Icon: Lock, title: "Discrétion", text: "Discrétion et confidentialité au cœur de tous les échanges." },
-                { Icon: HeartHandshake, title: "Bienveillance", text: "Une approche humaine, attentive et respectueuse." },
-              ] as const).map(({ Icon, title, text }) => (
-                <div key={title} className={styles.valeurCard}>
-                  <div className={styles.valeurCardHeader}>
-                    <h3 className={styles.valeurCardTitle}>{title}</h3>
-                    <div className={styles.valeurCardIcon} aria-hidden="true">
-                      <Icon size={22} color="var(--c-accent-secondary)" strokeWidth={1.5} />
-                    </div>
-                  </div>
-                  <p className={styles.valeurCardText}>{text}</p>
-                </div>
-              ))}
-            </div>
-            <div className={styles.valeursQuote}>
-              <span className={styles.valeursQuoteMark} aria-hidden="true">"</span>
-              <blockquote className={styles.valeursQuoteInner}>
-                <p className={styles.valeursQuoteText}>Professionnels comme Particuliers, mon engagement reste le même : exigence, attention et implication dans chaque collaboration.</p>
-              </blockquote>
             </div>
           </Container>
         </section>
