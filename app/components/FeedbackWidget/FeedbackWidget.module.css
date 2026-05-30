@@ -367,7 +367,7 @@
   display: inline-flex; align-items: center; gap: 5px;
   font-size: 11px; font-weight: 600;
   padding: 2px 8px; border-radius: 5px;
-  white-space: nowrap; margin-left: auto;
+  white-space: nowrap;
 }
 .statusDot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 
@@ -693,4 +693,99 @@
 @keyframes lightboxImgIn {
   from { opacity: 0; transform: scale(0.94); }
   to   { opacity: 1; transform: scale(1); }
+}
+
+/* ── Tabs statut ── */
+.tabBar {
+  display: flex; align-items: center; gap: 6px;
+  flex-wrap: wrap; padding-bottom: 2px;
+}
+.tab {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 12px; border-radius: 9999px;
+  font-size: 12px; font-weight: 500;
+  font-family: var(--font-body); cursor: pointer;
+  border: 1.5px solid var(--c-border); background: var(--c-surface);
+  color: var(--c-text-muted);
+  transition: border-color 150ms, background 150ms, color 150ms;
+  white-space: nowrap;
+}
+.tab:hover { border-color: var(--c-accent-secondary); color: var(--c-text); }
+.tabActive { background: var(--c-text); border-color: var(--c-text); color: #fff; }
+.tabActive:hover { background: #0a3560; border-color: #0a3560; color: #fff; }
+.tabCount {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 16px; height: 16px; padding: 0 4px;
+  border-radius: 9999px; background: var(--c-bg);
+  color: var(--c-text-muted); font-size: 10px; font-weight: 700;
+  border: 1px solid var(--c-border);
+}
+.tabCountActive { background: rgba(255,255,255,0.22); color: #fff; border-color: rgba(255,255,255,0.3); }
+
+/* ── Ticket card header restructuré ── */
+.ticketCardHeader {
+  display: flex; align-items: center; gap: 6px; flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+.ticketCardActions {
+  display: flex; align-items: center; gap: 4px; margin-left: auto;
+}
+.ticketIdBadge {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.05em;
+  color: var(--c-text); background: rgba(6,36,69,0.07);
+  padding: 2px 7px; border-radius: 5px;
+  font-family: var(--font-body); white-space: nowrap;
+}
+
+/* ── Bouton commentaires ── */
+.commentsBtn {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 8px; border-radius: 9999px;
+  border: 1px solid var(--c-border); background: none;
+  color: var(--c-text-muted); cursor: pointer;
+  font-family: var(--font-body); font-size: 11px;
+  transition: background 150ms, border-color 150ms, color 150ms;
+}
+.commentsBtn:hover { background: var(--c-bg); border-color: var(--c-accent-secondary); color: var(--c-text); }
+.commentsBadge {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 14px; height: 14px; padding: 0 3px;
+  border-radius: 9999px; background: var(--c-text);
+  color: #fff; font-size: 9px; font-weight: 700;
+}
+
+/* ── Popup commentaires ── */
+.commentsPanel {
+  background: #fff; border-radius: 16px;
+  box-shadow: 0 16px 48px rgba(6,36,69,0.28);
+  display: flex; flex-direction: column;
+  max-width: 480px; width: 100%;
+  max-height: calc(100vh - 120px); overflow: hidden;
+}
+.commentsPanelHeader {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;
+  padding: 18px 20px 14px; border-bottom: 1px solid var(--c-border); flex-shrink: 0;
+}
+.commentsPanelTitleWrap {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap; flex: 1; min-width: 0;
+}
+.commentsPanelSub {
+  font-size: 12px; color: var(--c-text-muted); margin-top: 4px; line-height: 1.4;
+  word-break: break-word;
+}
+.commentsList {
+  list-style: none; padding: 14px 20px 20px; margin: 0;
+  display: flex; flex-direction: column; gap: 10px; overflow-y: auto;
+}
+.commentItem {
+  padding: 12px 14px; border-radius: 10px;
+  background: var(--c-bg); border: 1px solid var(--c-border);
+  display: flex; flex-direction: column; gap: 6px;
+}
+.commentMeta {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--c-accent-secondary);
+}
+.commentText {
+  font-size: 13px; color: var(--c-text); line-height: 1.65; white-space: pre-wrap;
 }

@@ -1,4 +1,4 @@
-// Tickets API — GET liste les items d'une database Notion, DELETE archive une page.
+// Tickets API — GET liste tous les items d'une database Notion (pagination complète), DELETE archive une page.
 // Variables d'env : NOTION_TOKEN, NOTION_DATABASE_ID
 import { NextRequest, NextResponse } from "next/server";
 
@@ -19,6 +19,7 @@ interface NotionPage {
   id: string;
   archived: boolean;
   properties: {
+    "Ticket"?: { title: NotionRichText[] };
     "Élément ciblé"?: { rich_text: NotionRichText[] };
     "Action"?: { select: NotionSelect | null };
     "Page concernée"?: { select: NotionSelect | null };
@@ -45,33 +46,42 @@ export async function GET() {
   }
 
   try {
-    const res = await fetch(`https://api.notion.com/v1/databases/${dbId}/query`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Notion-Version": "2022-06-28",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+    const allPages: NotionPage[] = [];
+    let nextCursor: string | undefined;
+
+    do {
+      const body: Record<string, unknown> = {
         sorts: [{ timestamp: "created_time", direction: "descending" }],
         page_size: 100,
-      }),
-      cache: "no-store",
-    });
+      };
+      if (nextCursor) body.start_cursor = nextCursor;
 
-    if (!res.ok) {
-      const err = await res.json().catch(() => ({}));
-      console.error("[tickets] Notion query error:", JSON.stringify(err));
-      return NextResponse.json(
-        { error: `Notion a retourné ${res.status} — vérifiez NOTION_TOKEN, NOTION_DATABASE_ID et la permission "Lire le contenu" de l'intégration.` },
-        { status: 502, headers: CORS }
-      );
-    }
+      const res = await fetch(`https://api.notion.com/v1/databases/${dbId}/query`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Notion-Version": "2022-06-28",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+        cache: "no-store",
+      });
 
-    const data = await res.json();
-    const pages: NotionPage[] = data.results ?? [];
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        console.error("[tickets] Notion query error:", JSON.stringify(err));
+        return NextResponse.json(
+          { error: `Notion a retourné ${res.status} — vérifiez NOTION_TOKEN, NOTION_DATABASE_ID et la permission "Lire le contenu" de l'intégration.` },
+          { status: 502, headers: CORS }
+        );
+      }
 
-    const tickets = pages
+      const data = await res.json();
+      allPages.push(...(data.results ?? []));
+      nextCursor = data.has_more ? data.next_cursor : undefined;
+    } while (nextCursor);
+
+    const tickets = allPages
       .filter((p) => !p.archived)
       .filter((p) =>
         str(p.properties["Élément ciblé"]?.rich_text) !== "" ||
@@ -79,6 +89,7 @@ export async function GET() {
       )
       .map((p) => ({
         notionId:    p.id,
+        ticketId:    str(p.properties["Ticket"]?.title),
         element:     str(p.properties["Élément ciblé"]?.rich_text),
         action:      p.properties["Action"]?.select?.name ?? "",
         page:        p.properties["Page concernée"]?.select?.name ?? "",

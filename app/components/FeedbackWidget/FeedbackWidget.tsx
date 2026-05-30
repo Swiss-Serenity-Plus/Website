@@ -9,7 +9,7 @@ import { useState, useEffect, useId, useRef, useCallback } from "react";
 import {
   X, MousePointer, Send, Trash2, RefreshCw, MoreHorizontal, Pencil, ExternalLink,
   MessageSquarePlus, FileText, Globe, LayoutGrid, ArrowLeft, Check, Info,
-  Upload, FileImage,
+  Upload, FileImage, MessageSquare,
 } from "lucide-react";
 import CustomSelect from "../CustomSelect/CustomSelect";
 import RichTextEditor from "../RichTextEditor/RichTextEditor";
@@ -75,7 +75,16 @@ const STATUS_COLORS: Record<string, { dot: string; bg: string; text: string }> =
   "Traité":    { dot: "#5A7A4F", bg: "rgba(90,122,79,0.1)",  text: "#3B5E32" },
   "Résolu":    { dot: "#5A7A4F", bg: "rgba(90,122,79,0.1)",  text: "#3B5E32" },
   "Refusé":    { dot: "#B42C2A", bg: "rgba(180,44,42,0.1)",  text: "#7F1D1D" },
+  "Bloqué":    { dot: "#F97316", bg: "rgba(249,115,22,0.1)", text: "#9A3412" },
 };
+
+const TICKET_TABS: { key: TicketTab; label: string }[] = [
+  { key: "tous",       label: "Tous" },
+  { key: "À traiter", label: "À traiter" },
+  { key: "En cours",  label: "En cours" },
+  { key: "Traité",    label: "Traité" },
+  { key: "Bloqué",    label: "Bloqué" },
+];
 
 const BLOG_CATEGORIES = [
   "Conseils dirigeants",
@@ -154,6 +163,7 @@ interface Draft {
 
 interface NotionTicket {
   notionId: string;
+  ticketId: string;
   element: string;
   action: string;
   page: string;
@@ -164,6 +174,14 @@ interface NotionTicket {
   imageUrl?: string;
 }
 
+interface NotionComment {
+  id: string;
+  text: string;
+  createdTime: string;
+}
+
+type CommentsState = Record<string, { data: NotionComment[]; loading: boolean; error?: string }>;
+type TicketTab = "tous" | "À traiter" | "En cours" | "Traité" | "Bloqué";
 type ToastType = "success" | "error" | "partial";
 type View = "hub" | "form" | "blog" | "tickets";
 
@@ -213,6 +231,9 @@ export default function FeedbackWidget() {
   const [loadingTickets, setLoadingTickets] = useState(false);
   const [ticketsError, setTicketsError] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [ticketTab, setTicketTab] = useState<TicketTab>("tous");
+  const [commentsState, setCommentsState] = useState<CommentsState>({});
+  const [commentsOpenId, setCommentsOpenId] = useState<string | null>(null);
 
   // Formulaire feedback (élément ou général)
   const [pendingElement, setPendingElement] = useState<string | null>(null);
@@ -362,6 +383,14 @@ export default function FeedbackWidget() {
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
   }, [lightboxUrl]);
+
+  // Fermer le popup commentaires avec Escape
+  useEffect(() => {
+    if (!commentsOpenId) return;
+    function onKey(e: KeyboardEvent) { if (e.key === "Escape") setCommentsOpenId(null); }
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [commentsOpenId]);
 
   // Charger à l'ouverture (une fois)
   const hasLoadedOnce = useRef(false);
@@ -543,6 +572,34 @@ export default function FeedbackWidget() {
     if (confirmDeleteId) {
       setDrafts((prev) => prev.filter((d) => d.id !== confirmDeleteId));
       setConfirmDeleteId(null);
+    }
+  }
+
+  async function loadComments(notionId: string) {
+    setCommentsState((prev) => ({
+      ...prev,
+      [notionId]: { data: prev[notionId]?.data ?? [], loading: true },
+    }));
+    try {
+      const res = await fetch(`/api/tickets/${encodeURIComponent(notionId)}/comments`);
+      if (!res.ok) throw new Error("Erreur chargement");
+      const data = await res.json();
+      setCommentsState((prev) => ({
+        ...prev,
+        [notionId]: { data: data.comments ?? [], loading: false },
+      }));
+    } catch {
+      setCommentsState((prev) => ({
+        ...prev,
+        [notionId]: { data: [], loading: false, error: "Impossible de charger les commentaires." },
+      }));
+    }
+  }
+
+  function openComments(notionId: string) {
+    setCommentsOpenId(notionId);
+    if (!commentsState[notionId]) {
+      loadComments(notionId);
     }
   }
 
@@ -1270,77 +1327,189 @@ export default function FeedbackWidget() {
               )}
 
               {/* ──── TICKETS ──── */}
-              {view === "tickets" && (
-                <div className={styles.ticketsView}>
-                  <div className={styles.listHeadingRow}>
-                    <p className={styles.listHeading}>
-                      Mes retours envoyés
-                      {!loadingTickets && notionTickets.length > 0 && (
-                        <span className={`${styles.listCount} ${styles.listCountNotion}`}>{notionTickets.length}</span>
+              {view === "tickets" && (() => {
+                const tabCount = (tab: TicketTab) => {
+                  if (tab === "tous") return notionTickets.length;
+                  if (tab === "Traité") return notionTickets.filter((t) => ["Traité", "Résolu"].includes(t.status)).length;
+                  return notionTickets.filter((t) => t.status === tab).length;
+                };
+                const filteredTickets = ticketTab === "tous"
+                  ? notionTickets
+                  : ticketTab === "Traité"
+                    ? notionTickets.filter((t) => ["Traité", "Résolu"].includes(t.status))
+                    : notionTickets.filter((t) => t.status === ticketTab);
+
+                return (
+                  <div className={styles.ticketsView}>
+                    <div className={styles.listHeadingRow}>
+                      <p className={styles.listHeading}>
+                        Mes retours envoyés
+                        {!loadingTickets && notionTickets.length > 0 && (
+                          <span className={`${styles.listCount} ${styles.listCountNotion}`}>{notionTickets.length}</span>
+                        )}
+                      </p>
+                      <button
+                        className={styles.refreshBtn}
+                        onClick={loadNotionTickets}
+                        disabled={loadingTickets}
+                        aria-label="Rafraîchir"
+                        title="Rafraîchir"
+                      >
+                        <RefreshCw size={13} className={loadingTickets ? styles.spinning : ""} />
+                      </button>
+                    </div>
+
+                    {!loadingTickets && !ticketsError && notionTickets.length > 0 && (
+                      <div className={styles.tabBar} role="tablist">
+                        {TICKET_TABS.map((tab) => {
+                          const count = tabCount(tab.key);
+                          return (
+                            <button
+                              key={tab.key}
+                              role="tab"
+                              aria-selected={ticketTab === tab.key}
+                              className={`${styles.tab} ${ticketTab === tab.key ? styles.tabActive : ""}`}
+                              onClick={() => setTicketTab(tab.key)}
+                            >
+                              {tab.label}
+                              {count > 0 && (
+                                <span className={`${styles.tabCount} ${ticketTab === tab.key ? styles.tabCountActive : ""}`}>
+                                  {count}
+                                </span>
+                              )}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    )}
+
+                    {loadingTickets && notionTickets.length === 0 && (
+                      <p className={styles.loadingText}>Chargement des tickets...</p>
+                    )}
+                    {!loadingTickets && ticketsError && (
+                      <p className={styles.errorSmall}>{ticketsError}</p>
+                    )}
+                    {!loadingTickets && !ticketsError && notionTickets.length === 0 && (
+                      <p className={styles.emptySmall}>Aucun ticket dans Notion pour l'instant.</p>
+                    )}
+                    {!loadingTickets && !ticketsError && filteredTickets.length === 0 && notionTickets.length > 0 && (
+                      <p className={styles.emptySmall}>Aucun ticket avec ce statut.</p>
+                    )}
+
+                    {filteredTickets.length > 0 && (
+                      <div className={styles.ticketsGrid}>
+                        {filteredTickets.map((ticket) => (
+                          <div key={ticket.notionId} className={`${styles.feedbackItem} ${styles.notionItem}`}>
+                            <div className={styles.ticketCardHeader}>
+                              {ticket.ticketId && (
+                                <span className={styles.ticketIdBadge}>{ticket.ticketId}</span>
+                              )}
+                              <StatusBadge status={ticket.status} />
+                              <div className={styles.ticketCardActions}>
+                                <button
+                                  className={styles.commentsBtn}
+                                  onClick={() => openComments(ticket.notionId)}
+                                  aria-label="Voir les commentaires"
+                                  title="Commentaires"
+                                >
+                                  <MessageSquare size={12} strokeWidth={1.5} />
+                                  {(commentsState[ticket.notionId]?.data.length ?? 0) > 0 && (
+                                    <span className={styles.commentsBadge}>
+                                      {commentsState[ticket.notionId].data.length}
+                                    </span>
+                                  )}
+                                </button>
+                                <button
+                                  className={`${styles.menuTrigger} ${styles.menuTriggerDanger}`}
+                                  onClick={() => deleteNotionTicket(ticket.notionId)}
+                                  disabled={deletingId === ticket.notionId}
+                                  aria-label="Supprimer ce ticket"
+                                  title="Supprimer de Notion"
+                                >
+                                  <Trash2 size={12} />
+                                </button>
+                              </div>
+                            </div>
+                            <p className={styles.feedbackElement}>{ticket.element || "Sans titre"}</p>
+                            {ticket.text && <ExpandableText text={ticket.text} />}
+                            {ticket.imageUrl && (
+                              <button
+                                type="button"
+                                className={styles.ticketThumb}
+                                onClick={() => setLightboxUrl(ticket.imageUrl!)}
+                                aria-label="Agrandir l'image jointe"
+                              >
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img src={ticket.imageUrl} alt="" className={styles.ticketThumbImg} />
+                                <span className={styles.ticketThumbHint} aria-hidden="true">Agrandir</span>
+                              </button>
+                            )}
+                            {ticket.action && (
+                              <div className={styles.notionItemFooter}>
+                                <span className={styles.actionTag}>{ticket.action}</span>
+                              </div>
+                            )}
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
+            </div>
+          </div>
+
+          {/* Popup commentaires */}
+          {commentsOpenId && (() => {
+            const openTicket = notionTickets.find((t) => t.notionId === commentsOpenId);
+            const cs = commentsState[commentsOpenId];
+            return (
+              <div
+                className={styles.confirmOverlay}
+                data-feedback-widget="true"
+                onClick={() => setCommentsOpenId(null)}
+              >
+                <div className={styles.commentsPanel} onClick={(e) => e.stopPropagation()}>
+                  <div className={styles.commentsPanelHeader}>
+                    <div className={styles.commentsPanelTitleWrap}>
+                      <MessageSquare size={16} strokeWidth={1.5} style={{ color: "var(--c-accent-secondary)", flexShrink: 0 }} />
+                      <span className={styles.confirmTitle}>Commentaires</span>
+                      {openTicket?.ticketId && (
+                        <span className={styles.ticketIdBadge}>{openTicket.ticketId}</span>
                       )}
-                    </p>
-                    <button
-                      className={styles.refreshBtn}
-                      onClick={loadNotionTickets}
-                      disabled={loadingTickets}
-                      aria-label="Rafraîchir"
-                      title="Rafraîchir"
-                    >
-                      <RefreshCw size={13} className={loadingTickets ? styles.spinning : ""} />
+                    </div>
+                    {openTicket?.element && (
+                      <p className={styles.commentsPanelSub}>{openTicket.element}</p>
+                    )}
+                    <button className={styles.closeBtn} onClick={() => setCommentsOpenId(null)} aria-label="Fermer">
+                      <X size={16} />
                     </button>
                   </div>
 
-                  {loadingTickets && notionTickets.length === 0 && (
-                    <p className={styles.loadingText}>Chargement des tickets...</p>
+                  {cs?.loading && <p className={styles.loadingText}>Chargement...</p>}
+                  {!cs?.loading && cs?.error && <p className={styles.errorSmall}>{cs.error}</p>}
+                  {!cs?.loading && !cs?.error && (cs?.data.length ?? 0) === 0 && (
+                    <p className={styles.emptySmall}>Aucun commentaire sur ce ticket.</p>
                   )}
-                  {!loadingTickets && ticketsError && (
-                    <p className={styles.errorSmall}>{ticketsError}</p>
-                  )}
-                  {!loadingTickets && !ticketsError && notionTickets.length === 0 && (
-                    <p className={styles.emptySmall}>Aucun ticket dans Notion pour l'instant.</p>
-                  )}
-
-                  {notionTickets.length > 0 && (
-                    <div className={styles.ticketsGrid}>
-                      {notionTickets.map((ticket) => (
-                        <div key={ticket.notionId} className={`${styles.feedbackItem} ${styles.notionItem}`}>
-                          <div className={styles.notionItemHeader}>
-                            <p className={styles.feedbackElement}>{ticket.element || "Sans titre"}</p>
-                            <button
-                              className={`${styles.menuTrigger} ${styles.menuTriggerDanger}`}
-                              onClick={() => deleteNotionTicket(ticket.notionId)}
-                              disabled={deletingId === ticket.notionId}
-                              aria-label="Supprimer ce ticket"
-                              title="Supprimer de Notion"
-                            >
-                              <Trash2 size={12} />
-                            </button>
-                          </div>
-                          {ticket.text && <ExpandableText text={ticket.text} />}
-                          {ticket.imageUrl && (
-                            <button
-                              type="button"
-                              className={styles.ticketThumb}
-                              onClick={() => setLightboxUrl(ticket.imageUrl!)}
-                              aria-label="Agrandir l'image jointe"
-                            >
-                              {/* eslint-disable-next-line @next/next/no-img-element */}
-                              <img src={ticket.imageUrl} alt="" className={styles.ticketThumbImg} />
-                              <span className={styles.ticketThumbHint} aria-hidden="true">Agrandir</span>
-                            </button>
-                          )}
-                          <div className={styles.notionItemFooter}>
-                            {ticket.action && <span className={styles.actionTag}>{ticket.action}</span>}
-                            <StatusBadge status={ticket.status} />
-                          </div>
-                        </div>
+                  {!cs?.loading && (cs?.data.length ?? 0) > 0 && (
+                    <ul className={styles.commentsList}>
+                      {cs!.data.map((comment) => (
+                        <li key={comment.id} className={styles.commentItem}>
+                          <p className={styles.commentMeta}>
+                            {new Date(comment.createdTime).toLocaleDateString("fr-CH", {
+                              day: "numeric", month: "short", year: "numeric",
+                              hour: "2-digit", minute: "2-digit",
+                            })}
+                          </p>
+                          <p className={styles.commentText}>{comment.text}</p>
+                        </li>
                       ))}
-                    </div>
+                    </ul>
                   )}
                 </div>
-              )}
-            </div>
-          </div>
+              </div>
+            );
+          })()}
 
           {/* Confirmation suppression brouillon */}
           {confirmDeleteId && (
