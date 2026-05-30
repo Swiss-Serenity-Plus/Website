@@ -7,17 +7,17 @@ import { Target, Shield, Zap } from "lucide-react";
 const pillars = [
   {
     icon: Target,
-    title: "Approche proactive",
+    title: "Une présence proactive",
     text: "Une approche proactive pensée pour développer votre activité, fluidifier votre organisation et simplifier votre quotidien.",
   },
   {
     icon: Shield,
-    title: "Discrétion & rigueur",
+    title: "Confiance, discrétion & rigueur",
     text: "Discrétion, rigueur et professionnalisme au cœur de chaque mission. Votre confiance est la base de notre partenariat.",
   },
   {
     icon: Zap,
-    title: "Flexibilité",
+    title: "Solutions sur mesure",
     text: "Une collaboration efficace, souple et adaptée à vos besoins, sans les contraintes d'un poste interne.",
   },
 ];

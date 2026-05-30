@@ -84,11 +84,12 @@ export default function AccompagnementAdministratifPage() {
       }}
       process={{
         eyebrow: "Notre prise en charge",
+        title: "Un accompagnement structuré et personnalisé",
         columns: [
-          { title: "Premier contact", text: "Un entretien chaleureux, à votre écoute, pour comprendre votre situation, vos attentes et les démarches à envisager." },
-          { title: "Évaluation", text: "Analyse complète de votre dossier et identification des priorités et des échéances." },
-          { title: "Plan d'accompagnement", text: "Proposition d'un accompagnement adapté à votre rythme et à vos besoins spécifiques." },
-          { title: "Suivi bienveillant", text: "Une prise en charge discrète et attentive, avec un suivi régulier à chaque étape." },
+          { title: "Premier échange", text: "Un entretien chaleureux, à votre écoute, pour comprendre votre situation, vos attentes et les démarches à envisager." },
+          { title: "Analyse personnalisée", text: "Etude attentive de votre dossier afin d'identifier les priorités et les solutions les plus adaptées." },
+          { title: "Proposition d'accompagnement", text: "Mise en place de solutions adaptées à vos besoins et à votre rythme." },
+          { title: "Suivi dédié", text: "Une prise en charge discrète et attentive, avec un suivi régulier à chaque étape." },
         ],
       }}
       results={{

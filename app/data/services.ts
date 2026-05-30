@@ -2,14 +2,14 @@ import { LayoutGrid, TrendingUp, Users, Handshake, FileText } from "lucide-react
 
 export const ALL_SERVICES = [
   {
-    title: "Structuration & Organisation",
+    title: "Coordination & Optimisation",
     shortDescription: "Simplifier et fluidifier votre organisation pour vous concentrer sur votre activité principale.",
     href: "/entreprises/structuration-organisation",
     Icon: LayoutGrid,
     audience: "pro" as const,
   },
   {
-    title: "Suivi & Optimisation",
+    title: "Développement commercial",
     shortDescription: "Animation et optimisation de votre activité au quotidien avec continuité et précision.",
     href: "/entreprises/suivi-optimisation",
     Icon: TrendingUp,
@@ -30,7 +30,7 @@ export const ALL_SERVICES = [
     audience: "pro" as const,
   },
   {
-    title: "Accompagnement des particuliers",
+    title: "Accompagnement aux Particuliers",
     shortDescription: "Un soutien discret et bienveillant dans vos démarches administratives et étapes clés.",
     href: "/particuliers/accompagnement-administratif",
     Icon: FileText,
