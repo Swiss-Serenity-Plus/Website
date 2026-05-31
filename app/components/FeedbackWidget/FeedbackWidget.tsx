@@ -280,6 +280,7 @@ export default function FeedbackWidget() {
   const menuRef = useRef<HTMLDivElement | null>(null);
   const pendingFileInputRef = useRef<HTMLInputElement>(null);
   const blogCoverFileInputRef = useRef<HTMLInputElement>(null);
+  const fetchedCommentIds = useRef<Set<string>>(new Set());
 
   // Init
   useEffect(() => {
@@ -575,7 +576,7 @@ export default function FeedbackWidget() {
     }
   }
 
-  async function loadComments(notionId: string) {
+  const loadComments = useCallback(async (notionId: string) => {
     setCommentsState((prev) => ({
       ...prev,
       [notionId]: { data: prev[notionId]?.data ?? [], loading: true },
@@ -594,7 +595,28 @@ export default function FeedbackWidget() {
         [notionId]: { data: [], loading: false, error: "Impossible de charger les commentaires." },
       }));
     }
-  }
+  }, []);
+
+  // Auto-fetch comment counts par lots dès que les tickets sont chargés
+  useEffect(() => {
+    if (view !== "tickets" || notionTickets.length === 0) return;
+    const toFetch = notionTickets.filter((t) => !fetchedCommentIds.current.has(t.notionId));
+    if (toFetch.length === 0) return;
+    toFetch.forEach((t) => fetchedCommentIds.current.add(t.notionId));
+
+    let cancelled = false;
+    const CHUNK = 6;
+    (async () => {
+      for (let i = 0; i < toFetch.length; i += CHUNK) {
+        if (cancelled) break;
+        await Promise.allSettled(toFetch.slice(i, i + CHUNK).map((t) => loadComments(t.notionId)));
+        if (i + CHUNK < toFetch.length && !cancelled) {
+          await new Promise<void>((r) => setTimeout(r, 500));
+        }
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [view, notionTickets, loadComments]);
 
   function openComments(notionId: string) {
     setCommentsOpenId(notionId);
@@ -1406,19 +1428,19 @@ export default function FeedbackWidget() {
                               )}
                               <StatusBadge status={ticket.status} />
                               <div className={styles.ticketCardActions}>
-                                <button
-                                  className={styles.commentsBtn}
-                                  onClick={() => openComments(ticket.notionId)}
-                                  aria-label="Voir les commentaires"
-                                  title="Commentaires"
-                                >
-                                  <MessageSquare size={12} strokeWidth={1.5} />
-                                  {(commentsState[ticket.notionId]?.data.length ?? 0) > 0 && (
+                                {(commentsState[ticket.notionId]?.data.length ?? 0) > 0 && (
+                                  <button
+                                    className={styles.commentsBtn}
+                                    onClick={() => openComments(ticket.notionId)}
+                                    aria-label="Voir les commentaires"
+                                    title="Commentaires"
+                                  >
+                                    <MessageSquare size={12} strokeWidth={1.5} />
                                     <span className={styles.commentsBadge}>
                                       {commentsState[ticket.notionId].data.length}
                                     </span>
-                                  )}
-                                </button>
+                                  </button>
+                                )}
                                 <button
                                   className={`${styles.menuTrigger} ${styles.menuTriggerDanger}`}
                                   onClick={() => deleteNotionTicket(ticket.notionId)}
