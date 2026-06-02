@@ -47,7 +47,7 @@ export default function ValueProp3Col() {
               <div key={p.title} className={styles.card}>
                 <div className={styles.iconWrap}>
                   {p.iconImage ? (
-                    <Image src={p.iconImage} alt="" width={28} height={28} unoptimized aria-hidden="true" />
+                    <Image src={p.iconImage} alt="" width={44} height={44} unoptimized aria-hidden="true" />
                   ) : Icon ? (
                     <Icon size={28} color="var(--c-accent-secondary)" strokeWidth={1.5} aria-hidden="true" />
                   ) : null}

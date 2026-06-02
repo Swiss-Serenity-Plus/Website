@@ -78,7 +78,7 @@ export default function StructurationPage() {
         title: "Rigueur, clarté et fiabilité au service de votre organisation",
         columns: [
           { title: "Rigueur", text: "Chaque demande, chaque suivi et chaque échange est traité avec méthode, attention et précision." },
-          { title: "Clarté", text: "Des outils simples, des échanges facilités et des méthodes compréhensibles pour gagner en efficacité sans complexifier votre fonctionnement." },
+          { image: "/icons/clarte-ampoule.svg", title: "Clarté", text: "Des outils simples, des échanges facilités et des méthodes compréhensibles pour gagner en efficacité sans complexifier votre fonctionnement." },
           { title: "Fiabilité", text: "Une organisation qui fonctionne même en votre absence, avec des suivis clairs, fluides et continus." },
         ],
       }}
