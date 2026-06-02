@@ -31,7 +31,7 @@ interface ServicePageTemplateProps {
   values: {
     eyebrow?: string;
     title: string;
-    columns: { title: string; text: string }[];
+    columns: { title: string; text: string; image?: string }[];
     image?: string;
   };
   process: {

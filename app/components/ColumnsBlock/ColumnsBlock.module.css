@@ -107,6 +107,19 @@
   flex-shrink: 0;
 }
 
+.colCardImageWrap {
+  width: 48px;
+  height: 48px;
+  flex-shrink: 0;
+}
+
+.colCardImage {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  display: block;
+}
+
 /* Values variant */
 .variant_values {
   padding: var(--sp-4);
