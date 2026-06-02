@@ -1,38 +1,22 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="#977b57" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#977b57" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
   <!-- Person 1 (top center) -->
-  <circle cx="50" cy="22" r="6"/>
-  <path d="M 40,40 Q 50,29 60,40"/>
-  <line x1="40" y1="40" x2="60" y2="40"/>
+  <circle cx="12" cy="5.5" r="1.6"/>
+  <path d="M 9.2,9 Q 12,7.4 14.8,9 L 9.2,9 Z"/>
 
   <!-- Person 2 (bottom-left) -->
-  <circle cx="26" cy="64" r="6"/>
-  <path d="M 16,82 Q 26,71 36,82"/>
-  <line x1="16" y1="82" x2="36" y2="82"/>
+  <circle cx="5.5" cy="16.5" r="1.6"/>
+  <path d="M 2.7,20 Q 5.5,18.4 8.3,20 L 2.7,20 Z"/>
 
   <!-- Person 3 (bottom-right) -->
-  <circle cx="74" cy="64" r="6"/>
-  <path d="M 64,82 Q 74,71 84,82"/>
-  <line x1="64" y1="82" x2="84" y2="82"/>
+  <circle cx="18.5" cy="16.5" r="1.6"/>
+  <path d="M 15.7,20 Q 18.5,18.4 21.3,20 L 15.7,20 Z"/>
 
-  <!-- Dotted connecting circle (center 50,50, radius 28) -->
-  <!-- Arc bottom (P3→P2, 60°→120°) -->
-  <circle cx="64" cy="74" r="2.8" fill="#977b57" stroke="none"/>
-  <circle cx="57" cy="77" r="2.8" fill="#977b57" stroke="none"/>
-  <circle cx="50" cy="78" r="2.8" fill="#977b57" stroke="none"/>
-  <circle cx="43" cy="77" r="2.8" fill="#977b57" stroke="none"/>
-  <circle cx="36" cy="74" r="2.8" fill="#977b57" stroke="none"/>
+  <!-- Dotted arc bottom (P3→P2, through 90°) -->
+  <path d="M 16.4,19 A 7,7 0 0,1 7.6,19" stroke-dasharray="0.1 1.5"/>
 
-  <!-- Arc left (P2→P1, 180°→240°) -->
-  <circle cx="22" cy="50" r="2.8" fill="#977b57" stroke="none"/>
-  <circle cx="23" cy="43" r="2.8" fill="#977b57" stroke="none"/>
-  <circle cx="26" cy="36" r="2.8" fill="#977b57" stroke="none"/>
-  <circle cx="30" cy="30" r="2.8" fill="#977b57" stroke="none"/>
-  <circle cx="36" cy="26" r="2.8" fill="#977b57" stroke="none"/>
+  <!-- Dotted arc left (P2→P1, going upper-left) -->
+  <path d="M 4.2,14.5 A 7,7 0 0,1 10,6.2" stroke-dasharray="0.1 1.5"/>
 
-  <!-- Arc right (P1→P3, 300°→360°) -->
-  <circle cx="64" cy="26" r="2.8" fill="#977b57" stroke="none"/>
-  <circle cx="70" cy="30" r="2.8" fill="#977b57" stroke="none"/>
-  <circle cx="74" cy="36" r="2.8" fill="#977b57" stroke="none"/>
-  <circle cx="77" cy="43" r="2.8" fill="#977b57" stroke="none"/>
-  <circle cx="78" cy="50" r="2.8" fill="#977b57" stroke="none"/>
+  <!-- Dotted arc right (P1→P3, going lower-right) -->
+  <path d="M 14,6.2 A 7,7 0 0,1 19.8,14.5" stroke-dasharray="0.1 1.5"/>
 </svg>
