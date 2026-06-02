@@ -77,6 +77,7 @@ export default function SourcingPartenairesPage() {
       values={{
         title: "Une sélection rigoureuse basée sur l'efficacité et la confiance",
         eyebrow: "Nos valeurs",
+        image: "/icons/rigueur-cible.svg",
         columns: [
           { title: "Rigueur", text: "Chaque partenaire est évalué selon des critères exigeants de qualité, fiabilité et compatibilité avec votre culture." },
           { title: "Fiabilité", text: "Des relations fondées sur la transparence et le respect mutuel. Vos partenaires deviennent de véritables alliés." },
