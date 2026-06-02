@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#977b57" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <title>Expérience client</title>
+  <!-- Avatar: tête -->
+  <circle cx="13" cy="3.5" r="2"/>
+  <!-- Avatar: dôme corps (bezier cubique symétrique) -->
+  <path d="M10.5,7.5 C10.5,5.5 15.5,5.5 15.5,7.5"/>
+  <!-- Poignet / manchette (profil gauche) -->
+  <rect x="1.5" y="11" width="2.5" height="5" rx="0.6"/>
+  <!-- 4 bumps de doigts (bord supérieur de la main) -->
+  <path d="M4,11 Q6,9 8,10 Q10,8 12,9 Q14,8 16,9 Q18,8.5 20,11"/>
+  <!-- Dessous de la paume (galbe inférieur) -->
+  <path d="M4,16 C10,18 17,16 20,13.5"/>
+  <!-- Arc de fermeture à l'extrémité des doigts -->
+  <path d="M20,11 Q22,12.2 20,13.5"/>
+  <!-- Ligne intérieure de la paume (creux / pouce) -->
+  <path d="M4,13.5 Q10,13 14.5,11.5"/>
+</svg>

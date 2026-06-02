@@ -10,6 +10,7 @@ interface ServiceCardData {
   shortDescription: string;
   href: string;
   Icon?: LucideIcon;
+  iconImage?: string;
   audience: "pro" | "perso";
   cta?: string;
 }

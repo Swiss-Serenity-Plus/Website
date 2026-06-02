@@ -76,6 +76,7 @@ export default function StructurationPage() {
       values={{
         eyebrow: "Les valeurs qui nous guident",
         title: "Rigueur, clarté et fiabilité au service de votre organisation",
+        image: "/icons/clarte-ampoule.svg",
         columns: [
           { title: "Rigueur", text: "Chaque demande, chaque suivi et chaque échange est traité avec méthode, attention et précision." },
           { title: "Clarté", text: "Des outils simples, des échanges facilités et des méthodes compréhensibles pour gagner en efficacité sans complexifier votre fonctionnement." },

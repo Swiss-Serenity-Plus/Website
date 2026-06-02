@@ -8,6 +8,7 @@ interface Column {
   title: string;
   text: string;
   icon?: LucideIcon;
+  image?: string;
 }
 
 interface ColumnsBlockProps {
@@ -52,6 +53,11 @@ export default function ColumnsBlock({
                 <span className={styles.number} aria-hidden="true">
                   {String(i + 1).padStart(2, "0")}
                 </span>
+              )}
+              {variant === "values" && col.image && (
+                <div className={styles.colCardImageWrap} aria-hidden="true">
+                  <Image src={col.image} alt="" width={48} height={48} className={styles.colCardImage} unoptimized />
+                </div>
               )}
               {variant === "results" && col.icon && (
                 <div className={styles.colIcon} aria-hidden="true">

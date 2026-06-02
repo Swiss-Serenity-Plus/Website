@@ -1,12 +1,21 @@
 // ValueProp3Col — 3 piliers transverses de la promesse. Icône + titre + texte court.
+import Image from "next/image";
 import Container from "../Container/Container";
 import AtmosphericAccent from "../AtmosphericAccent/AtmosphericAccent";
 import styles from "./ValueProp3Col.module.css";
-import { Target, Shield, Zap } from "lucide-react";
+import { Shield, Zap } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 
-const pillars = [
+interface Pillar {
+  icon?: LucideIcon;
+  iconImage?: string;
+  title: string;
+  text: string;
+}
+
+const pillars: Pillar[] = [
   {
-    icon: Target,
+    iconImage: "/icons/performance-chart.svg",
     title: "Une présence proactive",
     text: "Une approche proactive pensée pour développer votre activité, fluidifier votre organisation et simplifier votre quotidien.",
   },
@@ -37,7 +46,11 @@ export default function ValueProp3Col() {
             return (
               <div key={p.title} className={styles.card}>
                 <div className={styles.iconWrap}>
-                  <Icon size={28} color="var(--c-accent-secondary)" strokeWidth={1.5} aria-hidden="true" />
+                  {p.iconImage ? (
+                    <Image src={p.iconImage} alt="" width={44} height={44} unoptimized aria-hidden="true" />
+                  ) : Icon ? (
+                    <Icon size={28} color="var(--c-accent-secondary)" strokeWidth={1.5} aria-hidden="true" />
+                  ) : null}
                 </div>
                 <h3 className={styles.cardTitle}>{p.title}</h3>
                 <p className={styles.cardText}>{p.text}</p>

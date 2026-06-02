@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="#977b57" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Outer ring -->
+  <circle cx="50" cy="50" r="43"/>
+  <!-- Bulb arc: from bottom-left to bottom-right clockwise over the top (centre at 50,47 r=18) -->
+  <path d="M 40,62 A 18,18 0 1 1 60,62"/>
+  <!-- Socket lines (3 narrowing horizontal lines) -->
+  <line x1="40" y1="62" x2="60" y2="62"/>
+  <line x1="41" y1="67" x2="59" y2="67"/>
+  <line x1="42" y1="72" x2="58" y2="72"/>
+  <!-- Filament: two vertical supports + curved bridge -->
+  <line x1="46" y1="62" x2="46" y2="52"/>
+  <line x1="54" y1="62" x2="54" y2="52"/>
+  <path d="M 46,52 Q 50,46 54,52"/>
+  <!-- Light rays (7 rays, upper hemisphere, from bulb centre ~50,47) -->
+  <line x1="30" y1="47" x2="22" y2="47"/>
+  <line x1="33" y1="37" x2="26" y2="33"/>
+  <line x1="40" y1="30" x2="36" y2="23"/>
+  <line x1="50" y1="27" x2="50" y2="19"/>
+  <line x1="60" y1="30" x2="64" y2="23"/>
+  <line x1="67" y1="37" x2="74" y2="33"/>
+  <line x1="70" y1="47" x2="78" y2="47"/>
+</svg>

@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#977b57" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+  <title>Sourcing &amp; Partenaires</title>
+  <!-- Person 1 — top center (12, 4) -->
+  <circle cx="12" cy="4" r="1.9"/>
+  <path d="M9.5,7.5 Q12,6.1 14.5,7.5"/>
+  <!-- Person 2 — bottom left (5, 15) -->
+  <circle cx="5" cy="15" r="1.9"/>
+  <path d="M2.5,18.5 Q5,17.1 7.5,18.5"/>
+  <!-- Person 3 — bottom right (19, 15) -->
+  <circle cx="19" cy="15" r="1.9"/>
+  <path d="M16.5,18.5 Q19,17.1 21.5,18.5"/>
+  <!-- Dotted arcs on circumscribed circle (center 12,11.7 r=7.7) connecting avatars -->
+  <!-- Arc P1 → P3 (clockwise, right side) -->
+  <path d="M14,4.3 A7.7,7.7 0 0,1 19.6,13.1" stroke-dasharray="0.01 2.2"/>
+  <!-- Arc P3 → P2 (clockwise, bottom) -->
+  <path d="M17.9,16.7 A7.7,7.7 0 0,1 6.1,16.7" stroke-dasharray="0.01 2.2"/>
+  <!-- Arc P2 → P1 (clockwise, left side) -->
+  <path d="M4.4,13.1 A7.7,7.7 0 0,1 10,4.3" stroke-dasharray="0.01 2.2"/>
+</svg>

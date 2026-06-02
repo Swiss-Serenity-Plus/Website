@@ -1,4 +1,4 @@
-import { LayoutGrid, TrendingUp, Users, Handshake, FileText } from "lucide-react";
+import { LayoutGrid, TrendingUp, FileText } from "lucide-react";
 
 export const ALL_SERVICES = [
   {
@@ -19,14 +19,14 @@ export const ALL_SERVICES = [
     title: "Sourcing & Partenaires",
     shortDescription: "Identifier et coordonner les bons partenaires pour gagner en efficacité et en qualité.",
     href: "/entreprises/sourcing-partenaires",
-    Icon: Users,
+    iconImage: "/icons/sourcing-partenaires.svg",
     audience: "pro" as const,
   },
   {
     title: "Expérience client",
     shortDescription: "Renforcer la satisfaction et la fidélisation de vos clients avec rigueur et sens du détail.",
     href: "/entreprises/experience-client",
-    Icon: Handshake,
+    iconImage: "/icons/experience-client-main.svg",
     audience: "pro" as const,
   },
   {

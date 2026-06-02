@@ -13,6 +13,13 @@
   .inner { grid-template-columns: 1fr 1fr; gap: var(--sp-12); align-items: center; }
 }
 
+.photoRow {
+  margin-top: var(--sp-8);
+  max-width: 680px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .left {
   display: flex;
   flex-direction: column;

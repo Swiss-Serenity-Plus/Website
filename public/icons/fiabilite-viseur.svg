@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="#977b57" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+  <!-- Outer ring (full circle) -->
+  <circle cx="50" cy="50" r="40"/>
+  <!-- Inner upper semicircle — open at bottom, suggesting precision aim -->
+  <path d="M 26,50 A 24,24 0 0 1 74,50"/>
+  <!-- Horizontal crosshair line extending past outer ring -->
+  <line x1="3" y1="50" x2="97" y2="50"/>
+  <!-- Hollow marker circles at inner ring / line intersections -->
+  <circle cx="26" cy="50" r="3"/>
+  <circle cx="74" cy="50" r="3"/>
+  <!-- Filled centre dot -->
+  <circle cx="50" cy="50" r="4.5" fill="#977b57" stroke="none"/>
+</svg>

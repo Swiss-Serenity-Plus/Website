@@ -22,6 +22,7 @@ interface ServicePageTemplateProps {
     title?: string;
     description: string;
     profiles: (string | { title: string; text: string })[];
+    image?: string;
   };
   deliverables: {
     eyebrow?: string;
@@ -31,7 +32,7 @@ interface ServicePageTemplateProps {
   values: {
     eyebrow?: string;
     title: string;
-    columns: { title: string; text: string }[];
+    columns: { title: string; text: string; image?: string }[];
     image?: string;
   };
   process: {
@@ -96,6 +97,7 @@ export default function ServicePageTemplate({
           title={targetAudience.title}
           description={targetAudience.description}
           profiles={targetAudience.profiles}
+          image={targetAudience.image}
         />
         <DeliverablesList
           eyebrow={deliverables.eyebrow}

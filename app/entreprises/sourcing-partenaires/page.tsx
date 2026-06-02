@@ -78,9 +78,9 @@ export default function SourcingPartenairesPage() {
         title: "Une sélection rigoureuse basée sur l'efficacité et la confiance",
         eyebrow: "Nos valeurs",
         columns: [
-          { title: "Rigueur", text: "Chaque partenaire est évalué selon des critères exigeants de qualité, fiabilité et compatibilité avec votre culture." },
-          { title: "Fiabilité", text: "Des relations fondées sur la transparence et le respect mutuel. Vos partenaires deviennent de véritables alliés." },
-          { title: "Engagement", text: "Swiss Serenity Plus reste votre interlocuteur central pour assurer la continuité et la fluidité des échanges entre les différents intervenants." },
+          { image: "/icons/rigueur-cible.svg", title: "Rigueur", text: "Chaque partenaire est évalué selon des critères exigeants de qualité, fiabilité et compatibilité avec votre culture." },
+          { image: "/icons/fiabilite-viseur.svg", title: "Fiabilité", text: "Des relations fondées sur la transparence et le respect mutuel. Vos partenaires deviennent de véritables alliés." },
+          { image: "/icons/engagement-reseau.svg", title: "Engagement", text: "Swiss Serenity Plus reste votre interlocuteur central pour assurer la continuité et la fluidité des échanges entre les différents intervenants." },
         ],
       }}
       process={{
