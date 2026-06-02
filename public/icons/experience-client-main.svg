@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="#977b57" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2">
+  <!-- Person icon: head -->
+  <circle cx="52" cy="21" r="8.5"/>
+  <!-- Person icon: body dome (arc + base line) -->
+  <path d="M 39,43 Q 45.5,33 52,33 Q 58.5,33 65,43"/>
+  <line x1="39" y1="43" x2="65" y2="43"/>
+
+  <!-- Wrist cuff (rectangle on left) -->
+  <rect x="19" y="56" width="11" height="16" rx="2"/>
+
+  <!-- Top finger profile: 4 gentle bumps going right from wrist -->
+  <path d="M 30,56 Q 36,52 40,54 Q 45,50 49,52 Q 54,48 58,50 Q 63,48 67,51 Q 73,55 80,62"/>
+
+  <!-- Palm underside: curves gently from wrist to fingertips -->
+  <path d="M 30,72 C 50,77 67,72 80,65"/>
+
+  <!-- Small arc closing fingertip right edge -->
+  <path d="M 80,62 Q 83,64 80,65"/>
+
+  <!-- Thumb line visible inside open palm -->
+  <path d="M 30,65 Q 44,64 56,61"/>
+</svg>

@@ -1,4 +1,5 @@
 // ServiceCard — card signature pour chaque pilier. Cliquable, hover avec élévation et bordure taupe.
+import Image from "next/image";
 import Link from "next/link";
 import { LucideIcon, ArrowRight } from "lucide-react";
 import styles from "./ServiceCard.module.css";
@@ -8,6 +9,7 @@ interface ServiceCardProps {
   shortDescription: string;
   href: string;
   Icon?: LucideIcon;
+  iconImage?: string;
   audience: "pro" | "perso";
   cta?: string;
 }
@@ -17,15 +19,20 @@ export default function ServiceCard({
   shortDescription,
   href,
   Icon,
+  iconImage,
   audience,
   cta = "En savoir plus",
 }: ServiceCardProps) {
   return (
     <Link href={href} className={styles.card} aria-label={`${title} — ${cta}`}>
       <div className={styles.cardTop}>
-        {Icon && (
+        {(Icon || iconImage) && (
           <div className={styles.iconWrap} aria-hidden="true">
-            <Icon size={28} color="var(--c-accent-secondary)" strokeWidth={1.5} />
+            {Icon ? (
+              <Icon size={28} color="var(--c-accent-secondary)" strokeWidth={1.5} />
+            ) : (
+              <Image src={iconImage!} alt="" width={28} height={28} />
+            )}
           </div>
         )}
         <span className={`${styles.tag} ${audience === "perso" ? styles.tagPerso : styles.tagPro}`}>

@@ -15,6 +15,13 @@
 
 .photoRow {
   margin-top: var(--sp-8);
+  display: flex;
+  justify-content: center;
+}
+
+.photoWrap {
+  max-width: 680px;
+  width: 100%;
 }
 
 .left {
