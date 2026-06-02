@@ -44,24 +44,23 @@ export default function TargetAudience({
     return (
       <section className={styles.section}>
         <Container>
-          <div className={styles.innerWithPhoto}>
-            <div className={styles.leftWithProfiles}>
-              <div className={styles.left}>
-                {eyebrowText && <p className="eyebrow">{eyebrowText}</p>}
-                <h2 className={styles.title}>{title}</h2>
-                <p className={styles.desc}>{description}</p>
-              </div>
-              {profileList}
+          <div className={styles.inner}>
+            <div className={styles.left}>
+              {eyebrowText && <p className="eyebrow">{eyebrowText}</p>}
+              <h2 className={styles.title}>{title}</h2>
+              <p className={styles.desc}>{description}</p>
             </div>
-            <div className={styles.photoWrap} aria-hidden="true">
-              <Image
-                src={image}
-                alt=""
-                fill
-                style={{ objectFit: "cover", objectPosition: "center" }}
-                sizes="(max-width: 1023px) 0px, 380px"
-              />
-            </div>
+            {profileList}
+          </div>
+          <div className={styles.photoRow}>
+            <Image
+              src={image}
+              alt=""
+              width={1200}
+              height={800}
+              style={{ width: "100%", height: "auto", borderRadius: "16px" }}
+              sizes="(max-width: 1280px) 100vw, 1280px"
+            />
           </div>
         </Container>
       </section>
