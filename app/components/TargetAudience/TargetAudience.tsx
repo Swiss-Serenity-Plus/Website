@@ -53,16 +53,14 @@ export default function TargetAudience({
             {profileList}
           </div>
           <div className={styles.photoRow}>
-            <div className={styles.photoWrap}>
-              <Image
-                src={image}
-                alt=""
-                width={1200}
-                height={800}
-                style={{ width: "100%", height: "auto", borderRadius: "16px" }}
-                sizes="(max-width: 680px) 100vw, 680px"
-              />
-            </div>
+            <Image
+              src={image}
+              alt=""
+              width={1200}
+              height={800}
+              style={{ width: "100%", height: "auto", display: "block", borderRadius: "16px" }}
+              sizes="(max-width: 680px) 100vw, 680px"
+            />
           </div>
         </Container>
       </section>

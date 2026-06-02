@@ -1,22 +1,21 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none" stroke="#977b57" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2">
-  <!-- Person icon: head -->
-  <circle cx="52" cy="21" r="8.5"/>
-  <!-- Person icon: body dome (arc + base line) -->
-  <path d="M 39,43 Q 45.5,33 52,33 Q 58.5,33 65,43"/>
-  <line x1="39" y1="43" x2="65" y2="43"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#977b57" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5">
+  <!-- Person: head -->
+  <circle cx="12" cy="3.5" r="2"/>
+  <!-- Person: body dome -->
+  <path d="M 8,8.5 Q 12,5.5 16,8.5 L 8,8.5 Z"/>
 
-  <!-- Wrist cuff (rectangle on left) -->
-  <rect x="19" y="56" width="11" height="16" rx="2"/>
+  <!-- Wrist cuff (rectangle, left side) -->
+  <rect x="1.5" y="12" width="2.5" height="4.5" rx="0.5"/>
 
-  <!-- Top finger profile: 4 gentle bumps going right from wrist -->
-  <path d="M 30,56 Q 36,52 40,54 Q 45,50 49,52 Q 54,48 58,50 Q 63,48 67,51 Q 73,55 80,62"/>
+  <!-- Top finger profile: 4 subtle bumps going right from wrist -->
+  <path d="M 4,12 Q 5.5,10.5 7,11.5 Q 9,9.5 11,10.5 Q 13,9 15,10 Q 17,9.5 19.5,13"/>
 
-  <!-- Palm underside: curves gently from wrist to fingertips -->
-  <path d="M 30,72 C 50,77 67,72 80,65"/>
+  <!-- Palm underside: gentle curve connecting wrist to fingertips -->
+  <path d="M 4,16.5 C 10,18.5 17,16 19.5,14"/>
 
-  <!-- Small arc closing fingertip right edge -->
-  <path d="M 80,62 Q 83,64 80,65"/>
+  <!-- Small arc closing at fingertips (right edge of hand) -->
+  <path d="M 19.5,13 Q 21,13.5 19.5,14"/>
 
   <!-- Thumb line visible inside open palm -->
-  <path d="M 30,65 Q 44,64 56,61"/>
+  <path d="M 4,15 Q 10,14.5 13.5,13.5"/>
 </svg>
