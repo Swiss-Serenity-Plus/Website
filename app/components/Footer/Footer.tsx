@@ -20,7 +20,7 @@ function FacebookIcon() {
 }
 
 const socials = [
-  { label: "LinkedIn — Mireille Dayer", href: "https://www.linkedin.com/in/mireille-dayer-a46a423b4/", Icon: LinkedInIcon },
+  { label: "LinkedIn — Swiss Serenity Plus", href: "https://www.linkedin.com/company/swiss-serenity-plus/?viewAsMember=true", Icon: LinkedInIcon },
   { label: "Facebook — Swiss Serenity Plus", href: "https://www.facebook.com/profile.php?id=61562944346390", Icon: FacebookIcon },
 ];
 
