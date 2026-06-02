@@ -22,6 +22,7 @@ interface ServicePageTemplateProps {
     title?: string;
     description: string;
     profiles: (string | { title: string; text: string })[];
+    image?: string;
   };
   deliverables: {
     eyebrow?: string;
@@ -96,6 +97,7 @@ export default function ServicePageTemplate({
           title={targetAudience.title}
           description={targetAudience.description}
           profiles={targetAudience.profiles}
+          image={targetAudience.image}
         />
         <DeliverablesList
           eyebrow={deliverables.eyebrow}

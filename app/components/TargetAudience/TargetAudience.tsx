@@ -1,4 +1,5 @@
 // TargetAudience — section "à qui ce service s'adresse". Utilisé sur les pages services.
+import Image from "next/image";
 import Container from "../Container/Container";
 import { CheckCircle2 } from "lucide-react";
 import styles from "./TargetAudience.module.css";
@@ -10,6 +11,7 @@ interface TargetAudienceProps {
   title?: string;
   description: string;
   profiles: Profile[];
+  image?: string;
 }
 
 export default function TargetAudience({
@@ -17,8 +19,55 @@ export default function TargetAudience({
   title = "À qui s'adresse ce service ?",
   description,
   profiles,
+  image,
 }: TargetAudienceProps) {
   const eyebrowText = eyebrow === undefined ? "Clientèle cible" : eyebrow;
+  const profileList = (
+    <ul className={styles.profiles} role="list">
+      {profiles.map((p, i) => (
+        <li key={i} className={styles.profile}>
+          <CheckCircle2 size={18} color="var(--c-accent-secondary)" strokeWidth={1.5} aria-hidden="true" className={styles.profileIcon} />
+          {typeof p === "string" ? (
+            <span className={styles.profileText}>{p}</span>
+          ) : (
+            <div className={styles.profileStructured}>
+              <strong className={styles.profileTitle}>{p.title}</strong>
+              <span className={styles.profileDesc}>{p.text}</span>
+            </div>
+          )}
+        </li>
+      ))}
+    </ul>
+  );
+
+  if (image) {
+    return (
+      <section className={styles.section}>
+        <Container>
+          <div className={styles.innerWithPhoto}>
+            <div className={styles.leftWithProfiles}>
+              <div className={styles.left}>
+                {eyebrowText && <p className="eyebrow">{eyebrowText}</p>}
+                <h2 className={styles.title}>{title}</h2>
+                <p className={styles.desc}>{description}</p>
+              </div>
+              {profileList}
+            </div>
+            <div className={styles.photoWrap} aria-hidden="true">
+              <Image
+                src={image}
+                alt=""
+                fill
+                style={{ objectFit: "cover", objectPosition: "center" }}
+                sizes="(max-width: 1023px) 0px, 380px"
+              />
+            </div>
+          </div>
+        </Container>
+      </section>
+    );
+  }
+
   return (
     <section className={styles.section}>
       <Container>
@@ -28,21 +77,7 @@ export default function TargetAudience({
             <h2 className={styles.title}>{title}</h2>
             <p className={styles.desc}>{description}</p>
           </div>
-          <ul className={styles.profiles} role="list">
-            {profiles.map((p, i) => (
-              <li key={i} className={styles.profile}>
-                <CheckCircle2 size={18} color="var(--c-accent-secondary)" strokeWidth={1.5} aria-hidden="true" className={styles.profileIcon} />
-                {typeof p === "string" ? (
-                  <span className={styles.profileText}>{p}</span>
-                ) : (
-                  <div className={styles.profileStructured}>
-                    <strong className={styles.profileTitle}>{p.title}</strong>
-                    <span className={styles.profileDesc}>{p.text}</span>
-                  </div>
-                )}
-              </li>
-            ))}
-          </ul>
+          {profileList}
         </div>
       </Container>
     </section>

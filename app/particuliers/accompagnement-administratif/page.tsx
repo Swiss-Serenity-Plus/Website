@@ -53,6 +53,7 @@ export default function AccompagnementAdministratifPage() {
       schema={serviceSchema}
       targetAudience={{
         eyebrow: null,
+        image: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/blog-covers/1779635065199-2abda4e7-22d7-4f8b-a1dc-79ef1d49bdc3.png",
         description: "Pensé pour les personnes souhaitant gagner en sérénité face à des démarches administratives ou des situations de vie nécessitant soutien et organisation.",
         profiles: [
           "Seniors souhaitant un soutien administratif et organisationnel dans leurs démarches et lors des étapes importante de la vie.",
