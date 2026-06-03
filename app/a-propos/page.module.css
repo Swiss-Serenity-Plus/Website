@@ -4,36 +4,97 @@
   padding-bottom: var(--sp-12);
 }
 
-/* ---- Bloc unifié : titre + portrait (un seul composant) ------------------- */
+/* ---- Bloc unifié : titre + portrait --------------------------------------- */
 .heroCard {
+  position: relative;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  margin-top: var(--sp-4);
+  overflow: visible;
+  margin-top: var(--sp-6);
   border: 1px solid rgba(151, 123, 87, 0.35);
   border-radius: 24px;
   background: linear-gradient(165deg, #fbfaf6 0%, var(--c-bg) 100%);
+  transition: box-shadow 400ms ease;
 }
+
+/* Texture discrète (grille de points dorés), renforcée au survol */
+.heroCard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background-image: radial-gradient(rgba(151, 123, 87, 0.13) 1px, transparent 1.5px);
+  background-size: 20px 20px;
+  opacity: 0.4;
+  transition: opacity 400ms ease;
+}
+
+/* Voile lumineux d'angle, révélé au survol */
+.heroCard::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(130% 90% at 88% 6%, rgba(255, 255, 255, 0.55), transparent 55%);
+  opacity: 0;
+  transition: opacity 500ms ease;
+}
+
+.heroCard:hover {
+  box-shadow: 0 20px 50px rgba(6, 36, 69, 0.10);
+}
+
+.heroCard:hover::before { opacity: 0.85; }
+.heroCard:hover::after { opacity: 0.7; }
 
 @media (min-width: 900px) {
   .heroCard {
     flex-direction: row;
     align-items: stretch;
+    min-height: 340px;
   }
 }
 
 .heroText {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding: var(--sp-6);
+  padding: var(--sp-3) var(--sp-6) var(--sp-6);
 }
 
 @media (min-width: 900px) {
   .heroText {
-    flex: 1 1 58%;
+    flex: 1 1 auto;
     padding: var(--sp-8);
+    padding-right: 38%;
   }
+}
+
+/* Petit ornement premium au-dessus du nom */
+.accent {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-3);
+  color: var(--c-accent-secondary);
+}
+
+.accentLine {
+  width: 44px;
+  height: 1px;
+  background: linear-gradient(to right, rgba(151, 123, 87, 0.65) 0%, rgba(151, 123, 87, 0.1) 100%);
+}
+
+.accentDiamond {
+  width: 11px;
+  height: 11px;
+  flex: none;
 }
 
 .title {
@@ -72,43 +133,94 @@
   .tagline { font-size: 27px; }
 }
 
-/* Portrait — intégré au bloc, secondaire et contenu sur mobile */
+/* ---- Portrait : sort du cadre en haut, collé en bas ----------------------- */
 .portraitWrap {
+  order: -1;
   position: relative;
-  width: 100%;
-  height: 240px;
+  z-index: 2;
+  width: 70%;
+  max-width: 260px;
+  height: 280px;
+  margin: -40px auto 0;
 }
 
-@media (min-width: 600px) {
-  .portraitWrap { height: 300px; }
+/* Halo lumineux derrière l'image */
+.portraitWrap::before {
+  content: "";
+  position: absolute;
+  inset: -14%;
+  z-index: 0;
+  background: radial-gradient(ellipse at 50% 42%, rgba(151, 123, 87, 0.22) 0%, rgba(255, 255, 255, 0) 70%);
+  filter: blur(18px);
+  pointer-events: none;
+}
+
+/* Transition floutée entre le bas de l'image et le titre (mobile) */
+.portraitWrap::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 52%;
+  z-index: 2;
+  border-radius: 0 0 18px 18px;
+  background: linear-gradient(
+    to top,
+    var(--c-bg) 16%,
+    rgba(247, 245, 241, 0.55) 55%,
+    transparent 100%
+  );
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  -webkit-mask-image: linear-gradient(to top, #000 45%, transparent 100%);
+  mask-image: linear-gradient(to top, #000 45%, transparent 100%);
+  pointer-events: none;
+}
+
+.portrait {
+  position: relative;
+  z-index: 1;
+  object-fit: cover;
+  object-position: center 14%;
+  border-radius: 18px;
 }
 
 @media (min-width: 900px) {
   .portraitWrap {
-    flex: 0 0 40%;
+    order: 0;
+    position: absolute;
+    right: var(--sp-8);
+    top: -56px;
+    bottom: 0;
+    left: auto;
+    width: 30%;
+    max-width: 320px;
     height: auto;
-    min-height: 420px;
+    margin: 0;
+  }
+
+  /* Pas de fondu bas en desktop : l'image est collée au bas du cadre */
+  .portraitWrap::after { display: none; }
+
+  .portraitWrap::before { inset: -16% -12%; }
+
+  .portrait {
+    object-position: center 10%;
+    border-radius: 20px;
   }
 }
 
-.portrait {
-  object-fit: cover;
-  object-position: center 18%;
-}
-
-/* ---- Cartes d'accompagnement (2 colonnes desktop) ------------------------- */
+/* ---- Cartes d'accompagnement (compactes, 2 colonnes desktop) -------------- */
 .cards {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--sp-4);
-  margin-top: var(--sp-6);
+  margin-top: var(--sp-8);
 }
 
 @media (min-width: 900px) {
-  .cards {
-    grid-template-columns: 1fr 1fr;
-    gap: var(--sp-6);
-  }
+  .cards { grid-template-columns: 1fr 1fr; }
 }
 
 .infoCard {
@@ -116,21 +228,28 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: var(--sp-6);
+  gap: var(--sp-3);
+  padding: var(--sp-4);
   background: var(--c-surface);
   border: 1px solid var(--c-border);
-  border-radius: 24px;
-  box-shadow: 0 10px 30px rgba(6, 36, 69, 0.05);
+  border-radius: 20px;
+  box-shadow: 0 8px 24px rgba(6, 36, 69, 0.05);
+  transition: box-shadow 300ms ease, transform 300ms ease;
 }
 
 @media (min-width: 768px) {
-  .infoCard { padding: var(--sp-8) var(--sp-6); }
+  .infoCard { padding: var(--sp-6) var(--sp-4); }
+}
+
+.infoCard:hover {
+  box-shadow: 0 14px 32px rgba(6, 36, 69, 0.09);
+  transform: translateY(-2px);
 }
 
 .iconCircle {
   flex-shrink: 0;
-  width: 84px;
-  height: 84px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -140,47 +259,17 @@
   background: linear-gradient(165deg, #fbfaf6 0%, #f3eee4 100%);
 }
 
-/* Séparateur vertical doré avec losange central (même design que le footer) */
-.vDivider {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--sp-2);
-  height: 64px;
-  margin-block: var(--sp-4);
-  color: var(--c-accent-secondary);
-}
-
-.vLine {
-  width: 1px;
-  flex: 1;
-}
-
-.vDivider .vLine:first-child {
-  background: linear-gradient(to bottom, transparent 0%, rgba(151, 123, 87, 0.55) 100%);
-}
-
-.vDivider .vLine:last-child {
-  background: linear-gradient(to top, transparent 0%, rgba(151, 123, 87, 0.55) 100%);
-}
-
-.diamond {
-  flex: none;
-  width: 13px;
-  height: 13px;
-}
-
 .cardText {
   font-family: var(--font-display);
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 400;
-  line-height: 1.6;
+  line-height: 1.55;
   color: var(--c-text);
-  max-width: 46ch;
+  max-width: 42ch;
 }
 
 @media (min-width: 768px) {
-  .cardText { font-size: 20px; }
+  .cardText { font-size: 19px; }
 }
 
 .cardText sup {

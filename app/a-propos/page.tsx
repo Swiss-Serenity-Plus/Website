@@ -84,10 +84,16 @@ export default function AProposPage() {
 
             <div className={styles.heroCard}>
               <div className={styles.heroText}>
+                <span className={styles.accent} aria-hidden="true">
+                  <span className={styles.accentLine} />
+                  <svg className={styles.accentDiamond} viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 1.5 13.4 10.6 22.5 12 13.4 13.4 12 22.5 10.6 13.4 1.5 12 10.6 10.6Z" />
+                  </svg>
+                </span>
                 <h1 className={styles.title} id="page-title">
                   <span className={styles.name}>Mireille Dayer</span>
                   <span className={styles.tagline}>
-                    votre bras droit de confiance pour le développement et l&rsquo;organisation de vos activités
+                    Votre bras droit de confiance pour le développement et l&rsquo;organisation de vos activités
                   </span>
                 </h1>
               </div>
@@ -97,7 +103,7 @@ export default function AProposPage() {
                   src={PORTRAIT_SRC}
                   alt="Mireille Dayer, fondatrice de Swiss Serenity Plus"
                   fill
-                  sizes="(max-width: 899px) 100vw, 42vw"
+                  sizes="(max-width: 899px) 70vw, 32vw"
                   className={styles.portrait}
                   priority
                 />
@@ -107,15 +113,9 @@ export default function AProposPage() {
             <div className={styles.cards}>
               <article className={styles.infoCard}>
                 <span className={styles.iconCircle} aria-hidden="true">
-                  <TrendingUp size={34} strokeWidth={1.5} />
+                  <TrendingUp size={30} strokeWidth={1.5} />
                 </span>
-                <span className={styles.vDivider} aria-hidden="true">
-                  <span className={styles.vLine} />
-                  <svg className={styles.diamond} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 1.5 13.4 10.6 22.5 12 13.4 13.4 12 22.5 10.6 13.4 1.5 12 10.6 10.6Z" />
-                  </svg>
-                  <span className={styles.vLine} />
-                </span>
+                <Divider />
                 <p className={styles.cardText}>
                   J&rsquo;ai fondé Swiss Serenity Plus<sup>®</sup> afin d&rsquo;offrir aux{" "}
                   <strong className={styles.highlight}>Professionnels</strong> un soutien opérationnel et efficace pour renforcer leur développement commercial et fluidifier leur organisation avec une approche fondée sur la rigueur et le sens du résultat.
@@ -124,15 +124,9 @@ export default function AProposPage() {
 
               <article className={styles.infoCard}>
                 <span className={styles.iconCircle} aria-hidden="true">
-                  <HandHeart size={34} strokeWidth={1.5} />
+                  <HandHeart size={30} strokeWidth={1.5} />
                 </span>
-                <span className={styles.vDivider} aria-hidden="true">
-                  <span className={styles.vLine} />
-                  <svg className={styles.diamond} viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 1.5 13.4 10.6 22.5 12 13.4 13.4 12 22.5 10.6 13.4 1.5 12 10.6 10.6Z" />
-                  </svg>
-                  <span className={styles.vLine} />
-                </span>
+                <Divider />
                 <p className={styles.cardText}>
                   J&rsquo;ai également souhaité que Swiss Serenity Plus<sup>®</sup> accompagne les{" "}
                   <strong className={styles.highlight}>Particuliers</strong> dans leurs démarches administratives ainsi que dans celles liées aux étapes importantes de leur parcours afin de leur apporter davantage de sérénité et une meilleure qualité de vie.
