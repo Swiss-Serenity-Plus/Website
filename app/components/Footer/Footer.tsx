@@ -46,7 +46,7 @@ export default function Footer() {
         <div className={styles.grid}>
           <div className={styles.col}>
             <Image
-              src="https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/photos-site/Logo%20Serenity%20Plus%2C%20e%CC%81criture%20blanche..png"
+              src="https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/Logo%20-%20Swiss%20Serenity%20Plus%20-%20Mireille%20Dayer.png"
               alt="Swiss Serenity Plus"
               width={260}
               height={96}
