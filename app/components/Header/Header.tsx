@@ -46,7 +46,7 @@ export default function Header() {
           onClick={handleHomeClick}
         >
           <Image
-            src="https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/photos-site/Logo%E2%8E%9CDayer%20%3A%20Swiss%20Serenity%20Plus.png"
+            src="https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/Logo%20Swiss%20Serenity%20Plus.png"
             alt="Swiss Serenity Plus"
             width={160}
             height={48}
