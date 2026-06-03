@@ -4,7 +4,7 @@
 // un poids visuel cohérent avec les autres icônes de la section.
 import { createLucideIcon } from "lucide-react";
 
-const STROKE = 1.2;
+const STROKE = "1.2";
 
 const LotusIcon = createLucideIcon("Lotus", [
   // Pétale central (droit, pointu)
