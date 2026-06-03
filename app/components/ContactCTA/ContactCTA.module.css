@@ -1,6 +1,6 @@
 .section {
   background: var(--c-bg);
-  padding-block: var(--sp-12);
+  padding-block: var(--sp-8);
   position: relative;
 }
 
@@ -21,7 +21,12 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: var(--sp-4);
+  gap: var(--sp-2);
+}
+
+/* Le bouton garde un peu plus d'air que le reste du bloc */
+.inner a {
+  margin-top: var(--sp-2);
 }
 
 .title {
