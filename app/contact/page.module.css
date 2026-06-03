@@ -65,6 +65,8 @@
 .infoItem a:hover { color: var(--c-text); }
 
 .mapWrap {
+  position: relative;
+  aspect-ratio: 16 / 10;
   border-radius: 12px;
   overflow: hidden;
   border: 1px solid var(--c-border);

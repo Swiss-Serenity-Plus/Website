@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Image from "next/image";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 import PageHero from "../components/PageHero/PageHero";
@@ -70,15 +71,12 @@ export default function ContactPage() {
                 </ul>
 
                 <div className={styles.mapWrap}>
-                  <iframe
-                    title="Localisation Swiss Serenity Plus — Sion, Valais"
-                    src="https://maps.google.com/maps?q=Chemin+de+Clavoz+18,+1950+Sion,+Suisse&output=embed"
-                    width="100%"
-                    height="220"
-                    style={{ border: 0, borderRadius: 12, display: "block" }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
+                  <Image
+                    src="https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/blog-covers/1779465979125-aaa7ab22-d945-4e6d-b782-1d6185106efe.png"
+                    alt="Swiss Serenity Plus, basée à Sion en Valais"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 440px"
+                    style={{ objectFit: "cover" }}
                   />
                 </div>
 
