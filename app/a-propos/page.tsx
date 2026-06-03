@@ -1,12 +1,15 @@
 import { Metadata } from "next";
 import Image from "next/image";
+import { TrendingUp, HandHeart, Sparkle } from "lucide-react";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
-import PageHero from "../components/PageHero/PageHero";
+import Breadcrumb from "../components/Breadcrumb/Breadcrumb";
 import ContactCTA from "../components/ContactCTA/ContactCTA";
 import Container from "../components/Container/Container";
 import styles from "./page.module.css";
 import { SITE_URL, OG_IMAGE, OG_DEFAULTS } from "../lib/seo";
+
+const PORTRAIT_SRC = "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/image.png";
 
 const PAGE_URL = `${SITE_URL}/a-propos`;
 
@@ -69,41 +72,65 @@ export default function AProposPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <Header />
       <main>
-        <PageHero
-          eyebrow="À propos"
-          title={<>Mireille Dayer<br />Fondatrice de Swiss Serenity Plus®</>}
-          subtitle="J'accompagne dirigeants et particuliers en Suisse romande avec rigueur, discrétion et engagement."
-          breadcrumbs={[
-            { label: "Accueil", href: "/" },
-            { label: "À propos" },
-          ]}
-        />
-        <section className={styles.intro}>
+        <section className={styles.hero} aria-labelledby="page-title">
           <Container>
-            <div className={styles.introGrid}>
-              <div className={styles.introText}>
-                <p className="eyebrow">Parcours</p>
-                <h2 className={styles.h2}>Une expertise construite sur le terrain</h2>
-                <p>
-                  Franco-Suisse et ayant suivi mes études et mes formations professionnelles en Suisse et en France, j'évolue depuis plus de vingt ans dans des environnements exigeants mêlant développement commercial, coordination opérationnelle et relation client.
-                </p>
-                <p>
-                  Mon expérience dans les secteurs de la Banque, des Compléments Alimentaires et des Dispositifs Médicaux m'a permis de développer une approche à la fois rigoureuse, humaine et orientée résultats, avec une compréhension concrète des réalités du terrain et des exigences propres aux environnements français et suisses.
-                </p>
-                <p>
-                  Swiss Serenity Plus® est née de cette conviction : les Entreprises comme les Particuliers ont besoin d'un véritable bras droit de confiance capable d'apporter structure, fluidité et sérénité.
-                </p>
+            <Breadcrumb
+              items={[
+                { label: "Accueil", href: "/" },
+                { label: "À propos" },
+              ]}
+            />
+
+            <div className={styles.heroGrid}>
+              <div className={styles.titleCard}>
+                <h1 className={styles.title} id="page-title">
+                  <span className={styles.name}>Mireille Dayer</span>
+                  <span className={styles.tagline}>
+                    votre bras droit de confiance pour le développement et l&rsquo;organisation de vos activités
+                  </span>
+                </h1>
               </div>
+
               <div className={styles.portraitWrap}>
                 <Image
-                  src="https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/image.png"
+                  src={PORTRAIT_SRC}
                   alt="Mireille Dayer, fondatrice de Swiss Serenity Plus"
-                  width={520}
-                  height={680}
+                  width={560}
+                  height={760}
                   className={styles.portrait}
                   priority
                 />
               </div>
+            </div>
+
+            <div className={styles.cards}>
+              <article className={styles.infoCard}>
+                <span className={styles.iconCircle} aria-hidden="true">
+                  <TrendingUp size={34} strokeWidth={1.5} />
+                </span>
+                <span className={styles.cardDivider} aria-hidden="true" />
+                <p className={styles.cardText}>
+                  J&rsquo;ai fondé Swiss Serenity Plus<sup>®</sup> afin d&rsquo;offrir aux{" "}
+                  <strong className={styles.highlight}>Professionnels</strong> un soutien opérationnel et efficace pour renforcer leur développement commercial et fluidifier leur organisation avec une approche fondée sur la rigueur et le sens du résultat.
+                </p>
+              </article>
+
+              <article className={styles.infoCard}>
+                <span className={styles.iconCircle} aria-hidden="true">
+                  <HandHeart size={34} strokeWidth={1.5} />
+                </span>
+                <span className={styles.cardDivider} aria-hidden="true" />
+                <p className={styles.cardText}>
+                  J&rsquo;ai également souhaité que Swiss Serenity Plus<sup>®</sup> accompagne les{" "}
+                  <strong className={styles.highlight}>Particuliers</strong> dans leurs démarches administratives ainsi que dans celles liées aux étapes importantes de leur parcours afin de leur apporter davantage de sérénité et une meilleure qualité de vie.
+                </p>
+              </article>
+            </div>
+
+            <div className={styles.ornament} aria-hidden="true">
+              <span className={styles.ornamentLine} />
+              <Sparkle size={16} strokeWidth={1.5} fill="currentColor" />
+              <span className={styles.ornamentLine} />
             </div>
           </Container>
         </section>
