@@ -77,7 +77,7 @@ export default function Hero() {
             <Button href="/contact" variant="primary" size="lg" className={styles.heroCtaPrimary}>
               Parlons de votre projet
             </Button>
-            <Button href="/#services" variant="ghost" size="lg">
+            <Button href="/#services" variant="ghost" size="lg" className={styles.heroCtaSecondary}>
               Découvrir notre accompagnement
             </Button>
           </div>
