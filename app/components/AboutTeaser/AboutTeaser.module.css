@@ -4,122 +4,82 @@
   overflow: hidden;
 }
 
-.inner {
+/* ---- Encadré unifié : texte + portrait (design page À propos) -------------- */
+.card {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: var(--sp-6);
-  align-items: stretch;
+  overflow: visible;
+  border: 1px solid rgba(151, 123, 87, 0.35);
+  border-radius: 24px;
+  background: linear-gradient(165deg, #fbfaf6 0%, var(--c-bg) 100%);
+  transition: box-shadow 400ms ease;
 }
 
-@media (min-width: 768px) {
-  .inner {
-    flex-direction: row;
-    align-items: center;
-    gap: var(--sp-6);
-  }
-}
-
-@media (min-width: 1024px) {
-  .inner {
-    gap: var(--sp-12);
-  }
-}
-
-/* Image wrap : toujours en colonne, halo flou + texture subtile */
-.imageWrap {
-  position: relative;
-  width: 100%;
-  max-width: 340px;
-  margin-inline: auto;
-  min-width: 0;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-  isolation: isolate;
-}
-
-/* À partir de la tablette : colonne image à largeur fixe, côte à côte. */
-@media (min-width: 768px) {
-  .imageWrap {
-    flex: 0 0 42%;
-    width: auto;
-    max-width: none;
-    margin-inline: 0;
-  }
-}
-
-/* Halo flou taupe/bleu derrière la photo pour ancrer le buste dans le paysage */
-.imageBackdrop {
-  position: absolute;
-  inset: 10% -4% 6% -4%;
-  background:
-    radial-gradient(60% 70% at 50% 35%, rgba(151, 123, 87, 0.22), rgba(151, 123, 87, 0) 70%),
-    radial-gradient(70% 60% at 50% 85%, rgba(6, 36, 69, 0.10), rgba(6, 36, 69, 0) 75%);
-  filter: blur(28px);
-  border-radius: 50%;
-  z-index: 0;
-}
-
-/* Texture grain subtile pour densité visuelle */
-.imageTexture {
+/* Texture discrète (grille de points dorés), renforcée au survol */
+.card::before {
+  content: "";
   position: absolute;
   inset: 0;
-  background-image:
-    radial-gradient(circle at 1px 1px, rgba(6, 36, 69, 0.06) 1px, transparent 0);
-  background-size: 6px 6px;
-  border-radius: var(--radius-card);
-  mix-blend-mode: multiply;
-  opacity: 0.35;
+  z-index: 0;
+  border-radius: inherit;
   pointer-events: none;
-  z-index: 1;
+  background-image: radial-gradient(rgba(151, 123, 87, 0.13) 1px, transparent 1.5px);
+  background-size: 20px 20px;
+  opacity: 0.4;
+  transition: opacity 400ms ease;
 }
 
-.photo {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  height: auto;
-  /* Mobile : portrait affiché en entier (pas de recadrage). */
-  max-height: none;
-  object-fit: cover;
-  object-position: center top;
-  border-radius: var(--radius-card);
-  display: block;
-  box-shadow: 0 16px 56px rgba(6, 36, 69, 0.18), 0 2px 6px rgba(6, 36, 69, 0.08);
-}
-
-@media (min-width: 768px) {
-  .photo { max-height: 480px; }
-}
-
-@media (min-width: 1024px) {
-  .photo { max-height: 620px; }
-}
-
-/* Fondu doux en bas de la photo pour fondre le buste dans le fond surface */
-.imageFade {
+/* Voile lumineux d'angle, révélé au survol */
+.card::after {
+  content: "";
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 22%;
-  border-radius: 0 0 var(--radius-card) var(--radius-card);
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, var(--c-surface) 85%);
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
   pointer-events: none;
-  z-index: 3;
+  background: radial-gradient(130% 90% at 88% 6%, rgba(255, 255, 255, 0.55), transparent 55%);
+  opacity: 0;
+  transition: opacity 500ms ease;
 }
 
+.card:hover {
+  box-shadow: 0 20px 50px rgba(6, 36, 69, 0.10);
+}
+
+.card:hover::before { opacity: 0.85; }
+.card:hover::after { opacity: 0.7; }
+
+@media (min-width: 900px) {
+  .card {
+    flex-direction: row;
+    align-items: stretch;
+    min-height: 380px;
+  }
+}
+
+/* ---- Contenu texte -------------------------------------------------------- */
 .content {
-  flex: 1;
-  min-width: 0;
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-6) var(--sp-6);
+}
+
+@media (min-width: 900px) {
+  .content {
+    flex: 1 1 auto;
+    padding: var(--sp-8);
+    padding-right: 40%;
+  }
 }
 
 .title {
   font-size: 26px;
   line-height: 1.2;
+  color: var(--c-text);
 }
 
 @media (min-width: 600px) {
@@ -141,3 +101,84 @@
 }
 
 .cta { margin-top: var(--sp-2); }
+
+/* ---- Portrait : sort du cadre en haut, collé en bas ----------------------- */
+.portraitWrap {
+  order: -1;
+  position: relative;
+  z-index: 2;
+  width: 70%;
+  max-width: 260px;
+  height: 280px;
+  margin: -40px auto 0;
+}
+
+/* Halo lumineux derrière l'image */
+.portraitWrap::before {
+  content: "";
+  position: absolute;
+  inset: -14%;
+  z-index: 0;
+  background: radial-gradient(ellipse at 50% 42%, rgba(151, 123, 87, 0.22) 0%, rgba(255, 255, 255, 0) 70%);
+  filter: blur(18px);
+  pointer-events: none;
+}
+
+/* Transition floutée entre le bas de l'image et le texte (mobile) */
+.portraitWrap::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 30%;
+  z-index: 2;
+  border-radius: 0 0 18px 18px;
+  background: linear-gradient(
+    to top,
+    var(--c-bg) 10%,
+    rgba(247, 245, 241, 0.45) 45%,
+    transparent 100%
+  );
+  backdrop-filter: blur(2.5px);
+  -webkit-backdrop-filter: blur(2.5px);
+  -webkit-mask-image: linear-gradient(to top, #000 30%, transparent 100%);
+  mask-image: linear-gradient(to top, #000 30%, transparent 100%);
+  pointer-events: none;
+}
+
+.portrait {
+  position: relative;
+  z-index: 1;
+  object-fit: cover;
+  object-position: center 14%;
+  border-radius: 18px;
+}
+
+@media (min-width: 900px) {
+  .portraitWrap {
+    order: 0;
+    position: absolute;
+    right: var(--sp-8);
+    top: -56px;
+    bottom: 0;
+    left: auto;
+    width: 30%;
+    max-width: 320px;
+    height: auto;
+    margin: 0;
+  }
+
+  /* Pas de fondu bas en desktop : l'image est collée au bas du cadre */
+  .portraitWrap::after { display: none; }
+
+  .portraitWrap::before { inset: -16% -12%; }
+
+  /* Incrustation progressive : le bord gauche de l'image se fond dans le cadre */
+  .portrait {
+    object-position: center 10%;
+    border-radius: 20px;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 14%, #000 32%);
+    mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 14%, #000 32%);
+  }
+}
