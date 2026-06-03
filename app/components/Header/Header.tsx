@@ -48,9 +48,9 @@ export default function Header() {
           <Image
             src="https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/Logo%20Swiss%20Serenity%20Plus.png"
             alt="Swiss Serenity Plus"
-            width={160}
-            height={48}
-            style={{ objectFit: "contain", height: "40px", width: "auto" }}
+            width={240}
+            height={72}
+            style={{ objectFit: "contain", height: "56px", width: "auto" }}
             priority
           />
         </Link>
