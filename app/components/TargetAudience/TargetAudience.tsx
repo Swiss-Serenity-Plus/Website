@@ -44,23 +44,23 @@ export default function TargetAudience({
     return (
       <section className={styles.section}>
         <Container>
-          <div className={styles.inner}>
+          <div className={`${styles.inner} ${styles.innerPhoto}`}>
             <div className={styles.left}>
               {eyebrowText && <p className="eyebrow">{eyebrowText}</p>}
               <h2 className={styles.title}>{title}</h2>
               <p className={styles.desc}>{description}</p>
+              <div className={styles.photo}>
+                <Image
+                  src={image}
+                  alt=""
+                  width={1200}
+                  height={800}
+                  className={styles.photoImg}
+                  sizes="(max-width: 1024px) 100vw, 620px"
+                />
+              </div>
             </div>
             {profileList}
-          </div>
-          <div className={styles.photoRow}>
-            <Image
-              src={image}
-              alt=""
-              width={1200}
-              height={800}
-              style={{ width: "100%", height: "auto", display: "block", borderRadius: "16px" }}
-              sizes="(max-width: 680px) 100vw, 680px"
-            />
           </div>
         </Container>
       </section>

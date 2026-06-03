@@ -11,13 +11,22 @@
 
 @media (min-width: 1024px) {
   .inner { grid-template-columns: 1fr 1fr; gap: var(--sp-12); align-items: center; }
+  /* Variante avec photo : la colonne gauche est plus haute, on aligne en haut. */
+  .innerPhoto { align-items: start; }
 }
 
-.photoRow {
-  margin-top: var(--sp-8);
-  max-width: 680px;
-  margin-left: auto;
-  margin-right: auto;
+/* Photo intégrée dans la colonne gauche, sous le texte. */
+.photo {
+  margin-top: var(--sp-2);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  border: 1px solid var(--c-border);
+}
+
+.photoImg {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
 .left {
