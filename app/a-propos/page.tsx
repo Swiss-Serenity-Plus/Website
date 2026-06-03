@@ -71,8 +71,8 @@ export default function AProposPage() {
       <main>
         <PageHero
           eyebrow="À propos"
-          title="Mireille Dayer, votre bras droit stratégique"
-          subtitle="Fondatrice de Swiss Serenity Plus®, j'accompagne dirigeants et particuliers en Suisse romande avec rigueur, discrétion et engagement."
+          title={<>Mireille Dayer<br />Fondatrice de Swiss Serenity Plus®</>}
+          subtitle="J'accompagne dirigeants et particuliers en Suisse romande avec rigueur, discrétion et engagement."
           breadcrumbs={[
             { label: "Accueil", href: "/" },
             { label: "À propos" },

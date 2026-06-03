@@ -1,4 +1,5 @@
 // PageHero — breadcrumb + eyebrow + H1 + sous-titre. Fond beige, utilisé sur toutes les pages intérieures.
+import type { ReactNode } from "react";
 import Container from "../Container/Container";
 import Breadcrumb from "../Breadcrumb/Breadcrumb";
 import styles from "./PageHero.module.css";
@@ -10,7 +11,7 @@ interface BreadcrumbItem {
 
 interface PageHeroProps {
   eyebrow?: string;
-  title: string;
+  title: ReactNode;
   subtitle?: string;
   breadcrumbs: BreadcrumbItem[];
 }
