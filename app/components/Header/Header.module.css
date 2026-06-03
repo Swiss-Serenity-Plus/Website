@@ -99,6 +99,28 @@
 }
 
 @media (max-width: 767px) {
+  /* Voile givré derrière logo + burger quand le header est transparent
+     (au-dessus du hero). Le backdrop-filter reprend les couleurs réelles de
+     la photo (pas de blanc) ; léger voile bleu nuit pour le contraste ; masque
+     dégradé en bas pour fondre dans le décor sans ligne de démarcation. */
+  .header:not(.scrolled)::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    backdrop-filter: blur(8px) saturate(1.05);
+    -webkit-backdrop-filter: blur(8px) saturate(1.05);
+    background: linear-gradient(
+      to bottom,
+      rgba(6, 36, 69, 0.14) 0%,
+      rgba(6, 36, 69, 0.06) 55%,
+      rgba(6, 36, 69, 0) 100%
+    );
+    -webkit-mask-image: linear-gradient(to bottom, #000 50%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 50%, transparent 100%);
+  }
+
   .burger { display: flex; }
 
   /* Recadrage resserré sur mobile : box au plus près de la largeur du

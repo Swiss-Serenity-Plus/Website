@@ -342,6 +342,10 @@ Bouton « Voir mes retours envoyés » → vue grille des tickets Notion (refres
 
 ## 13. RÈGLES DE TRAVAIL
 
+> ### ⛔ RÈGLE ABSOLUE — PUSH UNIQUEMENT SUR LA « MAIN » DE PRODUCTION
+> **Tous les push se font désormais sur la branche de production (« main ») `claude/setup-swiss-serenity-plus-Fm7s6` — celle connectée à Vercel. Il ne faut plus jamais pusher sur une branche de preview (`claude/<autre>`).**
+> Cette règle prime sur toute autre indication de branche dans ce fichier ou ailleurs.
+
 1. **Lire ce fichier avant tout** — chaque session commence ici
 2. **CSS Modules uniquement** — jamais de style inline sauf valeurs dynamiques, jamais de Tailwind
 3. **Icônes Lucide** — jamais de caractères Unicode pour les flèches ou icônes
@@ -349,7 +353,7 @@ Bouton « Voir mes retours envoyés » → vue grille des tickets Notion (refres
    - Mettre à jour le statut à `Traité` via `notion-update-page`
    - **Ajouter un commentaire** via `notion-create-comment` sur la page du ticket pour décrire précisément ce qui a été fait (fichiers modifiés, approche technique, commit hash)
 5. **Commits** — messages clairs en français, 1 commit par groupe de changements cohérent
-6. **Branche** — toujours `claude/setup-swiss-serenity-plus-Fm7s6`
+6. **Branche** — ⛔ **toujours pusher sur la « main » de production `claude/setup-swiss-serenity-plus-Fm7s6`** (règle absolue, voir ci-dessus). Plus aucun push de preview.
 7. **Questions** — si un ticket est ambigu, poser la question avant d'implémenter
 8. **Next.js 16** — lire les docs dans `node_modules/next/dist/docs/` si incertain d'une API
 9. **Pas de Tailwind, pas de `any` TypeScript, pas de commentaires évidents**
@@ -364,7 +368,7 @@ Bouton « Voir mes retours envoyés » → vue grille des tickets Notion (refres
 | Client | Mireille Dayer — mireille.dayer@swiss-serenity-plus.ch |
 | Chef de projet | Théo Gouman — theo@gouman.fr |
 | Repo GitHub | theogouman/random-project |
-| Branche de dev | `claude/setup-swiss-serenity-plus-Fm7s6` |
+| Branche de push | ⛔ « main » de production `claude/setup-swiss-serenity-plus-Fm7s6` uniquement (règle absolue — plus de preview) |
 | Vercel | Projet connecté au repo, déploiement auto sur push |
 | Notion tickets | Base `27665f55d9954a33aa2ac35feab7909f` — https://www.notion.so/gouman/27665f55d9954a33aa2ac35feab7909f |
 | Notion articles de blog | Base `ca0b4df233c54095917cb3ea38bc59a0` |

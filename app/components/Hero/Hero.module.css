@@ -256,3 +256,13 @@
   gap: var(--sp-3);
   margin-top: var(--sp-2);
 }
+
+/* Mobile : le CTA principal en taille lg est trop imposant dans le hero.
+   La double classe (.ctas .heroCtaPrimary) surclasse le padding/font de
+   Button.module .lg sans dépendre de l'ordre d'import. */
+@media (max-width: 767px) {
+  .ctas .heroCtaPrimary {
+    padding: 12px 26px;
+    font-size: 15px;
+  }
+}
