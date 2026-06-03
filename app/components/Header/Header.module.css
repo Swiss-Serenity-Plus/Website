@@ -101,6 +101,12 @@
 @media (max-width: 767px) {
   .burger { display: flex; }
 
+  /* Recadrage resserré sur mobile : box au plus près de la largeur du
+     wordmark (centré) => gap latéral minimal, donc visuellement aligné à
+     gauche, et tient dans l'écran. */
+  .logoCrop { height: 42px; width: 190px; }
+  .logoImg { height: 132px; }
+
   .nav {
     position: fixed;
     inset: 72px 0 0 0;
