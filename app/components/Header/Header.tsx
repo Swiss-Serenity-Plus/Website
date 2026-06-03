@@ -10,8 +10,8 @@ import styles from "./Header.module.css";
 
 const navItems = [
   { label: "Accueil", href: "/" },
-  { label: "Domaines d'intervention", href: "/#services" },
-  { label: "Swiss Serenity Plus", href: "/a-propos" },
+  { label: "Expertise", href: "/#services" },
+  { label: "À propos", href: "/a-propos" },
 ];
 
 export default function Header() {
