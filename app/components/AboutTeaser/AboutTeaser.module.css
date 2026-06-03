@@ -6,9 +6,17 @@
 
 .inner {
   display: flex;
-  flex-direction: row;
-  gap: var(--sp-3);
-  align-items: center;
+  flex-direction: column;
+  gap: var(--sp-6);
+  align-items: stretch;
+}
+
+@media (min-width: 768px) {
+  .inner {
+    flex-direction: row;
+    align-items: center;
+    gap: var(--sp-6);
+  }
 }
 
 @media (min-width: 1024px) {
@@ -20,12 +28,24 @@
 /* Image wrap : toujours en colonne, halo flou + texture subtile */
 .imageWrap {
   position: relative;
-  flex: 0 0 40%;
+  width: 100%;
+  max-width: 340px;
+  margin-inline: auto;
   min-width: 0;
   display: flex;
   align-items: flex-end;
   justify-content: center;
   isolation: isolate;
+}
+
+/* À partir de la tablette : colonne image à largeur fixe, côte à côte. */
+@media (min-width: 768px) {
+  .imageWrap {
+    flex: 0 0 42%;
+    width: auto;
+    max-width: none;
+    margin-inline: 0;
+  }
 }
 
 /* Halo flou taupe/bleu derrière la photo pour ancrer le buste dans le paysage */
