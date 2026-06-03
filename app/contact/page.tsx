@@ -44,11 +44,6 @@ export default function ContactPage() {
             { label: "Contact" },
           ]}
         />
-        <Quote>
-          Chaque priorité étant unique, nous prenons le temps d&rsquo;échanger
-          ensemble autour de votre projet, de vos priorités et des solutions
-          les plus adaptées à votre situation.
-        </Quote>
         <section className={styles.section}>
           <Container>
             <div className={styles.grid}>
@@ -92,6 +87,11 @@ export default function ContactPage() {
             </div>
           </Container>
         </section>
+        <Quote>
+          Chaque priorité étant unique, nous prenons le temps d&rsquo;échanger
+          ensemble autour de votre projet, de vos priorités et des solutions
+          les plus adaptées à votre situation.
+        </Quote>
       </main>
       <Footer />
     </>
