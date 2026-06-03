@@ -37,7 +37,7 @@
   top: 0;
   left: 0;
   right: 0;
-  height: 44vh;
+  height: 40vh;
   overflow: hidden;
   z-index: 2;
 }
@@ -47,7 +47,8 @@
   object-position: 62% 30%;
 }
 
-/* Fondu principal — mobile : du bas vers le haut, la photo se dissout dans le crème */
+/* Fondu principal — mobile : du bas vers le haut, la photo se dissout dans le
+   crème. Bords gauche et droit pleins (full bleed, aucun fondu latéral). */
 .imageWrap::before {
   content: '';
   position: absolute;
@@ -57,25 +58,9 @@
   background: linear-gradient(
     to top,
     var(--c-bg) 0%,
-    rgba(247, 245, 241, 0.85) 14%,
-    rgba(247, 245, 241, 0.35) 34%,
-    transparent 58%
-  );
-}
-
-/* Fondu secondaire — mobile : adoucit les bords gauche et droit du bandeau */
-.imageWrap::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  z-index: 3;
-  pointer-events: none;
-  background: linear-gradient(
-    to right,
-    var(--c-bg) 0%,
-    transparent 14%,
-    transparent 86%,
-    var(--c-bg) 100%
+    rgba(247, 245, 241, 0.92) 18%,
+    rgba(247, 245, 241, 0.4) 40%,
+    transparent 62%
   );
 }
 
@@ -124,20 +109,26 @@
     max-width: 1000px;
   }
 
-  /* Fondu gauche : la photo s'estompe dans le fond crème — courbe douce */
+  /* Fondu gauche : la photo s'estompe dans le crème — resserré pour dévoiler
+     davantage l'image sur son côté gauche */
   .imageWrap::before {
     background: linear-gradient(
       to right,
       var(--c-bg) 0%,
-      rgba(247, 245, 241, 0.96) 14%,
-      rgba(247, 245, 241, 0.72) 32%,
-      rgba(247, 245, 241, 0.28) 52%,
-      transparent 72%
+      rgba(247, 245, 241, 0.9) 7%,
+      rgba(247, 245, 241, 0.5) 20%,
+      rgba(247, 245, 241, 0.15) 34%,
+      transparent 48%
     );
   }
 
   /* Fondu bas : transition progressive vers la section suivante */
   .imageWrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
     background: linear-gradient(
       to top,
       var(--c-bg) 0%,
@@ -147,19 +138,19 @@
     );
   }
 
-  /* Givrage de la couture verticale gauche */
+  /* Givrage de la couture verticale gauche — réduit pour moins masquer la photo */
   .edgeBlur {
     -webkit-mask-image: linear-gradient(
       to right,
       #000 0%,
-      rgba(0, 0, 0, 0.6) 22%,
-      transparent 48%
+      rgba(0, 0, 0, 0.45) 13%,
+      transparent 32%
     );
     mask-image: linear-gradient(
       to right,
       #000 0%,
-      rgba(0, 0, 0, 0.6) 22%,
-      transparent 48%
+      rgba(0, 0, 0, 0.45) 13%,
+      transparent 32%
     );
   }
 }
@@ -180,8 +171,10 @@
   margin-inline: auto;
   width: 100%;
   padding-inline: var(--sp-3);
-  padding-top: calc(44vh + var(--sp-4));
-  padding-bottom: var(--sp-8);
+  /* remonte le texte juste sous la frange basse (déjà fondue en crème) de la
+     photo pour resserrer l'espace image → eyebrow */
+  padding-top: 33vh;
+  padding-bottom: var(--sp-6);
   display: flex;
   flex-direction: column;
   gap: var(--sp-4);
@@ -204,7 +197,9 @@
 .content {
   display: flex;
   flex-direction: column;
-  gap: var(--sp-4);
+  /* mobile : eyebrow et titre collés (8px) ; respiration ajoutée ensuite via
+     les marges du sous-titre / des CTA */
+  gap: var(--sp-1);
 }
 
 @media (min-width: 1024px) {
@@ -247,10 +242,11 @@
   color: var(--c-text-muted);
   line-height: 1.7;
   max-width: 520px;
+  margin-top: var(--sp-1);
 }
 
 @media (min-width: 1024px) {
-  .subtitle { font-size: 18px; }
+  .subtitle { font-size: 18px; margin-top: 0; }
 }
 
 .ctas {
