@@ -80,7 +80,7 @@ export default function AccompagnementAdministratifPage() {
         eyebrow: "Nos valeurs",
         title: "Rigueur • Discrétion • Bienveillance",
         columns: [
-          { title: "Bienveillance", text: "Une écoute attentive et un accompagnement à votre rythme, sans jugement et avec une patience sincère." },
+          { title: "Bienveillance", text: "Une écoute attentive et un accompagnement à votre rythme, sans jugement et avec une patience sincère.", image: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/image-removebg-preview.png" },
           { title: "Discrétion", text: "Vos informations personnelles sont traitées avec une confidentialité absolue et un respect total." },
           { title: "Rigueur", text: "Chaque démarche est conduite avec soin pour que rien ne soit oublié et que tout soit fait dans les règles." },
         ],
