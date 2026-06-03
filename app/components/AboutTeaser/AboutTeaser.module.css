@@ -174,11 +174,18 @@
 
   .portraitWrap::before { inset: -16% -12%; }
 
-  /* Incrustation progressive : le bord gauche de l'image se fond dans le cadre */
+  /* Incrustation progressive : les bords gauche ET bas de l'image se fondent
+     dans le cadre (intersection des deux dégradés) — aucun bord brut. */
   .portrait {
-    object-position: center 10%;
+    object-position: center 8%;
     border-radius: 20px;
-    -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 14%, #000 32%);
-    mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 14%, #000 32%);
+    -webkit-mask-image:
+      linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 14%, #000 34%),
+      linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.6) 18%, #000 42%);
+    -webkit-mask-composite: source-in;
+    mask-image:
+      linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 14%, #000 34%),
+      linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.6) 18%, #000 42%);
+    mask-composite: intersect;
   }
 }
