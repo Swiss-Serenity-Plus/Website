@@ -2,6 +2,7 @@
   background: var(--c-text);
   color: rgba(255, 255, 255, 0.75);
   padding-block: var(--sp-12) var(--sp-6);
+  overflow-x: hidden;
 }
 
 .inner {
@@ -31,6 +32,11 @@
   width: auto;
   height: 132px;
   object-fit: contain;
+  /* Le PNG a une marge transparente symétrique (~18% de chaque côté) :
+     on décale le visuel vers la gauche pour aligner le tracé du logo
+     sur le bord de la colonne de texte. En % pour rester juste à toutes
+     les tailles (le décalage suit la largeur de l'image). */
+  transform: translateX(-18%);
 }
 
 @media (max-width: 767px) {
