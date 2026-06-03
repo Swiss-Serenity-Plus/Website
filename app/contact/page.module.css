@@ -17,7 +17,9 @@
   background: var(--c-surface);
   border-radius: var(--radius-card);
   border: 1px solid var(--c-border);
-  padding: var(--sp-6);
+  /* Pas de padding : le formulaire Fillout remplit l'encadré (full fit).
+     overflow: hidden pour que l'embed respecte les coins arrondis. */
+  overflow: hidden;
 }
 
 .info {
