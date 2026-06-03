@@ -1,7 +1,8 @@
 import { Metadata } from "next";
-import { Flower2, BadgeCheck, Users } from "lucide-react";
+import { BadgeCheck, Users } from "lucide-react";
 import ServicePageTemplate from "../../components/ServicePageTemplate/ServicePageTemplate";
 import OfferModalities from "../../components/OfferModalities/OfferModalities";
+import LotusIcon from "../../components/icons/LotusIcon";
 import { SITE_URL, OG_IMAGE, OG_DEFAULTS } from "../../lib/seo";
 
 const PAGE_URL = `${SITE_URL}/particuliers/accompagnement-administratif`;
@@ -100,7 +101,7 @@ export default function AccompagnementAdministratifPage() {
         title: "Ce que vous y gagnez",
         description: "Un accompagnement fiable et structuré pour alléger vos préoccupations administratives et retrouver davantage de tranquillité d'esprit.",
         columns: [
-          { icon: Flower2, title: "Un quotidien plus serein", text: "Vous déléguez ce qui vous pèse à quelqu'un de fiable. Vous vous concentrez sur l'essentiel." },
+          { icon: LotusIcon, title: "Un quotidien plus serein", text: "Vous déléguez ce qui vous pèse à quelqu'un de fiable. Vous vous concentrez sur l'essentiel." },
           { icon: BadgeCheck, title: "Une charge mentale allégée", text: "Un suivi rigoureux des échéances et des procédures pour éviter oublis et complications." },
           { icon: Users, title: "Du temps pour vos priorités", text: "Un soutien discret et personnalisé pour vous permettre de vous concentrer sur vos priorités et vos loisirs en toute sérénité." },
         ],
