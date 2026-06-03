@@ -48,6 +48,12 @@
   color: var(--c-text-muted);
 }
 
+/* Empêche l'icône (SVG) de se comprimer quand le texte voisin est long
+   et passe sur plusieurs lignes (cas de la localisation). */
+.infoItem svg {
+  flex-shrink: 0;
+}
+
 .infoItem a {
   color: var(--c-text-muted);
   text-decoration: none;
