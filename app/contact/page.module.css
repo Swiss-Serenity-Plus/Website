@@ -36,11 +36,11 @@
 .infoContent {
   display: flex;
   flex-direction: column;
-  gap: var(--sp-4);
   padding: var(--sp-6);
 }
 
-.infoTitle { font-size: 22px; }
+/* Espacement resserré entre l'eyebrow « Coordonnées » et le titre. */
+.infoTitle { font-size: 22px; margin-top: var(--sp-1); }
 
 .infoList {
   display: flex;
