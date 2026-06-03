@@ -86,9 +86,16 @@
 }
 
 .accentLine {
-  width: 44px;
+  width: 40px;
   height: 1px;
-  background: linear-gradient(to right, rgba(151, 123, 87, 0.65) 0%, rgba(151, 123, 87, 0.1) 100%);
+}
+
+.accent .accentLine:first-child {
+  background: linear-gradient(to right, rgba(151, 123, 87, 0.1) 0%, rgba(151, 123, 87, 0.65) 100%);
+}
+
+.accent .accentLine:last-child {
+  background: linear-gradient(to left, rgba(151, 123, 87, 0.1) 0%, rgba(151, 123, 87, 0.65) 100%);
 }
 
 .accentDiamond {
@@ -162,19 +169,19 @@
   left: 0;
   right: 0;
   bottom: 0;
-  height: 52%;
+  height: 30%;
   z-index: 2;
   border-radius: 0 0 18px 18px;
   background: linear-gradient(
     to top,
-    var(--c-bg) 16%,
-    rgba(247, 245, 241, 0.55) 55%,
+    var(--c-bg) 10%,
+    rgba(247, 245, 241, 0.45) 45%,
     transparent 100%
   );
-  backdrop-filter: blur(3px);
-  -webkit-backdrop-filter: blur(3px);
-  -webkit-mask-image: linear-gradient(to top, #000 45%, transparent 100%);
-  mask-image: linear-gradient(to top, #000 45%, transparent 100%);
+  backdrop-filter: blur(2.5px);
+  -webkit-backdrop-filter: blur(2.5px);
+  -webkit-mask-image: linear-gradient(to top, #000 30%, transparent 100%);
+  mask-image: linear-gradient(to top, #000 30%, transparent 100%);
   pointer-events: none;
 }
 
@@ -205,9 +212,12 @@
 
   .portraitWrap::before { inset: -16% -12%; }
 
+  /* Incrustation progressive : le bord gauche de l'image se fond dans le cadre */
   .portrait {
     object-position: center 10%;
     border-radius: 20px;
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 14%, #000 32%);
+    mask-image: linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 14%, #000 32%);
   }
 }
 

@@ -89,6 +89,7 @@ export default function AProposPage() {
                   <svg className={styles.accentDiamond} viewBox="0 0 24 24" fill="currentColor">
                     <path d="M12 1.5 13.4 10.6 22.5 12 13.4 13.4 12 22.5 10.6 13.4 1.5 12 10.6 10.6Z" />
                   </svg>
+                  <span className={styles.accentLine} />
                 </span>
                 <h1 className={styles.title} id="page-title">
                   <span className={styles.name}>Mireille Dayer</span>
