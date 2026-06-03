@@ -17,20 +17,30 @@
   background: var(--c-surface);
   border-radius: var(--radius-card);
   border: 1px solid var(--c-border);
-  padding: var(--sp-6);
+  /* Pas de padding : le formulaire Fillout remplit l'encadré (full fit).
+     overflow: hidden pour que l'embed respecte les coins arrondis. */
+  overflow: hidden;
 }
 
 .info {
   display: flex;
   flex-direction: column;
-  gap: var(--sp-4);
-  padding: var(--sp-6);
   background: var(--c-surface);
   border-radius: var(--radius-card);
   border: 1px solid var(--c-border);
+  /* Clippe l'image full-bleed aux coins arrondis de la carte. */
+  overflow: hidden;
 }
 
-.infoTitle { font-size: 22px; }
+/* Zone haute : le texte garde son padding. */
+.infoContent {
+  display: flex;
+  flex-direction: column;
+  padding: var(--sp-6);
+}
+
+/* Espacement resserré entre l'eyebrow « Coordonnées » et le titre. */
+.infoTitle { font-size: 22px; margin-top: var(--sp-1); }
 
 .infoList {
   display: flex;
@@ -48,6 +58,12 @@
   color: var(--c-text-muted);
 }
 
+/* Empêche l'icône (SVG) de se comprimer quand le texte voisin est long
+   et passe sur plusieurs lignes (cas de la localisation). */
+.infoItem svg {
+  flex-shrink: 0;
+}
+
 .infoItem a {
   color: var(--c-text-muted);
   text-decoration: none;
@@ -56,11 +72,27 @@
 
 .infoItem a:hover { color: var(--c-text); }
 
+/* Zone basse : image full-bleed, sans marge, collée aux bords de la carte. */
 .mapWrap {
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid var(--c-border);
-  margin-top: var(--sp-2);
+  position: relative;
+  aspect-ratio: 16 / 10;
+  margin-top: auto;
+}
+
+/* Fondu flou en haut de l'image : transition incrustée depuis le texte.
+   Le voile reprend la couleur de la carte et le flou s'estompe vers le bas
+   via un masque dégradé. */
+.mapWrap::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(to bottom, var(--c-surface) 0%, rgba(255, 255, 255, 0) 100%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 10%, transparent 42%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 10%, transparent 42%);
 }
 
 .mapActions {

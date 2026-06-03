@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import Image from "next/image";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 import PageHero from "../components/PageHero/PageHero";
@@ -50,38 +51,36 @@ export default function ContactPage() {
                 <FilloutForm />
               </div>
               <aside className={styles.info}>
-                <p className="eyebrow">Coordonnées</p>
-                <h2 className={styles.infoTitle}>Informations de contact</h2>
-                <ul className={styles.infoList}>
-                  <li className={styles.infoItem}>
-                    <MapPin size={22} color="var(--c-accent-secondary)" strokeWidth={1.5} aria-hidden="true" />
-                    <span>Basée à Sion, Swiss Serenity Plus® accompagne ses clients dans toute la Suisse romande.</span>
-                  </li>
-                  <li className={styles.infoItem}>
-                    <Phone size={22} color="var(--c-accent-secondary)" strokeWidth={1.5} aria-hidden="true" />
-                    <a href="tel:+41762198513">+41 76 219 85 13</a>
-                  </li>
-                  <li className={styles.infoItem}>
-                    <Mail size={22} color="var(--c-accent-secondary)" strokeWidth={1.5} aria-hidden="true" />
-                    <a href="mailto:mireille.dayer@swiss-serenity-plus.ch">
-                      mireille.dayer@swiss-serenity-plus.ch
-                    </a>
-                  </li>
-                </ul>
-
-                <div className={styles.mapWrap}>
-                  <iframe
-                    title="Localisation Swiss Serenity Plus — Sion, Valais"
-                    src="https://maps.google.com/maps?q=Chemin+de+Clavoz+18,+1950+Sion,+Suisse&output=embed"
-                    width="100%"
-                    height="220"
-                    style={{ border: 0, borderRadius: 12, display: "block" }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                  />
+                <div className={styles.infoContent}>
+                  <p className="eyebrow">Coordonnées</p>
+                  <h2 className={styles.infoTitle}>Informations de contact</h2>
+                  <ul className={styles.infoList}>
+                    <li className={styles.infoItem}>
+                      <MapPin size={22} color="var(--c-accent-secondary)" strokeWidth={1.5} aria-hidden="true" />
+                      <span>Basée à Sion, Swiss Serenity Plus® accompagne ses clients dans toute la Suisse romande.</span>
+                    </li>
+                    <li className={styles.infoItem}>
+                      <Phone size={22} color="var(--c-accent-secondary)" strokeWidth={1.5} aria-hidden="true" />
+                      <a href="tel:+41762198513">+41 76 219 85 13</a>
+                    </li>
+                    <li className={styles.infoItem}>
+                      <Mail size={22} color="var(--c-accent-secondary)" strokeWidth={1.5} aria-hidden="true" />
+                      <a href="mailto:mireille.dayer@swiss-serenity-plus.ch">
+                        mireille.dayer@swiss-serenity-plus.ch
+                      </a>
+                    </li>
+                  </ul>
                 </div>
 
+                <div className={styles.mapWrap}>
+                  <Image
+                    src="https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/blog-covers/1779465979125-aaa7ab22-d945-4e6d-b782-1d6185106efe.png"
+                    alt="Swiss Serenity Plus, basée à Sion en Valais"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 440px"
+                    style={{ objectFit: "cover" }}
+                  />
+                </div>
               </aside>
             </div>
           </Container>
