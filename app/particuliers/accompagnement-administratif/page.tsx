@@ -78,7 +78,7 @@ export default function AccompagnementAdministratifPage() {
       }}
       values={{
         eyebrow: "Nos valeurs",
-        title: "Rigueur, discrétion et bienveillance dans chaque accompagnement",
+        title: "Rigueur • Discrétion • Bienveillance",
         columns: [
           { title: "Bienveillance", text: "Une écoute attentive et un accompagnement à votre rythme, sans jugement et avec une patience sincère." },
           { title: "Discrétion", text: "Vos informations personnelles sont traitées avec une confidentialité absolue et un respect total." },
