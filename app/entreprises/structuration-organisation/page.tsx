@@ -80,7 +80,7 @@ export default function StructurationPage() {
         columns: [
           { title: "Rigueur", text: "Chaque demande, chaque suivi et chaque échange est traité avec méthode, attention et précision." },
           { title: "Clarté", text: "Des outils simples, des échanges facilités et des méthodes compréhensibles pour gagner en efficacité sans complexifier votre fonctionnement." },
-          { title: "Fiabilité", text: "Une organisation qui fonctionne même en votre absence, avec des suivis clairs, fluides et continus." },
+          { title: "Fiabilité", text: "Une organisation qui fonctionne même en votre absence, avec des suivis clairs, fluides et continus.", image: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20Swiss%20Serenity%20Plus.png" },
         ],
       }}
       process={{

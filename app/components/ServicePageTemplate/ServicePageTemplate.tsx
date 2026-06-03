@@ -1,4 +1,5 @@
 // ServicePageTemplate — template réutilisé pour les 5 pages services.
+import type { ReactNode } from "react";
 import type { LucideIcon } from "lucide-react";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
@@ -48,6 +49,7 @@ interface ServicePageTemplateProps {
   };
   ctaTitle?: string;
   ctaSubtitle?: string;
+  afterProcess?: ReactNode;
 }
 
 const SITE_URL = "https://swiss-serenity-plus.ch";
@@ -66,6 +68,7 @@ export default function ServicePageTemplate({
   results,
   ctaTitle,
   ctaSubtitle,
+  afterProcess,
 }: ServicePageTemplateProps) {
   const breadcrumbSchema = {
     "@context": "https://schema.org",
@@ -120,6 +123,7 @@ export default function ServicePageTemplate({
           background="bg"
           cols={2}
         />
+        {afterProcess}
         <ColumnsBlock
           eyebrow={results.eyebrow ?? "Résultats concrets"}
           title={results.title ?? "Ce que vous gagnez concrètement"}
