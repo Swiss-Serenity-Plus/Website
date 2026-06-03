@@ -37,7 +37,7 @@ export default function Header() {
   }
 
   return (
-    <header className={`${styles.header} ${scrolled ? styles.scrolled : ""}`} role="banner">
+    <header className={`${styles.header} ${scrolled ? styles.scrolled : ""} ${menuOpen ? styles.menuOpen : ""}`} role="banner">
       <div className={styles.inner}>
         <Link
           href="/"

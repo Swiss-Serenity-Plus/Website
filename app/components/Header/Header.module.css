@@ -123,6 +123,18 @@
 
   .burger { display: flex; }
 
+  /* Menu ouvert : header opaque (crème) comme le tiroir de nav, et on désactive
+     le voile givré. Sinon, la bande de 72px au-dessus du tiroir laisse voir le
+     hero + l'artefact de bord du backdrop-filter (barre verticale en haut à
+     droite, sur la ligne du burger). */
+  .header.menuOpen {
+    background: var(--c-bg);
+  }
+
+  .header.menuOpen::before {
+    display: none;
+  }
+
   /* Recadrage resserré sur mobile : box au plus près de la largeur du
      wordmark (centré) => gap latéral minimal, donc visuellement aligné à
      gauche, et tient dans l'écran. */
