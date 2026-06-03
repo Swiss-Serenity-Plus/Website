@@ -1,9 +1,10 @@
 import { Metadata } from "next";
 import Image from "next/image";
-import { TrendingUp, HandHeart, Sparkle } from "lucide-react";
+import { TrendingUp, HandHeart } from "lucide-react";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 import Breadcrumb from "../components/Breadcrumb/Breadcrumb";
+import Divider from "../components/Divider/Divider";
 import ContactCTA from "../components/ContactCTA/ContactCTA";
 import Container from "../components/Container/Container";
 import styles from "./page.module.css";
@@ -81,8 +82,8 @@ export default function AProposPage() {
               ]}
             />
 
-            <div className={styles.heroGrid}>
-              <div className={styles.titleCard}>
+            <div className={styles.heroCard}>
+              <div className={styles.heroText}>
                 <h1 className={styles.title} id="page-title">
                   <span className={styles.name}>Mireille Dayer</span>
                   <span className={styles.tagline}>
@@ -95,8 +96,8 @@ export default function AProposPage() {
                 <Image
                   src={PORTRAIT_SRC}
                   alt="Mireille Dayer, fondatrice de Swiss Serenity Plus"
-                  width={560}
-                  height={760}
+                  fill
+                  sizes="(max-width: 899px) 100vw, 42vw"
                   className={styles.portrait}
                   priority
                 />
@@ -108,7 +109,13 @@ export default function AProposPage() {
                 <span className={styles.iconCircle} aria-hidden="true">
                   <TrendingUp size={34} strokeWidth={1.5} />
                 </span>
-                <span className={styles.cardDivider} aria-hidden="true" />
+                <span className={styles.vDivider} aria-hidden="true">
+                  <span className={styles.vLine} />
+                  <svg className={styles.diamond} viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 1.5 13.4 10.6 22.5 12 13.4 13.4 12 22.5 10.6 13.4 1.5 12 10.6 10.6Z" />
+                  </svg>
+                  <span className={styles.vLine} />
+                </span>
                 <p className={styles.cardText}>
                   J&rsquo;ai fondé Swiss Serenity Plus<sup>®</sup> afin d&rsquo;offrir aux{" "}
                   <strong className={styles.highlight}>Professionnels</strong> un soutien opérationnel et efficace pour renforcer leur développement commercial et fluidifier leur organisation avec une approche fondée sur la rigueur et le sens du résultat.
@@ -119,7 +126,13 @@ export default function AProposPage() {
                 <span className={styles.iconCircle} aria-hidden="true">
                   <HandHeart size={34} strokeWidth={1.5} />
                 </span>
-                <span className={styles.cardDivider} aria-hidden="true" />
+                <span className={styles.vDivider} aria-hidden="true">
+                  <span className={styles.vLine} />
+                  <svg className={styles.diamond} viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 1.5 13.4 10.6 22.5 12 13.4 13.4 12 22.5 10.6 13.4 1.5 12 10.6 10.6Z" />
+                  </svg>
+                  <span className={styles.vLine} />
+                </span>
                 <p className={styles.cardText}>
                   J&rsquo;ai également souhaité que Swiss Serenity Plus<sup>®</sup> accompagne les{" "}
                   <strong className={styles.highlight}>Particuliers</strong> dans leurs démarches administratives ainsi que dans celles liées aux étapes importantes de leur parcours afin de leur apporter davantage de sérénité et une meilleure qualité de vie.
@@ -127,10 +140,8 @@ export default function AProposPage() {
               </article>
             </div>
 
-            <div className={styles.ornament} aria-hidden="true">
-              <span className={styles.ornamentLine} />
-              <Sparkle size={16} strokeWidth={1.5} fill="currentColor" />
-              <span className={styles.ornamentLine} />
+            <div className={styles.bottomDivider}>
+              <Divider />
             </div>
           </Container>
         </section>

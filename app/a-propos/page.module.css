@@ -4,34 +4,36 @@
   padding-bottom: var(--sp-12);
 }
 
-/* ---- Bloc titre + portrait ------------------------------------------------ */
-.heroGrid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--sp-4);
-  margin-top: var(--sp-4);
-  align-items: center;
-}
-
-@media (min-width: 900px) {
-  .heroGrid {
-    grid-template-columns: 1.05fr 0.95fr;
-    gap: var(--sp-6);
-  }
-}
-
-.titleCard {
+/* ---- Bloc unifié : titre + portrait (un seul composant) ------------------- */
+.heroCard {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: var(--sp-6);
+  overflow: hidden;
+  margin-top: var(--sp-4);
   border: 1px solid rgba(151, 123, 87, 0.35);
   border-radius: 24px;
   background: linear-gradient(165deg, #fbfaf6 0%, var(--c-bg) 100%);
 }
 
 @media (min-width: 900px) {
-  .titleCard { padding: var(--sp-8); }
+  .heroCard {
+    flex-direction: row;
+    align-items: stretch;
+  }
+}
+
+.heroText {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--sp-6);
+}
+
+@media (min-width: 900px) {
+  .heroText {
+    flex: 1 1 58%;
+    padding: var(--sp-8);
+  }
 }
 
 .title {
@@ -43,7 +45,7 @@
 
 .name {
   font-family: var(--font-display);
-  font-size: 38px;
+  font-size: 34px;
   font-weight: 600;
   line-height: 1.04;
   letter-spacing: -0.01em;
@@ -51,60 +53,70 @@
 }
 
 @media (min-width: 768px) {
-  .name { font-size: 50px; }
+  .name { font-size: 46px; }
 }
 
 @media (min-width: 1280px) {
-  .name { font-size: 56px; }
+  .name { font-size: 54px; }
 }
 
 .tagline {
   font-family: var(--font-display);
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 400;
   line-height: 1.25;
   color: var(--c-text);
 }
 
 @media (min-width: 768px) {
-  .tagline { font-size: 28px; }
+  .tagline { font-size: 27px; }
 }
 
+/* Portrait — intégré au bloc, secondaire et contenu sur mobile */
 .portraitWrap {
+  position: relative;
   width: 100%;
-  display: flex;
-  justify-content: center;
+  height: 240px;
+}
+
+@media (min-width: 600px) {
+  .portraitWrap { height: 300px; }
 }
 
 @media (min-width: 900px) {
-  .portraitWrap { justify-content: flex-end; }
+  .portraitWrap {
+    flex: 0 0 40%;
+    height: auto;
+    min-height: 420px;
+  }
 }
 
 .portrait {
-  width: 100%;
-  max-width: 520px;
-  height: auto;
-  max-height: 600px;
   object-fit: cover;
-  object-position: center top;
-  border-radius: 24px;
-  box-shadow: 0 18px 48px rgba(6, 36, 69, 0.14);
-  display: block;
+  object-position: center 18%;
 }
 
-/* ---- Cartes d'accompagnement ---------------------------------------------- */
+/* ---- Cartes d'accompagnement (2 colonnes desktop) ------------------------- */
 .cards {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr;
   gap: var(--sp-4);
-  margin-top: var(--sp-8);
+  margin-top: var(--sp-6);
+}
+
+@media (min-width: 900px) {
+  .cards {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--sp-6);
+  }
 }
 
 .infoCard {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: var(--sp-3);
-  padding: var(--sp-4);
+  text-align: center;
+  padding: var(--sp-6);
   background: var(--c-surface);
   border: 1px solid var(--c-border);
   border-radius: 24px;
@@ -112,16 +124,13 @@
 }
 
 @media (min-width: 768px) {
-  .infoCard {
-    gap: var(--sp-6);
-    padding: var(--sp-6) var(--sp-8);
-  }
+  .infoCard { padding: var(--sp-8) var(--sp-6); }
 }
 
 .iconCircle {
   flex-shrink: 0;
-  width: 72px;
-  height: 72px;
+  width: 84px;
+  height: 84px;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -131,21 +140,34 @@
   background: linear-gradient(165deg, #fbfaf6 0%, #f3eee4 100%);
 }
 
-@media (min-width: 768px) {
-  .iconCircle { width: 92px; height: 92px; }
+/* Séparateur vertical doré avec losange central (même design que le footer) */
+.vDivider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
+  height: 64px;
+  margin-block: var(--sp-4);
+  color: var(--c-accent-secondary);
 }
 
-.cardDivider {
-  flex-shrink: 0;
-  align-self: stretch;
+.vLine {
   width: 1px;
-  min-height: 56px;
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    rgba(151, 123, 87, 0.5) 50%,
-    transparent 100%
-  );
+  flex: 1;
+}
+
+.vDivider .vLine:first-child {
+  background: linear-gradient(to bottom, transparent 0%, rgba(151, 123, 87, 0.55) 100%);
+}
+
+.vDivider .vLine:last-child {
+  background: linear-gradient(to top, transparent 0%, rgba(151, 123, 87, 0.55) 100%);
+}
+
+.diamond {
+  flex: none;
+  width: 13px;
+  height: 13px;
 }
 
 .cardText {
@@ -154,10 +176,11 @@
   font-weight: 400;
   line-height: 1.6;
   color: var(--c-text);
+  max-width: 46ch;
 }
 
 @media (min-width: 768px) {
-  .cardText { font-size: 21px; }
+  .cardText { font-size: 20px; }
 }
 
 .cardText sup {
@@ -170,30 +193,7 @@
   font-weight: 600;
 }
 
-/* ---- Ornement de séparation ----------------------------------------------- */
-.ornament {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--sp-3);
+/* ---- Séparation de bas de section ----------------------------------------- */
+.bottomDivider {
   margin-top: var(--sp-12);
-  color: var(--c-accent-secondary);
-}
-
-.ornamentLine {
-  width: 72px;
-  height: 1px;
-  background: linear-gradient(
-    to right,
-    transparent 0%,
-    rgba(151, 123, 87, 0.55) 100%
-  );
-}
-
-.ornamentLine:last-child {
-  background: linear-gradient(
-    to left,
-    transparent 0%,
-    rgba(151, 123, 87, 0.55) 100%
-  );
 }
