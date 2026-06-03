@@ -3,7 +3,8 @@ import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 import PageHero from "../components/PageHero/PageHero";
 import Container from "../components/Container/Container";
-import ContactForm from "../components/ContactForm/ContactForm";
+import FilloutForm from "../components/FilloutForm/FilloutForm";
+import Quote from "../components/Quote/Quote";
 import styles from "./page.module.css";
 import { MapPin, Phone, Mail } from "lucide-react";
 import { SITE_URL, OG_IMAGE, OG_DEFAULTS } from "../lib/seo";
@@ -35,7 +36,6 @@ export default function ContactPage() {
       <Header />
       <main>
         <PageHero
-          eyebrow="Contact"
           title="Comment pouvons-nous vous accompagner ?"
           subtitle="Un premier échange offert, en toute confidentialité et sans engagement, pour échanger autour de votre projet, de vos priorités et des solutions adaptées à votre situation."
           breadcrumbs={[
@@ -47,7 +47,7 @@ export default function ContactPage() {
           <Container>
             <div className={styles.grid}>
               <div className={styles.formWrap}>
-                <ContactForm />
+                <FilloutForm />
               </div>
               <aside className={styles.info}>
                 <p className="eyebrow">Coordonnées</p>
@@ -86,6 +86,11 @@ export default function ContactPage() {
             </div>
           </Container>
         </section>
+        <Quote>
+          Chaque priorité étant unique, nous prenons le temps d&rsquo;échanger
+          ensemble autour de votre projet, de vos priorités et des solutions
+          les plus adaptées à votre situation.
+        </Quote>
       </main>
       <Footer />
     </>

@@ -198,4 +198,6 @@
   font-size: 16px;
   color: var(--c-text-muted);
   line-height: 1.7;
+  /* Équilibre les lignes des descriptions (évite « 10 mots / 2 mots »). */
+  text-wrap: balance;
 }

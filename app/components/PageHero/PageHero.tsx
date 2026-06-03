@@ -9,7 +9,7 @@ interface BreadcrumbItem {
 }
 
 interface PageHeroProps {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   subtitle?: string;
   breadcrumbs: BreadcrumbItem[];
@@ -21,7 +21,7 @@ export default function PageHero({ eyebrow, title, subtitle, breadcrumbs }: Page
       <Container>
         <Breadcrumb items={breadcrumbs} />
         <div className={styles.content}>
-          <p className="eyebrow">{eyebrow}</p>
+          {eyebrow && <p className="eyebrow">{eyebrow}</p>}
           <h1 className={styles.title} id="page-title">{title}</h1>
           {subtitle && <p className={styles.subtitle}>{subtitle}</p>}
         </div>

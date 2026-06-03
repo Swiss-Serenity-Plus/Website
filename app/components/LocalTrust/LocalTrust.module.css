@@ -50,7 +50,6 @@
   font-size: 28px;
   line-height: 1.25;
   max-width: 520px;
-  text-wrap: balance;
 }
 
 @media (min-width: 768px) {

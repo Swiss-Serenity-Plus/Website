@@ -1,4 +1,4 @@
-// Header — sticky, transparent sur hero puis fond beige au scroll. 4 items nav + CTA.
+// Header — sticky, transparent sur hero puis fond beige au scroll. 3 items nav + CTA.
 "use client";
 
 import { useState, useEffect } from "react";
@@ -10,9 +10,8 @@ import styles from "./Header.module.css";
 
 const navItems = [
   { label: "Accueil", href: "/" },
-  { label: "Domaines d'intervention", href: "/#services" },
-  { label: "Swiss Serenity Plus", href: "/a-propos" },
-  { label: "Contact", href: "/contact" },
+  { label: "Expertise", href: "/#services" },
+  { label: "À propos", href: "/a-propos" },
 ];
 
 export default function Header() {
@@ -26,7 +25,9 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  function handleLogoClick(e: React.MouseEvent<HTMLAnchorElement>) {
+  function handleHomeClick(e: React.MouseEvent<HTMLAnchorElement>) {
+    // Logo + lien « Accueil » : si déjà sur la home, on remonte en haut
+    // avec un défilement fluide (premium), sinon navigation normale vers /.
     if (pathname === "/") {
       e.preventDefault();
       const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -42,7 +43,7 @@ export default function Header() {
           href="/"
           className={styles.logo}
           aria-label="Swiss Serenity Plus — Retour en haut de page"
-          onClick={handleLogoClick}
+          onClick={handleHomeClick}
         >
           <Image
             src="https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/photos-site/Logo%E2%8E%9CDayer%20%3A%20Swiss%20Serenity%20Plus.png"
@@ -60,7 +61,7 @@ export default function Header() {
               key={item.href}
               href={item.href}
               className={styles.navLink}
-              onClick={() => setMenuOpen(false)}
+              onClick={item.href === "/" ? handleHomeClick : () => setMenuOpen(false)}
             >
               {item.label}
             </Link>
