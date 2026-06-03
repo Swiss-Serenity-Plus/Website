@@ -51,24 +51,26 @@ export default function ContactPage() {
                 <FilloutForm />
               </div>
               <aside className={styles.info}>
-                <p className="eyebrow">Coordonnées</p>
-                <h2 className={styles.infoTitle}>Informations de contact</h2>
-                <ul className={styles.infoList}>
-                  <li className={styles.infoItem}>
-                    <MapPin size={22} color="var(--c-accent-secondary)" strokeWidth={1.5} aria-hidden="true" />
-                    <span>Basée à Sion, Swiss Serenity Plus® accompagne ses clients dans toute la Suisse romande.</span>
-                  </li>
-                  <li className={styles.infoItem}>
-                    <Phone size={22} color="var(--c-accent-secondary)" strokeWidth={1.5} aria-hidden="true" />
-                    <a href="tel:+41762198513">+41 76 219 85 13</a>
-                  </li>
-                  <li className={styles.infoItem}>
-                    <Mail size={22} color="var(--c-accent-secondary)" strokeWidth={1.5} aria-hidden="true" />
-                    <a href="mailto:mireille.dayer@swiss-serenity-plus.ch">
-                      mireille.dayer@swiss-serenity-plus.ch
-                    </a>
-                  </li>
-                </ul>
+                <div className={styles.infoContent}>
+                  <p className="eyebrow">Coordonnées</p>
+                  <h2 className={styles.infoTitle}>Informations de contact</h2>
+                  <ul className={styles.infoList}>
+                    <li className={styles.infoItem}>
+                      <MapPin size={22} color="var(--c-accent-secondary)" strokeWidth={1.5} aria-hidden="true" />
+                      <span>Basée à Sion, Swiss Serenity Plus® accompagne ses clients dans toute la Suisse romande.</span>
+                    </li>
+                    <li className={styles.infoItem}>
+                      <Phone size={22} color="var(--c-accent-secondary)" strokeWidth={1.5} aria-hidden="true" />
+                      <a href="tel:+41762198513">+41 76 219 85 13</a>
+                    </li>
+                    <li className={styles.infoItem}>
+                      <Mail size={22} color="var(--c-accent-secondary)" strokeWidth={1.5} aria-hidden="true" />
+                      <a href="mailto:mireille.dayer@swiss-serenity-plus.ch">
+                        mireille.dayer@swiss-serenity-plus.ch
+                      </a>
+                    </li>
+                  </ul>
+                </div>
 
                 <div className={styles.mapWrap}>
                   <Image
@@ -79,7 +81,6 @@ export default function ContactPage() {
                     style={{ objectFit: "cover" }}
                   />
                 </div>
-
               </aside>
             </div>
           </Container>
