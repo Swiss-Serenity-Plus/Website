@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import Image from "next/image";
-import { TrendingUp, HandHeart } from "lucide-react";
+import { TrendingUp, HandHeart, HeartHandshake, Target, Lock } from "lucide-react";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 import Breadcrumb from "../components/Breadcrumb/Breadcrumb";
@@ -66,6 +66,13 @@ const breadcrumbSchema = {
   ],
 };
 
+const engagementValues = [
+  { icon: HeartHandshake, title: "Engagement", text: "Une présence impliquée, réactive et pleinement investie." },
+  { icon: Target, title: "Rigueur", text: "Précision, méthode et exigence dans le moindre détail." },
+  { icon: Lock, title: "Discrétion", text: "Discrétion et confidentialité au cœur de tous les échanges." },
+  { icon: HandHeart, title: "Bienveillance", text: "Une approche humaine, attentive et respectueuse." },
+];
+
 export default function AProposPage() {
   return (
     <>
@@ -93,10 +100,13 @@ export default function AProposPage() {
                 </span>
                 <h1 className={styles.title} id="page-title">
                   <span className={styles.name}>Mireille Dayer</span>
-                  <span className={styles.tagline}>
-                    Votre bras droit de confiance pour le développement et l&rsquo;organisation de vos activités
-                  </span>
+                  <span className={styles.role}>Fondatrice de Swiss Serenity Plus®</span>
                 </h1>
+                <p className={styles.promise}>
+                  Bras droit de confiance
+                  <br />
+                  pour le développement et l&rsquo;organisation de vos activités
+                </p>
               </div>
 
               <div className={styles.portraitWrap}>
@@ -134,12 +144,55 @@ export default function AProposPage() {
                 </p>
               </article>
             </div>
+          </Container>
+        </section>
 
-            <div className={styles.bottomDivider}>
-              <Divider />
+        <section className={styles.expertise}>
+          <Container>
+            <div className={styles.expertiseInner}>
+              <div className={styles.sectionHeader}>
+                <p className="eyebrow">Parcours</p>
+                <h2 className={styles.sectionTitle}>Une expertise construite sur le terrain</h2>
+              </div>
+              <div className={styles.prose}>
+                <p>
+                  Swiss Serenity Plus<sup>®</sup> est née de cette conviction&nbsp;: les Entreprises comme les Particuliers ont besoin d&rsquo;un véritable bras droit de confiance capable d&rsquo;apporter structure, fluidité et sérénité.
+                </p>
+                <p>
+                  Franco-Suisse et ayant suivi mes études et mes formations professionnelles en Suisse et en France, j&rsquo;évolue depuis plus de vingt ans dans des environnements exigeants mêlant développement commercial, coordination opérationnelle et relation client.
+                </p>
+                <p>
+                  Mon expérience dans les secteurs de la Banque, des Compléments Alimentaires et des Dispositifs Médicaux m&rsquo;a permis de développer une approche à la fois rigoureuse, humaine et orientée résultats, avec une compréhension concrète des réalités du terrain et des exigences propres aux environnements français et suisses.
+                </p>
+              </div>
             </div>
           </Container>
         </section>
+
+        <section className={styles.engagement}>
+          <Container>
+            <div className={styles.sectionHeader}>
+              <h2 className={styles.sectionTitle}>Notre engagement</h2>
+            </div>
+
+            <div className={styles.valuesGrid}>
+              {engagementValues.map((v) => (
+                <article key={v.title} className={styles.valueCard}>
+                  <span className={styles.valueIcon} aria-hidden="true">
+                    <v.icon size={26} strokeWidth={1.5} />
+                  </span>
+                  <h3 className={styles.valueTitle}>{v.title}</h3>
+                  <p className={styles.valueText}>{v.text}</p>
+                </article>
+              ))}
+            </div>
+
+            <p className={styles.closing}>
+              Professionnels comme Particuliers, mon engagement reste le même&nbsp;: exigence, attention et implication dans chaque collaboration.
+            </p>
+          </Container>
+        </section>
+
         <ContactCTA />
       </main>
       <Footer />

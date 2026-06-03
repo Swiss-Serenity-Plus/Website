@@ -107,7 +107,7 @@
 .title {
   display: flex;
   flex-direction: column;
-  gap: var(--sp-2);
+  gap: var(--sp-1);
   margin: 0;
 }
 
@@ -128,16 +128,31 @@
   .name { font-size: 54px; }
 }
 
-.tagline {
+/* Rôle / fonction sous le nom */
+.role {
+  font-family: var(--font-body);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--c-accent-secondary);
+}
+
+@media (min-width: 768px) {
+  .role { font-size: 17px; }
+}
+
+/* Signature / promesse */
+.promise {
+  margin-top: var(--sp-3);
   font-family: var(--font-display);
   font-size: 20px;
-  font-weight: 400;
+  font-weight: 500;
   line-height: 1.25;
   color: var(--c-text);
 }
 
 @media (min-width: 768px) {
-  .tagline { font-size: 27px; }
+  .promise { font-size: 25px; }
 }
 
 /* ---- Portrait : sort du cadre en haut, collé en bas ----------------------- */
@@ -299,7 +314,137 @@
   font-weight: 600;
 }
 
-/* ---- Séparation de bas de section ----------------------------------------- */
-.bottomDivider {
-  margin-top: var(--sp-12);
+/* ---- En-têtes de section partagés ----------------------------------------- */
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
+  text-align: center;
+  margin-bottom: var(--sp-6);
+}
+
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.15;
+  color: var(--c-text);
+}
+
+@media (min-width: 768px) {
+  .sectionTitle { font-size: 38px; }
+}
+
+/* ---- Section « Une expertise construite sur le terrain » ------------------- */
+.expertise {
+  background: var(--c-surface);
+  padding-block: var(--sp-12);
+}
+
+.expertiseInner {
+  max-width: 760px;
+  margin-inline: auto;
+}
+
+.prose {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-3);
+}
+
+.prose p {
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--c-text-muted);
+}
+
+@media (min-width: 1024px) {
+  .prose p { font-size: 17px; }
+}
+
+.prose sup {
+  font-size: 0.6em;
+  vertical-align: super;
+}
+
+/* ---- Section « Notre engagement » ----------------------------------------- */
+.engagement {
+  background: var(--c-bg);
+  padding-block: var(--sp-12);
+}
+
+.valuesGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-4);
+}
+
+@media (min-width: 600px) {
+  .valuesGrid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (min-width: 1000px) {
+  .valuesGrid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.valueCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--sp-2);
+  padding: var(--sp-6) var(--sp-3);
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(6, 36, 69, 0.04);
+  transition: box-shadow 300ms ease, transform 300ms ease;
+}
+
+.valueCard:hover {
+  box-shadow: 0 14px 32px rgba(6, 36, 69, 0.09);
+  transform: translateY(-2px);
+}
+
+.valueIcon {
+  flex-shrink: 0;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--sp-1);
+  color: var(--c-accent-secondary);
+  border: 1px solid rgba(151, 123, 87, 0.3);
+  background: linear-gradient(165deg, #fbfaf6 0%, #f3eee4 100%);
+}
+
+.valueTitle {
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-weight: 600;
+  color: var(--c-text);
+}
+
+.valueText {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--c-text-muted);
+}
+
+.closing {
+  max-width: 680px;
+  margin: var(--sp-8) auto 0;
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 19px;
+  font-style: italic;
+  line-height: 1.6;
+  color: var(--c-text);
+}
+
+@media (min-width: 768px) {
+  .closing { font-size: 21px; }
 }
