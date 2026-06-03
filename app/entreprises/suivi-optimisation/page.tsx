@@ -78,7 +78,7 @@ export default function SuiviOptimisationPage() {
         eyebrow: "Notre engagement",
         title: "Performance, Précision et Continuité au service de votre développement",
         columns: [
-          { title: "Performance", text: "Des solutions adaptées pour soutenir efficacement vos objectifs de développement." },
+          { title: "Performance", text: "Des solutions adaptées pour soutenir efficacement vos objectifs de développement.", image: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/IconPerformance-removebg-preview.png" },
           { title: "Précision", text: "Une attention portée à chaque détail pour un travail précis et fiable." },
           { title: "Continuité", text: "Une présence stable et cohérente pour maintenir la continuité des échanges, préserver le lien relationnel et assurer une dynamique durable.", image: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/1779726239026-b4b74479-5b8d-4531-9596-018c061b7fba-removebg-preview.png" },
         ],
