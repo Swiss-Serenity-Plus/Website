@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { Leaf, BadgeCheck, Users } from "lucide-react";
 import ServicePageTemplate from "../../components/ServicePageTemplate/ServicePageTemplate";
+import OfferModalities from "../../components/OfferModalities/OfferModalities";
 import { SITE_URL, OG_IMAGE, OG_DEFAULTS } from "../../lib/seo";
 
 const PAGE_URL = `${SITE_URL}/particuliers/accompagnement-administratif`;
@@ -83,6 +84,7 @@ export default function AccompagnementAdministratifPage() {
           { title: "Rigueur", text: "Chaque démarche est conduite avec soin pour que rien ne soit oublié et que tout soit fait dans les règles." },
         ],
       }}
+      afterProcess={<OfferModalities />}
       process={{
         eyebrow: "Notre prise en charge",
         title: "Un accompagnement structuré et personnalisé",
