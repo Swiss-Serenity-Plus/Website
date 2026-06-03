@@ -1,0 +1,30 @@
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+  width: 100%;
+  max-width: 320px;
+  margin-inline: auto;
+  color: var(--c-accent-secondary);
+}
+
+/* Deux filets dorés, pleins au centre et fondus vers les extrémités. */
+.line {
+  flex: 1;
+  height: 1px;
+}
+
+.divider .line:first-child {
+  background: linear-gradient(to right, transparent 0%, rgba(151, 123, 87, 0.55) 28%, rgba(151, 123, 87, 0.55) 100%);
+}
+
+.divider .line:last-child {
+  background: linear-gradient(to left, transparent 0%, rgba(151, 123, 87, 0.55) 28%, rgba(151, 123, 87, 0.55) 100%);
+}
+
+.diamond {
+  flex: none;
+  width: 13px;
+  height: 13px;
+}

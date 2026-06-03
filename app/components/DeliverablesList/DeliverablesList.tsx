@@ -1,20 +1,23 @@
 // DeliverablesList — liste de livrables avec checkmark. Utilisé sur les pages services.
 import Container from "../Container/Container";
 import { CheckCircle2 } from "lucide-react";
+import Divider from "../Divider/Divider";
 import styles from "./DeliverablesList.module.css";
 
 interface DeliverablesListProps {
   eyebrow?: string;
   title: string;
   items: string[];
+  divider?: boolean;
 }
 
-export default function DeliverablesList({ eyebrow = "Ce que vous obtenez", title, items }: DeliverablesListProps) {
+export default function DeliverablesList({ eyebrow = "Ce que vous obtenez", title, items, divider = false }: DeliverablesListProps) {
   return (
     <section className={styles.section}>
       <Container>
         <div className={styles.header}>
           <p className="eyebrow">{eyebrow}</p>
+          {divider && <Divider />}
           <h2 className={styles.title}>{title}</h2>
         </div>
         <ul className={styles.list} role="list">

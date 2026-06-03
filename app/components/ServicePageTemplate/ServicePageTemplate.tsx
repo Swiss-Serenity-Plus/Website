@@ -29,6 +29,7 @@ interface ServicePageTemplateProps {
     eyebrow?: string;
     title: string;
     items: string[];
+    divider?: boolean;
   };
   values: {
     eyebrow?: string;
@@ -106,6 +107,7 @@ export default function ServicePageTemplate({
           eyebrow={deliverables.eyebrow}
           title={deliverables.title}
           items={deliverables.items}
+          divider={deliverables.divider}
         />
         <ColumnsBlock
           eyebrow={values.eyebrow ?? "Nos valeurs sur ce pilier"}

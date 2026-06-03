@@ -64,6 +64,7 @@ export default function StructurationPage() {
       }}
       deliverables={{
         title: "Ce que nous mettons en place ensemble",
+        divider: true,
         items: [
           "Analyse et clarification des échanges, des rôles et des responsabilités",
           "Structuration des suivis, des demandes et des priorités quotidiennes",
