@@ -130,7 +130,6 @@
   font-weight: 600;
   line-height: 1.1;
   color: var(--c-text);
-  text-wrap: balance;
 }
 
 @media (min-width: 1024px) {

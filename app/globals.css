@@ -25,6 +25,10 @@ h1, h2, h3, h4, h5, h6 {
   font-family: var(--font-display);
   font-weight: 600;
   line-height: 1.2;
+  /* Équilibre les lignes des titres (évite l'orphelin « 1 ligne longue +
+     2 mots seuls » sur la 2e ligne). Responsif par nature : le navigateur
+     redistribue à chaque largeur de viewport. */
+  text-wrap: balance;
 }
 
 a {
