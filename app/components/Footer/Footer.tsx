@@ -48,9 +48,9 @@ export default function Footer() {
             <Image
               src="https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/Logo%20-%20Swiss%20Serenity%20Plus%20-%20Mireille%20Dayer.png"
               alt="Swiss Serenity Plus"
-              width={260}
-              height={96}
-              style={{ objectFit: "contain", height: "84px", width: "auto", alignSelf: "flex-start" }}
+              width={420}
+              height={155}
+              className={styles.logo}
               priority
             />
             <address className={styles.address}>

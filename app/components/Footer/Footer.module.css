@@ -26,6 +26,17 @@
 
 .col { display: flex; flex-direction: column; gap: var(--sp-4); }
 
+.logo {
+  align-self: flex-start;
+  width: auto;
+  height: 132px;
+  object-fit: contain;
+}
+
+@media (max-width: 767px) {
+  .logo { height: 108px; }
+}
+
 .address {
   font-style: normal;
   font-size: 14px;
