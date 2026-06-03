@@ -1,12 +1,11 @@
 .hero {
   position: relative;
-  min-height: 90vh;
   padding-top: 72px;
   overflow: hidden;
   background: var(--c-bg);
 }
 
-/* Transition de fond en bas du Hero vers la section suivante (Notre engagement = surface) */
+/* Transition de fond en bas du Hero vers la section suivante (surface) */
 .hero::after {
   content: '';
   position: absolute;
@@ -16,10 +15,10 @@
   height: 18%;
   background: linear-gradient(to bottom, transparent 0%, var(--c-surface) 100%);
   pointer-events: none;
-  z-index: 5;
+  z-index: 6;
 }
 
-/* SVG montagnes décoratives — derrière tout le contenu */
+/* SVG montagnes décoratives — derrière tout le contenu (desktop uniquement) */
 .mountainsSvg {
   position: absolute;
   inset: 0;
@@ -27,109 +26,208 @@
   height: 100%;
   z-index: 1;
   pointer-events: none;
+  display: none;
 }
 
-/* Photo R2 — ancrée à droite, sensiblement plus contenue pour libérer la zone texte */
+/* ---------------------------------------------------------------------------
+   PHOTO — mobile : bandeau supérieur plein cadre, fondu progressif vers le bas
+   --------------------------------------------------------------------------- */
 .imageWrap {
   position: absolute;
   top: 0;
+  left: 0;
   right: 0;
-  bottom: 0;
-  width: 48%;
-  max-width: 880px;
+  height: 44vh;
   overflow: hidden;
   z-index: 2;
 }
 
-@media (min-width: 1280px) {
-  .imageWrap { width: 46%; }
+.mountainImg {
+  object-fit: cover;
+  object-position: 62% 30%;
 }
 
-@media (min-width: 1600px) {
-  .imageWrap { width: 44%; }
-}
-
-/* Fondu gauche : la photo s'estompe dans le fond crème — courbe douce sans cassure */
+/* Fondu principal — mobile : du bas vers le haut, la photo se dissout dans le crème */
 .imageWrap::before {
   content: '';
   position: absolute;
   inset: 0;
   z-index: 3;
-  background: linear-gradient(
-    to right,
-    var(--c-bg) 0%,
-    rgba(247, 245, 241, 0.96) 14%,
-    rgba(247, 245, 241, 0.72) 30%,
-    rgba(247, 245, 241, 0.25) 50%,
-    transparent 70%
-  );
   pointer-events: none;
+  background: linear-gradient(
+    to top,
+    var(--c-bg) 0%,
+    rgba(247, 245, 241, 0.85) 14%,
+    rgba(247, 245, 241, 0.35) 34%,
+    transparent 58%
+  );
 }
 
-/* Fondu bas : transition progressive vers la section suivante, plus aucune cassure */
+/* Fondu secondaire — mobile : adoucit les bords gauche et droit du bandeau */
 .imageWrap::after {
   content: '';
   position: absolute;
   inset: 0;
   z-index: 3;
-  background: linear-gradient(
-    to top,
-    var(--c-bg) 0%,
-    rgba(247, 245, 241, 0.92) 14%,
-    rgba(247, 245, 241, 0.5) 30%,
-    rgba(247, 245, 241, 0.12) 44%,
-    transparent 56%
-  );
   pointer-events: none;
+  background: linear-gradient(
+    to right,
+    var(--c-bg) 0%,
+    transparent 14%,
+    transparent 86%,
+    var(--c-bg) 100%
+  );
 }
 
-.mountainImg {
-  object-fit: cover;
-  object-position: center 8%;
+/* Couche givrée — flou réel sur la couture, masqué pour rester progressif */
+.edgeBlur {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+  backdrop-filter: blur(9px);
+  -webkit-backdrop-filter: blur(9px);
+  /* mobile : givrage concentré sur la frange basse du bandeau */
+  -webkit-mask-image: linear-gradient(
+    to top,
+    #000 0%,
+    rgba(0, 0, 0, 0.55) 20%,
+    transparent 46%
+  );
+  mask-image: linear-gradient(
+    to top,
+    #000 0%,
+    rgba(0, 0, 0, 0.55) 20%,
+    transparent 46%
+  );
 }
 
-/* Texte — premier plan, ancré à gauche (aligné sur le header) */
+/* ---------------------------------------------------------------------------
+   DESKTOP — photo ancrée à droite, texte à gauche
+   --------------------------------------------------------------------------- */
+@media (min-width: 1024px) {
+  .hero {
+    min-height: 90vh;
+  }
+
+  .mountainsSvg {
+    display: block;
+  }
+
+  .imageWrap {
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: auto;
+    width: 54%;
+    height: auto;
+    max-width: 1000px;
+  }
+
+  /* Fondu gauche : la photo s'estompe dans le fond crème — courbe douce */
+  .imageWrap::before {
+    background: linear-gradient(
+      to right,
+      var(--c-bg) 0%,
+      rgba(247, 245, 241, 0.96) 14%,
+      rgba(247, 245, 241, 0.72) 32%,
+      rgba(247, 245, 241, 0.28) 52%,
+      transparent 72%
+    );
+  }
+
+  /* Fondu bas : transition progressive vers la section suivante */
+  .imageWrap::after {
+    background: linear-gradient(
+      to top,
+      var(--c-bg) 0%,
+      rgba(247, 245, 241, 0.9) 12%,
+      rgba(247, 245, 241, 0.45) 28%,
+      transparent 50%
+    );
+  }
+
+  /* Givrage de la couture verticale gauche */
+  .edgeBlur {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      #000 0%,
+      rgba(0, 0, 0, 0.6) 22%,
+      transparent 48%
+    );
+    mask-image: linear-gradient(
+      to right,
+      #000 0%,
+      rgba(0, 0, 0, 0.6) 22%,
+      transparent 48%
+    );
+  }
+}
+
+@media (min-width: 1280px) {
+  .imageWrap { width: 52%; }
+}
+
+@media (min-width: 1600px) {
+  .imageWrap { width: 50%; }
+}
+
+/* ---------------------------------------------------------------------------
+   TEXTE — premier plan
+   --------------------------------------------------------------------------- */
 .inner {
   max-width: var(--container-max);
   margin-inline: auto;
-  padding-inline: var(--sp-3);
   width: 100%;
+  padding-inline: var(--sp-3);
+  padding-top: calc(44vh + var(--sp-4));
+  padding-bottom: var(--sp-8);
   display: flex;
   flex-direction: column;
-  gap: var(--sp-8);
-  padding-block: var(--sp-12);
-  min-height: calc(90vh - 72px);
-  justify-content: center;
+  gap: var(--sp-4);
   position: relative;
-  z-index: 4;
+  z-index: 5;
 }
 
 @media (min-width: 1024px) {
   .inner {
     flex-direction: row;
     align-items: center;
+    justify-content: flex-start;
     padding-inline: var(--sp-6);
-    padding-block: 0;
+    padding-top: 0;
+    padding-bottom: 0;
+    min-height: calc(90vh - 72px);
   }
 }
 
 .content {
-  flex: 0 0 56%;
   display: flex;
   flex-direction: column;
   gap: var(--sp-4);
-  max-width: 620px;
+}
+
+@media (min-width: 1024px) {
+  .content {
+    flex: 0 0 56%;
+    max-width: 620px;
+    gap: var(--sp-4);
+  }
 }
 
 @media (min-width: 1280px) {
-  .content { flex: 0 0 60%; max-width: 660px; }
+  .content { flex: 0 0 58%; max-width: 660px; }
 }
 
 .title {
-  font-size: 40px;
+  font-size: 34px;
   font-weight: 600;
   line-height: 1.1;
   color: var(--c-text);
+}
+
+@media (min-width: 480px) {
+  .title { font-size: 40px; }
 }
 
 @media (min-width: 1024px) {
@@ -145,10 +243,14 @@
 }
 
 .subtitle {
-  font-size: 18px;
+  font-size: 17px;
   color: var(--c-text-muted);
   line-height: 1.7;
   max-width: 520px;
+}
+
+@media (min-width: 1024px) {
+  .subtitle { font-size: 18px; }
 }
 
 .ctas {

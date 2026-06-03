@@ -1,10 +1,10 @@
-// Hero — photo R2 droite + montagnes SVG décoratives bord gauche et droit.
+// Hero — photo paysage R2 droite (incrustation premium) + montagnes SVG décoratives.
 import Image from "next/image";
 import Button from "../Button/Button";
 import styles from "./Hero.module.css";
 
-const MOUNTAIN_SRC =
-  "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/photos-site/Montagne%E2%8E%9CDayer%20%3A%20Swiss%20Serenity%20Plus.png";
+const LANDSCAPE_SRC =
+  "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/Paysage%20-%20Swiss%20Serenity%20Plus%20-%20Mireille%20Dayer.png";
 
 export default function Hero() {
   return (
@@ -49,15 +49,18 @@ export default function Hero() {
         </g>
       </svg>
 
-      {/* Photo R2 — bord droit collé au viewport */}
+      {/* Photo paysage R2 — incrustation progressive, fondue dans le fond crème */}
       <div className={styles.imageWrap} aria-hidden="true">
         <Image
-          src={MOUNTAIN_SRC}
+          src={LANDSCAPE_SRC}
           alt=""
           fill
+          sizes="(max-width: 1023px) 100vw, 54vw"
           className={styles.mountainImg}
           priority
         />
+        {/* Couche givrée — flou progressif sur la couture photo/crème */}
+        <div className={styles.edgeBlur} />
       </div>
 
       {/* Texte — avant-plan */}
