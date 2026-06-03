@@ -10,7 +10,7 @@ export default function LocalTrust() {
           <div className={styles.inner}>
             <div className={styles.content}>
               <p className="eyebrow">Localisation</p>
-              <h2 className={styles.title}>Basée à Sion, nous intervenons en Valais et en Suisse romande</h2>
+              <h2 className={styles.title}>Basés à Sion, nous intervenons en Valais et en Suisse romande</h2>
               <p className={styles.text}>
                 Swiss Serenity Plus accompagne dirigeants et particuliers dans toute la Suisse romande : Valais, Vaud, Fribourg, Genève. Rencontres en présentiel dans le Valais central, accompagnement à distance sur tout le territoire.
               </p>

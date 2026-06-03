@@ -1,4 +1,4 @@
-// Header — sticky, transparent sur hero puis fond beige au scroll. 4 items nav + CTA.
+// Header — sticky, transparent sur hero puis fond beige au scroll. 3 items nav + CTA.
 "use client";
 
 import { useState, useEffect } from "react";
@@ -12,7 +12,6 @@ const navItems = [
   { label: "Accueil", href: "/" },
   { label: "Domaines d'intervention", href: "/#services" },
   { label: "Swiss Serenity Plus", href: "/a-propos" },
-  { label: "Contact", href: "/contact" },
 ];
 
 export default function Header() {
