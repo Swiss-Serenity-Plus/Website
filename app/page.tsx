@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import Hero from "./components/Hero/Hero";
+import MountainDecor from "./components/MountainDecor/MountainDecor";
 import ValueProp3Col from "./components/ValueProp3Col/ValueProp3Col";
 import ServiceSection from "./components/ServiceSection/ServiceSection";
 import LocalTrust from "./components/LocalTrust/LocalTrust";
@@ -33,6 +34,7 @@ export default function HomePage() {
     <>
       <Header />
       <main>
+        <MountainDecor />
         <Hero />
         <ValueProp3Col />
         <ServiceSection

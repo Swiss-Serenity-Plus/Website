@@ -1,0 +1,85 @@
+/* ===========================================================================
+   MountainDecor — variables de réglage (tout est ajustable ici)
+   =========================================================================== */
+.decor {
+  --mtn-width: 26vw;        /* largeur de chaque montagne (% du viewport) */
+  --mtn-opacity: 0.22;      /* opacité cible (0.18 → 0.28 conseillé) */
+  --mtn-blur: 3.5px;        /* flou atmosphérique (3 → 4px) */
+  --mtn-fade-inner: 58%;    /* portion opaque côté extérieur ; le reste fond */
+  --mtn-overscan: 10%;      /* débord vertical pour laisser jouer le parallaxe */
+
+  --reveal: 0;              /* 0..1 piloté par le JS (enveloppe d'opacité) */
+  --py: 0px;               /* parallaxe vertical piloté par le JS */
+
+  position: fixed;
+  inset: 0;
+  /* z-index bas : au-dessus des fonds de section, sous le header/les widgets.
+     (Les sections étant opaques, un vrai « derrière » serait invisible.) */
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.side {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: var(--mtn-width);
+  opacity: calc(var(--reveal) * var(--mtn-opacity));
+  will-change: opacity;
+}
+
+.left { left: 0; }
+.right { right: 0; }
+
+.img {
+  position: absolute;
+  left: 0;
+  top: calc(0px - var(--mtn-overscan));
+  width: 100%;
+  height: calc(100% + (var(--mtn-overscan) * 2));
+  object-fit: cover;
+  object-position: center bottom;
+
+  /* Recul atmosphérique */
+  filter: blur(var(--mtn-blur));
+
+  /* Parallaxe vertical (translateY) + miroir éventuel (scaleX) */
+  transform: translate3d(0, var(--py), 0) scaleX(var(--flip, 1));
+  will-change: transform;
+
+  /* Fondu du bord intérieur (face au texte) ET du haut/bas, par intersection
+     de deux masques. Pour un export Figma (le mask-image ne survit pas), on
+     peut basculer vers un <div> overlay en gradient beige→transparent. */
+  --mask-inner: linear-gradient(to left, #000 var(--mtn-fade-inner), transparent 100%);
+  --mask-vert: linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
+  -webkit-mask-image: var(--mask-inner), var(--mask-vert);
+  -webkit-mask-composite: source-in;
+  mask-image: var(--mask-inner), var(--mask-vert);
+  mask-composite: intersect;
+}
+
+/* Versant gauche : miroir du PNG (asset = versant droit). Le masque « bord
+   intérieur » suit le miroir → côté centre fondu, bord écran net. */
+.left .img { --flip: -1; }
+.right .img { --flip: 1; }
+
+/* ---- Responsive ----------------------------------------------------------- */
+/* Desktop intermédiaire : on réduit largeur + opacité pour éviter toute gêne
+   avec le texte quand les gouttières sont étroites. */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .decor {
+    --mtn-width: 19vw;
+    --mtn-opacity: 0.15;
+  }
+}
+
+/* Sous 1024px : pas d'espace latéral → on masque complètement. */
+@media (max-width: 1023px) {
+  .decor { display: none; }
+}
+
+/* Mouvement réduit : aucune parallaxe. */
+@media (prefers-reduced-motion: reduce) {
+  .img { transform: scaleX(var(--flip, 1)); }
+}
