@@ -30,6 +30,24 @@
 
 .logo { display: flex; align-items: center; flex-shrink: 0; }
 
+/* Le PNG du logo a une large marge transparente : on rend l'image en
+   surdimension et on la recadre (overflow hidden, centré) pour agrandir
+   le wordmark visible au-delà de ses marges. */
+.logoCrop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 46px;
+  width: 280px;
+  overflow: hidden;
+}
+
+.logoImg {
+  height: 120px;
+  width: auto;
+  max-width: none;
+}
+
 .nav {
   display: flex;
   align-items: center;

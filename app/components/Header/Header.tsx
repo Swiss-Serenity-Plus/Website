@@ -45,14 +45,16 @@ export default function Header() {
           aria-label="Swiss Serenity Plus — Retour en haut de page"
           onClick={handleHomeClick}
         >
-          <Image
-            src="https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/Logo%20Swiss%20Serenity%20Plus.png"
-            alt="Swiss Serenity Plus"
-            width={240}
-            height={72}
-            style={{ objectFit: "contain", height: "56px", width: "auto" }}
-            priority
-          />
+          <span className={styles.logoCrop}>
+            <Image
+              src="https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/Logo%20Swiss%20Serenity%20Plus.png"
+              alt="Swiss Serenity Plus"
+              width={440}
+              height={120}
+              className={styles.logoImg}
+              priority
+            />
+          </span>
         </Link>
 
         <nav className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`} aria-label="Navigation principale">
