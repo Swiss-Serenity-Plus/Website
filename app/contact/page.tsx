@@ -4,6 +4,7 @@ import Footer from "../components/Footer/Footer";
 import PageHero from "../components/PageHero/PageHero";
 import Container from "../components/Container/Container";
 import ContactForm from "../components/ContactForm/ContactForm";
+import Quote from "../components/Quote/Quote";
 import styles from "./page.module.css";
 import { MapPin, Phone, Mail } from "lucide-react";
 import { SITE_URL, OG_IMAGE, OG_DEFAULTS } from "../lib/seo";
@@ -43,6 +44,11 @@ export default function ContactPage() {
             { label: "Contact" },
           ]}
         />
+        <Quote>
+          Chaque priorité étant unique, nous prenons le temps d&rsquo;échanger
+          ensemble autour de votre projet, de vos priorités et des solutions
+          les plus adaptées à votre situation.
+        </Quote>
         <section className={styles.section}>
           <Container>
             <div className={styles.grid}>

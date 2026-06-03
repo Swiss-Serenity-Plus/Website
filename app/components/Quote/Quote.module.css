@@ -1,0 +1,88 @@
+.section {
+  background: var(--c-bg);
+  padding-block: var(--sp-8);
+}
+
+.inner {
+  max-width: var(--container-narrow);
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-6);
+}
+
+/* Filet doré à étoile centrale */
+.ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-3);
+  width: 100%;
+  max-width: 360px;
+  color: var(--c-accent-secondary);
+}
+
+.rule {
+  flex: 1;
+  height: 1px;
+}
+
+/* Filet gauche : transparent vers le centre (étoile) */
+.ornament .rule:first-child {
+  background: linear-gradient(to right, transparent, rgba(151, 123, 87, 0.55));
+}
+
+/* Filet droit : centre (étoile) vers transparent */
+.ornament .rule:last-child {
+  background: linear-gradient(to left, transparent, rgba(151, 123, 87, 0.55));
+}
+
+.star {
+  flex: none;
+  width: 16px;
+  height: 16px;
+}
+
+/* Citation */
+.quote {
+  position: relative;
+  margin: 0;
+  padding-inline: var(--sp-6);
+}
+
+.text {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: clamp(20px, 2.6vw, 28px);
+  line-height: 1.5;
+  text-align: center;
+  text-wrap: balance;
+  color: var(--c-text);
+}
+
+.mark {
+  position: absolute;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 3.5em;
+  line-height: 1;
+  color: var(--c-accent-secondary);
+  user-select: none;
+}
+
+.mark:first-child {
+  top: -0.35em;
+  left: -0.1em;
+}
+
+.markClose {
+  bottom: -0.7em;
+  right: -0.1em;
+}
+
+@media (max-width: 600px) {
+  .quote { padding-inline: var(--sp-4); }
+  .mark { font-size: 2.6em; }
+}
