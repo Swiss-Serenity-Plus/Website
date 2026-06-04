@@ -64,7 +64,7 @@ export default function Hero() {
       {/* Texte — avant-plan */}
       <div className={styles.inner}>
         <div className={styles.content}>
-          <p className="eyebrow">Votre partenaire de confiance au quotidien</p>
+          <p className="eyebrow">Votre partenaire de confiance au&nbsp;quotidien</p>
           <h1 className={styles.title}>
             Une expertise pensée pour allier<br />Sérénité · Succès · Performance
           </h1>
