@@ -34,7 +34,7 @@ const pillars: Pillar[] = [
 
 export default function ValueProp3Col() {
   return (
-    <section id="valeurs" className={styles.section} data-fb-label="Section Piliers de valeur">
+    <section id="valeurs" className={styles.section} data-fb-container="Section Piliers de valeur">
       <AtmosphericAccent side="right" tone="cool" intensity="subtle" />
       <Container>
         <div className={styles.header}>
@@ -45,7 +45,7 @@ export default function ValueProp3Col() {
           {pillars.map((p) => {
             const Icon = p.icon;
             return (
-              <div key={p.title} className={styles.card} id={`b-pilier-${fbSlug(p.title)}`} data-fb-label={`Encadré pilier « ${p.title} »`}>
+              <div key={p.title} className={styles.card} id={`b-pilier-${fbSlug(p.title)}`} data-fb-container={`Encadré pilier « ${p.title} »`}>
                 <div className={styles.iconWrap}>
                   {p.iconImage ? (
                     <Image src={p.iconImage} alt="" width={44} height={44} unoptimized aria-hidden="true" />

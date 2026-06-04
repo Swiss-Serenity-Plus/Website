@@ -81,7 +81,7 @@ export default function AProposPage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <Header />
       <main>
-        <section className={styles.hero} aria-labelledby="page-title" data-fb-label="Section En-tête À propos">
+        <section className={styles.hero} aria-labelledby="page-title" data-fb-container="Section En-tête À propos">
           <Container>
             <Breadcrumb
               items={[
@@ -110,7 +110,7 @@ export default function AProposPage() {
                 </p>
               </div>
 
-              <div className={styles.portraitWrap} id="b-about-portrait" data-fb-label="Photo portrait de Mireille Dayer (À propos)">
+              <div className={styles.portraitWrap} id="b-about-portrait" data-fb-label="Image avec le portrait de Mireille Dayer">
                 <Image
                   src={PORTRAIT_SRC}
                   alt="Mireille Dayer, fondatrice de Swiss Serenity Plus"
@@ -123,7 +123,7 @@ export default function AProposPage() {
             </div>
 
             <div className={styles.cards}>
-              <article className={styles.infoCard} id="b-about-card-professionnels" data-fb-label="Encadré À propos « Professionnels »">
+              <article className={styles.infoCard} id="b-about-card-professionnels" data-fb-container="Encadré À propos « Professionnels »">
                 <span className={styles.iconCircle} aria-hidden="true">
                   <TrendingUp size={30} strokeWidth={1.5} />
                 </span>
@@ -134,7 +134,7 @@ export default function AProposPage() {
                 </p>
               </article>
 
-              <article className={styles.infoCard} id="b-about-card-particuliers" data-fb-label="Encadré À propos « Particuliers »">
+              <article className={styles.infoCard} id="b-about-card-particuliers" data-fb-container="Encadré À propos « Particuliers »">
                 <span className={styles.iconCircle} aria-hidden="true">
                   <HandHeart size={30} strokeWidth={1.5} />
                 </span>
@@ -148,7 +148,7 @@ export default function AProposPage() {
           </Container>
         </section>
 
-        <section className={styles.expertise} data-fb-label="Section Parcours">
+        <section className={styles.expertise} data-fb-container="Section Parcours">
           <Container>
             <div className={styles.expertiseInner}>
               <div className={styles.sectionHeader}>
@@ -170,7 +170,7 @@ export default function AProposPage() {
           </Container>
         </section>
 
-        <section className={styles.engagement} data-fb-label="Section Notre engagement">
+        <section className={styles.engagement} data-fb-container="Section Notre engagement">
           <Container>
             <div className={styles.sectionHeader}>
               <h2 className={styles.sectionTitle}>Notre engagement</h2>
@@ -178,7 +178,7 @@ export default function AProposPage() {
 
             <div className={styles.valuesGrid}>
               {engagementValues.map((v) => (
-                <article key={v.title} className={styles.valueCard} id={`b-engagement-${fbSlug(v.title)}`} data-fb-label={`Encadré valeur « ${v.title} »`}>
+                <article key={v.title} className={styles.valueCard} id={`b-engagement-${fbSlug(v.title)}`} data-fb-container={`Encadré valeur « ${v.title} »`}>
                   <span className={styles.valueIcon} aria-hidden="true">
                     <v.icon size={26} strokeWidth={1.5} />
                   </span>

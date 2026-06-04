@@ -42,7 +42,7 @@ export default function TargetAudience({
 
   if (image) {
     return (
-      <section className={styles.section} data-fb-label="Section Clientèle cible">
+      <section className={styles.section} data-fb-container="Section Clientèle cible">
         <Container>
           <div className={`${styles.inner} ${styles.innerPhoto}`}>
             <div className={styles.left}>
@@ -68,7 +68,7 @@ export default function TargetAudience({
   }
 
   return (
-    <section className={styles.section} data-fb-label="Section Clientèle cible">
+    <section className={styles.section} data-fb-container="Section Clientèle cible">
       <Container>
         <div className={styles.inner}>
           <div className={styles.left}>

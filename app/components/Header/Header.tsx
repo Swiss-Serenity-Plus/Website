@@ -38,7 +38,7 @@ export default function Header() {
   }
 
   return (
-    <header className={`${styles.header} ${scrolled ? styles.scrolled : ""} ${menuOpen ? styles.menuOpen : ""}`} role="banner" data-fb-label="En-tête / Navigation">
+    <header className={`${styles.header} ${scrolled ? styles.scrolled : ""} ${menuOpen ? styles.menuOpen : ""}`} role="banner" data-fb-container="En-tête">
       <div className={styles.inner}>
         <Link
           href="/"
@@ -46,7 +46,7 @@ export default function Header() {
           aria-label="Swiss Serenity Plus — Retour en haut de page"
           onClick={handleHomeClick}
           id="b-header-logo"
-          data-fb-label="Logo Swiss Serenity Plus (en-tête)"
+          data-fb-label="Image avec le logo"
         >
           <span className={styles.logoCrop}>
             <Image
@@ -74,7 +74,7 @@ export default function Header() {
             </Link>
           ))}
           <div className={styles.navCta}>
-            <Button href="/contact" variant="dark" size="sm" id="b-nav-cta-contact" fbLabel="Bouton « Prendre contact » (en-tête)">
+            <Button href="/contact" variant="dark" size="sm" id="b-nav-cta-contact" fbLabel="Bouton « Prendre contact »">
               Prendre contact
             </Button>
           </div>

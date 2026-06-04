@@ -9,7 +9,7 @@ const PORTRAIT_SRC = "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/image.
 
 export default function AboutTeaser() {
   return (
-    <section id="a-propos" className={styles.section} aria-labelledby="about-teaser-title" data-fb-label="Section À propos (aperçu)">
+    <section id="a-propos" className={styles.section} aria-labelledby="about-teaser-title" data-fb-container="Section À propos">
       <Container>
         <div className={styles.card}>
           <div className={styles.content}>
@@ -32,7 +32,7 @@ export default function AboutTeaser() {
             </div>
           </div>
 
-          <div className={styles.portraitWrap} id="b-about-teaser-portrait" data-fb-label="Photo portrait de Mireille Dayer">
+          <div className={styles.portraitWrap} id="b-about-teaser-portrait" data-fb-label="Image avec le portrait de Mireille Dayer">
             <Image
               src={PORTRAIT_SRC}
               alt="Mireille Dayer, fondatrice de Swiss Serenity Plus"

@@ -120,50 +120,102 @@ function fbText(el: HTMLElement): string {
   return raw.length > 160 ? `${raw.slice(0, 160)}…` : raw;
 }
 
-// Décrit un élément par « QUOI "contenu" » à partir de sa nature (titre, eyebrow,
-// description, image, citation, élément de liste). Renvoie null si l'élément
-// n'est pas un contenu autoporteur (div, span, svg…).
-function describeElement(el: HTMLElement): string | null {
+// Article défini selon le premier mot du conteneur, pour une lecture naturelle
+// (« … dans la Carte service », « … dans le Footer », « … dans l'En-tête »).
+const FB_ARTICLES: Record<string, string> = {
+  carte: "la", section: "la", footer: "le", "en-tête": "l'", encadré: "l'",
+  fil: "le", photo: "la", valeur: "la", étape: "l'", résultat: "le",
+  citation: "la", formulaire: "le", bandeau: "le", colonne: "la", modalité: "la",
+};
+function fbWithArticle(container: string): string {
+  const first = container.split(/[\s«]/)[0].toLowerCase();
+  const art = FB_ARTICLES[first];
+  if (!art) return container;
+  return art.endsWith("'") ? `${art}${container}` : `${art} ${container}`;
+}
+
+// QUOI : nature d'un contenu autoporteur (titre, eyebrow, description, image…).
+// Renvoie un rang de priorité : plus il est bas, plus l'info est spécifique.
+//   1 = lien/bouton · 2 = contenu texte ou image · 3 = icône (générique).
+function describeContent(el: HTMLElement): { rank: number; label: string; standalone: boolean } | null {
+  if (el instanceof SVGElement) return { rank: 3, label: "Icône", standalone: false };
   const tag = el.tagName;
   if (tag === "IMG") {
     const alt = (el as HTMLImageElement).alt?.trim();
-    return `L'image « ${alt || "sans description"} »`;
+    return alt
+      ? { rank: 2, label: `L'image « ${alt} »`, standalone: false }
+      : { rank: 3, label: "Icône", standalone: false };
   }
   const text = fbText(el);
   if (!text) return null;
-  if (el.classList?.contains("eyebrow")) return `Eyebrow avec le titre "${text}"`;
-  if (/^H[1-6]$/.test(tag)) return `Le titre "${text}"`;
-  if (tag === "BLOCKQUOTE") return `La citation "${text}"`;
-  if (tag === "P") return `La description avec "${text}"`;
-  if (tag === "LI") return `L'élément de liste "${text}"`;
-  if (tag === "ADDRESS") return `L'adresse "${text}"`;
+  if (el.classList?.contains("eyebrow")) return { rank: 2, label: `Eyebrow avec le titre "${text}"`, standalone: true };
+  if (/^H[1-6]$/.test(tag)) return { rank: 2, label: `Le titre "${text}"`, standalone: true };
+  if (tag === "BLOCKQUOTE") return { rank: 2, label: `La citation "${text}"`, standalone: true };
+  if (tag === "P") return { rank: 2, label: `La description avec "${text}"`, standalone: true };
+  if (tag === "ADDRESS") return { rank: 2, label: `L'adresse "${text}"`, standalone: true };
+  if (tag === "LI") return { rank: 2, label: `L'élément de liste "${text}"`, standalone: false };
+  return null;
+}
+
+// Cherche le meilleur QUOI sans franchir le conteneur. On retient la priorité
+// la plus forte ; à priorité égale, l'élément le plus proche gagne. Ainsi une
+// icône dans un lien renvoie le lien, mais une icône dans une carte reste « Icône ».
+function findDescriptor(el: HTMLElement): { label: string; standalone: boolean } | null {
+  let current: HTMLElement | null = el;
+  let depth = 0;
+  let bestRank = Number.POSITIVE_INFINITY;
+  let bestLabel: string | null = null;
+  let bestStandalone = false;
+  const consider = (rank: number, label: string, standalone: boolean) => {
+    if (label && rank < bestRank) {
+      bestRank = rank;
+      bestLabel = label;
+      bestStandalone = standalone;
+    }
+  };
+  while (current && current !== document.body && depth < 6) {
+    const explicit = current.getAttribute("data-fb-label");
+    if (explicit) consider(0, explicit, false);
+    if (current.tagName === "BUTTON" || current.tagName === "A") {
+      const text = fbText(current);
+      const aria = current.getAttribute("aria-label") ?? "";
+      const t = text && text.length < 80 ? text : aria.length < 80 ? aria : "";
+      if (t) consider(1, current.tagName === "BUTTON" ? `Le bouton "${t}"` : `Le lien "${t}"`, false);
+    }
+    const content = describeContent(current);
+    if (content) consider(content.rank, content.label, content.standalone);
+    if (current.hasAttribute("data-fb-container")) break; // on ne dépasse pas le conteneur
+    current = current.parentElement;
+    depth++;
+  }
+  return bestLabel === null ? null : { label: bestLabel, standalone: bestStandalone };
+}
+
+// OÙ : conteneur le plus proche (carte, section, footer…).
+function findContainer(el: HTMLElement): string | null {
+  let current: HTMLElement | null = el;
+  while (current && current !== document.body) {
+    const container = current.getAttribute("data-fb-container");
+    if (container) return container;
+    current = current.parentElement;
+  }
   return null;
 }
 
 function getElementLabel(el: HTMLElement): string {
-  // On remonte le DOM depuis l'élément cliqué et on retient la PREMIÈRE
-  // information précise rencontrée. Priorité, à chaque niveau :
-  //   1. data-fb-label explicite (encadré, carte, section…)
-  //   2. nature du contenu auto-déduite : Le titre / La description / Eyebrow / L'image…
-  //   3. lien ou bouton → Le lien / Le bouton "texte"
-  // L'élément le plus proche gagne : un titre ne renvoie donc plus sa section.
-  let current: HTMLElement | null = el;
-  let depth = 0;
-  while (current && current !== document.body && depth < 8) {
-    const explicit = current.getAttribute("data-fb-label");
-    if (explicit) return explicit;
-    const described = describeElement(current);
-    if (described) return described;
-    if (current.tagName === "BUTTON" || current.tagName === "A") {
-      const text = fbText(current);
-      if (text && text.length < 80) {
-        return current.tagName === "BUTTON" ? `Le bouton "${text}"` : `Le lien "${text}"`;
-      }
+  // Identité complète = QUOI (élément précis) + OÙ (conteneur englobant) :
+  //   « Icône dans la Carte service « … » », « Bouton dans la Carte service « … » »,
+  //   « Image avec le logo dans le Footer », « Le titre « … » dans la Section Services ».
+  const descriptor = findDescriptor(el);
+  const container = findContainer(el);
+  if (descriptor) {
+    if (!descriptor.standalone && container && descriptor.label !== container) {
+      return `${descriptor.label} dans ${fbWithArticle(container)}`;
     }
-    current = current.parentElement;
-    depth++;
+    return descriptor.label;
   }
-  // Repli : on s'appuie sur la section englobante.
+  if (container) return container;
+  // Repli : section englobante.
   const block = el.closest("section, article, header, footer, nav, main, aside, form");
   if (block) {
     const ariaLabel = block.getAttribute("aria-label");
@@ -171,7 +223,7 @@ function getElementLabel(el: HTMLElement): string {
     const heading = block.querySelector("h1, h2, h3, h4");
     if (heading) return `Le titre "${fbText(heading as HTMLElement)}"`;
     const tagLabels: Record<string, string> = {
-      HEADER: "En-tête de page", FOOTER: "Pied de page",
+      HEADER: "En-tête", FOOTER: "Footer",
       NAV: "Navigation", MAIN: "Contenu principal",
       FORM: "Formulaire", ASIDE: "Barre latérale",
     };

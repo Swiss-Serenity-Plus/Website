@@ -13,7 +13,7 @@ interface DeliverablesListProps {
 
 export default function DeliverablesList({ eyebrow = "Ce que vous obtenez", title, items, divider = false }: DeliverablesListProps) {
   return (
-    <section className={styles.section} data-fb-label="Section Livrables">
+    <section className={styles.section} data-fb-container="Section Livrables">
       <Container>
         <div className={styles.header}>
           <p className="eyebrow">{eyebrow}</p>

@@ -35,7 +35,7 @@ export default function ServiceSection({
       className={styles.section}
       id={id}
       aria-labelledby={id ? `${id}-title` : undefined}
-      data-fb-label="Section Services"
+      data-fb-container="Section Services"
     >
       <AtmosphericAccent side="left" tone="warm" intensity="subtle" />
       <Container>

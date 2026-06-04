@@ -31,11 +31,11 @@ export default function ServiceCard({
       className={styles.card}
       aria-label={`${title} — ${cta}`}
       id={`b-service-${slug}`}
-      data-fb-label={`Carte service « ${title} »`}
+      data-fb-container={`Carte service « ${title} »`}
     >
       <div className={styles.cardTop}>
         {(Icon || iconImage) && (
-          <div className={styles.iconWrap} aria-hidden="true">
+          <div className={styles.iconWrap} aria-hidden="true" data-fb-label="Icône">
             {Icon ? (
               <Icon size={28} color="var(--c-accent-secondary)" strokeWidth={1.5} />
             ) : (
@@ -43,13 +43,13 @@ export default function ServiceCard({
             )}
           </div>
         )}
-        <span className={`${styles.tag} ${audience === "perso" ? styles.tagPerso : styles.tagPro}`}>
+        <span className={`${styles.tag} ${audience === "perso" ? styles.tagPerso : styles.tagPro}`} data-fb-label={`Étiquette « ${audience === "pro" ? "Entreprises" : "Particuliers"} »`}>
           {audience === "pro" ? "Entreprises" : "Particuliers"}
         </span>
       </div>
       <h3 className={styles.title}>{title}</h3>
       <p className={styles.desc}>{shortDescription}</p>
-      <span className={styles.cta}>
+      <span className={styles.cta} data-fb-label={`Bouton « ${cta} »`}>
         {cta} <ArrowRight size={15} className={styles.arrow} aria-hidden="true" strokeWidth={2} />
       </span>
     </Link>

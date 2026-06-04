@@ -16,7 +16,7 @@ const reassurances = [
 
 export default function OfferModalities() {
   return (
-    <section className={styles.section} aria-label="Modalités d'accompagnement" data-fb-label="Section Modalités & réassurance">
+    <section className={styles.section} aria-label="Modalités d'accompagnement" data-fb-container="Section Modalités">
       <Container>
         <div className={styles.card}>
           <div className={styles.top}>

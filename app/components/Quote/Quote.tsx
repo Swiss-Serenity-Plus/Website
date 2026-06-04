@@ -20,7 +20,7 @@ function Ornament() {
 
 export default function Quote({ children }: QuoteProps) {
   return (
-    <section className={styles.section} data-fb-label="Section Citation">
+    <section className={styles.section} data-fb-container="Section Citation">
       <Container>
         <div className={styles.inner}>
           <Ornament />

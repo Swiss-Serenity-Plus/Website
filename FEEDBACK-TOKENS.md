@@ -1,84 +1,82 @@
 # Tokenisation des composants — Outil de retours
 
-Référence des « tokens » attribués à chaque bloc annotable du site, afin que les
-tickets de l'outil de retours soient **précis et non ambigus** (un encadré
-sélectionné ne renvoie plus le titre de sa section).
+Objectif : chaque ticket identifie l'élément cliqué par **QUOI + OÙ** afin de
+donner un prompt précis à Claude Code.
 
-## Principe
+## Comment le libellé est construit
 
-Chaque ticket identifie l'élément par **QUOI + contenu affiché** :
-`Le titre "Un accompagnement sur mesure pour chaque besoin"`.
+`getElementLabel()` (`FeedbackWidget.tsx`) résout, pour l'élément cliqué :
 
-Le libellé est résolu par `getElementLabel()` (`FeedbackWidget.tsx`) qui remonte
-le DOM depuis l'élément cliqué et retient la **première information précise**,
-dans cet ordre à chaque niveau :
+1. **QUOI — le descripteur le plus proche** (`findDescriptor`), par ordre de priorité :
+   | Priorité | Source | Exemple |
+   |----------|--------|---------|
+   | 0 | `data-fb-label` explicite | `Image avec le logo`, `Bouton « En savoir plus »` |
+   | 1 | lien / bouton (texte ou `aria-label`) | `Le lien « Blog »` |
+   | 2 | contenu déduit de la balise / classe | `Le titre "…"`, `Eyebrow avec le titre "…"`, `La description avec "…"`, `La citation "…"`, `L'image « … »` |
+   | 3 | icône (`<svg>` ou image décorative) | `Icône` |
 
-1. **`data-fb-label` explicite** posé sur un conteneur (encadré, carte, section).
-2. **Nature du contenu auto-déduite** depuis la balise / la classe — aucune
-   annotation manuelle requise :
-   | Élément cliqué | Libellé produit |
-   |----------------|-----------------|
-   | `<p class="eyebrow">` | `Eyebrow avec le titre "<texte>"` |
-   | `<h1>`…`<h6>` | `Le titre "<texte>"` |
-   | `<p>` | `La description avec "<texte>"` |
-   | `<blockquote>` | `La citation "<texte>"` |
-   | `<li>` | `L'élément de liste "<texte>"` |
-   | `<img>` | `L'image « <alt> »` |
-3. **Lien / bouton** → `Le lien "<texte>"` / `Le bouton "<texte>"`.
+2. **OÙ — le conteneur le plus proche** (`findContainer`) : premier ancêtre
+   portant `data-fb-container` (carte, section, footer…).
 
-L'élément le **plus proche** gagne : cliquer le titre renvoie donc
-`Le titre "…"`, **plus jamais** la section qui le contient. Les sections et
-encadrés ne servent de libellé que lorsqu'on clique leur zone vide.
+3. **Composition** : `QUOI dans <article> OÙ`
+   - `Icône dans la Carte service « Coordination & Optimisation »`
+   - `Bouton « En savoir plus » dans la Carte service « … »`
+   - `Image avec le logo dans le Footer`
 
-### Identifiant stable (`id="b-…"`)
+   Exception : un **contenu texte autoporteur** (titre, eyebrow, description,
+   citation) reste **seul**, car son texte l'identifie déjà :
+   - `Le titre "Un accompagnement sur mesure pour chaque besoin"`
+   - `Eyebrow avec le titre "Nos services"`
 
-Les conteneurs porteurs d'un `id="b-…"` alimentent la propriété **URL** du ticket
-Notion (ancre cliquable vers le bloc). Le contenu texte précis (QUOI + contenu)
-suffit par ailleurs à `grep` l'élément dans le code. Slugs générés par `fbSlug()`
-(`app/lib/fbToken.ts`).
+L'article (`la` / `le` / `l'`) est déduit du premier mot du conteneur
+(`FB_ARTICLES`).
 
-## Libellés explicites des conteneurs
+## Les deux attributs
 
-| Type de bloc | Format `data-fb-label` |
-|--------------|------------------------|
-| Section | `Section <Nom court>` |
-| Carte de service | `Carte service « <titre> »` |
-| Encadré / pilier / valeur | `Encadré pilier « <titre> »`, `Encadré valeur « <titre> »` |
-| Colonne (valeurs / étapes / résultats) | `Valeur « … »`, `Étape « … »`, `Résultat « … »` |
-| Élément de liste curé | `Livrable « … »`, `Profil cible « … »`, `Modalité « … »` |
-| Bouton / CTA | `Bouton « <texte> » (<contexte>)` |
-| Lien | `Lien de navigation « … »`, `Lien pied de page « … »` |
+| Attribut | Posé sur | Rôle |
+|----------|----------|------|
+| `data-fb-container` | cartes, sections, footer, en-tête, encadrés | le **OÙ** (contexte) |
+| `data-fb-label` | feuilles spécifiques (logo, icône d'une carte, CTA, étiquette, liens, items de liste) | un **QUOI** explicite qui prime sur la déduction automatique |
+| `id="b-…"` | conteneurs | identifiant stable → propriété **URL** du ticket Notion |
 
-## Inventaire par composant
+La grande majorité des éléments (titres, paragraphes, eyebrows, images, icônes
+génériques) n'ont **aucun attribut** : ils sont décrits automatiquement. On
+n'annote explicitement que les cas particuliers (logo, CTA, étiquette…).
 
-| Composant | Section (`data-fb-label`) | Blocs tokenisés (`id` → label) |
-|-----------|---------------------------|--------------------------------|
-| `Header` | `En-tête / Navigation` | `b-header-logo`, `b-nav-<slug>` (liens), `b-nav-cta-contact` |
-| `Hero` | `Section Hero (accueil)` | `b-hero-cta-contact`, `b-hero-cta-services` |
-| `ValueProp3Col` | `Section Piliers de valeur` | `b-pilier-<slug>` (3 piliers) |
-| `ServiceSection` | `Section Services` | cartes via `ServiceCard` |
-| `ServiceCard` | — | `b-service-<slug>` → `Carte service « <titre> »` |
-| `AboutTeaser` | `Section À propos (aperçu)` | `b-about-teaser-cta`, `b-about-teaser-portrait` |
-| `LocalTrust` | `Section Localisation` | — |
-| `ContactCTA` | `Section Appel à l'action (Contact)` | `b-contact-cta-button` |
-| `Footer` | `Pied de page` | `b-footer-phone`, `b-footer-email`, `b-footer-social-<rés>`, `b-footer-service-<slug>`, `b-footer-util-<slug>` |
-| `PageHero` | `En-tête de page (titre)` | — |
-| `Breadcrumb` | `Fil d'ariane` | items → `Fil d'ariane — « <label> »` |
-| `TargetAudience` | `Section Clientèle cible` | `b-profil-<n>` → `Profil cible « … »` |
-| `DeliverablesList` | `Section Livrables` | `b-livrable-<n>` → `Livrable « … »` |
-| `ColumnsBlock` (values) | `Section Valeurs` | `b-valeur-<slug>` → `Valeur « … »` |
-| `ColumnsBlock` (numbered) | `Section Méthode (étapes)` | `b-etape-<slug>` → `Étape « … »` |
-| `ColumnsBlock` (results) | `Section Résultats` | `b-resultat-<slug>` → `Résultat « … »` |
-| `OfferModalities` | `Section Modalités & réassurance` | `Modalité « … »`, `Réassurance « … »` |
-| `RelatedServices` | `Section Autres services` | cartes via `ServiceCard` |
-| `Quote` | `Section Citation` | — |
-| Page `/a-propos` | `Section En-tête À propos` / `Section Parcours` / `Section Notre engagement` | `b-about-portrait`, `b-about-card-professionnels`, `b-about-card-particuliers`, `b-engagement-<slug>` |
-| Page `/contact` | `Section Formulaire de contact` | `b-contact-form`, `b-contact-info`, coordonnées (téléphone / e-mail / adresse) |
+## Conteneurs (`data-fb-container`)
+
+| Composant | Libellé |
+|-----------|---------|
+| Header | `En-tête` |
+| Footer | `Footer` |
+| Hero | `Section Hero` |
+| ValueProp3Col | `Section Piliers de valeur` + chaque pilier `Encadré pilier « … »` |
+| ServiceSection | `Section Services` |
+| ServiceCard | `Carte service « <titre> »` |
+| AboutTeaser | `Section À propos` |
+| LocalTrust | `Section Localisation` |
+| ContactCTA | `Section Contact` |
+| PageHero | `En-tête de page` |
+| Breadcrumb | `Fil d'ariane` |
+| TargetAudience | `Section Clientèle cible` |
+| DeliverablesList | `Section Livrables` |
+| ColumnsBlock | `Section Valeurs` / `Section Méthode (étapes)` / `Section Résultats` + chaque colonne `Valeur/Étape/Résultat « … »` |
+| OfferModalities | `Section Modalités` |
+| RelatedServices | `Section Autres services` |
+| Quote | `Section Citation` |
+| `/a-propos` | `Section En-tête À propos`, `Encadré À propos « Professionnels/Particuliers »`, `Section Parcours`, `Section Notre engagement`, `Encadré valeur « … »` |
+| `/contact` | `Section Formulaire de contact`, `Encadré Informations de contact` |
+
+## Feuilles explicites (`data-fb-label`)
+
+`Image avec le logo` (header + footer), `Icône` + `Bouton « … »` + `Étiquette « … »`
+(ServiceCard), `Livrable « … »`, `Profil cible « … »`, `Modalité « … »`,
+`Réassurance « … »`, `Lien …`, `Coordonnée — …`, portraits.
 
 ## Ajouter un nouveau bloc
 
-1. Ajouter `data-fb-label="<libellé précis>"` sur l'élément.
-2. Ajouter `id="b-<contexte>-<slug>"` (utiliser `fbSlug()` pour les slugs dynamiques).
-3. Mettre la section parente à jour avec un `data-fb-label` court si elle n'en a pas.
-
-Pour un bouton, passer `id` et `fbLabel` au composant `Button`.
+- **Conteneur** (carte, section, encadré) → `data-fb-container="<Nom>"` + `id="b-…"`.
+  Ajouter l'article du premier mot dans `FB_ARTICLES` si besoin.
+- **Feuille particulière** (logo, étiquette…) → `data-fb-label="<QUOI>"`.
+- **Contenu standard** (titre, texte, image, icône) → rien : c'est automatique.
+- **Bouton** → passer `id` et `fbLabel` au composant `Button`.

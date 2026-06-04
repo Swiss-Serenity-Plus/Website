@@ -44,13 +44,13 @@ export default function ContactPage() {
             { label: "Contact" },
           ]}
         />
-        <section className={styles.section} data-fb-label="Section Formulaire de contact">
+        <section className={styles.section} data-fb-container="Section Formulaire de contact">
           <Container>
             <div className={styles.grid}>
               <div className={styles.formWrap} id="b-contact-form" data-fb-label="Formulaire de contact (Fillout)">
                 <FilloutForm />
               </div>
-              <aside className={styles.info} id="b-contact-info" data-fb-label="Encadré Informations de contact">
+              <aside className={styles.info} id="b-contact-info" data-fb-container="Encadré Informations de contact">
                 <div className={styles.infoContent}>
                   <p className="eyebrow">Coordonnées</p>
                   <h2 className={styles.infoTitle}>Informations de contact</h2>

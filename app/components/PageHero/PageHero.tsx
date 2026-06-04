@@ -18,7 +18,7 @@ interface PageHeroProps {
 
 export default function PageHero({ eyebrow, title, subtitle, breadcrumbs }: PageHeroProps) {
   return (
-    <section className={styles.section} aria-labelledby="page-title" data-fb-label="En-tête de page (titre)">
+    <section className={styles.section} aria-labelledby="page-title" data-fb-container="En-tête de page">
       <Container>
         <Breadcrumb items={breadcrumbs} />
         <div className={styles.content}>

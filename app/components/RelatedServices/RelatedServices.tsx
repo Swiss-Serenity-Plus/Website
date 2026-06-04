@@ -21,7 +21,7 @@ export default function RelatedServices({ currentHref, services }: RelatedServic
   const related = services.filter((s) => s.href !== currentHref).slice(0, 4);
 
   return (
-    <section className={styles.section} aria-labelledby="related-title" data-fb-label="Section Autres services">
+    <section className={styles.section} aria-labelledby="related-title" data-fb-container="Section Autres services">
       <Container>
         <div className={styles.header}>
           <p className="eyebrow">Nos autres services</p>

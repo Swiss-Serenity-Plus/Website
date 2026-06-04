@@ -42,7 +42,7 @@ const utils = [
 
 export default function Footer() {
   return (
-    <footer className={styles.footer} role="contentinfo" data-fb-label="Pied de page">
+    <footer className={styles.footer} role="contentinfo" data-fb-container="Footer">
       <div className={styles.inner}>
         <div className={styles.grid}>
           <div className={styles.col}>
@@ -53,15 +53,16 @@ export default function Footer() {
               height={155}
               className={styles.logo}
               priority
+              data-fb-label="Image avec le logo"
             />
             <address className={styles.address}>
               <p>Chemin de Clavoz 18</p>
               <p>1950 Sion, Valais, Suisse</p>
               <p style={{ marginTop: "12px" }}>
-                <a href="tel:+41762198513" className={styles.footerLink} id="b-footer-phone" data-fb-label="Lien téléphone (pied de page)">+41 76 219 85 13</a>
+                <a href="tel:+41762198513" className={styles.footerLink} id="b-footer-phone" data-fb-label="Lien téléphone">+41 76 219 85 13</a>
               </p>
               <p>
-                <a href="mailto:mireille.dayer@swiss-serenity-plus.ch" className={styles.footerLink} id="b-footer-email" data-fb-label="Lien e-mail (pied de page)">
+                <a href="mailto:mireille.dayer@swiss-serenity-plus.ch" className={styles.footerLink} id="b-footer-email" data-fb-label="Lien e-mail">
                   mireille.dayer@swiss-serenity-plus.ch
                 </a>
               </p>
@@ -76,7 +77,7 @@ export default function Footer() {
                     aria-label={s.label}
                     className={styles.socialLink}
                     id={`b-footer-social-${fbSlug(s.label.split(" ")[0])}`}
-                    data-fb-label={`Lien réseau social « ${s.label.split(" ")[0]} » (pied de page)`}
+                    data-fb-label={`Lien réseau social « ${s.label.split(" ")[0]} »`}
                   >
                     <s.Icon />
                   </a>
@@ -90,7 +91,7 @@ export default function Footer() {
             <ul className={styles.linkList}>
               {services.map((s) => (
                 <li key={s.href}>
-                  <Link href={s.href} className={styles.footerLink} id={`b-footer-service-${fbSlug(s.label)}`} data-fb-label={`Lien pied de page « ${s.label} »`}>{s.label}</Link>
+                  <Link href={s.href} className={styles.footerLink} id={`b-footer-service-${fbSlug(s.label)}`} data-fb-label={`Lien « ${s.label} »`}>{s.label}</Link>
                 </li>
               ))}
             </ul>
@@ -101,7 +102,7 @@ export default function Footer() {
             <ul className={styles.linkList}>
               {utils.map((u) => (
                 <li key={u.href}>
-                  <Link href={u.href} className={styles.footerLink} id={`b-footer-util-${fbSlug(u.label)}`} data-fb-label={`Lien pied de page « ${u.label} »`}>{u.label}</Link>
+                  <Link href={u.href} className={styles.footerLink} id={`b-footer-util-${fbSlug(u.label)}`} data-fb-label={`Lien « ${u.label} »`}>{u.label}</Link>
                 </li>
               ))}
             </ul>

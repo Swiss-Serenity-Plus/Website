@@ -13,13 +13,13 @@ export default function ContactCTA({
   subtitle = "Prenons le temps d'un échange confidentiel pour comprendre vos besoins et envisager un accompagnement sur mesure.",
 }: ContactCTAProps) {
   return (
-    <section id="contact-cta" className={styles.section} aria-labelledby="cta-title" data-fb-label="Section Appel à l'action (Contact)">
+    <section id="contact-cta" className={styles.section} aria-labelledby="cta-title" data-fb-container="Section Contact">
       <Container>
         <div className={styles.inner}>
           <p className="eyebrow">Contact</p>
           <h2 className={styles.title} id="cta-title">{title}</h2>
           <p className={styles.subtitle}>{subtitle}</p>
-          <Button href="/contact" variant="primary" size="lg" id="b-contact-cta-button" fbLabel="Bouton « Parlons de votre projet » (bandeau Contact)">
+          <Button href="/contact" variant="primary" size="lg" id="b-contact-cta-button" fbLabel="Bouton « Parlons de votre projet »">
             Parlons de votre projet
           </Button>
         </div>
