@@ -115,11 +115,19 @@ function getElementUrl(el: HTMLElement): string {
 }
 
 function getElementLabel(el: HTMLElement): string {
+  // Tokenisation : on remonte le DOM et on collecte jusqu'à deux libellés
+  // « data-fb-label ». Le plus proche décrit le bloc précis (ex. un encadré),
+  // le suivant donne le contexte (la section qui le contient). On les combine
+  // pour obtenir un libellé sans ambiguïté : « Carte service « X » · Section Services ».
+  const labels: string[] = [];
   let current: HTMLElement | null = el;
-  while (current && current !== document.body) {
+  while (current && current !== document.body && labels.length < 2) {
     const label = current.getAttribute("data-fb-label");
-    if (label) return label;
+    if (label && !labels.includes(label)) labels.push(label);
     current = current.parentElement;
+  }
+  if (labels.length > 0) {
+    return labels.length > 1 ? `${labels[0]} · ${labels[1]}` : labels[0];
   }
   const interactive = el.closest("a, button");
   if (interactive) {

@@ -12,6 +12,9 @@ interface ButtonProps {
   type?: "button" | "submit" | "reset";
   className?: string;
   icon?: React.ReactNode;
+  id?: string;
+  /** Libellé précis pour l'outil de retours (attribut data-fb-label). */
+  fbLabel?: string;
 }
 
 export default function Button({
@@ -23,12 +26,14 @@ export default function Button({
   type = "button",
   className = "",
   icon,
+  id,
+  fbLabel,
 }: ButtonProps) {
   const classes = `${styles.btn} ${styles[variant]} ${styles[size]} ${className}`;
 
   if (href) {
     return (
-      <Link href={href} className={classes}>
+      <Link href={href} className={classes} id={id} data-fb-label={fbLabel}>
         <span>{children}</span>
         {variant === "ghost" && <ArrowUpRight size={16} className={styles.arrow} aria-hidden="true" strokeWidth={2} />}
         {icon && <span className={styles.iconRight}>{icon}</span>}
@@ -37,7 +42,7 @@ export default function Button({
   }
 
   return (
-    <button type={type} onClick={onClick} className={classes}>
+    <button type={type} onClick={onClick} className={classes} id={id} data-fb-label={fbLabel}>
       <span>{children}</span>
       {variant === "ghost" && <ArrowUpRight size={16} className={styles.arrow} aria-hidden="true" strokeWidth={2} />}
       {icon && <span className={styles.iconRight}>{icon}</span>}

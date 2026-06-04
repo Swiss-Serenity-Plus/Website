@@ -4,7 +4,7 @@ import styles from "./LocalTrust.module.css";
 
 export default function LocalTrust() {
   return (
-    <section id="localisation" className={styles.section} aria-label="Localisation">
+    <section id="localisation" className={styles.section} aria-label="Localisation" data-fb-label="Section Localisation">
       <Container>
         <div className={styles.card}>
           <div className={styles.inner}>

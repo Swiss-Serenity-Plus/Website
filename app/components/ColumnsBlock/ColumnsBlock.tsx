@@ -2,6 +2,7 @@
 import type { LucideIcon } from "lucide-react";
 import Image from "next/image";
 import Container from "../Container/Container";
+import { fbSlug } from "../../lib/fbToken";
 import styles from "./ColumnsBlock.module.css";
 
 interface Column {
@@ -22,6 +23,13 @@ interface ColumnsBlockProps {
   headerImage?: string;
 }
 
+const FB_BY_VARIANT: Record<string, { section: string; noun: string; prefix: string }> = {
+  values: { section: "Section Valeurs", noun: "Valeur", prefix: "b-valeur" },
+  numbered: { section: "Section Méthode (étapes)", noun: "Étape", prefix: "b-etape" },
+  results: { section: "Section Résultats", noun: "Résultat", prefix: "b-resultat" },
+  default: { section: "Section (colonnes)", noun: "Colonne", prefix: "b-colonne" },
+};
+
 export default function ColumnsBlock({
   eyebrow,
   title,
@@ -33,8 +41,9 @@ export default function ColumnsBlock({
   headerImage,
 }: ColumnsBlockProps) {
   const gridClass = cols === 2 ? styles.grid2 : cols === 4 ? styles.grid4 : styles.grid;
+  const fb = FB_BY_VARIANT[variant] ?? FB_BY_VARIANT.default;
   return (
-    <section className={`${styles.section} ${styles[`bg_${background}`]}`}>
+    <section className={`${styles.section} ${styles[`bg_${background}`]}`} data-fb-label={fb.section}>
       <Container>
         <div className={styles.header}>
           {headerImage && (
@@ -48,7 +57,7 @@ export default function ColumnsBlock({
         </div>
         <div className={gridClass}>
           {columns.map((col, i) => (
-            <div key={i} className={`${styles.col} ${styles[`variant_${variant}`]}`}>
+            <div key={i} className={`${styles.col} ${styles[`variant_${variant}`]}`} id={`${fb.prefix}-${fbSlug(col.title)}`} data-fb-label={`${fb.noun} « ${col.title} »`}>
               {variant === "numbered" && (
                 <span className={styles.number} aria-hidden="true">
                   {String(i + 1).padStart(2, "0")}

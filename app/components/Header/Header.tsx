@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Button from "../Button/Button";
+import { fbSlug } from "../../lib/fbToken";
 import styles from "./Header.module.css";
 
 const navItems = [
@@ -37,13 +38,15 @@ export default function Header() {
   }
 
   return (
-    <header className={`${styles.header} ${scrolled ? styles.scrolled : ""} ${menuOpen ? styles.menuOpen : ""}`} role="banner">
+    <header className={`${styles.header} ${scrolled ? styles.scrolled : ""} ${menuOpen ? styles.menuOpen : ""}`} role="banner" data-fb-label="En-tête / Navigation">
       <div className={styles.inner}>
         <Link
           href="/"
           className={styles.logo}
           aria-label="Swiss Serenity Plus — Retour en haut de page"
           onClick={handleHomeClick}
+          id="b-header-logo"
+          data-fb-label="Logo Swiss Serenity Plus (en-tête)"
         >
           <span className={styles.logoCrop}>
             <Image
@@ -64,12 +67,14 @@ export default function Header() {
               href={item.href}
               className={styles.navLink}
               onClick={item.href === "/" ? handleHomeClick : () => setMenuOpen(false)}
+              id={`b-nav-${fbSlug(item.label)}`}
+              data-fb-label={`Lien de navigation « ${item.label} »`}
             >
               {item.label}
             </Link>
           ))}
           <div className={styles.navCta}>
-            <Button href="/contact" variant="dark" size="sm">
+            <Button href="/contact" variant="dark" size="sm" id="b-nav-cta-contact" fbLabel="Bouton « Prendre contact » (en-tête)">
               Prendre contact
             </Button>
           </div>

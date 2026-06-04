@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { LucideIcon, ArrowRight } from "lucide-react";
+import { fbSlug } from "../../lib/fbToken";
 import styles from "./ServiceCard.module.css";
 
 interface ServiceCardProps {
@@ -23,8 +24,15 @@ export default function ServiceCard({
   audience,
   cta = "En savoir plus",
 }: ServiceCardProps) {
+  const slug = href.split("/").filter(Boolean).pop() ?? fbSlug(title);
   return (
-    <Link href={href} className={styles.card} aria-label={`${title} — ${cta}`}>
+    <Link
+      href={href}
+      className={styles.card}
+      aria-label={`${title} — ${cta}`}
+      id={`b-service-${slug}`}
+      data-fb-label={`Carte service « ${title} »`}
+    >
       <div className={styles.cardTop}>
         {(Icon || iconImage) && (
           <div className={styles.iconWrap} aria-hidden="true">
