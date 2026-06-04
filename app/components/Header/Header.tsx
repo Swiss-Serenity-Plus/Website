@@ -10,7 +10,7 @@ import styles from "./Header.module.css";
 
 const navItems = [
   { label: "Accueil", href: "/" },
-  { label: "Expertise", href: "/#services" },
+  { label: "Prestations", href: "/#services" },
   { label: "À propos", href: "/a-propos" },
 ];
 
