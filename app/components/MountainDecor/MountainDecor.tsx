@@ -46,13 +46,24 @@ export default function MountainDecor() {
       const scrollY = window.scrollY;
       const docH = document.documentElement.scrollHeight;
 
-      // Enveloppe d'opacité : 0 sur la hero, montée dans le corps, descente
-      // à l'approche du footer → apparition ET disparition en douceur.
+      // Enveloppe d'opacité : 0 sur la hero, montée dans le corps, puis
+      // disparition une fois la section « À propos » passée → le décor n'est
+      // plus visible quand on arrive sur l'encadré « Localisation ».
       const fadeDist = vh * 0.6;          // distance de fondu (~60% d'écran)
       const revealStart = vh * 0.7;       // révélation une fois la hero franchie
       const fadeIn = clamp((scrollY - revealStart) / fadeDist, 0, 1);
-      const bottomDist = docH - (scrollY + vh);
-      const fadeOut = clamp(bottomDist / fadeDist, 0, 1);
+
+      // Disparition calée sur l'arrivée de la section « Localisation » : le
+      // fondu se termine avant qu'elle n'atteigne le milieu du viewport.
+      const boundary = document.getElementById("localisation");
+      let fadeOut: number;
+      if (boundary) {
+        const top = boundary.getBoundingClientRect().top;
+        fadeOut = clamp((top - vh * 0.6) / fadeDist, 0, 1);
+      } else {
+        const bottomDist = docH - (scrollY + vh);
+        fadeOut = clamp(bottomDist / fadeDist, 0, 1);
+      }
 
       root.style.setProperty("--reveal", (fadeIn * fadeOut).toFixed(3));
 
