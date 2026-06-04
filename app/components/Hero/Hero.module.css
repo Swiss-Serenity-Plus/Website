@@ -71,20 +71,20 @@
   inset: 0;
   z-index: 4;
   pointer-events: none;
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  /* mobile : givrage concentré sur la frange basse du bandeau */
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  /* mobile : givrage concentré sur la frange basse du bandeau (bande resserrée) */
   -webkit-mask-image: linear-gradient(
     to top,
     #000 0%,
-    rgba(0, 0, 0, 0.55) 20%,
-    transparent 46%
+    rgba(0, 0, 0, 0.4) 14%,
+    transparent 34%
   );
   mask-image: linear-gradient(
     to top,
     #000 0%,
-    rgba(0, 0, 0, 0.55) 20%,
-    transparent 46%
+    rgba(0, 0, 0, 0.4) 14%,
+    transparent 34%
   );
 }
 
@@ -139,19 +139,20 @@
     );
   }
 
-  /* Givrage de la couture verticale gauche — réduit pour moins masquer la photo */
+  /* Givrage de la couture verticale gauche — bande resserrée pour moins de
+     brouillard et moins masquer la photo */
   .edgeBlur {
     -webkit-mask-image: linear-gradient(
       to right,
       #000 0%,
-      rgba(0, 0, 0, 0.45) 13%,
-      transparent 32%
+      rgba(0, 0, 0, 0.35) 8%,
+      transparent 22%
     );
     mask-image: linear-gradient(
       to right,
       #000 0%,
-      rgba(0, 0, 0, 0.45) 13%,
-      transparent 32%
+      rgba(0, 0, 0, 0.35) 8%,
+      transparent 22%
     );
   }
 }
