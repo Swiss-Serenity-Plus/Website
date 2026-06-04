@@ -64,14 +64,15 @@
   );
 }
 
-/* Couche givrée — flou réel sur la couture, masqué pour rester progressif */
+/* Couche givrée — flou réel sur la couture, réduit pour limiter l'effet de
+   brouillard (demande client). Masqué pour rester progressif. */
 .edgeBlur {
   position: absolute;
   inset: 0;
   z-index: 4;
   pointer-events: none;
-  backdrop-filter: blur(9px);
-  -webkit-backdrop-filter: blur(9px);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   /* mobile : givrage concentré sur la frange basse du bandeau */
   -webkit-mask-image: linear-gradient(
     to top,
@@ -88,48 +89,41 @@
 }
 
 /* ---------------------------------------------------------------------------
-   DESKTOP — photo PLEIN CADRE (full-bleed), texte clair par-dessus
-   (preview sans le fond blanc/crème de séparation)
+   DESKTOP — photo ancrée à droite, texte à gauche
    --------------------------------------------------------------------------- */
 @media (min-width: 1024px) {
   .hero {
     min-height: 90vh;
   }
 
-  /* On retire le fondu blanc/crème en bas du hero */
-  .hero::after {
-    display: none;
-  }
-
   .mountainsSvg {
     display: block;
   }
 
-  /* Photo plein cadre : plus de bande crème à gauche, l'image est entière */
   .imageWrap {
-    inset: 0;
-    width: auto;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: auto;
+    width: 54%;
     height: auto;
-    max-width: none;
+    max-width: 1000px;
   }
 
-  .mountainImg {
-    object-position: center 38%;
-  }
-
-  /* Voile sombre gauche : garantit le contraste du texte sans réintroduire de
-     fond blanc. La photo reste pleinement visible sur sa droite. */
+  /* Fondu gauche : la photo s'estompe dans le crème — resserré pour dévoiler
+     davantage l'image sur son côté gauche */
   .imageWrap::before {
     background: linear-gradient(
       to right,
-      rgba(6, 36, 69, 0.68) 0%,
-      rgba(6, 36, 69, 0.42) 28%,
-      rgba(6, 36, 69, 0.14) 48%,
-      transparent 66%
+      var(--c-bg) 0%,
+      rgba(247, 245, 241, 0.9) 7%,
+      rgba(247, 245, 241, 0.5) 20%,
+      rgba(247, 245, 241, 0.15) 34%,
+      transparent 48%
     );
   }
 
-  /* Léger voile bas pour la lisibilité des CTA et la base de la photo */
+  /* Fondu bas : transition progressive vers la section suivante */
   .imageWrap::after {
     content: '';
     position: absolute;
@@ -138,28 +132,37 @@
     pointer-events: none;
     background: linear-gradient(
       to top,
-      rgba(6, 36, 69, 0.5) 0%,
-      rgba(6, 36, 69, 0.12) 18%,
-      transparent 36%
+      var(--c-bg) 0%,
+      rgba(247, 245, 241, 0.9) 12%,
+      rgba(247, 245, 241, 0.45) 28%,
+      transparent 50%
     );
   }
 
-  /* Plus de couche givrée sur la couture (supprimée avec le fond crème) */
+  /* Givrage de la couture verticale gauche — réduit pour moins masquer la photo */
   .edgeBlur {
-    display: none;
-  }
-
-  /* Texte clair par-dessus la photo */
-  .content :global(.eyebrow) {
-    color: #ead9ba;
-    text-shadow: 0 1px 10px rgba(6, 36, 69, 0.5);
-  }
-
-  .ctas .heroCtaSecondary {
-    color: #ffffff;
+    -webkit-mask-image: linear-gradient(
+      to right,
+      #000 0%,
+      rgba(0, 0, 0, 0.45) 13%,
+      transparent 32%
+    );
+    mask-image: linear-gradient(
+      to right,
+      #000 0%,
+      rgba(0, 0, 0, 0.45) 13%,
+      transparent 32%
+    );
   }
 }
 
+@media (min-width: 1280px) {
+  .imageWrap { width: 52%; }
+}
+
+@media (min-width: 1600px) {
+  .imageWrap { width: 50%; }
+}
 
 /* ---------------------------------------------------------------------------
    TEXTE — premier plan
@@ -224,11 +227,7 @@
 }
 
 @media (min-width: 1024px) {
-  .title {
-    font-size: 52px;
-    color: #ffffff;
-    text-shadow: 0 2px 20px rgba(6, 36, 69, 0.45);
-  }
+  .title { font-size: 52px; }
 }
 
 @media (min-width: 1280px) {
@@ -248,12 +247,7 @@
 }
 
 @media (min-width: 1024px) {
-  .subtitle {
-    font-size: 18px;
-    margin-top: 0;
-    color: rgba(255, 255, 255, 0.92);
-    text-shadow: 0 1px 12px rgba(6, 36, 69, 0.45);
-  }
+  .subtitle { font-size: 18px; margin-top: 0; }
 }
 
 .ctas {
