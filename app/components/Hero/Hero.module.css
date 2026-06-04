@@ -58,9 +58,9 @@
   background: linear-gradient(
     to top,
     var(--c-bg) 0%,
-    rgba(247, 245, 241, 0.92) 18%,
-    rgba(247, 245, 241, 0.4) 40%,
-    transparent 62%
+    rgba(247, 245, 241, 0.88) 14%,
+    rgba(247, 245, 241, 0.34) 34%,
+    transparent 54%
   );
 }
 
@@ -89,20 +89,21 @@
     max-width: 1000px;
   }
 
-  /* Fondu gauche : transition progressive mais discrète (dégradé seul, sans
-     flou) — entre une coupe nette et un fondu brumeux. */
+  /* Fondu gauche : transition resserrée et légère — la photo se révèle vite,
+     le voile crème ne déborde plus vers le texte. Plusieurs paliers pour rester
+     doux (ni nuage étalé, ni coupe nette). */
   .imageWrap::before {
     background: linear-gradient(
       to right,
       var(--c-bg) 0%,
-      rgba(247, 245, 241, 0.82) 6%,
-      rgba(247, 245, 241, 0.4) 17%,
-      rgba(247, 245, 241, 0.1) 28%,
-      transparent 40%
+      rgba(247, 245, 241, 0.7) 3%,
+      rgba(247, 245, 241, 0.3) 9%,
+      rgba(247, 245, 241, 0.08) 16%,
+      transparent 24%
     );
   }
 
-  /* Fondu bas : transition progressive vers la section suivante */
+  /* Fondu bas : transition progressive vers la section suivante, allégée */
   .imageWrap::after {
     content: '';
     position: absolute;
@@ -112,9 +113,9 @@
     background: linear-gradient(
       to top,
       var(--c-bg) 0%,
-      rgba(247, 245, 241, 0.9) 12%,
-      rgba(247, 245, 241, 0.45) 28%,
-      transparent 50%
+      rgba(247, 245, 241, 0.85) 9%,
+      rgba(247, 245, 241, 0.35) 24%,
+      transparent 42%
     );
   }
 }
