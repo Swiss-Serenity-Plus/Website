@@ -87,37 +87,14 @@
     width: 54%;
     height: auto;
     max-width: 1000px;
+    /* Séparation NETTE en diagonale (aucun fondu) : la photo est coupée par une
+       ligne oblique — plus haute à droite, descendant vers la gauche — pour
+       laisser le texte sur le crème sans le rogner (au lieu d'une barre verticale). */
+    clip-path: polygon(32% 0, 100% 0, 100% 100%, 14% 100%);
   }
 
-  /* Fondu gauche : transition resserrée et légère — la photo se révèle vite,
-     le voile crème ne déborde plus vers le texte. Plusieurs paliers pour rester
-     doux (ni nuage étalé, ni coupe nette). */
-  .imageWrap::before {
-    background: linear-gradient(
-      to right,
-      var(--c-bg) 0%,
-      rgba(247, 245, 241, 0.7) 3%,
-      rgba(247, 245, 241, 0.3) 9%,
-      rgba(247, 245, 241, 0.08) 16%,
-      transparent 24%
-    );
-  }
-
-  /* Fondu bas : transition progressive vers la section suivante, allégée */
-  .imageWrap::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 3;
-    pointer-events: none;
-    background: linear-gradient(
-      to top,
-      var(--c-bg) 0%,
-      rgba(247, 245, 241, 0.85) 9%,
-      rgba(247, 245, 241, 0.35) 24%,
-      transparent 42%
-    );
-  }
+  /* Desktop : plus aucun fondu — on neutralise le voile crème hérité du mobile. */
+  .imageWrap::before { display: none; }
 }
 
 @media (min-width: 1280px) {
