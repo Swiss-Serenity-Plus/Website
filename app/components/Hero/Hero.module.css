@@ -179,26 +179,14 @@
 }
 
 .title {
-  font-size: 34px;
+  /* MIR-354 : « Sérénité · Succès · Performance » sur une seule ligne.
+     nowrap + clamp garantissent une ligne unique qui s'adapte à la largeur
+     (de la mobile au grand écran) sans jamais déborder. */
+  font-size: clamp(20px, 5.8vw, 46px);
   font-weight: 600;
   line-height: 1.1;
   color: var(--c-text);
-}
-
-@media (min-width: 480px) {
-  .title { font-size: 40px; }
-}
-
-@media (min-width: 1024px) {
-  .title { font-size: 52px; }
-}
-
-@media (min-width: 1280px) {
-  .title { font-size: 58px; }
-}
-
-@media (min-width: 1600px) {
-  .title { font-size: 64px; }
+  white-space: nowrap;
 }
 
 .subtitle {

@@ -66,7 +66,7 @@ export default function Hero() {
         <div className={styles.content}>
           <p className="eyebrow">Votre partenaire de confiance au&nbsp;quotidien</p>
           <h1 className={styles.title}>
-            Une expertise pensée pour allier<br />Sérénité · Succès · Performance
+            Sérénité · Succès · Performance
           </h1>
           <p className={styles.subtitle}>
             Swiss Serenity Plus® accompagne les PME, Indépendants, Institutions, PPE ainsi que les Particuliers avec des solutions sur mesure visant à optimiser leur organisation, gagner en efficacité, simplifier leur quotidien et favoriser la croissance de leurs activités.
