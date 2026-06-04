@@ -114,39 +114,62 @@ function getElementUrl(el: HTMLElement): string {
   return window.location.origin + window.location.pathname;
 }
 
+// Texte visible et nettoyé d'un élément (innerText respecte les <br> et le masquage).
+function fbText(el: HTMLElement): string {
+  const raw = (el.innerText ?? el.textContent ?? "").replace(/\s+/g, " ").trim();
+  return raw.length > 160 ? `${raw.slice(0, 160)}…` : raw;
+}
+
+// Décrit un élément par « QUOI "contenu" » à partir de sa nature (titre, eyebrow,
+// description, image, citation, élément de liste). Renvoie null si l'élément
+// n'est pas un contenu autoporteur (div, span, svg…).
+function describeElement(el: HTMLElement): string | null {
+  const tag = el.tagName;
+  if (tag === "IMG") {
+    const alt = (el as HTMLImageElement).alt?.trim();
+    return `L'image « ${alt || "sans description"} »`;
+  }
+  const text = fbText(el);
+  if (!text) return null;
+  if (el.classList?.contains("eyebrow")) return `Eyebrow avec le titre "${text}"`;
+  if (/^H[1-6]$/.test(tag)) return `Le titre "${text}"`;
+  if (tag === "BLOCKQUOTE") return `La citation "${text}"`;
+  if (tag === "P") return `La description avec "${text}"`;
+  if (tag === "LI") return `L'élément de liste "${text}"`;
+  if (tag === "ADDRESS") return `L'adresse "${text}"`;
+  return null;
+}
+
 function getElementLabel(el: HTMLElement): string {
-  // Tokenisation : on remonte le DOM et on collecte jusqu'à deux libellés
-  // « data-fb-label ». Le plus proche décrit le bloc précis (ex. un encadré),
-  // le suivant donne le contexte (la section qui le contient). On les combine
-  // pour obtenir un libellé sans ambiguïté : « Carte service « X » · Section Services ».
-  const labels: string[] = [];
+  // On remonte le DOM depuis l'élément cliqué et on retient la PREMIÈRE
+  // information précise rencontrée. Priorité, à chaque niveau :
+  //   1. data-fb-label explicite (encadré, carte, section…)
+  //   2. nature du contenu auto-déduite : Le titre / La description / Eyebrow / L'image…
+  //   3. lien ou bouton → Le lien / Le bouton "texte"
+  // L'élément le plus proche gagne : un titre ne renvoie donc plus sa section.
   let current: HTMLElement | null = el;
-  while (current && current !== document.body && labels.length < 2) {
-    const label = current.getAttribute("data-fb-label");
-    if (label && !labels.includes(label)) labels.push(label);
+  let depth = 0;
+  while (current && current !== document.body && depth < 8) {
+    const explicit = current.getAttribute("data-fb-label");
+    if (explicit) return explicit;
+    const described = describeElement(current);
+    if (described) return described;
+    if (current.tagName === "BUTTON" || current.tagName === "A") {
+      const text = fbText(current);
+      if (text && text.length < 80) {
+        return current.tagName === "BUTTON" ? `Le bouton "${text}"` : `Le lien "${text}"`;
+      }
+    }
     current = current.parentElement;
+    depth++;
   }
-  if (labels.length > 0) {
-    return labels.length > 1 ? `${labels[0]} · ${labels[1]}` : labels[0];
-  }
-  const interactive = el.closest("a, button");
-  if (interactive) {
-    const linkEl = interactive as HTMLElement;
-    const directText = Array.from(linkEl.childNodes)
-      .filter((n) => n.nodeType === Node.TEXT_NODE)
-      .map((n) => n.textContent?.trim())
-      .filter(Boolean)
-      .join(" ");
-    const text = directText || linkEl.innerText?.trim();
-    if (text && text.length < 60 && !text.includes("\n")) return text;
-  }
-  if (/^H[1-6]$/.test(el.tagName)) return el.innerText.trim().slice(0, 60);
+  // Repli : on s'appuie sur la section englobante.
   const block = el.closest("section, article, header, footer, nav, main, aside, form");
   if (block) {
     const ariaLabel = block.getAttribute("aria-label");
     if (ariaLabel && ariaLabel.length < 60) return ariaLabel;
     const heading = block.querySelector("h1, h2, h3, h4");
-    if (heading) return heading.textContent?.trim().slice(0, 60) || "";
+    if (heading) return `Le titre "${fbText(heading as HTMLElement)}"`;
     const tagLabels: Record<string, string> = {
       HEADER: "En-tête de page", FOOTER: "Pied de page",
       NAV: "Navigation", MAIN: "Contenu principal",
@@ -154,7 +177,7 @@ function getElementLabel(el: HTMLElement): string {
     };
     return tagLabels[block.tagName] || "Section";
   }
-  return el.innerText?.trim().slice(0, 50) || el.tagName.toLowerCase();
+  return fbText(el) || el.tagName.toLowerCase();
 }
 
 interface Draft {

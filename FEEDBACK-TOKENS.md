@@ -6,24 +6,38 @@ sélectionné ne renvoie plus le titre de sa section).
 
 ## Principe
 
-Chaque bloc cliquable porte deux attributs :
+Chaque ticket identifie l'élément par **QUOI + contenu affiché** :
+`Le titre "Un accompagnement sur mesure pour chaque besoin"`.
 
-| Attribut | Rôle | Exemple |
-|----------|------|---------|
-| `id="b-…"` | **Identifiant** stable. Repris automatiquement dans la propriété **URL** du ticket Notion (ancre cliquable). | `b-service-structuration-organisation` |
-| `data-fb-label` | **Texte** précis, lisible par un humain ou un LLM. | `Carte service « Coordination & Optimisation »` |
+Le libellé est résolu par `getElementLabel()` (`FeedbackWidget.tsx`) qui remonte
+le DOM depuis l'élément cliqué et retient la **première information précise**,
+dans cet ordre à chaque niveau :
 
-`getElementLabel()` (dans `FeedbackWidget.tsx`) remonte le DOM et combine **les
-deux libellés les plus proches** : le bloc précis, puis sa section de contexte.
+1. **`data-fb-label` explicite** posé sur un conteneur (encadré, carte, section).
+2. **Nature du contenu auto-déduite** depuis la balise / la classe — aucune
+   annotation manuelle requise :
+   | Élément cliqué | Libellé produit |
+   |----------------|-----------------|
+   | `<p class="eyebrow">` | `Eyebrow avec le titre "<texte>"` |
+   | `<h1>`…`<h6>` | `Le titre "<texte>"` |
+   | `<p>` | `La description avec "<texte>"` |
+   | `<blockquote>` | `La citation "<texte>"` |
+   | `<li>` | `L'élément de liste "<texte>"` |
+   | `<img>` | `L'image « <alt> »` |
+3. **Lien / bouton** → `Le lien "<texte>"` / `Le bouton "<texte>"`.
 
-> Exemple de libellé final d'un ticket :
-> **`Carte service « Coordination & Optimisation » · Section Services`**
+L'élément le **plus proche** gagne : cliquer le titre renvoie donc
+`Le titre "…"`, **plus jamais** la section qui le contient. Les sections et
+encadrés ne servent de libellé que lorsqu'on clique leur zone vide.
 
-Les sections portent un `data-fb-label` court et sémantique (`Section Services`)
-plutôt que leur long titre marketing. Les identifiants sont générés via
-`fbSlug()` (`app/lib/fbToken.ts`).
+### Identifiant stable (`id="b-…"`)
 
-## Vocabulaire des libellés
+Les conteneurs porteurs d'un `id="b-…"` alimentent la propriété **URL** du ticket
+Notion (ancre cliquable vers le bloc). Le contenu texte précis (QUOI + contenu)
+suffit par ailleurs à `grep` l'élément dans le code. Slugs générés par `fbSlug()`
+(`app/lib/fbToken.ts`).
+
+## Libellés explicites des conteneurs
 
 | Type de bloc | Format `data-fb-label` |
 |--------------|------------------------|
@@ -31,10 +45,9 @@ plutôt que leur long titre marketing. Les identifiants sont générés via
 | Carte de service | `Carte service « <titre> »` |
 | Encadré / pilier / valeur | `Encadré pilier « <titre> »`, `Encadré valeur « <titre> »` |
 | Colonne (valeurs / étapes / résultats) | `Valeur « … »`, `Étape « … »`, `Résultat « … »` |
-| Élément de liste | `Livrable « … »`, `Profil cible « … »`, `Modalité « … »` |
-| Bouton / CTA | `Bouton « <texte> »` |
+| Élément de liste curé | `Livrable « … »`, `Profil cible « … »`, `Modalité « … »` |
+| Bouton / CTA | `Bouton « <texte> » (<contexte>)` |
 | Lien | `Lien de navigation « … »`, `Lien pied de page « … »` |
-| Image | `Photo portrait de Mireille Dayer` |
 
 ## Inventaire par composant
 
