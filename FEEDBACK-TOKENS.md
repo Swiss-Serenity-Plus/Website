@@ -3,6 +3,10 @@
 Objectif : chaque ticket identifie l'élément cliqué par **QUOI + OÙ** afin de
 donner un prompt précis à Claude Code.
 
+> 📌 **Process à suivre à chaque création/modification de composant :**
+> [`TOKENISATION-PROCESS.md`](./TOKENISATION-PROCESS.md). Ce fichier-ci est la
+> **référence technique et l'inventaire** ; le process est le mode d'emploi.
+
 ## Comment le libellé est construit
 
 `getElementLabel()` (`FeedbackWidget.tsx`) résout, pour l'élément cliqué :

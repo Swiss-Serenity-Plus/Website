@@ -358,6 +358,7 @@ Bouton « Voir mes retours envoyés » → vue grille des tickets Notion (refres
 8. **Next.js 16** — lire les docs dans `node_modules/next/dist/docs/` si incertain d'une API
 9. **Pas de Tailwind, pas de `any` TypeScript, pas de commentaires évidents**
 10. **Tester le build** (`npm run build`) avant chaque push
+11. **Tokenisation des retours — OBLIGATOIRE** — à chaque création ou modification de composant/bloc, appliquer le process de [`TOKENISATION-PROCESS.md`](./TOKENISATION-PROCESS.md) : conteneurs en `data-fb-container` + `id="b-…"`, feuilles particulières en `data-fb-label`, contenus texte laissés en auto. Les libellés doivent toujours refléter la **vraie valeur affichée**. Mettre à jour l'inventaire [`FEEDBACK-TOKENS.md`](./FEEDBACK-TOKENS.md).
 
 ---
 
