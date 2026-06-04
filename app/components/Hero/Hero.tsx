@@ -72,7 +72,7 @@ export default function Hero() {
             Swiss Serenity Plus® accompagne les PME, Indépendants, Institutions, PPE ainsi que les Particuliers avec des solutions sur mesure visant à optimiser leur organisation, gagner en efficacité, simplifier leur quotidien et favoriser la croissance de leurs activités.
           </p>
           <div className={styles.ctas}>
-            <Button href="/contact" variant="primary" size="lg" className={styles.heroCtaPrimary}>
+            <Button href="/contact" variant="dark" size="lg" className={styles.heroCtaPrimary}>
               Parlons de votre projet
             </Button>
             <Button href="/#services" variant="ghost" size="lg" className={styles.heroCtaSecondary}>
