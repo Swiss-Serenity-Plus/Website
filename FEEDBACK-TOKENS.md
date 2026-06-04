@@ -66,6 +66,13 @@ n'annote explicitement que les cas particuliers (logo, CTA, étiquette…).
 | Quote | `Section Citation` |
 | `/a-propos` | `Section En-tête À propos`, `Encadré À propos « Professionnels/Particuliers »`, `Section Parcours`, `Section Notre engagement`, `Encadré valeur « … »` |
 | `/contact` | `Section Formulaire de contact`, `Encadré Informations de contact` |
+| `/blog` | `Section Blog (liste d'articles)` + chaque `Carte article « <titre> »` |
+| `/mentions-legales` | `Section Mentions légales` |
+| Pages services (`/entreprises/*`, `/particuliers/*`) | héritées du `ServicePageTemplate` (PageHero, TargetAudience, DeliverablesList, ColumnsBlock, OfferModalities, RelatedServices, ContactCTA) |
+
+> Les libellés des items de liste (`Livrable`, `Profil cible`) reprennent le
+> contenu complet, tronqué seulement au-delà de 140 caractères.
+> La page `/admin/blog` (outil d'édition interne) n'est pas tokenisée.
 
 ## Feuilles explicites (`data-fb-label`)
 

@@ -88,21 +88,21 @@ export default function BlogPage() {
           ]}
         />
 
-        <section className={styles.section}>
+        <section className={styles.section} data-fb-container="Section Blog (liste d'articles)">
           <Container>
             <div className={styles.grid}>
               {articles.map((article) => (
-                <article key={article.slug} className={styles.card}>
+                <article key={article.slug} className={styles.card} id={`b-article-${article.slug}`} data-fb-container={`Carte article « ${article.title} »`}>
                   <div className={styles.cardTop}>
-                    <span className={`${styles.tag} ${article.category === "Particuliers" ? styles.tagPerso : styles.tagPro}`}>
+                    <span className={`${styles.tag} ${article.category === "Particuliers" ? styles.tagPerso : styles.tagPro}`} data-fb-label={`Étiquette « ${article.category} »`}>
                       {article.category}
                     </span>
-                    <span className={styles.readTime}>{article.readTime} de lecture</span>
+                    <span className={styles.readTime} data-fb-label="Temps de lecture">{article.readTime} de lecture</span>
                   </div>
                   <h2 className={styles.cardTitle}>{article.title}</h2>
                   <p className={styles.cardExcerpt}>{article.excerpt}</p>
                   <div className={styles.cardBottom}>
-                    <time className={styles.date} dateTime={article.date}>
+                    <time className={styles.date} dateTime={article.date} data-fb-label="Date de publication">
                       {formatDate(article.date)}
                     </time>
                     <Link href={`/blog/${article.slug}`} className={styles.readMore} aria-label={`Lire : ${article.title}`}>
