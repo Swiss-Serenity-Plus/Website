@@ -33,14 +33,11 @@ export default function MountainDecor() {
     if (!root) return;
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const desktop = window.matchMedia("(min-width: 1024px)");
 
     let ticking = false;
 
     const update = () => {
       ticking = false;
-      // Sous 1024px le décor est masqué en CSS : on ne calcule rien.
-      if (!desktop.matches) return;
 
       const vh = window.innerHeight;
       const scrollY = window.scrollY;

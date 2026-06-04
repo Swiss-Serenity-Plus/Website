@@ -74,9 +74,16 @@
   }
 }
 
-/* Sous 1024px : pas d'espace latéral → on masque complètement. */
+/* Sous 1024px : pas de gouttières → on garde une présence aux deux bords mais
+   bien plus discrète (bande visible resserrée près des bords, fort fondu vers
+   le centre, opacité basse) pour ne jamais gêner la lecture du texte. */
 @media (max-width: 1023px) {
-  .decor { display: none; }
+  .decor {
+    --mtn-width: 44vw;
+    --mtn-opacity: 0.14;
+    --mtn-blur: 3px;
+    --mtn-fade-inner: 34%; /* seul l'extérieur près du bord reste visible */
+  }
 }
 
 /* Mouvement réduit : aucune parallaxe. */
