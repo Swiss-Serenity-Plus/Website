@@ -32,13 +32,15 @@
 
 /* Le PNG du logo a une large marge transparente : on rend l'image en
    surdimension et on la recadre (overflow hidden, centré) pour agrandir
-   le wordmark visible au-delà de ses marges. */
+   le wordmark visible au-delà de ses marges. La largeur de la box est calée
+   au plus près du wordmark pour qu'il soit aligné à gauche, sur la même
+   verticale que le texte du Hero (même padding de container). */
 .logoCrop {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 58px;
-  width: 340px;
+  width: 264px;
   overflow: hidden;
 }
 
