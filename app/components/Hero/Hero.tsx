@@ -59,8 +59,6 @@ export default function Hero() {
           className={styles.mountainImg}
           priority
         />
-        {/* Couche givrée — flou progressif sur la couture photo/crème */}
-        <div className={styles.edgeBlur} />
       </div>
 
       {/* Texte — avant-plan */}

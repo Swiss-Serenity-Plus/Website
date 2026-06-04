@@ -64,29 +64,8 @@
   );
 }
 
-/* Couche givrée — flou réel sur la couture, réduit pour limiter l'effet de
-   brouillard (demande client). Masqué pour rester progressif. */
-.edgeBlur {
-  position: absolute;
-  inset: 0;
-  z-index: 4;
-  pointer-events: none;
-  backdrop-filter: blur(2px);
-  -webkit-backdrop-filter: blur(2px);
-  /* mobile : givrage concentré sur la frange basse du bandeau (bande resserrée) */
-  -webkit-mask-image: linear-gradient(
-    to top,
-    #000 0%,
-    rgba(0, 0, 0, 0.4) 14%,
-    transparent 34%
-  );
-  mask-image: linear-gradient(
-    to top,
-    #000 0%,
-    rgba(0, 0, 0, 0.4) 14%,
-    transparent 34%
-  );
-}
+/* Plus de couche givrée (backdrop-filter) : la transition photo → crème se fait
+   uniquement par dégradé progressif, sans flou (entre-deux net / flou). */
 
 /* ---------------------------------------------------------------------------
    DESKTOP — photo ancrée à droite, texte à gauche
@@ -110,16 +89,16 @@
     max-width: 1000px;
   }
 
-  /* Fondu gauche : la photo s'estompe dans le crème — resserré pour dévoiler
-     davantage l'image sur son côté gauche */
+  /* Fondu gauche : transition progressive mais discrète (dégradé seul, sans
+     flou) — entre une coupe nette et un fondu brumeux. */
   .imageWrap::before {
     background: linear-gradient(
       to right,
       var(--c-bg) 0%,
-      rgba(247, 245, 241, 0.9) 7%,
-      rgba(247, 245, 241, 0.5) 20%,
-      rgba(247, 245, 241, 0.15) 34%,
-      transparent 48%
+      rgba(247, 245, 241, 0.82) 6%,
+      rgba(247, 245, 241, 0.4) 17%,
+      rgba(247, 245, 241, 0.1) 28%,
+      transparent 40%
     );
   }
 
@@ -136,23 +115,6 @@
       rgba(247, 245, 241, 0.9) 12%,
       rgba(247, 245, 241, 0.45) 28%,
       transparent 50%
-    );
-  }
-
-  /* Givrage de la couture verticale gauche — bande resserrée pour moins de
-     brouillard et moins masquer la photo */
-  .edgeBlur {
-    -webkit-mask-image: linear-gradient(
-      to right,
-      #000 0%,
-      rgba(0, 0, 0, 0.35) 8%,
-      transparent 22%
-    );
-    mask-image: linear-gradient(
-      to right,
-      #000 0%,
-      rgba(0, 0, 0, 0.35) 8%,
-      transparent 22%
     );
   }
 }
