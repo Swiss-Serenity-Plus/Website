@@ -23,7 +23,7 @@ export default function MentionsLegalesPage() {
             { label: "Mentions légales" },
           ]}
         />
-        <section className={styles.section}>
+        <section className={styles.section} data-fb-container="Section Mentions légales">
           <Container narrow>
             <article className={styles.content}>
               <section className={styles.block}>

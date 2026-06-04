@@ -44,26 +44,26 @@ export default function ContactPage() {
             { label: "Contact" },
           ]}
         />
-        <section className={styles.section}>
+        <section className={styles.section} data-fb-container="Section Formulaire de contact">
           <Container>
             <div className={styles.grid}>
-              <div className={styles.formWrap}>
+              <div className={styles.formWrap} id="b-contact-form" data-fb-label="Formulaire de contact (Fillout)">
                 <FilloutForm />
               </div>
-              <aside className={styles.info}>
+              <aside className={styles.info} id="b-contact-info" data-fb-container="Encadré Informations de contact">
                 <div className={styles.infoContent}>
                   <p className="eyebrow">Coordonnées</p>
                   <h2 className={styles.infoTitle}>Informations de contact</h2>
                   <ul className={styles.infoList}>
-                    <li className={styles.infoItem}>
+                    <li className={styles.infoItem} data-fb-label="Coordonnée — Adresse / zone d'intervention">
                       <MapPin size={22} color="var(--c-accent-secondary)" strokeWidth={1.5} aria-hidden="true" />
                       <span>Basée à Sion, Swiss Serenity Plus® accompagne ses clients dans toute la Suisse romande.</span>
                     </li>
-                    <li className={styles.infoItem}>
+                    <li className={styles.infoItem} data-fb-label="Coordonnée — Téléphone">
                       <Phone size={22} color="var(--c-accent-secondary)" strokeWidth={1.5} aria-hidden="true" />
                       <a href="tel:+41762198513">+41 76 219 85 13</a>
                     </li>
-                    <li className={styles.infoItem}>
+                    <li className={styles.infoItem} data-fb-label="Coordonnée — E-mail">
                       <Mail size={22} color="var(--c-accent-secondary)" strokeWidth={1.5} aria-hidden="true" />
                       <a href="mailto:mireille.dayer@swiss-serenity-plus.ch">
                         mireille.dayer@swiss-serenity-plus.ch

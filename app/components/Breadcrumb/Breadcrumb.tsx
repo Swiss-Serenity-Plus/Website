@@ -13,7 +13,7 @@ interface BreadcrumbProps {
 
 export default function Breadcrumb({ items }: BreadcrumbProps) {
   return (
-    <nav aria-label="Fil d'ariane">
+    <nav aria-label="Fil d'ariane" data-fb-container="Fil d'ariane">
       <ol className={styles.list} role="list">
         {items.map((item, i) => (
           <li key={i} className={styles.item}>

@@ -16,7 +16,7 @@ const reassurances = [
 
 export default function OfferModalities() {
   return (
-    <section className={styles.section} aria-label="Modalités d'accompagnement">
+    <section className={styles.section} aria-label="Modalités d'accompagnement" data-fb-container="Section Modalités">
       <Container>
         <div className={styles.card}>
           <div className={styles.top}>
@@ -34,7 +34,7 @@ export default function OfferModalities() {
 
             <ul className={styles.options}>
               {options.map(({ Icon, label }) => (
-                <li key={label} className={styles.item}>
+                <li key={label} className={styles.item} data-fb-label={`Modalité « ${label} »`}>
                   <span className={styles.badge} aria-hidden="true">
                     <Icon size={22} strokeWidth={1.5} />
                   </span>
@@ -46,7 +46,7 @@ export default function OfferModalities() {
 
           <ul className={styles.reassure}>
             {reassurances.map(({ Icon, label }) => (
-              <li key={label} className={`${styles.item} ${styles.reassureItem}`}>
+              <li key={label} className={`${styles.item} ${styles.reassureItem}`} data-fb-label={`Réassurance « ${label} »`}>
                 <span className={styles.badge} aria-hidden="true">
                   <Icon size={20} strokeWidth={1.5} />
                 </span>

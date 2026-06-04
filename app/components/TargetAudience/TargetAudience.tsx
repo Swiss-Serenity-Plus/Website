@@ -25,7 +25,7 @@ export default function TargetAudience({
   const profileList = (
     <ul className={styles.profiles} role="list">
       {profiles.map((p, i) => (
-        <li key={i} className={styles.profile}>
+        <li key={i} className={styles.profile} id={`b-profil-${i + 1}`} data-fb-label={`Profil cible « ${typeof p === "string" ? (p.length > 140 ? p.slice(0, 140) + "…" : p) : p.title} »`}>
           <CheckCircle2 size={18} color="var(--c-accent-secondary)" strokeWidth={1.5} aria-hidden="true" className={styles.profileIcon} />
           {typeof p === "string" ? (
             <span className={styles.profileText}>{p}</span>
@@ -42,7 +42,7 @@ export default function TargetAudience({
 
   if (image) {
     return (
-      <section className={styles.section}>
+      <section className={styles.section} data-fb-container="Section Clientèle cible">
         <Container>
           <div className={`${styles.inner} ${styles.innerPhoto}`}>
             <div className={styles.left}>
@@ -68,7 +68,7 @@ export default function TargetAudience({
   }
 
   return (
-    <section className={styles.section}>
+    <section className={styles.section} data-fb-container="Section Clientèle cible">
       <Container>
         <div className={styles.inner}>
           <div className={styles.left}>

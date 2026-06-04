@@ -5,6 +5,7 @@ import AtmosphericAccent from "../AtmosphericAccent/AtmosphericAccent";
 import styles from "./ValueProp3Col.module.css";
 import { Shield, Zap } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import { fbSlug } from "../../lib/fbToken";
 
 interface Pillar {
   icon?: LucideIcon;
@@ -33,7 +34,7 @@ const pillars: Pillar[] = [
 
 export default function ValueProp3Col() {
   return (
-    <section id="valeurs" className={styles.section}>
+    <section id="valeurs" className={styles.section} data-fb-container="Section Piliers de valeur">
       <AtmosphericAccent side="right" tone="cool" intensity="subtle" />
       <Container>
         <div className={styles.header}>
@@ -44,7 +45,7 @@ export default function ValueProp3Col() {
           {pillars.map((p) => {
             const Icon = p.icon;
             return (
-              <div key={p.title} className={styles.card}>
+              <div key={p.title} className={styles.card} id={`b-pilier-${fbSlug(p.title)}`} data-fb-container={`Encadré pilier « ${p.title} »`}>
                 <div className={styles.iconWrap}>
                   {p.iconImage ? (
                     <Image src={p.iconImage} alt="" width={44} height={44} unoptimized aria-hidden="true" />

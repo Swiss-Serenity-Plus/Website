@@ -1,4 +1,60 @@
+.wrap {
+  position: relative;
+  width: 100%;
+  min-height: 500px;
+}
+
 .embed {
   width: 100%;
   min-height: 500px;
+}
+
+.state {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  text-align: center;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--c-text-muted);
+  font-size: 0.95rem;
+}
+
+.fallback {
+  max-width: 440px;
+  color: var(--c-text-muted);
+  line-height: 1.6;
+}
+
+.fallback a {
+  color: var(--c-accent-primary);
+  text-decoration: underline;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--c-border);
+  border-top-color: var(--c-accent-secondary);
+  border-radius: 9999px;
+  animation: fillout-spin 0.7s linear infinite;
+}
+
+@keyframes fillout-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+  }
 }
