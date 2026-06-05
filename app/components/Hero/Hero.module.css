@@ -79,54 +79,56 @@
     display: block;
   }
 
+  /* L'image couvre tout le fond du hero pour laisser a la diagonale la place
+     de balayer : elle passe derriere et sous la zone de texte (et vient plus a
+     gauche en bas). Le voile beige (transparence du masque) maintient la
+     lisibilite du texte par-dessus. */
   .imageWrap {
-    top: 0;
-    bottom: 0;
-    right: 0;
-    left: auto;
-    width: 56%;
+    inset: 0;
+    width: auto;
     height: auto;
-    max-width: 1040px;
+    max-width: none;
   }
 
-  /* Fondu du bord gauche : on masque directement l'image (pas d'overlay
-     creme, pas de backdrop-filter) pour qu'elle devienne progressivement
-     transparente vers la gauche et se dissolve dans le fond beige. Aucune
-     matiere ajoutee, aucun voile, aucune brume : seule l'opacite de l'image
-     diminue. Zone large mais legere pour qu'aucune arete ne soit perceptible.
-     Reglages facilement ajustables (semantique fadeStart / fadeWidth) :
-       fadeStart 4% : debut du fondu depuis le bord gauche
-       fadeWidth 34% : largeur de transition -> point median 21%, fin 38%
-     L'image reste pleinement opaque a droite (au-dela de 38%, avant le centre).
-     edgeBlur = 0 par defaut (c'est le flou qui creait l'effet brouillard). */
+  /* Fondu DIAGONAL : on masque directement l'image (pas d'overlay creme, pas
+     de backdrop-filter) pour qu'elle devienne progressivement transparente et
+     se dissolve dans le fond beige. Aucune matiere ajoutee, aucun voile, aucune
+     brume : seule l'opacite de l'image diminue. Meme douceur et meme largeur de
+     fondu qu'avant, seule l'orientation change.
+     Orientation ~120deg : voile beige dense dans le coin superieur gauche
+     (texte + boutons), se dissolvant en diagonale vers le coin inferieur droit
+     ou l'image reste vive et nette. La frontiere penche du haut (vers la
+     droite) vers le bas (vers la gauche). Bande de transition large et legere
+     pour qu'aucune arete ne soit perceptible.
+     Reglages : angle 120deg ; transparent jusqu'a 36%, puis montee douce
+     jusqu'a 80% le long de la diagonale (le bloc de texte reste dans la zone
+     claire). edgeBlur = 0 (c'est le flou qui creait l'effet brouillard). */
   .imageWrap::before { display: none; }
   .imageWrap::after { display: none; }
 
   .mountainImg {
+    object-position: 70% 50%;
     -webkit-mask-image: linear-gradient(
-      to right,
+      120deg,
       transparent 0%,
-      rgba(0, 0, 0, 0.15) 4%,
-      rgba(0, 0, 0, 0.6) 21%,
-      #000 38%
+      transparent 36%,
+      rgba(0, 0, 0, 0.15) 48%,
+      rgba(0, 0, 0, 0.6) 64%,
+      #000 80%
     );
     mask-image: linear-gradient(
-      to right,
+      120deg,
       transparent 0%,
-      rgba(0, 0, 0, 0.15) 4%,
-      rgba(0, 0, 0, 0.6) 21%,
-      #000 38%
+      transparent 36%,
+      rgba(0, 0, 0, 0.15) 48%,
+      rgba(0, 0, 0, 0.6) 64%,
+      #000 80%
     );
   }
 }
 
-@media (min-width: 1280px) {
-  .imageWrap { width: 54%; }
-}
-
-@media (min-width: 1600px) {
-  .imageWrap { width: 52%; }
-}
+/* L'image est desormais en plein fond du hero (inset: 0) a tous les paliers
+   desktop : plus de largeur fixe a surcharger. */
 
 /* ---------------------------------------------------------------------------
    TEXTE — premier plan
