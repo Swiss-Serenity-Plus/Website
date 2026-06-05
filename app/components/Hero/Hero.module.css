@@ -156,6 +156,17 @@
   .content { flex: 0 0 58%; max-width: 660px; }
 }
 
+/* Eyebrow du Hero — légèrement agrandi (MIR-379), sans toucher l'eyebrow global */
+.content :global(.eyebrow) {
+  font-size: 15px;
+}
+
+@media (min-width: 1024px) {
+  .content :global(.eyebrow) {
+    font-size: 16px;
+  }
+}
+
 .title {
   /* MIR-354 : « Sérénité · Succès · Performance » sur une seule ligne.
      nowrap + clamp garantissent une ligne unique qui s'adapte à la largeur
