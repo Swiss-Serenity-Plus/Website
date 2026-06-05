@@ -26,6 +26,7 @@ interface NotionPage {
     "Retour client"?: { rich_text: NotionRichText[] };
     "Statut"?: { select: NotionSelect | null };
     "Date soumission"?: { date: { start: string } | null };
+    "Format"?: { select: NotionSelect | null };
     "Files & media"?: { files: NotionFileEntry[] };
   };
 }
@@ -97,6 +98,7 @@ export async function GET() {
         status:      p.properties["Statut"]?.select?.name ?? "À traiter",
         statusColor: p.properties["Statut"]?.select?.color ?? "gray",
         timestamp:   p.properties["Date soumission"]?.date?.start ?? "",
+        format:      p.properties["Format"]?.select?.name ?? "",
         imageUrl:    p.properties["Files & media"]?.files?.find((f) => f.type === "external")?.external?.url ?? "",
       }));
 
