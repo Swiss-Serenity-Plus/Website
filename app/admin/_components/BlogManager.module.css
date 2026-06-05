@@ -257,6 +257,9 @@
 .previewBody p { margin: 0 0 1em; }
 .previewBody h2, .previewBody h3 { font-family: var(--font-display, "Fraunces", serif); color: var(--c-text, #062445); margin: 1.4em 0 0.5em; }
 .previewBody ul, .previewBody ol { margin: 0 0 1em; padding-left: 1.4em; }
+.previewBody ul { list-style: disc; }
+.previewBody ol { list-style: decimal; }
+.previewBody li { display: list-item; margin-bottom: 0.3em; }
 .previewBody a { color: var(--c-accent-primary, #b42c2a); }
 .previewEmpty { color: var(--c-text-muted, #4a5a6f); font-style: italic; }
 

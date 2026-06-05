@@ -27,6 +27,7 @@ interface NotionPage {
     "Statut"?: { select: NotionSelect | null };
     "Date soumission"?: { date: { start: string } | null };
     "Format"?: { select: NotionSelect | null };
+    "URL"?: { url: string | null };
     "Files & media"?: { files: NotionFileEntry[] };
   };
 }
@@ -99,12 +100,67 @@ export async function GET() {
         statusColor: p.properties["Statut"]?.select?.color ?? "gray",
         timestamp:   p.properties["Date soumission"]?.date?.start ?? "",
         format:      p.properties["Format"]?.select?.name ?? "",
+        url:         p.properties["URL"]?.url ?? "",
         imageUrl:    p.properties["Files & media"]?.files?.find((f) => f.type === "external")?.external?.url ?? "",
       }));
 
     return NextResponse.json({ tickets }, { headers: CORS });
   } catch (err) {
     console.error("[tickets] GET error:", err);
+    return NextResponse.json({ error: "Erreur interne" }, { status: 500, headers: CORS });
+  }
+}
+
+export async function PATCH(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const pageId = searchParams.get("id");
+  if (!pageId) {
+    return NextResponse.json({ error: "ID manquant" }, { status: 400, headers: CORS });
+  }
+
+  const token = process.env.NOTION_TOKEN;
+  if (!token) {
+    return NextResponse.json({ error: "Configuration manquante" }, { status: 500, headers: CORS });
+  }
+
+  let body: { status?: string; action?: string; text?: string };
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json({ error: "Corps invalide" }, { status: 400, headers: CORS });
+  }
+
+  const properties: Record<string, unknown> = {};
+  if (body.status) properties["Statut"] = { select: { name: body.status } };
+  if (body.action !== undefined) {
+    properties["Action"] = body.action ? { select: { name: body.action } } : { select: null };
+  }
+  if (body.text !== undefined) {
+    properties["Retour"] = { rich_text: body.text ? [{ text: { content: body.text.slice(0, 2000) } }] : [] };
+  }
+
+  if (Object.keys(properties).length === 0) {
+    return NextResponse.json({ error: "Aucune modification" }, { status: 400, headers: CORS });
+  }
+
+  try {
+    const res = await fetch(`https://api.notion.com/v1/pages/${pageId}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Notion-Version": "2022-06-28",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ properties }),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      console.error("[tickets] PATCH error:", JSON.stringify(err));
+      return NextResponse.json({ error: "Mise à jour échouée" }, { status: 502, headers: CORS });
+    }
+    return NextResponse.json({ success: true }, { headers: CORS });
+  } catch (err) {
+    console.error("[tickets] PATCH error:", err);
     return NextResponse.json({ error: "Erreur interne" }, { status: 500, headers: CORS });
   }
 }

@@ -8,12 +8,13 @@
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import {
-  MousePointer, Globe, Send, X, Trash2, RefreshCw, Pencil,
+  MousePointer, Globe, Send, X, Trash2, Pencil,
   ExternalLink, Upload, FileImage, Check, LogOut,
-  ArrowLeft, Newspaper, MessagesSquare,
+  Newspaper, MessagesSquare,
 } from "lucide-react";
 import CustomSelect from "../../components/CustomSelect/CustomSelect";
 import BlogManager from "./BlogManager";
+import TicketsManager from "./TicketsManager";
 import {
   PAGE_OPTIONS, pageNameForPath, ACTION_OPTIONS, PLACEHOLDERS, type ActionOption,
   getElementLabel, getElementUrl,
@@ -23,24 +24,6 @@ import fb from "../../components/FeedbackWidget/FeedbackWidget.module.css";
 import styles from "./AdminConsole.module.css";
 
 const DESKTOP_MIN = 1024;
-
-const STATUS_COLORS: Record<string, { dot: string; bg: string; text: string }> = {
-  "À traiter": { dot: "#F59E0B", bg: "rgba(245,158,11,0.1)", text: "#92400E" },
-  "En cours":  { dot: "#3B82F6", bg: "rgba(59,130,246,0.1)", text: "#1E40AF" },
-  "Traité":    { dot: "#5A7A4F", bg: "rgba(90,122,79,0.1)",  text: "#3B5E32" },
-  "Résolu":    { dot: "#5A7A4F", bg: "rgba(90,122,79,0.1)",  text: "#3B5E32" },
-  "Refusé":    { dot: "#B42C2A", bg: "rgba(180,44,42,0.1)",  text: "#7F1D1D" },
-  "Bloqué":    { dot: "#F97316", bg: "rgba(249,115,22,0.1)", text: "#9A3412" },
-};
-
-type TicketTab = "tous" | "À traiter" | "En cours" | "Traité" | "Bloqué";
-const TICKET_TABS: { key: TicketTab; label: string }[] = [
-  { key: "tous",      label: "Tous" },
-  { key: "À traiter", label: "À traiter" },
-  { key: "En cours",  label: "En cours" },
-  { key: "Traité",    label: "Traité" },
-  { key: "Bloqué",    label: "Bloqué" },
-];
 
 type Mode = "navigate" | "annotate";
 type View = "hub" | "form";
@@ -60,47 +43,6 @@ interface Draft {
   format: Format;
   isGeneral?: boolean;
   imageUrl?: string;
-}
-
-interface NotionTicket {
-  notionId: string;
-  ticketId: string;
-  element: string;
-  action: string;
-  page: string;
-  text: string;
-  status: string;
-  format?: string;
-  timestamp: string;
-  imageUrl?: string;
-}
-
-const TEXT_CLAMP = 200;
-function ExpandableText({ text }: { text: string }) {
-  const [expanded, setExpanded] = useState(false);
-  const isLong = text.length > TEXT_CLAMP;
-  return (
-    <div>
-      <p className={fb.feedbackText}>
-        {isLong && !expanded ? `${text.slice(0, TEXT_CLAMP)}…` : text}
-      </p>
-      {isLong && (
-        <button className={fb.expandBtn} onClick={() => setExpanded((v) => !v)}>
-          {expanded ? "Voir moins" : `Voir plus (+${text.length - TEXT_CLAMP} car.)`}
-        </button>
-      )}
-    </div>
-  );
-}
-
-function StatusBadge({ status }: { status: string }) {
-  const s = STATUS_COLORS[status] ?? { dot: "#9CA3AF", bg: "rgba(156,163,175,0.1)", text: "#6B7280" };
-  return (
-    <span className={fb.statusBadge} style={{ background: s.bg, color: s.text }}>
-      <span className={fb.statusDot} style={{ background: s.dot }} />
-      {status}
-    </span>
-  );
 }
 
 export default function AdminConsole() {
@@ -134,13 +76,8 @@ export default function AdminConsole() {
   const [pendingImageError, setPendingImageError] = useState("");
   const [pendingImageDragOver, setPendingImageDragOver] = useState(false);
 
-  // Tickets Notion
-  const [notionTickets, setNotionTickets] = useState<NotionTicket[]>([]);
-  const [loadingTickets, setLoadingTickets] = useState(false);
-  const [ticketsError, setTicketsError] = useState<string | null>(null);
-  const [deletingId, setDeletingId] = useState<string | null>(null);
-  const [ticketTab, setTicketTab] = useState<TicketTab>("tous");
-  const [lightboxUrl, setLightboxUrl] = useState<string | null>(null);
+  // Nombre de tickets (pour la pastille « Gérer mes modifications »).
+  const [ticketCount, setTicketCount] = useState(0);
 
   const [isSending, setIsSending] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: ToastType } | null>(null);
@@ -169,37 +106,24 @@ export default function AdminConsole() {
     return () => clearInterval(id);
   }, []);
 
-  // Fermer l'apercu d'image plein ecran avec Echap.
-  useEffect(() => {
-    if (!lightboxUrl) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setLightboxUrl(null); };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [lightboxUrl]);
-
   const showToast = useCallback((message: string, type: ToastType) => {
     setToast({ message, type });
     clearTimeout(toastTimer.current);
     toastTimer.current = setTimeout(() => setToast(null), 4000);
   }, []);
 
-  const loadNotionTickets = useCallback(async () => {
-    setLoadingTickets(true);
-    setTicketsError(null);
+  // Rafraichit la pastille de comptage des tickets (badge du panneau).
+  const refreshTicketCount = useCallback(async () => {
     try {
       const res = await fetch("/api/tickets");
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data.error ?? `Erreur ${res.status}`);
-      }
+      if (!res.ok) return;
       const data = await res.json();
-      setNotionTickets(data.tickets ?? []);
-    } catch (err) {
-      setTicketsError(err instanceof Error ? err.message : "Impossible de charger les tickets Notion.");
-    } finally {
-      setLoadingTickets(false);
-    }
+      setTicketCount((data.tickets ?? []).length);
+    } catch { /* hors-ligne : on garde la valeur courante */ }
   }, []);
+
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { refreshTicketCount(); }, [refreshTicketCount]);
 
   // Navigation : charge un chemin dans l'iframe (URLs relatives, same-origin).
   const navigateTo = useCallback((path: string) => {
@@ -334,7 +258,6 @@ export default function AdminConsole() {
   function openTickets() {
     setMode("navigate");
     setStageView("tickets");
-    loadNotionTickets();
   }
 
   function closeForm() {
@@ -437,7 +360,7 @@ export default function AdminConsole() {
             : "Retours envoyés avec succès",
           res.status === 207 ? "partial" : "success"
         );
-        await loadNotionTickets();
+        await refreshTicketCount();
       } else {
         showToast("Erreur lors de l'envoi, réessayez ou contactez Théo", "error");
       }
@@ -447,20 +370,6 @@ export default function AdminConsole() {
       setIsSending(false);
     }
   }
-
-  const deleteNotionTicket = useCallback(async (notionId: string) => {
-    setDeletingId(notionId);
-    setNotionTickets((prev) => prev.filter((t) => t.notionId !== notionId));
-    try {
-      const res = await fetch(`/api/tickets?id=${encodeURIComponent(notionId)}`, { method: "DELETE" });
-      if (!res.ok) throw new Error();
-    } catch {
-      showToast("Suppression échouée, rechargement...", "error");
-      await loadNotionTickets();
-    } finally {
-      setDeletingId(null);
-    }
-  }, [showToast, loadNotionTickets]);
 
   async function logout() {
     try {
@@ -488,17 +397,6 @@ export default function AdminConsole() {
 
   const currentPlaceholder = PLACEHOLDERS[pendingAction as ActionOption] ?? PLACEHOLDERS.default;
   const pageSelectValue = PAGE_OPTIONS.some((o) => o.value === currentPath) ? currentPath : "";
-
-  const filteredTickets = ticketTab === "tous"
-    ? notionTickets
-    : ticketTab === "Traité"
-      ? notionTickets.filter((t) => ["Traité", "Résolu"].includes(t.status))
-      : notionTickets.filter((t) => t.status === ticketTab);
-  const ticketTabCount = (tab: TicketTab) => {
-    if (tab === "tous") return notionTickets.length;
-    if (tab === "Traité") return notionTickets.filter((t) => ["Traité", "Résolu"].includes(t.status)).length;
-    return notionTickets.filter((t) => t.status === tab).length;
-  };
 
   return (
     <div className={styles.shell}>
@@ -557,8 +455,8 @@ export default function AdminConsole() {
               aria-pressed={stageView === "tickets"}
             >
               <MessagesSquare size={16} strokeWidth={1.6} /> Gérer mes modifications
-              {notionTickets.length > 0 && (
-                <span className={styles.actionBtnCount}>{notionTickets.length}</span>
+              {ticketCount > 0 && (
+                <span className={styles.actionBtnCount}>{ticketCount}</span>
               )}
             </button>
           </div>
@@ -763,118 +661,14 @@ export default function AdminConsole() {
         </div>
       )}
 
-      {/* Espace de gestion des modifications envoyees (occupe la zone d'apercu) */}
+      {/* Espace de gestion des modifications (occupe la zone d'apercu) */}
       {stageView === "tickets" && (
-          <div className={styles.stageOverlay}>
-            <div className={styles.stagePanel} role="region" aria-label="Mes modifications">
-              <div className={styles.stagePanelHeader}>
-                <button className={styles.backBtn} onClick={() => setStageView("browser")}>
-                  <ArrowLeft size={15} /> Retour à l&apos;aperçu
-                </button>
-                <div className={styles.stagePanelTitleWrap}>
-                  <MessagesSquare size={17} strokeWidth={1.6} />
-                  <p className={styles.stagePanelTitle}>Mes modifications</p>
-                </div>
-                <button
-                  className={fb.refreshBtn}
-                  onClick={loadNotionTickets}
-                  disabled={loadingTickets}
-                  aria-label="Rafraîchir"
-                  title="Rafraîchir"
-                >
-                  <RefreshCw size={13} className={loadingTickets ? fb.spinning : ""} />
-                </button>
-              </div>
-
-              <div className={styles.modalSheetBody}>
-                {!loadingTickets && !ticketsError && notionTickets.length > 0 && (
-                  <div className={fb.tabBar} role="tablist">
-                    {TICKET_TABS.map((tab) => {
-                      const count = ticketTabCount(tab.key);
-                      return (
-                        <button
-                          key={tab.key}
-                          role="tab"
-                          aria-selected={ticketTab === tab.key}
-                          className={`${fb.tab} ${ticketTab === tab.key ? fb.tabActive : ""}`}
-                          onClick={() => setTicketTab(tab.key)}
-                        >
-                          {tab.label}
-                          {count > 0 && (
-                            <span className={`${fb.tabCount} ${ticketTab === tab.key ? fb.tabCountActive : ""}`}>{count}</span>
-                          )}
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
-
-                {loadingTickets && notionTickets.length === 0 && (
-                  <p className={fb.loadingText}>Chargement des tickets...</p>
-                )}
-                {!loadingTickets && ticketsError && <p className={fb.errorSmall}>{ticketsError}</p>}
-                {!loadingTickets && !ticketsError && notionTickets.length === 0 && (
-                  <p className={fb.emptySmall}>Aucun ticket dans Notion pour l&apos;instant.</p>
-                )}
-                {!loadingTickets && !ticketsError && filteredTickets.length === 0 && notionTickets.length > 0 && (
-                  <p className={fb.emptySmall}>Aucun ticket avec ce statut.</p>
-                )}
-
-                {filteredTickets.length > 0 && (
-                  <div className={fb.ticketsGrid}>
-                    {filteredTickets.map((ticket) => (
-                      <div key={ticket.notionId} className={`${fb.feedbackItem} ${fb.notionItem}`}>
-                        <div className={fb.ticketCardHeader}>
-                          {ticket.ticketId && <span className={fb.ticketIdBadge}>{ticket.ticketId}</span>}
-                          <StatusBadge status={ticket.status} />
-                          <div className={fb.ticketCardActions}>
-                            <button
-                              className={`${fb.menuTrigger} ${fb.menuTriggerDanger}`}
-                              onClick={() => deleteNotionTicket(ticket.notionId)}
-                              disabled={deletingId === ticket.notionId}
-                              aria-label="Supprimer ce ticket"
-                              title="Supprimer de Notion"
-                            >
-                              <Trash2 size={12} />
-                            </button>
-                          </div>
-                        </div>
-                        <p className={fb.feedbackElement}>{ticket.element || "Sans titre"}</p>
-                        {ticket.text && <ExpandableText text={ticket.text} />}
-                        {ticket.imageUrl && (
-                          <button
-                            type="button"
-                            className={styles.ticketThumb}
-                            onClick={() => setLightboxUrl(ticket.imageUrl!)}
-                            aria-label="Agrandir l'image jointe"
-                          >
-                            {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={ticket.imageUrl} alt="" className={styles.ticketThumbImg} />
-                            <span className={styles.ticketThumbHint} aria-hidden="true">Agrandir</span>
-                          </button>
-                        )}
-                        {ticket.format && (
-                          <div className={styles.ticketFoot}>
-                            <span className={styles.draftFormat}>{ticket.format}</span>
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-      )}
-
-      {/* Lightbox image : clic sur le fond ou Echap pour fermer */}
-      {lightboxUrl && (
-        <div className={fb.lightbox} onClick={() => setLightboxUrl(null)} role="button" tabIndex={0} aria-label="Fermer l'aperçu de l'image">
-          <button className={styles.lightboxClose} onClick={() => setLightboxUrl(null)} aria-label="Fermer">
-            <X size={20} />
-          </button>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={lightboxUrl} alt="Image en plein écran" className={fb.lightboxImg} onClick={(e) => e.stopPropagation()} />
+        <div className={styles.stageOverlay}>
+          <TicketsManager
+            onClose={() => setStageView("browser")}
+            showToast={showToast}
+            onCount={setTicketCount}
+          />
         </div>
       )}
 

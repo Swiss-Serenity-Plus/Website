@@ -12,6 +12,7 @@ interface NotionComment {
   id: string;
   created_time: string;
   rich_text: NotionRichText[];
+  created_by?: { id: string; name?: string };
 }
 
 export async function GET(
@@ -44,10 +45,31 @@ export async function GET(
     }
 
     const data = await res.json();
-    const comments = ((data.results ?? []) as NotionComment[]).map((c) => ({
+    const raw = (data.results ?? []) as NotionComment[];
+
+    // Resout les noms d'auteurs (un fetch par utilisateur unique, en cache local).
+    const nameCache = new Map<string, string>();
+    const userIds = [...new Set(raw.map((c) => c.created_by?.id).filter(Boolean) as string[])];
+    await Promise.all(
+      userIds.map(async (uid) => {
+        try {
+          const ures = await fetch(`https://api.notion.com/v1/users/${uid}`, {
+            headers: { Authorization: `Bearer ${token}`, "Notion-Version": "2022-06-28" },
+            cache: "no-store",
+          });
+          if (ures.ok) {
+            const u = await ures.json();
+            if (u?.name) nameCache.set(uid, u.name);
+          }
+        } catch { /* nom indisponible : on ignore */ }
+      })
+    );
+
+    const comments = raw.map((c) => ({
       id: c.id,
       text: c.rich_text.map((rt) => rt.plain_text ?? rt.text?.content ?? "").join(""),
       createdTime: c.created_time,
+      author: (c.created_by?.id && nameCache.get(c.created_by.id)) || c.created_by?.name || "Équipe",
     }));
 
     return NextResponse.json({ comments }, { headers: CORS });

@@ -72,7 +72,9 @@
 
 .editor p { margin: 0 0 12px; }
 .editor ul, .editor ol { padding-left: 24px; margin: 0 0 12px; }
-.editor li { margin-bottom: 4px; }
+.editor ul { list-style: disc; }
+.editor ol { list-style: decimal; }
+.editor li { margin-bottom: 4px; display: list-item; }
 .editor strong { font-weight: 600; }
 .editor em { font-style: italic; }
 .editor hr { border: none; border-top: 1px solid var(--c-border); margin: 20px 0; }
