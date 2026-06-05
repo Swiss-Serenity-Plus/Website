@@ -76,11 +76,11 @@ export default function StructurationPage() {
       }}
       values={{
         eyebrow: "Les valeurs qui nous guident",
-        title: "Rigueur, clarté et fiabilité au service de votre organisation",
+        title: "Rigueur, performance et fiabilité au service de votre organisation",
         image: "/icons/clarte-ampoule.svg",
         columns: [
           { title: "Rigueur", text: "Chaque demande, chaque suivi et chaque échange est traité avec méthode, attention et précision.", image: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/IconPre%CC%81cision-removebg-preview.png" },
-          { title: "Clarté", text: "Des outils simples, des échanges facilités et des méthodes compréhensibles pour gagner en efficacité sans complexifier votre fonctionnement." },
+          { title: "Performance", text: "Des outils simples, des échanges facilités et des méthodes compréhensibles pour gagner en efficacité sans complexifier votre fonctionnement." },
           { title: "Fiabilité", text: "Une organisation qui fonctionne même en votre absence, avec des suivis clairs, fluides et continus.", image: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20Swiss%20Serenity%20Plus.png" },
         ],
       }}
