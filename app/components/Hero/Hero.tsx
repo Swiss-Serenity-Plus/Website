@@ -4,7 +4,7 @@ import Button from "../Button/Button";
 import styles from "./Hero.module.css";
 
 const LANDSCAPE_SRC =
-  "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/Paysage%20-%20Swiss%20Serenity%20Plus%20-%20Mireille%20Dayer.png";
+  "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/blog-covers/1780650931317-ddcadcec-5f79-48ab-9f6f-7c21f1bf1a8b.jpeg";
 
 export default function Hero() {
   return (
