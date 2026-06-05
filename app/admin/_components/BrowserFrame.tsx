@@ -33,7 +33,10 @@ export default function BrowserFrame({
   }
 
   return (
-    <div className={`${styles.frame} ${format === "mobile" ? styles.frameMobile : ""}`}>
+    <div
+      className={`${styles.frameWrap} ${format === "mobile" ? styles.frameWrapMobile : ""} ${annotating ? styles.frameWrapAnnotating : ""}`}
+    >
+      <div className={styles.frame}>
       <div className={styles.titleBar}>
         <div className={styles.dots} aria-hidden="true">
           <span className={styles.dot} style={{ background: "#FF5F57" }} />
@@ -74,9 +77,10 @@ export default function BrowserFrame({
           ref={iframeRef}
           src="/"
           title="Aperçu du site"
-          className={`${styles.iframe} ${annotating ? styles.iframeAnnotating : ""}`}
+          className={styles.iframe}
           onLoad={handleLoad}
         />
+      </div>
       </div>
     </div>
   );

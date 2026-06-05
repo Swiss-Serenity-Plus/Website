@@ -109,6 +109,9 @@ export default function AdminConsole() {
   const [currentPath, setCurrentPath] = useState("/");
   const [mode, setMode] = useState<Mode>("navigate");
   const [frameLoadKey, setFrameLoadKey] = useState(0);
+  // Vrai quand le formulaire a ete ouvert depuis une selection de bloc : a sa
+  // fermeture, on rebascule en mode annotation pour enchainer les selections.
+  const [resumeAnnotate, setResumeAnnotate] = useState(false);
 
   const [view, setView] = useState<View>("hub");
 
@@ -271,6 +274,7 @@ export default function AdminConsole() {
       setPendingElementUrl(getElementUrl(t, win.location));
       setPendingFormat(format);
       setIsGeneralMode(false);
+      setResumeAnnotate(true);
       setView("form");
       setMode("navigate");
     };
@@ -298,6 +302,7 @@ export default function AdminConsole() {
 
   function startGeneralFeedback() {
     resetForm();
+    setResumeAnnotate(false);
     setPendingElement("Page entière");
     setPendingElementUrl("");
     setPendingFormat(format);
@@ -308,6 +313,16 @@ export default function AdminConsole() {
   function openTickets() {
     setView("tickets");
     loadNotionTickets();
+  }
+
+  // Ferme le formulaire et, s'il venait d'une selection de bloc, rebascule en
+  // mode annotation pour enchainer les selections sans repasser par le menu.
+  function closeForm() {
+    const resume = resumeAnnotate;
+    resetForm();
+    setResumeAnnotate(false);
+    setView("hub");
+    if (resume) setMode("annotate");
   }
 
   function addFeedback() {
@@ -332,11 +347,11 @@ export default function AdminConsole() {
     } else {
       setDrafts((prev) => [...prev, draft]);
     }
-    resetForm();
-    setView("hub");
+    closeForm();
   }
 
   function startEdit(draft: Draft) {
+    setResumeAnnotate(false);
     setEditingId(draft.id);
     setPendingElement(draft.element);
     setPendingElementUrl(draft.elementUrl);
@@ -587,13 +602,13 @@ export default function AdminConsole() {
 
       {/* Modale formulaire (bloc ou general) */}
       {view === "form" && pendingElement && (
-        <div className={fb.backdrop} onClick={(e) => { if (e.target === e.currentTarget) { resetForm(); setView("hub"); } }}>
+        <div className={fb.backdrop} onClick={(e) => { if (e.target === e.currentTarget) closeForm(); }}>
           <div className={styles.modalSheet} role="dialog" aria-label="Nouveau retour">
             <div className={styles.modalSheetHeader}>
               <p className={styles.modalSheetTitle}>
                 {isGeneralMode ? "Feedback général" : editingId ? "Modifier le retour" : "Nouveau retour"}
               </p>
-              <button className={fb.closeBtn} onClick={() => { resetForm(); setView("hub"); }} aria-label="Fermer">
+              <button className={fb.closeBtn} onClick={closeForm} aria-label="Fermer">
                 <X size={18} />
               </button>
             </div>
@@ -644,7 +659,7 @@ export default function AdminConsole() {
                   onChange={(e) => setPendingText(e.target.value)}
                   onKeyDown={(e) => {
                     if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) addFeedback();
-                    if (e.key === "Escape") { resetForm(); setView("hub"); }
+                    if (e.key === "Escape") closeForm();
                   }}
                   rows={6}
                   autoFocus
@@ -723,7 +738,7 @@ export default function AdminConsole() {
             </div>
 
             <div className={styles.modalSheetFooter}>
-              <button className={fb.cancelBtn} onClick={() => { resetForm(); setView("hub"); }}>Annuler</button>
+              <button className={fb.cancelBtn} onClick={closeForm}>Annuler</button>
               <button className={fb.addBtn} onClick={addFeedback} disabled={!pendingText.trim()}>
                 {editingId ? "Mettre à jour" : "Ajouter au brouillon"}
               </button>

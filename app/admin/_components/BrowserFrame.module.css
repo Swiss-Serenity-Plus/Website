@@ -1,8 +1,26 @@
-.frame {
+/* Conteneur qui porte le redimensionnement et l'anneau shimmer du mode annotation. */
+.frameWrap {
+  position: relative;
   width: 100%;
   align-self: stretch;
   min-width: 0;
   margin: 0 auto;
+  display: flex;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Vue mobile : tout le composant se redimensionne (et non l'iframe seule). */
+.frameWrapMobile {
+  width: 430px;
+  max-width: 100%;
+}
+
+.frame {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  min-width: 0;
+  flex: 1;
   display: flex;
   flex-direction: column;
   background: var(--c-surface, #fff);
@@ -10,14 +28,56 @@
   border-radius: 16px;
   overflow: hidden;
   box-shadow: 0 18px 48px rgba(6, 36, 69, 0.1);
-  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-              box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Vue mobile : tout le composant se redimensionne (et non l'iframe seule). */
-.frameMobile {
-  width: 430px;
-  max-width: 100%;
+/* Effet shimmer : anneau lumineux rouge qui tourne autour du cadre en mode annotation. */
+@property --fb-shimmer-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.frameWrapAnnotating::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 20px;
+  z-index: 0;
+  background: conic-gradient(
+    from var(--fb-shimmer-angle),
+    rgba(180, 44, 42, 0) 0%,
+    rgba(180, 44, 42, 0.85) 9%,
+    rgba(232, 122, 120, 1) 15%,
+    rgba(180, 44, 42, 0) 28%,
+    rgba(180, 44, 42, 0) 55%,
+    rgba(180, 44, 42, 0.85) 70%,
+    rgba(232, 122, 120, 1) 76%,
+    rgba(180, 44, 42, 0) 90%
+  );
+  animation: fbShimmerSpin 2.6s linear infinite;
+}
+
+.frameWrapAnnotating::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 20px;
+  z-index: 0;
+  box-shadow: 0 0 22px rgba(180, 44, 42, 0.35);
+  animation: fbShimmerPulse 2.6s ease-in-out infinite;
+}
+
+@keyframes fbShimmerSpin {
+  to { --fb-shimmer-angle: 360deg; }
+}
+@keyframes fbShimmerPulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .frameWrapAnnotating::before { animation: none; }
+  .frameWrapAnnotating::after { animation: none; opacity: 0.85; }
 }
 
 .titleBar {
@@ -101,9 +161,4 @@
   border: none;
   background: var(--c-surface, #fff);
   display: block;
-}
-
-.iframeAnnotating {
-  outline: 2px solid var(--c-accent-primary, #b42c2a);
-  outline-offset: -2px;
 }

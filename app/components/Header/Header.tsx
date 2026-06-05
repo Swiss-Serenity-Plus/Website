@@ -33,6 +33,12 @@ export default function Header() {
       e.preventDefault();
       const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       window.scrollTo({ top: 0, behavior: prefersReducedMotion ? "auto" : "smooth" });
+      // Nettoie le hash (#services) laisse par « Prestations » : sans cela, la barre
+      // d'adresse reste sur /#services et recliquer sur « Prestations » ne fait rien
+      // (lien identique a l'URL courante).
+      if (window.location.hash) {
+        window.history.replaceState(null, "", window.location.pathname + window.location.search);
+      }
     }
     setMenuOpen(false);
   }
