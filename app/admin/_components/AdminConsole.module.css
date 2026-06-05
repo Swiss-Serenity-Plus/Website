@@ -84,43 +84,10 @@
   margin: 2px 0 0;
 }
 
-.modeToggle {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4px;
-  padding: 4px;
-  background: rgba(6, 36, 69, 0.06);
-  border-radius: 11px;
-}
-.modeBtn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  padding: 9px 10px;
-  border: none;
-  border-radius: 8px;
-  background: transparent;
-  color: var(--c-text-muted, #4a5a6f);
-  font-size: 0.82rem;
-  font-weight: 500;
-  font-family: inherit;
-  cursor: pointer;
-  transition: background 0.15s ease, color 0.15s ease;
-}
-.modeBtn:hover { color: var(--c-text, #062445); }
-.modeBtnActive {
-  background: var(--c-surface, #fff);
-  color: var(--c-text, #062445);
-  box-shadow: 0 1px 3px rgba(6, 36, 69, 0.14);
-}
-
 .actionsBlock {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding-top: 4px;
-  border-top: 1px solid var(--c-border, #e8e3d8);
 }
 .actionBtn {
   display: inline-flex;
@@ -145,6 +112,14 @@
   border-color: var(--c-text, #062445);
 }
 .actionBtnPrimary:hover { background: #0a2f57; border-color: #0a2f57; }
+
+/* Etat actif du bouton « Sélectionner un bloc » pendant l'annotation. */
+.actionBtnActive {
+  background: var(--c-accent-primary, #b42c2a);
+  color: #fff;
+  border-color: var(--c-accent-primary, #b42c2a);
+}
+.actionBtnActive:hover { background: #9e2624; border-color: #9e2624; }
 .actionBtnCount {
   margin-left: auto;
   min-width: 20px;

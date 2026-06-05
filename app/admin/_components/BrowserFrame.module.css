@@ -37,47 +37,44 @@
   inherits: false;
 }
 
+/* Halo doux et lent qui circule autour du cadre : une seule zone lumineuse
+   rouge, large, floutee et de faible opacite, qui tourne lentement. */
 .frameWrapAnnotating::before {
   content: "";
   position: absolute;
-  inset: -4px;
-  border-radius: 20px;
+  inset: -5px;
+  border-radius: 21px;
   z-index: 0;
   background: conic-gradient(
     from var(--fb-shimmer-angle),
-    rgba(180, 44, 42, 0) 0%,
-    rgba(180, 44, 42, 0.85) 9%,
-    rgba(232, 122, 120, 1) 15%,
-    rgba(180, 44, 42, 0) 28%,
-    rgba(180, 44, 42, 0) 55%,
-    rgba(180, 44, 42, 0.85) 70%,
-    rgba(232, 122, 120, 1) 76%,
-    rgba(180, 44, 42, 0) 90%
+    rgba(180, 44, 42, 0) 0deg,
+    rgba(180, 44, 42, 0.22) 70deg,
+    rgba(180, 44, 42, 0.32) 110deg,
+    rgba(180, 44, 42, 0.22) 150deg,
+    rgba(180, 44, 42, 0) 220deg,
+    rgba(180, 44, 42, 0) 360deg
   );
-  animation: fbShimmerSpin 2.6s linear infinite;
+  filter: blur(6px);
+  animation: fbShimmerSpin 9s linear infinite;
 }
 
+/* Liseré rouge constant tres discret pour signaler le mode meme dans la
+   portion sombre de la rotation. */
 .frameWrapAnnotating::after {
   content: "";
   position: absolute;
-  inset: -4px;
-  border-radius: 20px;
+  inset: -1px;
+  border-radius: 17px;
   z-index: 0;
-  box-shadow: 0 0 22px rgba(180, 44, 42, 0.35);
-  animation: fbShimmerPulse 2.6s ease-in-out infinite;
+  box-shadow: 0 0 0 1px rgba(180, 44, 42, 0.18);
 }
 
 @keyframes fbShimmerSpin {
   to { --fb-shimmer-angle: 360deg; }
 }
-@keyframes fbShimmerPulse {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
-}
 
 @media (prefers-reduced-motion: reduce) {
-  .frameWrapAnnotating::before { animation: none; }
-  .frameWrapAnnotating::after { animation: none; opacity: 0.85; }
+  .frameWrapAnnotating::before { animation: none; opacity: 0.5; }
 }
 
 .titleBar {

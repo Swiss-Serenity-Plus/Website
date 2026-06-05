@@ -6,12 +6,13 @@
 // les modales (formulaire, grille de tickets). Le widget flottant n'est plus
 // injecte dans les pages publiques.
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, useId } from "react";
 import {
   MousePointer, Globe, LayoutGrid, Send, X, Trash2, RefreshCw, Pencil,
-  Compass, Crosshair, ExternalLink, Upload, FileImage, Check, LogOut,
+  ExternalLink, Upload, FileImage, Check, LogOut, FileText, Info, MessageSquarePlus,
 } from "lucide-react";
 import CustomSelect from "../../components/CustomSelect/CustomSelect";
+import RichTextEditor from "../../components/RichTextEditor/RichTextEditor";
 import {
   PAGE_OPTIONS, pageNameForPath, ACTION_OPTIONS, PLACEHOLDERS, type ActionOption,
   getElementLabel, getElementUrl,
@@ -41,8 +42,33 @@ const TICKET_TABS: { key: TicketTab; label: string }[] = [
 ];
 
 type Mode = "navigate" | "annotate";
-type View = "hub" | "form" | "tickets";
+type View = "hub" | "form" | "tickets" | "blog";
 type ToastType = "success" | "error" | "partial";
+
+const BLOG_CATEGORY_OPTIONS = [
+  { value: "conseils-dirigeants", label: "Conseils dirigeants" },
+  { value: "temoignages", label: "Témoignages" },
+  { value: "actualites", label: "Actualités" },
+  { value: "ressources-particuliers", label: "Ressources particuliers" },
+  { value: "autre", label: "Autre" },
+];
+const BLOG_TAGS = [
+  "PME", "Entrepreneurs", "Particuliers", "Suisse romande",
+  "Organisation", "Stratégie", "Discrétion",
+] as const;
+const SEO_DESC_MIN = 120;
+const SEO_DESC_MAX = 160;
+const SITE_DOMAIN = "swiss-serenity-plus.ch";
+
+function slugify(s: string): string {
+  return s
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80);
+}
 
 interface Draft {
   id: string;
@@ -109,9 +135,6 @@ export default function AdminConsole() {
   const [currentPath, setCurrentPath] = useState("/");
   const [mode, setMode] = useState<Mode>("navigate");
   const [frameLoadKey, setFrameLoadKey] = useState(0);
-  // Vrai quand le formulaire a ete ouvert depuis une selection de bloc : a sa
-  // fermeture, on rebascule en mode annotation pour enchainer les selections.
-  const [resumeAnnotate, setResumeAnnotate] = useState(false);
 
   const [view, setView] = useState<View>("hub");
 
@@ -141,6 +164,28 @@ export default function AdminConsole() {
 
   const [isSending, setIsSending] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: ToastType } | null>(null);
+
+  // Formulaire article de blog
+  const [blogTitle, setBlogTitle] = useState("");
+  const [blogSlug, setBlogSlug] = useState("");
+  const [blogSlugTouched, setBlogSlugTouched] = useState(false);
+  const [blogExcerpt, setBlogExcerpt] = useState("");
+  const [blogCategory, setBlogCategory] = useState("");
+  const [blogTags, setBlogTags] = useState<string[]>([]);
+  const [blogCoverUrl, setBlogCoverUrl] = useState("");
+  const [blogCoverName, setBlogCoverName] = useState("");
+  const [blogCoverUploading, setBlogCoverUploading] = useState(false);
+  const [blogCoverError, setBlogCoverError] = useState("");
+  const [blogIsDragOver, setBlogIsDragOver] = useState(false);
+  const [blogAuthor, setBlogAuthor] = useState("Mireille Dayer");
+  const [blogPublishDate, setBlogPublishDate] = useState("");
+  const [blogReadingMinutes, setBlogReadingMinutes] = useState("");
+  const [blogMetaDesc, setBlogMetaDesc] = useState("");
+  const [blogMetaTooltip, setBlogMetaTooltip] = useState(false);
+  const [blogBody, setBlogBody] = useState("");
+  const [blogSending, setBlogSending] = useState(false);
+  const blogMetaTooltipId = useId();
+  const blogCoverFileInputRef = useRef<HTMLInputElement>(null);
 
   // Init session + garde desktop
   useEffect(() => {
@@ -274,7 +319,6 @@ export default function AdminConsole() {
       setPendingElementUrl(getElementUrl(t, win.location));
       setPendingFormat(format);
       setIsGeneralMode(false);
-      setResumeAnnotate(true);
       setView("form");
       setMode("navigate");
     };
@@ -302,7 +346,6 @@ export default function AdminConsole() {
 
   function startGeneralFeedback() {
     resetForm();
-    setResumeAnnotate(false);
     setPendingElement("Page entière");
     setPendingElementUrl("");
     setPendingFormat(format);
@@ -315,14 +358,97 @@ export default function AdminConsole() {
     loadNotionTickets();
   }
 
-  // Ferme le formulaire et, s'il venait d'une selection de bloc, rebascule en
-  // mode annotation pour enchainer les selections sans repasser par le menu.
   function closeForm() {
-    const resume = resumeAnnotate;
     resetForm();
-    setResumeAnnotate(false);
     setView("hub");
-    if (resume) setMode("annotate");
+  }
+
+  function startBlogCreator() {
+    setMode("navigate");
+    setView("blog");
+  }
+
+  function toggleBlogTag(tag: string) {
+    setBlogTags((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]));
+  }
+
+  function resetBlogForm() {
+    setBlogTitle("");
+    setBlogSlug("");
+    setBlogSlugTouched(false);
+    setBlogExcerpt("");
+    setBlogCategory("");
+    setBlogTags([]);
+    setBlogCoverUrl("");
+    setBlogCoverName("");
+    setBlogCoverError("");
+    setBlogAuthor("Mireille Dayer");
+    setBlogPublishDate("");
+    setBlogReadingMinutes("");
+    setBlogMetaDesc("");
+    setBlogBody("");
+  }
+
+  function closeBlog() {
+    resetBlogForm();
+    setView("hub");
+  }
+
+  async function uploadBlogCover(file: File) {
+    if (!file.type.startsWith("image/")) return;
+    setBlogCoverName(file.name);
+    setBlogCoverUrl("");
+    setBlogCoverError("");
+    setBlogCoverUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const res = await fetch("/api/upload-image", { method: "POST", body: fd });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? `Erreur ${res.status}`);
+      setBlogCoverUrl(data.url);
+    } catch (err) {
+      setBlogCoverError(err instanceof Error ? err.message : "Échec de l'upload");
+    } finally {
+      setBlogCoverUploading(false);
+    }
+  }
+
+  async function submitBlogPost() {
+    if (!blogTitle.trim() || blogSending) return;
+    setBlogSending(true);
+    try {
+      const res = await fetch("/api/blog-posts", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          title: blogTitle.trim(),
+          slug: blogSlug.trim() || undefined,
+          excerpt: blogExcerpt.trim() || undefined,
+          category: blogCategory || undefined,
+          tags: blogTags.length > 0 ? blogTags : undefined,
+          coverUrl: blogCoverUrl.trim() || undefined,
+          author: blogAuthor.trim() || undefined,
+          publishDate: blogPublishDate || undefined,
+          readingMinutes: blogReadingMinutes ? Number(blogReadingMinutes) : undefined,
+          metaDescription: blogMetaDesc.trim() || undefined,
+          body: blogBody.trim() || undefined,
+          status: "Brouillon",
+        }),
+      });
+      if (res.ok) {
+        showToast("Article créé dans Notion (statut Brouillon)", "success");
+        resetBlogForm();
+        setView("hub");
+      } else {
+        const data = await res.json().catch(() => ({}));
+        showToast(data.error ?? "Erreur lors de la création", "error");
+      }
+    } catch {
+      showToast("Erreur réseau, réessayez", "error");
+    } finally {
+      setBlogSending(false);
+    }
   }
 
   function addFeedback() {
@@ -351,7 +477,6 @@ export default function AdminConsole() {
   }
 
   function startEdit(draft: Draft) {
-    setResumeAnnotate(false);
     setEditingId(draft.id);
     setPendingElement(draft.element);
     setPendingElementUrl(draft.elementUrl);
@@ -504,42 +629,25 @@ export default function AdminConsole() {
             />
           </div>
 
-          <div className={styles.controlBlock}>
-            <label className={styles.controlLabel}>Interaction</label>
-            <div className={styles.modeToggle} role="group" aria-label="Mode d'interaction">
-              <button
-                type="button"
-                className={`${styles.modeBtn} ${mode === "navigate" ? styles.modeBtnActive : ""}`}
-                onClick={() => setMode("navigate")}
-                aria-pressed={mode === "navigate"}
-              >
-                <Compass size={15} strokeWidth={1.6} /> Naviguer
-              </button>
-              <button
-                type="button"
-                className={`${styles.modeBtn} ${mode === "annotate" ? styles.modeBtnActive : ""}`}
-                onClick={() => setMode("annotate")}
-                aria-pressed={mode === "annotate"}
-              >
-                <Crosshair size={15} strokeWidth={1.6} /> Annoter
-              </button>
-            </div>
-            <p className={styles.controlHint}>
-              {mode === "annotate"
-                ? "Cliquez un bloc dans l'aperçu pour l'annoter. Échap pour quitter."
-                : "Les liens du site fonctionnent normalement dans l'aperçu."}
-            </p>
-          </div>
-
           <div className={styles.actionsBlock}>
             <button
-              className={`${styles.actionBtn} ${styles.actionBtnPrimary}`}
-              onClick={() => setMode("annotate")}
+              className={`${styles.actionBtn} ${mode === "annotate" ? styles.actionBtnActive : styles.actionBtnPrimary}`}
+              onClick={() => setMode(mode === "annotate" ? "navigate" : "annotate")}
+              aria-pressed={mode === "annotate"}
             >
-              <MousePointer size={16} strokeWidth={1.6} /> Sélectionner un bloc
+              <MousePointer size={16} strokeWidth={1.6} />
+              {mode === "annotate" ? "Sélection active — cliquez un bloc" : "Sélectionner un bloc"}
             </button>
+            {mode === "annotate" && (
+              <p className={styles.controlHint}>
+                Cliquez un bloc dans l&apos;aperçu pour l&apos;annoter. Échap ou recliquez pour quitter.
+              </p>
+            )}
             <button className={styles.actionBtn} onClick={startGeneralFeedback}>
               <Globe size={16} strokeWidth={1.6} /> Feedback général
+            </button>
+            <button className={styles.actionBtn} onClick={startBlogCreator}>
+              <FileText size={16} strokeWidth={1.6} /> Créer un article de blog
             </button>
             <button className={styles.actionBtn} onClick={openTickets}>
               <LayoutGrid size={16} strokeWidth={1.6} /> Voir les retours envoyés
@@ -741,6 +849,253 @@ export default function AdminConsole() {
               <button className={fb.cancelBtn} onClick={closeForm}>Annuler</button>
               <button className={fb.addBtn} onClick={addFeedback} disabled={!pendingText.trim()}>
                 {editingId ? "Mettre à jour" : "Ajouter au brouillon"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modale article de blog */}
+      {view === "blog" && (
+        <div className={fb.backdrop} onClick={(e) => { if (e.target === e.currentTarget) closeBlog(); }}>
+          <div className={styles.modalSheet} role="dialog" aria-label="Créer un article de blog">
+            <div className={styles.modalSheetHeader}>
+              <p className={styles.modalSheetTitle}>Créer un article de blog</p>
+              <button className={fb.closeBtn} onClick={closeBlog} aria-label="Fermer">
+                <X size={18} />
+              </button>
+            </div>
+
+            <div className={styles.modalSheetBody}>
+              <div className={fb.blogForm}>
+                <div className={fb.notionInfo}>
+                  <Info size={14} />
+                  <span>L&apos;article sera enregistré en <strong>Brouillon</strong> — vous pourrez le réviser avant publication.</span>
+                </div>
+
+                <div className={fb.field}>
+                  <label className={fb.fieldLabel}>Titre <span aria-hidden="true">*</span></label>
+                  <input
+                    type="text"
+                    className={fb.input}
+                    value={blogTitle}
+                    onChange={(e) => {
+                      setBlogTitle(e.target.value);
+                      if (!blogSlugTouched) setBlogSlug(slugify(e.target.value));
+                    }}
+                    placeholder="Le bras droit externalisé : un levier stratégique pour les PME suisses"
+                    maxLength={120}
+                  />
+                </div>
+
+                <div className={fb.field}>
+                  <label className={fb.fieldLabel}>URL de l&apos;article</label>
+                  <div className={fb.slugPreview}>
+                    <Globe size={12} className={fb.slugGlobe} aria-hidden="true" />
+                    <span className={fb.slugDomain}>{SITE_DOMAIN}/blog/</span>
+                    <span className={blogSlug ? fb.slugValue : fb.slugPlaceholder}>
+                      {blogSlug || "votre-article"}
+                    </span>
+                  </div>
+                  <input
+                    type="text"
+                    className={`${fb.input} ${fb.inputSmall}`}
+                    value={blogSlug}
+                    onChange={(e) => { setBlogSlug(slugify(e.target.value)); setBlogSlugTouched(true); }}
+                    placeholder="votre-article"
+                  />
+                </div>
+
+                <div className={fb.field}>
+                  <label className={fb.fieldLabel}>Extrait</label>
+                  <textarea
+                    className={fb.textarea}
+                    value={blogExcerpt}
+                    onChange={(e) => setBlogExcerpt(e.target.value)}
+                    placeholder="Résumé court (1-2 phrases) affiché en prévisualisation."
+                    rows={2}
+                    maxLength={300}
+                  />
+                </div>
+
+                <div className={fb.field}>
+                  <label className={fb.fieldLabel}>Catégorie</label>
+                  <CustomSelect
+                    name="blogCategory"
+                    options={BLOG_CATEGORY_OPTIONS}
+                    placeholder="Sélectionner..."
+                    value={blogCategory}
+                    onChange={setBlogCategory}
+                  />
+                </div>
+
+                <div className={fb.field}>
+                  <label className={fb.fieldLabel}>Tags</label>
+                  <div className={fb.actionPills}>
+                    {BLOG_TAGS.map((tag) => (
+                      <button
+                        key={tag}
+                        type="button"
+                        className={`${fb.actionPill} ${blogTags.includes(tag) ? fb.actionPillActive : ""}`}
+                        onClick={() => toggleBlogTag(tag)}
+                      >
+                        {blogTags.includes(tag) && <Check size={12} />}
+                        {tag}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                <div className={fb.field}>
+                  <label className={fb.fieldLabel}>Image de couverture</label>
+                  <div
+                    className={`${fb.dropZone} ${blogIsDragOver ? fb.dropZoneOver : ""} ${blogCoverName ? fb.dropZoneFilled : ""}`}
+                    onDragOver={(e) => { e.preventDefault(); setBlogIsDragOver(true); }}
+                    onDragLeave={() => setBlogIsDragOver(false)}
+                    onDrop={async (e) => {
+                      e.preventDefault();
+                      setBlogIsDragOver(false);
+                      const file = e.dataTransfer.files[0];
+                      if (file?.type.startsWith("image/")) await uploadBlogCover(file);
+                    }}
+                  >
+                    {blogCoverUploading ? (
+                      <div className={fb.dropZoneUploading}>
+                        <span className={fb.uploadSpinner} aria-hidden="true" />
+                        <span>Upload en cours…</span>
+                      </div>
+                    ) : blogCoverName ? (
+                      <div className={fb.dropZoneFile}>
+                        <FileImage size={16} className={blogCoverUrl ? fb.dropZoneFileIconOk : fb.dropZoneFileIcon} aria-hidden="true" />
+                        <span className={fb.dropZoneFileName}>{blogCoverName}</span>
+                        <button
+                          type="button"
+                          className={fb.dropZoneRemove}
+                          onClick={() => { setBlogCoverName(""); setBlogCoverUrl(""); setBlogCoverError(""); }}
+                          aria-label="Supprimer l'image"
+                        >
+                          <X size={12} />
+                        </button>
+                      </div>
+                    ) : (
+                      <>
+                        <Upload size={18} className={fb.dropZoneIcon} aria-hidden="true" />
+                        <span className={fb.dropZoneText}>Glissez votre image ici</span>
+                        <button
+                          type="button"
+                          className={fb.dropZoneBtn}
+                          onClick={() => blogCoverFileInputRef.current?.click()}
+                        >
+                          Choisir un fichier
+                        </button>
+                      </>
+                    )}
+                  </div>
+                  <input
+                    ref={blogCoverFileInputRef}
+                    type="file"
+                    accept="image/*"
+                    className={fb.fileInputHidden}
+                    onChange={async (e) => {
+                      const file = e.target.files?.[0];
+                      if (file) await uploadBlogCover(file);
+                      e.target.value = "";
+                    }}
+                  />
+                  {blogCoverError && <span className={fb.hintWarn}>{blogCoverError}</span>}
+                  {blogCoverUrl && (
+                    <div className={fb.uploadedPreview}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={blogCoverUrl} alt="Image de couverture" className={fb.uploadedPreviewImg} />
+                      <div className={fb.uploadedPreviewMsg}>
+                        <Check size={14} strokeWidth={2.5} />
+                        <span>Image bien reçue.</span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                <div className={fb.fieldRow}>
+                  <div className={fb.field}>
+                    <label className={fb.fieldLabel}>Auteur</label>
+                    <input
+                      type="text"
+                      className={fb.input}
+                      value={blogAuthor}
+                      onChange={(e) => setBlogAuthor(e.target.value)}
+                    />
+                  </div>
+                  <div className={fb.field}>
+                    <label className={fb.fieldLabel}>Temps de lecture (min)</label>
+                    <input
+                      type="number"
+                      min={1}
+                      max={60}
+                      className={fb.input}
+                      value={blogReadingMinutes}
+                      onChange={(e) => setBlogReadingMinutes(e.target.value)}
+                      placeholder="5"
+                    />
+                  </div>
+                </div>
+
+                <div className={fb.field}>
+                  <div className={fb.fieldLabelRow}>
+                    <label className={fb.fieldLabel}>Méta description SEO</label>
+                    <button
+                      type="button"
+                      className={fb.seoTooltipTrigger}
+                      aria-describedby={blogMetaTooltipId}
+                      onMouseEnter={() => setBlogMetaTooltip(true)}
+                      onMouseLeave={() => setBlogMetaTooltip(false)}
+                      onFocus={() => setBlogMetaTooltip(true)}
+                      onBlur={() => setBlogMetaTooltip(false)}
+                      aria-label="Aide SEO"
+                    >
+                      <Info size={13} />
+                    </button>
+                    {blogMetaTooltip && (
+                      <div id={blogMetaTooltipId} role="tooltip" className={fb.seoTooltip}>
+                        <strong>120–160 caractères recommandés.</strong> Ce texte s&apos;affiche sous le titre dans Google.
+                      </div>
+                    )}
+                  </div>
+                  <textarea
+                    className={`${fb.textarea} ${blogMetaDesc.length >= SEO_DESC_MIN && blogMetaDesc.length <= SEO_DESC_MAX ? fb.textareaOk : blogMetaDesc.length > 0 ? fb.textareaWarn : ""}`}
+                    value={blogMetaDesc}
+                    onChange={(e) => setBlogMetaDesc(e.target.value)}
+                    placeholder="Résumé pour les moteurs de recherche (120–160 caractères)"
+                    rows={2}
+                    maxLength={200}
+                  />
+                  <span className={`${fb.fieldHint} ${blogMetaDesc.length >= SEO_DESC_MIN && blogMetaDesc.length <= SEO_DESC_MAX ? fb.hintOk : blogMetaDesc.length > SEO_DESC_MAX ? fb.hintWarn : ""}`}>
+                    {blogMetaDesc.length}/{SEO_DESC_MAX} car.
+                    {blogMetaDesc.length > 0 && blogMetaDesc.length < SEO_DESC_MIN && ` — encore ${SEO_DESC_MIN - blogMetaDesc.length} recommandés`}
+                    {blogMetaDesc.length > SEO_DESC_MAX && " — trop long"}
+                    {blogMetaDesc.length >= SEO_DESC_MIN && blogMetaDesc.length <= SEO_DESC_MAX && " — idéal"}
+                  </span>
+                </div>
+
+                <div className={fb.field}>
+                  <label className={fb.fieldLabel}>Corps de l&apos;article</label>
+                  <RichTextEditor
+                    value={blogBody}
+                    onChange={setBlogBody}
+                    placeholder="Rédigez votre article — utilisez la barre d'outils pour mettre en forme (gras, listes…)."
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.modalSheetFooter}>
+              <button className={fb.cancelBtn} onClick={closeBlog}>Annuler</button>
+              <button
+                className={fb.addBtn}
+                onClick={submitBlogPost}
+                disabled={!blogTitle.trim() || blogSending}
+                aria-busy={blogSending}
+              >
+                {blogSending ? "Création..." : <><MessageSquarePlus size={14} />Créer le brouillon</>}
               </button>
             </div>
           </div>
