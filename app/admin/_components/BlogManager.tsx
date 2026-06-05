@@ -8,7 +8,9 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import {
   ArrowLeft, Plus, Eye, Save, Send, X, Upload, FileImage, Check, Pencil, Newspaper, Clock, Calendar,
 } from "lucide-react";
-import RichTextEditor from "../../components/RichTextEditor/RichTextEditor";
+import ArticleEditor from "./ArticleEditor";
+import { tiptapDocToHtml } from "../../lib/tiptapHtml";
+import type { JSONContent } from "@tiptap/react";
 import CategorySelect, { type CategoryItem } from "./CategorySelect";
 import styles from "./BlogManager.module.css";
 
@@ -33,7 +35,7 @@ interface BlogPost {
   publishDate: string;
   readingMinutes: number | null;
   metaDescription: string;
-  body: string;
+  bodyJson: JSONContent | null;
   status: string;
 }
 
@@ -103,7 +105,7 @@ export default function BlogManager({ onClose, showToast }: Props) {
   const [publishDate, setPublishDate] = useState("");
   const [readingMinutes, setReadingMinutes] = useState("");
   const [metaDesc, setMetaDesc] = useState("");
-  const [body, setBody] = useState("");
+  const [bodyDoc, setBodyDoc] = useState<JSONContent | null>(null);
   const [sending, setSending] = useState<null | "Brouillon" | "Publié">(null);
   const [previewOpen, setPreviewOpen] = useState(false);
   const coverInputRef = useRef<HTMLInputElement>(null);
@@ -143,7 +145,7 @@ export default function BlogManager({ onClose, showToast }: Props) {
   function resetEditor() {
     setTitle(""); setSlug(""); setSlugTouched(false); setExcerpt(""); setCategory("");
     setTags([]); setCoverUrl(""); setCoverName(""); setCoverError("");
-    setAuthor("Mireille Dayer"); setPublishDate(""); setReadingMinutes(""); setMetaDesc(""); setBody("");
+    setAuthor("Mireille Dayer"); setPublishDate(""); setReadingMinutes(""); setMetaDesc(""); setBodyDoc(null);
   }
 
   function openNew() {
@@ -168,7 +170,7 @@ export default function BlogManager({ onClose, showToast }: Props) {
     setPublishDate(p.publishDate);
     setReadingMinutes(p.readingMinutes ? String(p.readingMinutes) : "");
     setMetaDesc(p.metaDescription);
-    setBody(p.body);
+    setBodyDoc(p.bodyJson ?? null);
     setEditorKey((k) => k + 1);
     setMode("editor");
   }
@@ -211,7 +213,7 @@ export default function BlogManager({ onClose, showToast }: Props) {
       publishDate: publishDate || undefined,
       readingMinutes: readingMinutes ? Number(readingMinutes) : undefined,
       metaDescription: metaDesc.trim(),
-      body: body.trim(),
+      bodyJson: bodyDoc,
       status,
     };
     try {
@@ -454,8 +456,7 @@ export default function BlogManager({ onClose, showToast }: Props) {
           {/* Corps */}
           <div className={styles.bodyField}>
             <label className={styles.fieldLabel}>Contenu de l&apos;article</label>
-            <RichTextEditor key={editorKey} value={body} onChange={setBody}
-              placeholder="Rédigez votre article — barre d'outils pour la mise en forme." />
+            <ArticleEditor key={editorKey} initialContent={bodyDoc} onChange={setBodyDoc} />
           </div>
 
           {/* SEO compact */}
@@ -499,8 +500,8 @@ export default function BlogManager({ onClose, showToast }: Props) {
                 {publishDate && ` · ${fmtDate(publishDate)}`}
               </p>
               {excerpt && <p className={styles.previewLead}>{excerpt}</p>}
-              {body ? (
-                <div className={styles.previewBody} dangerouslySetInnerHTML={{ __html: body }} />
+              {bodyDoc ? (
+                <div className={styles.previewBody} dangerouslySetInnerHTML={{ __html: tiptapDocToHtml(bodyDoc) }} />
               ) : (
                 <p className={styles.previewEmpty}>Le contenu de l&apos;article apparaîtra ici.</p>
               )}
