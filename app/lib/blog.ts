@@ -61,7 +61,7 @@ function mapMeta(p: NotionPage): PostMeta {
     author: readRT(props["Auteur"]?.rich_text),
     publishDate: props["Date de publication"]?.date?.start ?? "",
     readingMinutes: props["Temps de lecture (min)"]?.number ?? null,
-    metaDescription: readRT(props["Meta description SEO"]?.rich_text),
+    metaDescription: readRT(props["Meta description"]?.rich_text),
   };
 }
 

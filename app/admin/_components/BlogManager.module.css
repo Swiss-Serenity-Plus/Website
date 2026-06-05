@@ -115,6 +115,29 @@
 }
 .cardEdit:hover { border-color: var(--c-accent-secondary, #977b57); background: rgba(151, 123, 87, 0.06); }
 
+/* ── Squelettes de chargement ── */
+.skelCard {
+  display: flex; flex-direction: column;
+  border: 1px solid var(--c-border, #e8e3d8); border-radius: 14px; overflow: hidden;
+  background: var(--c-surface, #fff);
+}
+.skelCover { aspect-ratio: 16 / 9; }
+.skelBody { display: flex; flex-direction: column; gap: 10px; padding: 16px 15px 14px; flex: 1; }
+.skelFoot { display: flex; align-items: center; justify-content: space-between; margin-top: 6px; }
+.skelCover, .skelLine {
+  background: linear-gradient(100deg, #efeae1 30%, #f7f4ee 50%, #efeae1 70%);
+  background-size: 220% 100%;
+  animation: skelShimmer 1.3s ease-in-out infinite;
+}
+.skelLine { height: 11px; border-radius: 6px; }
+@keyframes skelShimmer {
+  from { background-position: 180% 0; }
+  to { background-position: -80% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .skelCover, .skelLine { animation: none; }
+}
+
 .statusBadge {
   display: inline-flex; align-items: center; gap: 5px;
   padding: 3px 9px; border-radius: 9999px; font-size: 0.7rem; font-weight: 600;
@@ -222,19 +245,28 @@
   animation: previewIn 0.22s ease;
 }
 .confirmBox {
+  position: relative;
   width: 100%; max-width: 440px;
   background: var(--c-surface, #fff); border: 1px solid var(--c-border, #e8e3d8);
   border-radius: 18px; padding: 26px 26px 22px;
   box-shadow: 0 30px 90px rgba(6, 36, 69, 0.34);
   animation: confirmPop 0.26s cubic-bezier(0.22, 1, 0.36, 1);
 }
+.confirmClose {
+  position: absolute; top: 14px; right: 14px;
+  display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px;
+  border: none; border-radius: 8px; background: transparent;
+  color: var(--c-text-muted, #4a5a6f); cursor: pointer; transition: background 0.15s ease, color 0.15s ease;
+}
+.confirmClose:hover:not(:disabled) { background: rgba(6, 36, 69, 0.07); color: var(--c-text, #062445); }
+.confirmClose:disabled { opacity: 0.5; cursor: not-allowed; }
 @keyframes confirmPop {
   from { opacity: 0; transform: translateY(12px) scale(0.96); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
 .confirmTitle {
   font-family: var(--font-display, "Fraunces", serif);
-  font-size: 1.25rem; color: var(--c-text, #062445); margin: 0 0 10px;
+  font-size: 1.25rem; color: var(--c-text, #062445); margin: 0 0 10px; padding-right: 36px;
 }
 .confirmText { font-size: 0.92rem; line-height: 1.55; color: var(--c-text-muted, #4a5a6f); margin: 0; }
 .confirmHint { font-size: 0.82rem; color: var(--c-accent-primary, #b42c2a); margin: 10px 0 0; }

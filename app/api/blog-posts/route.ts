@@ -62,7 +62,7 @@ function buildProperties(body: BlogPostPayload) {
   if (body.author !== undefined) properties["Auteur"] = { rich_text: rt(body.author) };
   if (body.publishDate) properties["Date de publication"] = { date: { start: body.publishDate } };
   if (typeof body.readingMinutes === "number") properties["Temps de lecture (min)"] = { number: body.readingMinutes };
-  if (body.metaDescription !== undefined) properties["Meta description SEO"] = { rich_text: rt(body.metaDescription) };
+  if (body.metaDescription !== undefined) properties["Meta description"] = { rich_text: rt(body.metaDescription) };
   if (body.bodyJson !== undefined) {
     properties["Contenu JSON"] = { rich_text: jsonToRichTextSegments(JSON.stringify(body.bodyJson ?? {})) };
   }
@@ -140,7 +140,7 @@ function mapPost(p: NotionBlogPage) {
     author: readRT(props["Auteur"]?.rich_text),
     publishDate: props["Date de publication"]?.date?.start ?? "",
     readingMinutes: props["Temps de lecture (min)"]?.number ?? null,
-    metaDescription: readRT(props["Meta description SEO"]?.rich_text),
+    metaDescription: readRT(props["Meta description"]?.rich_text),
     bodyJson,
     status: props["Statut"]?.select?.name ?? "Brouillon",
   };

@@ -217,6 +217,13 @@ export default function BlogManager({ onClose, showToast }: Props) {
     else setMode("list");
   }
 
+  // Quitter sans enregistrer : on oublie les modifications et on revient a la liste.
+  function discardAndLeave() {
+    if (sending) return;
+    setConfirmLeave(false);
+    setMode("list");
+  }
+
   function toggleTag(tag: string) {
     setTags((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]));
   }
@@ -305,7 +312,25 @@ export default function BlogManager({ onClose, showToast }: Props) {
         </div>
 
         <div className={styles.body}>
-          {loading && posts.length === 0 && <p className={styles.muted}>Chargement des articles…</p>}
+          {loading && posts.length === 0 && (
+            <div className={styles.grid} aria-hidden>
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className={styles.skelCard}>
+                  <div className={styles.skelCover} />
+                  <div className={styles.skelBody}>
+                    <div className={styles.skelLine} style={{ width: "38%", height: 14 }} />
+                    <div className={styles.skelLine} style={{ width: "85%", height: 18 }} />
+                    <div className={styles.skelLine} style={{ width: "95%" }} />
+                    <div className={styles.skelLine} style={{ width: "70%" }} />
+                    <div className={styles.skelFoot}>
+                      <div className={styles.skelLine} style={{ width: "30%" }} />
+                      <div className={styles.skelLine} style={{ width: "22%", height: 22 }} />
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
           {!loading && error && <p className={styles.errorText}>{error}</p>}
           {!loading && !error && posts.length === 0 && (
             <div className={styles.empty}>
@@ -524,6 +549,14 @@ export default function BlogManager({ onClose, showToast }: Props) {
       {confirmLeave && (
         <div className={styles.confirmOverlay} onClick={(e) => { if (e.target === e.currentTarget && !sending) setConfirmLeave(false); }}>
           <div className={styles.confirmBox} role="dialog" aria-label="Modifications non enregistrées">
+            <button
+              className={styles.confirmClose}
+              onClick={() => setConfirmLeave(false)}
+              disabled={sending !== null}
+              aria-label="Fermer et continuer l'édition"
+            >
+              <X size={18} />
+            </button>
             <p className={styles.confirmTitle}>Modifications non enregistrées</p>
             <p className={styles.confirmText}>
               Vous avez des modifications en cours sur cet article. Souhaitez-vous les enregistrer avant de revenir à la liste&nbsp;?
@@ -532,8 +565,8 @@ export default function BlogManager({ onClose, showToast }: Props) {
               <p className={styles.confirmHint}>Un titre est requis pour pouvoir enregistrer.</p>
             )}
             <div className={styles.confirmActions}>
-              <button className={styles.ghostBtn} onClick={() => setConfirmLeave(false)} disabled={sending !== null}>
-                Continuer les modifications
+              <button className={styles.ghostBtn} onClick={discardAndLeave} disabled={sending !== null}>
+                Quitter sans enregistrer
               </button>
               <button className={styles.primaryBtn} onClick={() => save(editingStatus)} disabled={sending !== null || !title.trim()}>
                 {sending !== null ? "Enregistrement…" : "Enregistrer et quitter"}

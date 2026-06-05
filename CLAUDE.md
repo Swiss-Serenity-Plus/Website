@@ -292,7 +292,7 @@ La console `/admin` (composant `AdminConsole`) propose 4 actions (titre « Comme
 
 ### Base Notion articles de blog
 - **ID** : `ca0b4df233c54095917cb3ea38bc59a0` — data source `daf2950a-1ac2-490e-911e-6a3b82625b2c`
-- **Propriétés** : Titre (title), Statut (Brouillon/À relire/Publié/Archivé), Slug, Extrait, Catégorie (select), Tags (multi-select), Image cover (url), Auteur, Date de publication, Temps de lecture (min), Meta description SEO, Corps (legacy, plus utilisé comme source), **`Contenu JSON`** (rich_text, créé via MCP — stocke le JSON TipTap pour réédition)
+- **Propriétés** : Titre (title), Statut (Brouillon/À relire/Publié/Archivé), Slug, Extrait, Catégorie (select), Tags (multi-select), Image cover (url), Auteur, Date de publication, Temps de lecture (min), Meta description, Corps (legacy, plus utilisé comme source), **`Contenu JSON`** (rich_text, créé via MCP — stocke le JSON TipTap pour réédition)
 - **Le corps de l'article est stocké en BLOCS ENFANTS de la page** (jamais tronqué). Voir 15.11 et `README-blog.md`.
 
 ### ⚠️ PROCESS OBLIGATOIRE
