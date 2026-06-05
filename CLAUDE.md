@@ -374,3 +374,68 @@ Bouton « Voir mes retours envoyés » → vue grille des tickets Notion (refres
 | Notion tickets | Base `27665f55d9954a33aa2ac35feab7909f` — https://www.notion.so/gouman/27665f55d9954a33aa2ac35feab7909f |
 | Notion articles de blog | Base `ca0b4df233c54095917cb3ea38bc59a0` |
 | Avatar widget | https://res.cloudinary.com/dceobxyts/image/upload/v1778440872/Avatar_zc0wae.jpg |
+
+---
+
+## 15. JOURNAL DE CONTEXTE — DÉCISIONS, PATTERNS & PROCESS (à lire pour reprendre une session)
+
+> Cette section consigne l'état réel et les décisions prises au fil des sessions, pour reprendre sans tout re-découvrir. **Mettre à jour à chaque session.**
+
+### 15.1 Infrastructure & workflow de session
+
+- **Branche** : `claude/setup-swiss-serenity-plus-Fm7s6` est **la branche par défaut du dépôt GitHub** ET la branche de production connectée à Vercel. **On pousse tout dessus.** (En session web, la branche locale s'appelle `claude/<random>` ; le pattern utilisé est : committer en local, `git branch -f claude/setup-swiss-serenity-plus-Fm7s6 HEAD`, puis `git push -u origin claude/setup-swiss-serenity-plus-Fm7s6`. Pousser aussi la branche de session permet de garder son upstream à jour et d'éviter les alertes « unpushed » du stop-hook.)
+- **D'autres sessions travaillent en parallèle sur la même branche** → **toujours `git fetch` avant de pousser** ; en cas de divergence, `git rebase origin/claude/setup-swiss-serenity-plus-Fm7s6` (les rebases se sont faits proprement jusqu'ici).
+- **Hook SessionStart** (`.claude/hooks/session-start.sh` + `.claude/settings.json`, committés) : en session web (`CLAUDE_CODE_REMOTE=true`) il lance `npm install` (les deps ne sont pas dans un conteneur fraîchement cloné) **et** configure un `gpg.ssh.allowedSignersFile` (voir 15.2). Mode synchrone.
+- **Build** : `npm run build` **avant chaque push** (obligatoire). Lint : `npm run lint` (eslint flat). Pas de tests.
+- **Process Notion (tickets MIR)** : après implémentation → `Statut` = `Traité`, remplir `Solution mise en place`, **ajouter un commentaire** détaillé (fichiers, approche). ⚠️ **Certains tickets vivent dans une base au schéma différent** : propriété texte nommée **`Retour`** (pas `Retour client`), et **pas de champ `Solution mise en place`**. Dans ce cas → ne mettre que `Statut` = `Traité` + commentaire (sinon erreur `validation_error`).
+
+### 15.2 Signatures Git & faux positif du stop-hook
+
+- Les commits sont signés par le signer du conteneur (`/tmp/code-sign`, SSH, `commit.gpgsign=true`) → **GitHub les affiche « Verified »**.
+- Le stop-hook `~/.claude/stop-hook-git-check.sh` **ne signale que `%G? == N`** (aucune signature) ou un email committer ≠ `noreply@anthropic.com`.
+- Problème : sans `allowedSignersFile`, `git log %G?` renvoyait `N` (git ne tentait pas la vérif). Et une vraie vérif locale est **impossible** (ni `ssh-keygen` installé, ni programme de vérif — `/tmp/code-sign` ne fait que signer).
+- **Solution (intégrée au hook)** : extraire la clé publique de signature d'un commit signé récent (parse du blob SSHSIG) et écrire `~/.config/git/allowed_signers` (`noreply@anthropic.com ssh-ed25519 …`), puis `git config gpg.ssh.allowedSignersFile`. Résultat : `%G?` passe de `N` → `B` (signature présente, non vérifiable localement) → **le stop-hook ne signale plus rien**. Ne jamais « corriger » les commits avec `--reset-author` : ils sont déjà signés.
+
+### 15.3 R2 (assets images) — réseau
+
+- Le site charge R2 via `next.config.ts` (`remotePatterns` host R2, `pathname:"/**"`) → **OK sur Vercel**.
+- En **session web, le domaine R2 est bloqué par la politique réseau du sandbox** → **je ne peux PAS valider visuellement** images/icônes ni les télécharger. Toujours prévenir « à vérifier sur Vercel ». Débloquer = **politique réseau de l'environnement** (app web Claude Code), pas un script.
+- **Encodage des URLs R2** (filenames avec caractères spéciaux) : espace `%20`, `:` `%3A`, `&` `%26`, `"` `%22`, `é` `%C3%A9`. Ex : `Icon%20%3A%20Sourcing%20%26%20Partenaires%20%3A%20Swiss%20Serenity%20Plus.png`.
+
+### 15.4 Patterns techniques établis (réutiliser)
+
+- **Icônes custom R2** : champ **`iconImage`** (URL encodée) sur les data, à la place d'une icône Lucide. Rendu via :
+  - `ServiceCard` (cartes services) : `<Image>` dans `.iconWrap` (40px), `object-fit: contain`.
+  - `ValueProp3Col` (piliers home) : `<Image>` 44×44 `unoptimized`.
+  - `ColumnsBlock` variant **`values`** : `col.image` → 48×48 ; variant **`results`** : `col.image` → 30×30 (support image **ajouté cette session**, le variant ne gérait que les icônes Lucide).
+- **`iconScale`** (par carte, `ServiceCard`) : facteur de `transform: scale()` pour **compenser le padding interne variable des PNG** et égaliser les tailles visuelles. Réglages actuels : Sourcing `1.5`, Accompagnement `1.6` ; Coordination & Expérience client = défaut (1). À ajuster visuellement sur Vercel.
+- **`wideHeader`** (`ColumnsBlock`, via `titleOneLine` dans la config `values`) : retire le `max-width:560px` du header + `nowrap` ≥768px → titre court sur **une seule ligne** (ex. « Rigueur • Discrétion • Bienveillance »). Ne pas l'activer pour les titres-phrases longs (ils doivent wrapper).
+- **Tokenisation feedback** (autres sessions) : `data-fb-container` + `id="b-…"`, `data-fb-label`, `fbLabel`/`fbSlug`. Voir `TOKENISATION-PROCESS.md` / `FEEDBACK-TOKENS.md`.
+
+### 15.5 HERO — état final et historique de la « saga transition »
+
+> ⚠️ Beaucoup d'itérations ont eu lieu sur la **séparation texte/photo**. Ne pas réintroduire ce qui a été rejeté.
+
+- **État validé (desktop)** : photo paysage R2 (`Paysage - Swiss Serenity Plus - Mireille Dayer.png`) ancrée à droite (`width` 56% / 54% ≥1280 / 52% ≥1600), texte à gauche. Transition photo→crème = **dégradé crème EN DIAGONALE** : `.imageWrap::before { background: linear-gradient(110deg, var(--c-bg) … transparent 40%) }` + **flou très léger** `.imageWrap::after { backdrop-filter: blur(2px) }` **masqué** en bande étroite suivant la même diagonale (`mask-image: linear-gradient(110deg, …)`).
+- **Rejeté / à ne PAS refaire** : `edgeBlur` `backdrop-filter: blur(9px)` (effet « brouillard », détesté par la cliente) ; le **fond blanc/crème de séparation marqué** ; la **coupe nette** (`clip-path` diagonale) ; un **dégradé vertical** (`to right`) — la cliente veut la diagonale.
+- **Mobile** : bandeau photo en haut (`40vh`) qui se fond vers le bas dans le crème (`::before` `to top`), texte dessous sur crème.
+- **Contenu** : titre `Sérénité · Succès · Performance` (MIR-354 — une seule ligne, `clamp()` + `white-space:nowrap`) ; eyebrow `Votre partenaire de confiance au quotidien` (« au quotidien » insécable `&nbsp;`, taille 15px mobile / 16px desktop) ; CTA principal en **variante `dark`** (bleu nuit + bordure dorée, identique au bouton header — MIR-357).
+
+### 15.6 AboutTeaser (home) & page /a-propos — design « encadré premium »
+
+- **Encadré unifié** : texte + portrait dans **une seule carte** (bordure dorée, fond crème dégradé). **Texture** (grille de points dorés) + **voile lumineux d'angle** révélés au hover. **Portrait** dépasse en haut du cadre (`top:-56px`, collé en bas) + **halo** lumineux ; bords **gauche ET bas incrustés** par `mask-image` (intersection de 2 dégradés `to right` + `to top`, `mask-composite: intersect`). Mobile : image en haut débordante + **transition floutée** vers le texte.
+- **Page /a-propos** (copy final consolidé) : Hero = nom + rôle (`Fondatrice de Swiss Serenity Plus®`) + promesse ; 2 cartes audience (Professionnels / Particuliers, séparateur `Divider` horizontal à losange) ; section **« Une expertise construite sur le terrain »** (3 paragraphes parcours) ; section **« Notre engagement »** = 4 valeurs **Engagement · Rigueur · Discrétion · Bienveillance** + phrase de clôture. Toujours **`Swiss Serenity Plus®`** (avec ®).
+
+### 15.7 Autres composants notables
+
+- **MountainDecor** (`app/components/MountainDecor/`) : décor de montagnes alpines atmosphérique aux bords gauche/droit, révélé au scroll (composant client). Fondu bord intérieur+haut+bas par `mask-image`, **flou** `filter: blur(var(--mtn-blur))`, **parallaxe** vertical léger (rAF, transform only), **`prefers-reduced-motion`** coupe la parallaxe. **Disparaît avant la section `#localisation`** (fadeOut calé sur sa position). Réduit/affiché en discret <1024px. **Variables CSS de réglage en tête du module.** z-index 1 (au-dessus des fonds de section opaques ; bords fondus + opacité basse pour la lisibilité du texte).
+- **Header** : logo recadré (`.logoCrop`) **agrandi ~+14 %** (66×300 desktop / 48×216 mobile) et **aligné à gauche** sur le texte du Hero (largeur de box calée au wordmark). Item de nav **« Expertise » → « Prestations »**. **Favicon = logo R2** (`metadata.icons` dans `layout.tsx`) ; `app/favicon.ico` **supprimé** pour ne pas l'emporter. **Voile givré** (`backdrop-filter`) derrière logo/burger sur mobile, **désactivé quand le menu est ouvert** (header rendu opaque crème → corrige un artefact de barre verticale).
+- **ContactCTA** : bloc compacté (gaps `sp-2`, padding `sp-8`).
+
+### 15.8 Tickets MIR traités (sessions récentes)
+
+196 (icône Rigueur) · 350 (refonte bloc /a-propos) · 354 (titre Hero 1 ligne) · 356 (Expertise→Prestations) · 357 (CTA Hero variante dark) · 358 (« au quotidien » insécable) · 361 (® titre Piliers) · 362/365/368/369 (icônes cartes services Sourcing/Expérience/Coordination/Accompagnement) · 363/366/367 (icônes piliers ValueProp) · 371 (Clarté→Performance) · 372 (icône Expérience sur page Structuration, via data partagée) · 373 (icône résultat, + support image au variant results) · 374 (icône Performance) · 375 (texte valeur Performance) · 376 (titre valeurs 1 ligne, `wideHeader`) · 378 (logo agrandi) · 379 (eyebrow agrandi). Équilibrage tailles d'icônes cartes services via `iconScale` (post-378).
+
+### 15.9 Vision produit (rappel)
+
+Premium classique suisse, épuré, « navigation fluide · aspect premium · qualité & confiance ». Mireille = **bras droit de confiance** (jamais « assistante low-cost »). Voix : 1ʳᵉ personne pour Mireille, ton confiant et chaleureux. Respecter le design system (tokens), CSS Modules, icônes Lucide (ou images R2 custom), pas de Tailwind. Voir sections 2/3/7 pour le positionnement, le copywriting et l'identité visuelle.
