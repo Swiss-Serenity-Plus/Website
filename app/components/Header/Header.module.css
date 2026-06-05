@@ -39,13 +39,13 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 58px;
-  width: 264px;
+  height: 66px;
+  width: 300px;
   overflow: hidden;
 }
 
 .logoImg {
-  height: 184px;
+  height: 210px;
   width: auto;
   max-width: none;
 }
@@ -140,8 +140,8 @@
   /* Recadrage resserré sur mobile : box au plus près de la largeur du
      wordmark (centré) => gap latéral minimal, donc visuellement aligné à
      gauche, et tient dans l'écran. */
-  .logoCrop { height: 42px; width: 190px; }
-  .logoImg { height: 132px; }
+  .logoCrop { height: 48px; width: 216px; }
+  .logoImg { height: 150px; }
 
   .nav {
     position: fixed;
