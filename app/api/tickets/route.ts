@@ -20,6 +20,7 @@ interface NotionPage {
   archived: boolean;
   properties: {
     "Ticket"?: { title: NotionRichText[] };
+    "Ticket ID"?: { unique_id: { prefix: string | null; number: number | null } | null };
     "Élément ciblé"?: { rich_text: NotionRichText[] };
     "Action"?: { select: NotionSelect | null };
     "Page concernée"?: { select: NotionSelect | null };
@@ -89,20 +90,27 @@ export async function GET() {
         str(p.properties["Élément ciblé"]?.rich_text) !== "" ||
         str(p.properties["Retour"]?.rich_text) !== ""
       )
-      .map((p) => ({
-        notionId:    p.id,
-        ticketId:    str(p.properties["Ticket"]?.title),
-        element:     str(p.properties["Élément ciblé"]?.rich_text),
-        action:      p.properties["Action"]?.select?.name ?? "",
-        page:        p.properties["Page concernée"]?.select?.name ?? "",
-        text:        str(p.properties["Retour"]?.rich_text),
-        status:      p.properties["Statut"]?.select?.name ?? "À traiter",
-        statusColor: p.properties["Statut"]?.select?.color ?? "gray",
-        timestamp:   p.properties["Date soumission"]?.date?.start ?? "",
-        format:      p.properties["Format"]?.select?.name ?? "",
-        url:         p.properties["URL"]?.url ?? "",
-        imageUrl:    p.properties["Files & media"]?.files?.find((f) => f.type === "external")?.external?.url ?? "",
-      }));
+      .map((p) => {
+        const uid = p.properties["Ticket ID"]?.unique_id;
+        const ticketId = uid && uid.number != null
+          ? `${uid.prefix ? uid.prefix + "-" : ""}${uid.number}`
+          : "";
+        return {
+          notionId:    p.id,
+          ticketId,                                          // N° auto-increment (ex. MIR-380)
+          title:       str(p.properties["Ticket"]?.title),   // titre Notion (resume)
+          element:     str(p.properties["Élément ciblé"]?.rich_text),
+          action:      p.properties["Action"]?.select?.name ?? "",
+          page:        p.properties["Page concernée"]?.select?.name ?? "",
+          text:        str(p.properties["Retour"]?.rich_text),
+          status:      p.properties["Statut"]?.select?.name ?? "À traiter",
+          statusColor: p.properties["Statut"]?.select?.color ?? "gray",
+          timestamp:   p.properties["Date soumission"]?.date?.start ?? "",
+          format:      p.properties["Format"]?.select?.name ?? "",
+          url:         p.properties["URL"]?.url ?? "",
+          imageUrl:    p.properties["Files & media"]?.files?.find((f) => f.type === "external")?.external?.url ?? "",
+        };
+      });
 
     return NextResponse.json({ tickets }, { headers: CORS });
   } catch (err) {
