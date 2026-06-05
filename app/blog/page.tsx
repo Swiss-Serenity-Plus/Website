@@ -63,6 +63,12 @@ export default async function BlogPage() {
                     id={`b-article-${article.slug}`}
                     data-fb-container={`Carte article « ${article.title} »`}
                   >
+                    {article.coverUrl && (
+                      <Link href={`/blog/${article.slug}`} className={styles.cardCover} aria-hidden tabIndex={-1}>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={article.coverUrl} alt="" className={styles.cardCoverImg} loading="lazy" />
+                      </Link>
+                    )}
                     <div className={styles.cardTop}>
                       {article.category && (
                         <span className={`${styles.tag} ${isPerso(article.category) ? styles.tagPerso : styles.tagPro}`} data-fb-label={`Étiquette « ${article.category} »`}>
