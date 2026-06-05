@@ -11,6 +11,7 @@ interface ServiceCardProps {
   href: string;
   Icon?: LucideIcon;
   iconImage?: string;
+  iconScale?: number;
   audience: "pro" | "perso";
   cta?: string;
 }
@@ -21,6 +22,7 @@ export default function ServiceCard({
   href,
   Icon,
   iconImage,
+  iconScale,
   audience,
   cta = "En savoir plus",
 }: ServiceCardProps) {
@@ -39,7 +41,14 @@ export default function ServiceCard({
             {Icon ? (
               <Icon size={28} color="var(--c-accent-secondary)" strokeWidth={1.5} />
             ) : (
-              <Image src={iconImage!} alt="" width={40} height={40} className={styles.iconImg} />
+              <Image
+                src={iconImage!}
+                alt=""
+                width={40}
+                height={40}
+                className={styles.iconImg}
+                style={iconScale ? { transform: `scale(${iconScale})` } : undefined}
+              />
             )}
           </div>
         )}
