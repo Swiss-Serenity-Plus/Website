@@ -89,44 +89,33 @@
     max-width: 1040px;
   }
 
-  /* Transition discrète façon image de référence : fondu crème doux,
-     progressif ET EN DIAGONALE (~20° : plus de crème en haut, la photo
-     s'avance vers la gauche en bas) sur le bord gauche de la photo. */
-  .imageWrap::before {
-    display: block;
-    background: linear-gradient(
-      110deg,
-      var(--c-bg) 0%,
-      rgba(247, 245, 241, 0.95) 9%,
-      rgba(247, 245, 241, 0.55) 20%,
-      rgba(247, 245, 241, 0.2) 29%,
-      transparent 40%
-    );
-  }
+  /* Fondu du bord gauche : on masque directement l'image (pas d'overlay
+     creme, pas de backdrop-filter) pour qu'elle devienne progressivement
+     transparente vers la gauche et se dissolve dans le fond beige. Aucune
+     matiere ajoutee, aucun voile, aucune brume : seule l'opacite de l'image
+     diminue. Zone large mais legere pour qu'aucune arete ne soit perceptible.
+     Reglages facilement ajustables (semantique fadeStart / fadeWidth) :
+       fadeStart 4% : debut du fondu depuis le bord gauche
+       fadeWidth 34% : largeur de transition -> point median 21%, fin 38%
+     L'image reste pleinement opaque a droite (au-dela de 38%, avant le centre).
+     edgeBlur = 0 par defaut (c'est le flou qui creait l'effet brouillard). */
+  .imageWrap::before { display: none; }
+  .imageWrap::after { display: none; }
 
-  /* Flou TRÈS léger, confiné à une bande étroite suivant la même diagonale,
-     pour adoucir la couture sans créer d'effet de brouillard. */
-  .imageWrap::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    z-index: 4;
-    pointer-events: none;
-    backdrop-filter: blur(2px);
-    -webkit-backdrop-filter: blur(2px);
+  .mountainImg {
     -webkit-mask-image: linear-gradient(
-      110deg,
-      transparent 9%,
-      #000 19%,
-      #000 29%,
-      transparent 41%
+      to right,
+      transparent 0%,
+      rgba(0, 0, 0, 0.15) 4%,
+      rgba(0, 0, 0, 0.6) 21%,
+      #000 38%
     );
     mask-image: linear-gradient(
-      110deg,
-      transparent 9%,
-      #000 19%,
-      #000 29%,
-      transparent 41%
+      to right,
+      transparent 0%,
+      rgba(0, 0, 0, 0.15) 4%,
+      rgba(0, 0, 0, 0.6) 21%,
+      #000 38%
     );
   }
 }
