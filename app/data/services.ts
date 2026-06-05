@@ -1,4 +1,4 @@
-import { TrendingUp, FileText } from "lucide-react";
+import { TrendingUp } from "lucide-react";
 
 export const ALL_SERVICES = [
   {
@@ -33,7 +33,7 @@ export const ALL_SERVICES = [
     title: "Accompagnement aux Particuliers",
     shortDescription: "Un soutien discret et bienveillant dans vos démarches administratives et étapes clés.",
     href: "/particuliers/accompagnement-administratif",
-    Icon: FileText,
+    iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20%3A%20Accompagnement%20aux%20Particuliers%20%3A%20Swiss%20Serenity%20Plus.png",
     audience: "perso" as const,
   },
 ];

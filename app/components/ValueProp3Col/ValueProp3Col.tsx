@@ -38,7 +38,7 @@ export default function ValueProp3Col() {
       <Container>
         <div className={styles.header}>
           <p className="eyebrow">Notre engagement</p>
-          <h2 className={styles.title}>La signature Swiss Serenity Plus</h2>
+          <h2 className={styles.title}>La signature Swiss Serenity Plus&reg;</h2>
         </div>
         <div className={styles.grid}>
           {pillars.map((p) => {
