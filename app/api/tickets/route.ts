@@ -131,7 +131,7 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json({ error: "Configuration manquante" }, { status: 500, headers: CORS });
   }
 
-  let body: { status?: string; action?: string; text?: string };
+  let body: { status?: string; action?: string; text?: string; imageUrl?: string | null };
   try {
     body = await request.json();
   } catch {
@@ -145,6 +145,14 @@ export async function PATCH(request: NextRequest) {
   }
   if (body.text !== undefined) {
     properties["Retour"] = { rich_text: body.text ? [{ text: { content: body.text.slice(0, 2000) } }] : [] };
+  }
+  // Image jointe : on reecrit completement la propriete (remplacement) ou on la
+  // vide (suppression). Notion remplace l'ancienne valeur par la nouvelle.
+  if (body.imageUrl !== undefined) {
+    const url = (body.imageUrl ?? "").trim();
+    properties["Files & media"] = url
+      ? { files: [{ type: "external", name: url.split("/").pop() || "image", external: { url } }] }
+      : { files: [] };
   }
 
   if (Object.keys(properties).length === 0) {

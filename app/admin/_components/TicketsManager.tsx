@@ -8,7 +8,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import {
   ArrowLeft, RefreshCw, Search, X, ExternalLink, Pencil, Trash2, Check,
-  MessageSquare, Inbox, Loader, CircleCheck,
+  MessageSquare, Inbox, Loader, CircleCheck, Replace, ImagePlus,
 } from "lucide-react";
 import { ACTION_OPTIONS } from "../../lib/fbResolve";
 import CustomSelect from "../../components/CustomSelect/CustomSelect";
@@ -77,8 +77,12 @@ function fmtDate(iso: string): string {
 
 type Tab = "tous" | "À traiter" | "En cours" | "Traité";
 
+// Cache memoire (persiste tant que l'onglet n'est pas recharge) : evite de
+// recharger les 320+ tickets a chaque ouverture de la vue.
+let ticketsCache: Ticket[] | null = null;
+
 export default function TicketsManager({ onClose, showToast, onCount }: Props) {
-  const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [tickets, setTickets] = useState<Ticket[]>(ticketsCache ?? []);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [tab, setTab] = useState<Tab>("tous");
@@ -95,13 +99,24 @@ export default function TicketsManager({ onClose, showToast, onCount }: Props) {
   const [editStatus, setEditStatus] = useState("");
   const [editAction, setEditAction] = useState("");
   const [editText, setEditText] = useState("");
+  const [editImageUrl, setEditImageUrl] = useState("");
+  const [editImageUploading, setEditImageUploading] = useState(false);
   const [saving, setSaving] = useState(false);
+  const editImageInputRef = useRef<HTMLInputElement>(null);
 
   const onCountRef = useRef(onCount);
   useEffect(() => { onCountRef.current = onCount; }, [onCount]);
 
-  const loadTickets = useCallback(async () => {
-    setLoading(true);
+  // Garde le cache et la pastille de comptage synchronises.
+  const commitTickets = useCallback((list: Ticket[]) => {
+    ticketsCache = list;
+    setTickets(list);
+    onCountRef.current?.(list.length);
+  }, []);
+
+  // silent = rafraichissement en arriere-plan (pas de squelette) quand le cache existe.
+  const loadTickets = useCallback(async (silent = false) => {
+    if (!silent) setLoading(true);
     setError(null);
     try {
       const res = await fetch("/api/tickets");
@@ -110,18 +125,18 @@ export default function TicketsManager({ onClose, showToast, onCount }: Props) {
         throw new Error(d.error ?? `Erreur ${res.status}`);
       }
       const data = await res.json();
-      const list: Ticket[] = data.tickets ?? [];
-      setTickets(list);
-      onCountRef.current?.(list.length);
+      commitTickets((data.tickets ?? []) as Ticket[]);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Impossible de charger les tickets.");
+      if (!silent) setError(err instanceof Error ? err.message : "Impossible de charger les tickets.");
     } finally {
-      setLoading(false);
+      if (!silent) setLoading(false);
     }
-  }, []);
+  }, [commitTickets]);
 
+  // Au montage : si le cache existe, on l'affiche tout de suite et on rafraichit
+  // en arriere-plan ; sinon on charge avec squelette.
   // eslint-disable-next-line react-hooks/set-state-in-effect
-  useEffect(() => { loadTickets(); }, [loadTickets]);
+  useEffect(() => { loadTickets(ticketsCache !== null); }, [loadTickets]);
 
   // Affichage progressif : on repart a 15 quand le filtre ou la recherche change.
   // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -174,7 +189,25 @@ export default function TicketsManager({ onClose, showToast, onCount }: Props) {
     setEditStatus(t.status);
     setEditAction(t.action);
     setEditText(t.text);
+    setEditImageUrl(t.imageUrl ?? "");
     setEditMode(true);
+  }
+
+  async function uploadEditImage(file: File) {
+    if (!file.type.startsWith("image/")) return;
+    setEditImageUploading(true);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const res = await fetch("/api/upload-image", { method: "POST", body: fd });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error ?? "Échec de l'upload");
+      setEditImageUrl(data.url);
+    } catch {
+      showToast("L'image n'a pas pu être envoyée.", "error");
+    } finally {
+      setEditImageUploading(false);
+    }
   }
 
   async function saveEdit(id: string) {
@@ -184,10 +217,12 @@ export default function TicketsManager({ onClose, showToast, onCount }: Props) {
       const res = await fetch(`/api/tickets?id=${encodeURIComponent(id)}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: editStatus, action: editAction, text: editText }),
+        body: JSON.stringify({ status: editStatus, action: editAction, text: editText, imageUrl: editImageUrl }),
       });
       if (!res.ok) throw new Error();
-      setTickets((prev) => prev.map((t) => (t.notionId === id ? { ...t, status: editStatus, action: editAction, text: editText } : t)));
+      commitTickets(
+        tickets.map((t) => (t.notionId === id ? { ...t, status: editStatus, action: editAction, text: editText, imageUrl: editImageUrl } : t))
+      );
       setEditMode(false);
       showToast("Ticket mis à jour.", "success");
     } catch {
@@ -199,8 +234,7 @@ export default function TicketsManager({ onClose, showToast, onCount }: Props) {
 
   async function deleteTicket(id: string) {
     setDeletingId(id);
-    setTickets((prev) => prev.filter((t) => t.notionId !== id));
-    onCountRef.current?.(tickets.length - 1);
+    commitTickets(tickets.filter((t) => t.notionId !== id));
     closeDetail();
     try {
       const res = await fetch(`/api/tickets?id=${encodeURIComponent(id)}`, { method: "DELETE" });
@@ -258,7 +292,7 @@ export default function TicketsManager({ onClose, showToast, onCount }: Props) {
           <MessageSquare size={17} strokeWidth={1.6} />
           <p className={styles.title}>Mes modifications</p>
         </div>
-        <button className={styles.iconBtn} onClick={loadTickets} disabled={loading} title="Rafraîchir" aria-label="Rafraîchir">
+        <button className={styles.iconBtn} onClick={() => loadTickets()} disabled={loading} title="Rafraîchir" aria-label="Rafraîchir">
           <RefreshCw size={14} className={loading ? styles.spin : ""} />
         </button>
       </div>
@@ -437,7 +471,39 @@ export default function TicketsManager({ onClose, showToast, onCount }: Props) {
               </div>
 
               {/* Ligne 3 : Files & media */}
-              {selected.imageUrl && (
+              {editMode ? (
+                <div className={styles.section}>
+                  <p className={styles.sectionLabel}>Image jointe</p>
+                  <input
+                    ref={editImageInputRef}
+                    type="file"
+                    accept="image/*"
+                    className={styles.fileHidden}
+                    onChange={async (e) => { const f = e.target.files?.[0]; if (f) await uploadEditImage(f); e.target.value = ""; }}
+                  />
+                  {editImageUploading ? (
+                    <div className={styles.imageEditBox}><span className={styles.muted}>Upload…</span></div>
+                  ) : editImageUrl ? (
+                    <div className={styles.imageEditWrap}>
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={editImageUrl} alt="" className={styles.imageEditImg} />
+                      <div className={styles.imageEditOverlay}>
+                        <button type="button" className={styles.imageEditBtn} onClick={() => editImageInputRef.current?.click()}>
+                          <Replace size={14} /> Remplacer
+                        </button>
+                        <button type="button" className={`${styles.imageEditBtn} ${styles.imageEditBtnDanger}`} onClick={() => setEditImageUrl("")}>
+                          <Trash2 size={14} /> Supprimer
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <button type="button" className={styles.addImageBox} onClick={() => editImageInputRef.current?.click()}>
+                      <ImagePlus size={20} />
+                      <span>Ajouter une image</span>
+                    </button>
+                  )}
+                </div>
+              ) : selected.imageUrl ? (
                 <div className={styles.section}>
                   <p className={styles.sectionLabel}>Files &amp; media</p>
                   <button className={styles.mediaThumb} onClick={() => setLightboxUrl(selected.imageUrl!)} aria-label="Agrandir l'image">
@@ -445,7 +511,7 @@ export default function TicketsManager({ onClose, showToast, onCount }: Props) {
                     <img src={selected.imageUrl} alt="" className={styles.mediaThumbImg} />
                   </button>
                 </div>
-              )}
+              ) : null}
 
               {editMode && (
                 <div className={styles.editActions}>

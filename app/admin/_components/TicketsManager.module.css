@@ -205,6 +205,39 @@
 }
 .mediaThumbImg { width: 100%; height: 100%; object-fit: cover; display: block; }
 
+/* ── Edition de l'image jointe ── */
+.fileHidden { display: none; }
+.imageEditWrap {
+  position: relative; width: 160px; height: 160px; border-radius: 12px; overflow: hidden;
+  border: 1px solid var(--c-border, #e8e3d8); background: var(--c-bg, #f7f5f1);
+}
+.imageEditImg { width: 100%; height: 100%; object-fit: cover; display: block; }
+.imageEditOverlay {
+  position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+  background: rgba(6, 36, 69, 0.55); opacity: 0; transition: opacity 0.16s ease;
+}
+.imageEditWrap:hover .imageEditOverlay { opacity: 1; }
+.imageEditBtn {
+  display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.4); border-radius: 9999px; background: rgba(255, 255, 255, 0.14);
+  color: #fff; font-size: 0.78rem; font-weight: 500; font-family: inherit; cursor: pointer; transition: background 0.15s ease;
+}
+.imageEditBtn:hover { background: rgba(255, 255, 255, 0.26); }
+.imageEditBtnDanger { border-color: rgba(255, 180, 178, 0.6); }
+.imageEditBtnDanger:hover { background: rgba(180, 44, 42, 0.5); }
+.imageEditBox {
+  width: 160px; height: 160px; border-radius: 12px; border: 1px dashed var(--c-border, #e8e3d8);
+  display: flex; align-items: center; justify-content: center; background: var(--c-bg, #f7f5f1);
+}
+.addImageBox {
+  width: 160px; height: 160px; border-radius: 12px;
+  border: 1.5px dashed var(--c-accent-secondary, #977b57);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+  background: rgba(151, 123, 87, 0.05); color: var(--c-accent-secondary, #977b57);
+  font-size: 0.82rem; font-weight: 500; font-family: inherit; cursor: pointer; transition: background 0.15s ease, border-color 0.15s ease;
+}
+.addImageBox:hover { background: rgba(151, 123, 87, 0.1); border-color: var(--c-accent-primary, #b42c2a); color: var(--c-accent-primary, #b42c2a); }
+
 .thread { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
 .threadItem { padding: 12px 14px; border-radius: 12px; background: var(--c-bg, #f7f5f1); border: 1px solid var(--c-border, #e8e3d8); }
 .threadHead { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 5px; }
