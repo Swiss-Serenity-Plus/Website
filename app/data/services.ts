@@ -6,6 +6,7 @@ export const ALL_SERVICES = [
     shortDescription: "Simplifier et fluidifier votre organisation pour vous concentrer sur votre activité principale.",
     href: "/entreprises/structuration-organisation",
     iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20%3A%20Coordination%20%26%20Optimisation%20%3A%20Swiss%20Serenity%20Plus.png",
+    iconScale: 1.5,
     audience: "pro" as const,
   },
   {
