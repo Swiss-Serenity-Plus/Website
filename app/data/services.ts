@@ -1,5 +1,3 @@
-import { TrendingUp } from "lucide-react";
-
 export const ALL_SERVICES = [
   {
     title: "Coordination & Optimisation",
@@ -13,8 +11,8 @@ export const ALL_SERVICES = [
     title: "Développement commercial",
     shortDescription: "Animation et optimisation de votre activité au quotidien avec continuité et précision.",
     href: "/entreprises/suivi-optimisation",
-    Icon: TrendingUp,
-    iconScale: 1.5,
+    iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/IconPerformance-removebg-preview.png",
+    iconScale: 1.2,
     audience: "pro" as const,
   },
   {
@@ -37,7 +35,7 @@ export const ALL_SERVICES = [
     title: "Accompagnement aux Particuliers",
     shortDescription: "Un soutien discret et bienveillant dans vos démarches administratives et étapes clés.",
     href: "/particuliers/accompagnement-administratif",
-    iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20%3A%20Accompagnement%20aux%20Particuliers%20%3A%20Swiss%20Serenity%20Plus.png",
+    iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20%22Accomapgnemnt%20au%20particulier%22.png",
     iconScale: 1.6,
     audience: "perso" as const,
   },
