@@ -241,7 +241,13 @@ services administratifs Suisse romande / Valais
 | `ColumnsBlock` | Bloc colonnes | |
 | `Button` | Bouton pill | variants: primary/secondary/ghost |
 | `Container` | Wrapper largeur max | |
-| `FeedbackWidget` | Outil retours Mireille | Notion-powered, sidebar ; textes longs tronqués à 200 car. avec bouton "Voir plus/moins" (`ExpandableText`) |
+| `FeedbackWidget` | Outil retours Mireille (LEGACY) | ⚠️ Plus injecté dans les pages publiques (remplacé par `/admin`). Conservé non importé. |
+| `AdminConsole` | Coque de la console `/admin` | `app/admin/_components/` ; orchestre iframe + contrôles (voir 15.10) |
+| `BrowserFrame` | Fenêtre macOS + iframe | Switcher Desktop/Mobile, barre d'URL, shimmer LED en mode annotation |
+| `BlogManager` | Gestion des articles de blog | Liste + éditeur compact + aperçu (voir 15.11) |
+| `TicketsManager` | Gestion des retours envoyés | Indicateurs, recherche, grille, détail pop-up, édition (voir 15.10) |
+| `ArticleEditor` | Éditeur TipTap | JSON structuré, jeu de nœuds restreint (voir 15.11) |
+| `CategorySelect` | Sélecteur de catégories éditable | Ajouter/renommer/supprimer |
 
 ---
 
@@ -252,38 +258,42 @@ services administratifs Suisse romande / Valais
 - **Styles** : CSS Modules uniquement — zéro Tailwind
 - **Icônes** : Lucide React
 - **Images** : Next.js `<Image>` + R2 pour les assets — `next.config.ts` autorise tout le domaine R2 (`pathname: "/**"`)
-- **Déploiement** : Vercel (branche `claude/setup-swiss-serenity-plus-Fm7s6`)
-- **CMS retours** : Notion API v2022-06-28
+- **Éditeur de blog** : **TipTap** (`@tiptap/react`, `starter-kit`, `extension-link`, `extension-image`, `pm`) → JSON structuré
+- **Polices** : Fraunces (display), Inter (corps), **JetBrains Mono** (`--font-mono`, Ticket ID) — chargées via `@import` Google Fonts dans `globals.css`
+- **Déploiement** : Vercel — push sur `claude/setup-swiss-serenity-plus-Fm7s6` (prod) ET `claude/admin-feedback-console-Mc7Ac` (session). **Toujours en prod, jamais en preview** (voir 15.12).
+- **CMS retours / blog** : Notion API v2022-06-28
 
 ### Variables d'environnement requises (Vercel)
 ```
 NOTION_TOKEN=secret_...
 NOTION_DATABASE_ID=27665f55d9954a33aa2ac35feab7909f
 NOTION_BLOG_DATABASE_ID=ca0b4df233c54095917cb3ea38bc59a0
+ADMIN_PASSWORD=...                # accès console /admin (déjà configuré)
+CLOUDFLARE_ACCOUNT_ID / CLOUDFLARE_API_TOKEN / CLOUDFLARE_R2_BUCKET_NAME / CLOUDFLARE_R2_PUBLIC_URL   # upload images R2
 ```
 
 ---
 
 ## 11. SYSTÈME DE FEEDBACK / TICKETS
 
-Un widget de retours est intégré sur toutes les pages (avatar Théo bouton flottant). Depuis la v2, l'UI est un **hub modal flouté** avec 3 cartes d'entrée :
+> ⚠️ **ÉVOLUTION MAJEURE (voir 15.10).** Le **widget flottant a été RETIRÉ des pages publiques** (`<FeedbackWidgetLoader />` supprimé de `app/layout.tsx`). L'outil de retours vit désormais dans une **console d'administration `/admin`**, protégée par mot de passe, qui affiche le site dans une iframe et porte les contrôles autour. Les fichiers `FeedbackWidget.tsx` / `FeedbackWidgetLoader.tsx` sont conservés (legacy, non importés) mais ne sont plus dans le bundle public. Seuls les attributs `data-fb-*` restent (inertes) dans le markup. **Docs détaillées : `README-admin.md` et `README-blog.md`.**
 
-1. **Retour sur un élément** — sélection visuelle d'un bloc, formulaire → base tickets
-2. **Créer un article de blog** — formulaire éditorial complet → base `Articles de blog`
-3. **Feedback général** — remarque globale sur la page (favicon, etc.), sans sélection d'élément → base tickets avec « Page entière »
-
-Bouton « Voir mes retours envoyés » → vue grille des tickets Notion (refresh, suppression).
+La console `/admin` (composant `AdminConsole`) propose 4 actions (titre « Comment souhaitez-vous améliorer le site ? ») :
+1. **Modifier un élément** — active la sélection d'un bloc dans l'iframe (highlight rouge + shimmer LED autour du cadre, curseur custom). Clic → formulaire (modale).
+2. **Modifier l'ensemble du site** — feedback général sur la page courante (modale).
+3. **Gérer mes articles de blog** — `BlogManager` (liste + éditeur, occupe la zone d'aperçu).
+4. **Gérer mes modifications** — `TicketsManager` (indicateurs, recherche, grille, détail, occupe la zone d'aperçu).
 
 ### Base Notion tickets
-- **ID** : `27665f55d9954a33aa2ac35feab7909f` — https://www.notion.so/gouman/27665f55d9954a33aa2ac35feab7909f
-- **Propriétés** : Ticket (titre), Statut, Action, Élément ciblé, Page concernée, Retour client, Date soumission, Session ID, **URL** (type url — URL de l'ancre de l'élément ciblé, envoyée via `elementUrl` dans l'API `/api/feedback`)
-- **Statuts** : `À traiter` → `En cours` → `Traité`
+- **ID** : `27665f55d9954a33aa2ac35feab7909f` — data source `328a9e4c-7cee-4d0a-b00f-f50b801f6fe7`
+- **Propriétés réelles** : `Ticket` (titre = « élément · retour »), **`Ticket ID`** (auto-increment `MIR-…`, c'est le vrai N°), `Statut`, `Action`, `Élément ciblé`, `Page concernée`, **`Retour`** (texte — ⚠️ PAS « Retour client »), `Date soumission`, `Session ID`, `URL` (ancre de l'élément), **`Format`** (select desktop/mobile, créé via MCP), `Files & media` (image externe)
+- **Statuts** : `À traiter`, `En cours`, `Traité`, `Refusé`, `À review`, `À clarifier`
+- API `/api/tickets` : `GET` (liste, sort created_time desc), `PATCH ?id=` (statut/action/retour/imageUrl), `DELETE ?id=` (archive). `GET /api/tickets/[id]/comments` interroge la page ET ses blocs enfants (+ noms d'auteurs).
 
-### Base Notion articles de blog (créée 2026-05-21)
-- **ID** : `ca0b4df233c54095917cb3ea38bc59a0`
-- **Endpoint** : `POST /api/blog-posts`
-- **Propriétés** : Titre (title), Statut (select Brouillon/À relire/Publié/Archivé), Slug, Extrait, Catégorie, Tags (multi-select), Image cover (url), Auteur, Date de publication, Temps de lecture (min), Meta description SEO, Corps, Article ID (auto-increment `BLOG`)
-- Le corps est aussi inséré en blocs `paragraph` natifs Notion lors du POST (sauts de ligne doubles → nouveaux paragraphes)
+### Base Notion articles de blog
+- **ID** : `ca0b4df233c54095917cb3ea38bc59a0` — data source `daf2950a-1ac2-490e-911e-6a3b82625b2c`
+- **Propriétés** : Titre (title), Statut (Brouillon/À relire/Publié/Archivé), Slug, Extrait, Catégorie (select), Tags (multi-select), Image cover (url), Auteur, Date de publication, Temps de lecture (min), Meta description SEO, Corps (legacy, plus utilisé comme source), **`Contenu JSON`** (rich_text, créé via MCP — stocke le JSON TipTap pour réédition)
+- **Le corps de l'article est stocké en BLOCS ENFANTS de la page** (jamais tronqué). Voir 15.11 et `README-blog.md`.
 
 ### ⚠️ PROCESS OBLIGATOIRE
 **Après chaque implémentation de tickets :**
@@ -320,6 +330,15 @@ Bouton « Voir mes retours envoyés » → vue grille des tickets Notion (refres
 - [x] Propriété Notion `URL` (type url) ajoutée à la base tickets, envoyée par `/api/feedback`
 - [x] FeedbackWidget — `ExpandableText` : textes > 200 car. tronqués + bouton "Voir plus/moins"
 - [x] Icône `Handshake` pour "Expérience client" dans `data/services.ts` (était `Heart`)
+- [x] **Console `/admin`** — outil de retours déplacé du widget public vers une console iframe protégée par mot de passe (`ADMIN_PASSWORD`), desktop-only (voir 15.10, `README-admin.md`)
+- [x] **Widget flottant retiré** des pages publiques (plus de JS feedback dans le bundle public ; attributs `data-fb-*` conservés)
+- [x] **Logique de résolution de label** extraite dans `app/lib/fbResolve.ts` (paramétrable par Document/Location, compatible iframe cross-realm)
+- [x] **TicketsManager** — indicateurs cliquables, recherche (N°/titre/retour), grille de cartes, squelettes, affichage progressif (15 + scroll), cache mémoire, détail en pop-up centré (infos/Retour/image/commentaires), édition (statut/action/retour/image), suppression
+- [x] **API tickets** — `Retour` (au lieu de `Retour client`), `Format`, `Ticket ID` (MIR), `URL`, `PATCH` (édition), repli si propriété manquante ; commentaires page + blocs enfants
+- [x] **Pipeline blog SEO** — éditeur TipTap (`ArticleEditor`), corps en blocs enfants Notion, conversion déterministe (`app/lib/notionBlocks.ts`), lecture serveur (`app/lib/blog.ts`), `/blog` + `/blog/[slug]` (SSG/ISR, generateMetadata, JSON-LD), revalidation on-demand (voir 15.11, `README-blog.md`)
+- [x] **BlogManager** — liste des articles + éditeur compact (titre + slug unifiés), aperçu, Brouillon/Publier, confirmation des modifications non enregistrées au retour à la liste
+- [x] **CategorySelect** — catégories d'article éditables (ajouter/renommer/supprimer)
+- [x] Police **JetBrains Mono** ajoutée (token `--font-mono`, utilisée pour les Ticket ID)
 
 ### 🔲 À FAIRE (roadmap)
 - [ ] **Photo hero** — vérifier qualité et recadrage sur mobile (notamment sur iPhone/iPad)
@@ -439,3 +458,33 @@ Bouton « Voir mes retours envoyés » → vue grille des tickets Notion (refres
 ### 15.9 Vision produit (rappel)
 
 Premium classique suisse, épuré, « navigation fluide · aspect premium · qualité & confiance ». Mireille = **bras droit de confiance** (jamais « assistante low-cost »). Voix : 1ʳᵉ personne pour Mireille, ton confiant et chaleureux. Respecter le design system (tokens), CSS Modules, icônes Lucide (ou images R2 custom), pas de Tailwind. Voir sections 2/3/7 pour le positionnement, le copywriting et l'identité visuelle.
+
+### 15.10 Console d'administration `/admin` (outil de retours) — architecture
+
+> Le widget flottant a été **remplacé** par une console `/admin`. Doc dédiée : **`README-admin.md`**.
+
+- **Pourquoi** : le site passe en production ; l'outil de retours ne doit plus apparaître pour les visiteurs publics, mais Mireille doit continuer à annoter. La console affiche le site dans une **iframe same-origin** (URLs relatives `/`, `/contact`…, jamais de domaine prod en dur) et porte les contrôles autour.
+- **Auth** : `app/lib/adminAuth.ts` (cookie httpOnly `admin_session` = jeton SHA-256 dérivé de `ADMIN_PASSWORD`, 30 j) + `app/api/admin-login/route.ts` (POST vérifie / DELETE déconnecte). `app/admin/page.tsx` est un **Server Component** qui lit le cookie et rend soit `AdminLogin` soit `AdminConsole`. Protégé sur prod ET previews. **`ADMIN_PASSWORD` est déjà configuré sur Vercel.** Garde **desktop-only** (< 1024 px → écran bloquant).
+- **Fichiers** : `app/admin/_components/` → `AdminConsole.tsx` (coque), `BrowserFrame.tsx` (fenêtre macOS + iframe + switcher Desktop/Mobile + barre d'URL), `BlogManager.tsx`, `TicketsManager.tsx`, `CategorySelect.tsx`, `ArticleEditor.tsx`. Logique de label extraite dans `app/lib/fbResolve.ts` (consommée aussi par le widget legacy).
+- **Sélection de bloc** : écouteurs posés sur `iframe.contentDocument` ; **highlight = outline injecté** dans le contentDocument (suit scroll/resize/responsive, PAS un overlay à coordonnées). Curseur custom (flèche SVG base64). **Shimmer LED** : anneau lumineux rouge qui glisse le long du cadre (`BrowserFrame.module.css`, technique du ruban masqué `mask-composite` + `@property --fb-shimmer-angle`). Couleur sélection = rouge signature `#b42c2a`.
+- **Zone d'aperçu** (`stageView` = `browser` | `blog` | `tickets`) : blog et tickets s'affichent **dans la zone d'aperçu** (overlay `position:fixed; left:340px` qui couvre le stage, pas une pop-up centrée), avec transition. L'iframe reste montée dessous (état préservé).
+- **TicketsManager** : indicateurs (Total/À traiter/En cours/Traités, cliquables = filtres), recherche (Ticket ID / titre / Retour), **grille de cartes** (image sous le texte, Ticket ID en JetBrains Mono, pas de pilule d'action), **squelettes** au chargement, **affichage progressif** (rend 15, +15 au scroll via IntersectionObserver — les compteurs restent exacts car tout est chargé), **cache mémoire** module-level (réouverture instantanée + refresh silencieux), **détail en pop-up centré** (anim `popIn`) : ligne meta (N°, date, statut, bouton « Ouvrir » discret), tag « Élément ciblé » premium, Retour, Files & media (image en dessous du label), fil de **commentaires** (auteur + date). **Édition** : statut/action via `CustomSelect`, retour en textarea, **image jointe éditable** (survol → Remplacer/Supprimer ; sinon encadré pointillé « Ajouter »). `PATCH /api/tickets` réécrit `Files & media`.
+- **Format ticket** : champ `format` (desktop/mobile) capturé selon le switcher au moment de l'annotation, envoyé à `/api/feedback`, propriété Notion `Format` (créée via MCP).
+
+### 15.11 Pipeline blog SEO (TipTap → blocs Notion → public + ISR)
+
+> Doc dédiée : **`README-blog.md`**. Pipeline **déterministe et SEO-propre**.
+
+- **Éditeur** : `app/admin/_components/ArticleEditor.tsx` (TipTap, deps `@tiptap/react|starter-kit|extension-link|extension-image|pm`). Jeu de nœuds **restreint** : paragraphe, H2/H3, listes puces/numérotées, gras, italique, lien, image (upload R2). Produit du **JSON TipTap** (jamais du HTML `execCommand`).
+- **Stockage** : corps en **blocs enfants** de la page Notion (jamais tronqué). JSON brut dans la propriété **`Contenu JSON`** (découpée en segments ≤ 2000) pour réédition fidèle.
+- **Conversion** : `app/lib/notionBlocks.ts` (`tiptapToNotionBlocks` : marques → annotations/link, listes imbriquées **aplaties**, rich_text découpé sans troncature). `app/lib/tiptapHtml.ts` = rendu HTML pour l'aperçu de l'éditeur (client).
+- **API** `app/api/blog-posts/route.ts` : `GET` (liste + `bodyJson`), `POST` (page + blocs, append par lots de 100), `PATCH ?id=` (proprietés + **suppression/recréation** des blocs enfants), `revalidatePath` à la publication.
+- **Lecture serveur** : `app/lib/blog.ts` (`getPublishedPosts`, `getPostBySlug`, `getPostBlocks` → HTML sémantique échappé, listes groupées en `<ul>`/`<ol>`).
+- **Pages** : `app/blog/page.tsx` (liste les `Publié`, `revalidate=3600`), `app/blog/[slug]/page.tsx` (`generateStaticParams` + `generateMetadata` OG/canonical + JSON-LD BlogPosting + `notFound()`, `revalidate=3600`). Images du corps en `<img loading="lazy">` (pas de `next/image` → pas de remotePattern à ajouter).
+- **Réglages env** : `ADMIN_PASSWORD` (fait), `NOTION_TOKEN`, `NOTION_BLOG_DATABASE_ID`, vars R2 (`CLOUDFLARE_*`). Propriétés Notion `Format` (tickets) et `Contenu JSON` (blog) **déjà créées via MCP**.
+
+### 15.12 Workflow de déploiement (IMPORTANT)
+
+- **Consigne du client : déployer SYSTÉMATIQUEMENT en production, jamais en preview.** Concrètement : après chaque lot, `git push origin HEAD:claude/setup-swiss-serenity-plus-Fm7s6` (branche de prod connectée à Vercel) **et** `git push origin HEAD:claude/admin-feedback-console-Mc7Ac` (branche de session). Toujours `git fetch` + vérifier le fast-forward avant de pousser.
+- La PR #5 a été **mergée** dans la branche de prod ; on continue à pousser directement sur la prod (le merge-base reste fast-forward). `npm run build` + `npx eslint app/...` avant chaque push.
+- **Pièges lint React Compiler** (Next 16) : `react-hooks/set-state-in-effect` (fetch au montage, dérivation dans un effet) → `// eslint-disable-next-line react-hooks/set-state-in-effect` ; `react-hooks/refs` (assignation de ref pendant le render) → faire l'assignation dans un `useEffect` ; éviter les IIFE invoquées pendant le render. Le build ne lance PAS eslint, mais on garde les fichiers propres.

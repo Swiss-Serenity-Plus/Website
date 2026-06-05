@@ -1,8 +1,14 @@
 # Outil de retours Mireille — Guide de configuration
 
-## Fonctionnement
+> ⚠️ **OBSOLÈTE (partie widget).** Le widget flottant a été retiré des pages
+> publiques. L'outil de retours vit désormais dans la console **`/admin`** (voir
+> **`README-admin.md`**), et le blog dans **`README-blog.md`**. Ce document reste
+> utile pour la **configuration de l'intégration Notion** (token, partage de base)
+> ; la description du widget ci-dessous est conservée à titre historique.
 
-L'outil est un widget intégré dans le site (bouton fixe en bas à droite). Il permet à Mireille de :
+## Fonctionnement (historique)
+
+L'outil était un widget intégré dans le site (bouton fixe en bas à droite). Il permettait à Mireille de :
 1. Cliquer sur "Sélectionner un élément" pour activer le mode inspection
 2. Cliquer sur n'importe quel élément de la page pour l'annoter
 3. Rédiger son retour et l'ajouter à la liste
