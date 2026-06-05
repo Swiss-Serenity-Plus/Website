@@ -129,51 +129,61 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ success: false, error: "Configuration serveur manquante" }, { status: 500, headers });
   }
 
-  const results = await Promise.allSettled(
-    feedbacks.map((fb) =>
-      fetch("https://api.notion.com/v1/pages", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${notionToken}`,
-          "Notion-Version": "2022-06-28",
-          "Content-Type": "application/json",
+  // Construit les proprietes Notion. `Format` est optionnel : si la propriete
+  // n'existe pas encore dans la base, on doit pouvoir reessayer sans elle.
+  function buildProperties(fb: FeedbackItem, includeFormat: boolean) {
+    return {
+      Ticket: {
+        title: [{ text: { content: `${fb.element} · ${fb.text.slice(0, 60)}`.slice(0, NOTION_RICH_TEXT_MAX) } }],
+      },
+      Statut: { select: { name: "À traiter" } },
+      ...(fb.action ? { Action: { select: { name: fb.action } } } : {}),
+      "Élément ciblé": truncatedProperty(fb.element),
+      "Page concernée": { select: { name: fb.page } },
+      "Retour": truncatedProperty(fb.text),
+      "Date soumission": { date: { start: fb.timestamp } },
+      "Session ID": truncatedProperty(sessionId ?? ""),
+      ...(includeFormat && fb.format ? { Format: { select: { name: fb.format } } } : {}),
+      ...(fb.elementUrl ? { URL: { url: fb.elementUrl } } : {}),
+      ...(fb.imageUrl ? {
+        "Files & media": {
+          files: [{
+            type: "external",
+            name: fb.imageUrl.split("/").pop() ?? "image",
+            external: { url: fb.imageUrl },
+          }],
         },
-        body: JSON.stringify({
-          parent: { database_id: databaseId },
-          properties: {
-            Ticket: {
-              title: [{ text: { content: `${fb.element} · ${fb.text.slice(0, 60)}`.slice(0, NOTION_RICH_TEXT_MAX) } }],
-            },
-            Statut: { select: { name: "À traiter" } },
-            ...(fb.action ? { Action: { select: { name: fb.action } } } : {}),
-            "Élément ciblé": truncatedProperty(fb.element),
-            "Page concernée": { select: { name: fb.page } },
-            "Retour client": truncatedProperty(fb.text),
-            "Date soumission": { date: { start: fb.timestamp } },
-            "Session ID": truncatedProperty(sessionId ?? ""),
-            ...(fb.format ? { Format: { select: { name: fb.format } } } : {}),
-            ...(fb.elementUrl ? { URL: { url: fb.elementUrl } } : {}),
-            ...(fb.imageUrl ? {
-              "Files & media": {
-                files: [{
-                  type: "external",
-                  name: fb.imageUrl.split("/").pop() ?? "image",
-                  external: { url: fb.imageUrl },
-                }],
-              },
-            } : {}),
-          },
-          children: buildPageBody(fb),
-        }),
-      }).then(async (res) => {
-        if (!res.ok) {
-          const err = await res.json().catch(() => ({}));
-          throw new Error(JSON.stringify(err));
-        }
-        return res.json();
-      })
-    )
-  );
+      } : {}),
+    };
+  }
+
+  async function createNotionPage(fb: FeedbackItem, includeFormat: boolean): Promise<unknown> {
+    const res = await fetch("https://api.notion.com/v1/pages", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${notionToken}`,
+        "Notion-Version": "2022-06-28",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        parent: { database_id: databaseId },
+        properties: buildProperties(fb, includeFormat),
+        children: buildPageBody(fb),
+      }),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      const message = JSON.stringify(err);
+      // Repli : la propriete Format n'est pas encore configuree dans la base.
+      if (includeFormat && fb.format && message.includes("Format")) {
+        return createNotionPage(fb, false);
+      }
+      throw new Error(message);
+    }
+    return res.json();
+  }
+
+  const results = await Promise.allSettled(feedbacks.map((fb) => createNotionPage(fb, true)));
 
   const succeeded = results.filter((r) => r.status === "fulfilled").length;
   const failed = results.filter((r): r is PromiseRejectedResult => r.status === "rejected");

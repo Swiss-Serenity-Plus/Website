@@ -148,6 +148,29 @@ export default function AdminConsole() {
     return () => window.removeEventListener("resize", update);
   }, []);
 
+  // Synchronise la barre d'URL avec les navigations internes de l'iframe.
+  // L'evenement load ne couvre pas les navigations client (Next App Router) :
+  // on lit donc periodiquement le pathname same-origin.
+  useEffect(() => {
+    const id = setInterval(() => {
+      try {
+        const p = iframeRef.current?.contentWindow?.location.pathname;
+        if (p) setCurrentPath((prev) => (p !== prev ? p : prev));
+      } catch {
+        // cross-origin inattendu : on ignore
+      }
+    }, 350);
+    return () => clearInterval(id);
+  }, []);
+
+  // Fermer l'apercu d'image plein ecran avec Echap.
+  useEffect(() => {
+    if (!lightboxUrl) return;
+    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setLightboxUrl(null); };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [lightboxUrl]);
+
   const showToast = useCallback((message: string, type: ToastType) => {
     setToast({ message, type });
     clearTimeout(toastTimer.current);
@@ -213,9 +236,9 @@ export default function AdminConsole() {
       style.id = STYLE_ID;
       style.textContent = `
         .fb-admin-hover {
-          outline: 2px solid #977b57 !important;
+          outline: 2px solid #b42c2a !important;
           outline-offset: 2px !important;
-          background-color: rgba(151,123,87,0.08) !important;
+          background-color: rgba(180,44,42,0.08) !important;
         }
         html.fb-admin-annotating, html.fb-admin-annotating * { cursor: crosshair !important; }
       `;
@@ -813,9 +836,12 @@ export default function AdminConsole() {
           </div>
       )}
 
-      {/* Lightbox image */}
+      {/* Lightbox image : clic sur le fond ou Echap pour fermer */}
       {lightboxUrl && (
-        <div className={fb.lightbox} onClick={() => setLightboxUrl(null)} role="button" tabIndex={0} aria-label="Fermer l'image">
+        <div className={fb.lightbox} onClick={() => setLightboxUrl(null)} role="button" tabIndex={0} aria-label="Fermer l'aperçu de l'image">
+          <button className={styles.lightboxClose} onClick={() => setLightboxUrl(null)} aria-label="Fermer">
+            <X size={20} />
+          </button>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src={lightboxUrl} alt="Image en plein écran" className={fb.lightboxImg} onClick={(e) => e.stopPropagation()} />
         </div>

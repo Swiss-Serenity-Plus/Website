@@ -23,7 +23,7 @@ interface NotionPage {
     "Élément ciblé"?: { rich_text: NotionRichText[] };
     "Action"?: { select: NotionSelect | null };
     "Page concernée"?: { select: NotionSelect | null };
-    "Retour client"?: { rich_text: NotionRichText[] };
+    "Retour"?: { rich_text: NotionRichText[] };
     "Statut"?: { select: NotionSelect | null };
     "Date soumission"?: { date: { start: string } | null };
     "Format"?: { select: NotionSelect | null };
@@ -86,7 +86,7 @@ export async function GET() {
       .filter((p) => !p.archived)
       .filter((p) =>
         str(p.properties["Élément ciblé"]?.rich_text) !== "" ||
-        str(p.properties["Retour client"]?.rich_text) !== ""
+        str(p.properties["Retour"]?.rich_text) !== ""
       )
       .map((p) => ({
         notionId:    p.id,
@@ -94,7 +94,7 @@ export async function GET() {
         element:     str(p.properties["Élément ciblé"]?.rich_text),
         action:      p.properties["Action"]?.select?.name ?? "",
         page:        p.properties["Page concernée"]?.select?.name ?? "",
-        text:        str(p.properties["Retour client"]?.rich_text),
+        text:        str(p.properties["Retour"]?.rich_text),
         status:      p.properties["Statut"]?.select?.name ?? "À traiter",
         statusColor: p.properties["Statut"]?.select?.color ?? "gray",
         timestamp:   p.properties["Date soumission"]?.date?.start ?? "",

@@ -3,9 +3,8 @@
   height: 100dvh;
   width: 100%;
   overflow: hidden;
-  background:
-    radial-gradient(1000px 500px at 70% -10%, rgba(151, 123, 87, 0.1), transparent 60%),
-    var(--c-bg, #f7f5f1);
+  /* Fond derriere l'apercu : blanc. */
+  background: var(--c-surface, #fff);
 }
 
 /* ── Panneau de controle ── */
@@ -14,7 +13,8 @@
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  background: var(--c-surface, #fff);
+  /* Fond du panneau : gris sable (inverse du fond de l'apercu). */
+  background: var(--c-bg, #f7f5f1);
   border-right: 1px solid var(--c-border, #e8e3d8);
 }
 
@@ -51,7 +51,7 @@
   height: 32px;
   border: 1px solid var(--c-border, #e8e3d8);
   border-radius: 9px;
-  background: var(--c-bg, #f7f5f1);
+  background: var(--c-surface, #fff);
   color: var(--c-text-muted, #4a5a6f);
   cursor: pointer;
   flex-shrink: 0;
@@ -196,7 +196,7 @@
   border: 1px solid var(--c-border, #e8e3d8);
   border-radius: 10px;
   padding: 10px 12px;
-  background: var(--c-bg, #f7f5f1);
+  background: var(--c-surface, #fff);
 }
 .draftItemTop { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
 .draftItemActions { margin-left: auto; display: flex; gap: 4px; }
@@ -268,6 +268,7 @@
   min-width: 0;
   padding: 24px;
   display: flex;
+  justify-content: center;
 }
 
 /* ── Modales (formulaire, tickets) ── */
@@ -345,3 +346,23 @@
   color: var(--c-text-muted, #4a5a6f);
   margin: 0;
 }
+
+/* ── Bouton de fermeture de l'apercu image ── */
+.lightboxClose {
+  position: fixed;
+  top: 22px;
+  right: 26px;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+.lightboxClose:hover { background: rgba(255, 255, 255, 0.3); }

@@ -33,7 +33,7 @@ export default function BrowserFrame({
   }
 
   return (
-    <div className={styles.frame}>
+    <div className={`${styles.frame} ${format === "mobile" ? styles.frameMobile : ""}`}>
       <div className={styles.titleBar}>
         <div className={styles.dots} aria-hidden="true">
           <span className={styles.dot} style={{ background: "#FF5F57" }} />
@@ -69,7 +69,7 @@ export default function BrowserFrame({
         </div>
       </div>
 
-      <div className={`${styles.viewport} ${format === "mobile" ? styles.viewportMobile : ""}`}>
+      <div className={styles.viewport}>
         <iframe
           ref={iframeRef}
           src="/"
