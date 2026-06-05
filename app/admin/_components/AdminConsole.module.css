@@ -37,10 +37,10 @@
 }
 .brandTitle {
   font-family: var(--font-display, "Fraunces", serif);
-  font-size: 1.25rem;
+  font-size: 1.18rem;
   color: var(--c-text, #062445);
   margin: 0;
-  line-height: 1.2;
+  line-height: 1.25;
 }
 
 .logoutBtn {
@@ -75,6 +75,13 @@
   font-size: 0.78rem;
   font-weight: 600;
   color: var(--c-text, #062445);
+}
+.controlLabelSm {
+  font-size: 0.68rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--c-text-muted, #4a5a6f);
 }
 
 .controlHint {
@@ -128,13 +135,23 @@
   color: var(--c-text, #062445);
 }
 .actionBtnOn:hover { background: rgba(151, 123, 87, 0.16); }
-.actionsTitle {
-  font-family: var(--font-display, "Fraunces", serif);
-  font-size: 1.02rem;
-  line-height: 1.3;
-  color: var(--c-text, #062445);
-  margin: 0 0 4px;
+
+/* Slug d'article editable directement dans l'apercu d'URL. */
+.slugEditable { cursor: text; }
+.slugInlineInput {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  outline: none;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--c-accent-secondary, #977b57);
+  padding: 0;
 }
+.slugInlineInput::placeholder { color: var(--c-text-muted, #4a5a6f); opacity: 1; font-weight: 500; }
+
 .actionBtnCount {
   margin-left: auto;
   min-width: 20px;

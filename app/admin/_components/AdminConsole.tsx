@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import CustomSelect from "../../components/CustomSelect/CustomSelect";
 import RichTextEditor from "../../components/RichTextEditor/RichTextEditor";
+import CategorySelect, { type CategoryItem } from "./CategorySelect";
 import {
   PAGE_OPTIONS, pageNameForPath, ACTION_OPTIONS, PLACEHOLDERS, type ActionOption,
   getElementLabel, getElementUrl,
@@ -176,6 +177,9 @@ export default function AdminConsole() {
   const [blogSlugTouched, setBlogSlugTouched] = useState(false);
   const [blogExcerpt, setBlogExcerpt] = useState("");
   const [blogCategory, setBlogCategory] = useState("");
+  const [blogCategories, setBlogCategories] = useState<CategoryItem[]>(() =>
+    BLOG_CATEGORY_OPTIONS.map((o) => ({ id: o.value, label: o.label, value: o.value }))
+  );
   const [blogTags, setBlogTags] = useState<string[]>([]);
   const [blogCoverUrl, setBlogCoverUrl] = useState("");
   const [blogCoverName, setBlogCoverName] = useState("");
@@ -637,7 +641,7 @@ export default function AdminConsole() {
         <div className={styles.panelHeader}>
           <div>
             <p className={styles.brandEyebrow}>Swiss Serenity Plus</p>
-            <h1 className={styles.brandTitle}>Console de retours</h1>
+            <h1 className={styles.brandTitle}>Comment souhaitez-vous améliorer le site&nbsp;?</h1>
           </div>
           <button className={styles.logoutBtn} onClick={logout} title="Se déconnecter" aria-label="Se déconnecter">
             <LogOut size={15} />
@@ -646,19 +650,18 @@ export default function AdminConsole() {
 
         <div className={styles.panelBody}>
           <div className={styles.controlBlock}>
-            <label className={styles.controlLabel}>Page affichée</label>
+            <label className={styles.controlLabelSm}>Page affichée</label>
             <CustomSelect
               name="adminPage"
               options={PAGE_OPTIONS}
               placeholder="Choisir une page..."
               value={pageSelectValue}
               onChange={(v) => navigateTo(v)}
+              size="sm"
             />
           </div>
 
           <div className={styles.actionsBlock}>
-            <h2 className={styles.actionsTitle}>Comment souhaitez-vous améliorer le site&nbsp;?</h2>
-
             <button
               className={`${styles.actionBtn} ${mode === "annotate" ? styles.actionBtnActive : styles.actionBtnPrimary}`}
               onClick={toggleBlockSelect}
@@ -694,42 +697,37 @@ export default function AdminConsole() {
             </button>
           </div>
 
-          {/* Brouillons */}
-          <div className={styles.draftsBlock}>
-            <p className={styles.draftsHeading}>
-              Brouillons en attente
-              {drafts.length > 0 && <span className={styles.draftsCount}>{drafts.length}</span>}
-            </p>
-            {drafts.length === 0 ? (
-              <p className={styles.draftsEmpty}>Aucune modification en attente. Modifiez un élément ou l&apos;ensemble du site.</p>
-            ) : (
-              <>
-                <ul className={styles.draftsList}>
-                  {drafts.map((draft) => (
-                    <li key={draft.id} className={styles.draftItem}>
-                      <div className={styles.draftItemTop}>
-                        <span className={fb.actionTag}>{draft.isGeneral ? "Général" : draft.action}</span>
-                        <span className={styles.draftFormat}>{draft.format}</span>
-                        <div className={styles.draftItemActions}>
-                          <button className={styles.draftEdit} onClick={() => startEdit(draft)} aria-label="Modifier">
-                            <Pencil size={13} />
-                          </button>
-                          <button className={styles.draftDelete} onClick={() => deleteDraft(draft.id)} aria-label="Supprimer">
-                            <Trash2 size={13} />
-                          </button>
-                        </div>
+          {/* Brouillons — masques tant qu'il n'y en a aucun */}
+          {drafts.length > 0 && (
+            <div className={styles.draftsBlock}>
+              <p className={styles.draftsHeading}>
+                Modifications en attente
+                <span className={styles.draftsCount}>{drafts.length}</span>
+              </p>
+              <ul className={styles.draftsList}>
+                {drafts.map((draft) => (
+                  <li key={draft.id} className={styles.draftItem}>
+                    <div className={styles.draftItemTop}>
+                      <span className={fb.actionTag}>{draft.isGeneral ? "Général" : draft.action}</span>
+                      <div className={styles.draftItemActions}>
+                        <button className={styles.draftEdit} onClick={() => startEdit(draft)} aria-label="Modifier">
+                          <Pencil size={13} />
+                        </button>
+                        <button className={styles.draftDelete} onClick={() => deleteDraft(draft.id)} aria-label="Supprimer">
+                          <Trash2 size={13} />
+                        </button>
                       </div>
-                      <p className={styles.draftElement}>{draft.element}</p>
-                      <p className={styles.draftText}>{draft.text}</p>
-                    </li>
-                  ))}
-                </ul>
-                <button className={styles.sendBtn} onClick={sendAll} disabled={isSending} aria-busy={isSending}>
-                  {isSending ? "Envoi en cours..." : <><Send size={15} /> Envoyer {drafts.length} retour{drafts.length > 1 ? "s" : ""}</>}
-                </button>
-              </>
-            )}
-          </div>
+                    </div>
+                    <p className={styles.draftElement}>{draft.element}</p>
+                    <p className={styles.draftText}>{draft.text}</p>
+                  </li>
+                ))}
+              </ul>
+              <button className={styles.sendBtn} onClick={sendAll} disabled={isSending} aria-busy={isSending}>
+                {isSending ? "Envoi en cours..." : <><Send size={15} /> Envoyer {drafts.length} retour{drafts.length > 1 ? "s" : ""}</>}
+              </button>
+            </div>
+          )}
         </div>
       </aside>
 
@@ -930,20 +928,19 @@ export default function AdminConsole() {
 
                 <div className={fb.field}>
                   <label className={fb.fieldLabel}>URL de l&apos;article</label>
-                  <div className={fb.slugPreview}>
+                  <div className={`${fb.slugPreview} ${styles.slugEditable}`}>
                     <Globe size={12} className={fb.slugGlobe} aria-hidden="true" />
                     <span className={fb.slugDomain}>{SITE_DOMAIN}/blog/</span>
-                    <span className={blogSlug ? fb.slugValue : fb.slugPlaceholder}>
-                      {blogSlug || "votre-article"}
-                    </span>
+                    <input
+                      type="text"
+                      className={styles.slugInlineInput}
+                      value={blogSlug}
+                      onChange={(e) => { setBlogSlug(slugify(e.target.value)); setBlogSlugTouched(true); }}
+                      placeholder="votre-article"
+                      aria-label="Identifiant URL de l'article (modifiable)"
+                      spellCheck={false}
+                    />
                   </div>
-                  <input
-                    type="text"
-                    className={`${fb.input} ${fb.inputSmall}`}
-                    value={blogSlug}
-                    onChange={(e) => { setBlogSlug(slugify(e.target.value)); setBlogSlugTouched(true); }}
-                    placeholder="votre-article"
-                  />
                 </div>
 
                 <div className={fb.field}>
@@ -960,10 +957,9 @@ export default function AdminConsole() {
 
                 <div className={fb.field}>
                   <label className={fb.fieldLabel}>Catégorie</label>
-                  <CustomSelect
-                    name="blogCategory"
-                    options={BLOG_CATEGORY_OPTIONS}
-                    placeholder="Sélectionner..."
+                  <CategorySelect
+                    categories={blogCategories}
+                    onCategoriesChange={setBlogCategories}
                     value={blogCategory}
                     onChange={setBlogCategory}
                   />

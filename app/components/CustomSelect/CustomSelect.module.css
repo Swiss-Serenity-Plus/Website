@@ -42,6 +42,11 @@
   text-align: left;
 }
 
+.triggerSm {
+  padding: 7px 10px;
+  font-size: 13.5px;
+}
+
 .triggerValue {
   flex: 1;
   min-width: 0;

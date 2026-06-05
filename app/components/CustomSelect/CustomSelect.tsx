@@ -18,6 +18,7 @@ interface CustomSelectProps {
   placeholder?: string;
   value?: string;
   onChange?: (value: string) => void;
+  size?: "sm" | "md";
 }
 
 export default function CustomSelect({
@@ -29,6 +30,7 @@ export default function CustomSelect({
   placeholder = "Sélectionner...",
   value: controlledValue,
   onChange,
+  size = "md",
 }: CustomSelectProps) {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState<Option | null>(null);
@@ -104,7 +106,7 @@ export default function CustomSelect({
           ref={triggerRef}
           id={inputId}
           type="button"
-          className={styles.trigger}
+          className={`${styles.trigger} ${size === "sm" ? styles.triggerSm : ""}`}
           aria-haspopup="listbox"
           aria-expanded={open}
           aria-controls={listboxId}
