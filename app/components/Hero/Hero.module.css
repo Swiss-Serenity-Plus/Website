@@ -84,25 +84,58 @@
     bottom: 0;
     right: 0;
     left: auto;
-    width: 54%;
+    width: 56%;
     height: auto;
-    max-width: 1000px;
-    /* Séparation NETTE en diagonale (aucun fondu) : la photo est coupée par une
-       ligne oblique — plus haute à droite, descendant vers la gauche — pour
-       laisser le texte sur le crème sans le rogner (au lieu d'une barre verticale). */
-    clip-path: polygon(32% 0, 100% 0, 100% 100%, 14% 100%);
+    max-width: 1040px;
   }
 
-  /* Desktop : plus aucun fondu — on neutralise le voile crème hérité du mobile. */
-  .imageWrap::before { display: none; }
+  /* Transition discrète façon image de référence : fondu crème doux et
+     progressif sur le bord gauche de la photo (pas de coupe nette). */
+  .imageWrap::before {
+    display: block;
+    background: linear-gradient(
+      to right,
+      var(--c-bg) 0%,
+      rgba(247, 245, 241, 0.95) 8%,
+      rgba(247, 245, 241, 0.55) 19%,
+      rgba(247, 245, 241, 0.2) 28%,
+      transparent 38%
+    );
+  }
+
+  /* Flou TRÈS léger, confiné à une bande étroite sur la couture, pour adoucir
+     la transition sans créer d'effet de brouillard. */
+  .imageWrap::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 4;
+    pointer-events: none;
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent 8%,
+      #000 18%,
+      #000 28%,
+      transparent 40%
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent 8%,
+      #000 18%,
+      #000 28%,
+      transparent 40%
+    );
+  }
 }
 
 @media (min-width: 1280px) {
-  .imageWrap { width: 52%; }
+  .imageWrap { width: 54%; }
 }
 
 @media (min-width: 1600px) {
-  .imageWrap { width: 50%; }
+  .imageWrap { width: 52%; }
 }
 
 /* ---------------------------------------------------------------------------
