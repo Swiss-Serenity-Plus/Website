@@ -8,8 +8,9 @@
 
 import { useState, useEffect, useRef, useCallback, useId } from "react";
 import {
-  MousePointer, Globe, LayoutGrid, Send, X, Trash2, RefreshCw, Pencil,
-  ExternalLink, Upload, FileImage, Check, LogOut, FileText, Info, MessageSquarePlus,
+  MousePointer, Globe, Send, X, Trash2, RefreshCw, Pencil,
+  ExternalLink, Upload, FileImage, Check, LogOut, Info, MessageSquarePlus,
+  ArrowLeft, Newspaper, MessagesSquare,
 } from "lucide-react";
 import CustomSelect from "../../components/CustomSelect/CustomSelect";
 import RichTextEditor from "../../components/RichTextEditor/RichTextEditor";
@@ -42,7 +43,10 @@ const TICKET_TABS: { key: TicketTab; label: string }[] = [
 ];
 
 type Mode = "navigate" | "annotate";
-type View = "hub" | "form" | "tickets" | "blog";
+type View = "hub" | "form";
+// Ce qui occupe la zone d'apercu a droite : la fenetre-navigateur, la gestion
+// des articles de blog, ou la gestion des retours envoyes.
+type StageView = "browser" | "blog" | "tickets";
 type ToastType = "success" | "error" | "partial";
 
 const BLOG_CATEGORY_OPTIONS = [
@@ -137,6 +141,7 @@ export default function AdminConsole() {
   const [frameLoadKey, setFrameLoadKey] = useState(0);
 
   const [view, setView] = useState<View>("hub");
+  const [stageView, setStageView] = useState<StageView>("browser");
 
   // Brouillons + formulaire de retour
   const [drafts, setDrafts] = useState<Draft[]>([]);
@@ -271,11 +276,19 @@ export default function AdminConsole() {
   // Le highlight est un outline injecte (suit nativement scroll, resize et
   // changement de largeur du switcher responsive). Re-attache a chaque navigation.
   useEffect(() => {
-    if (mode !== "annotate") return;
+    if (mode !== "annotate" || stageView !== "browser") return;
     const frame = iframeRef.current;
     const doc = frame?.contentDocument;
     const win = frame?.contentWindow;
     if (!doc || !win) return;
+
+    // Curseur personnalise (fleche noire cernee de blanc), inspire d'un pointeur
+    // classique, plutot que la croix fine. Encode en data-URI base64.
+    const cursorSvg =
+      "<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 24 24'>" +
+      "<path d='M18.6 3 L18.6 19.6 L14.1 15.2 L11.3 21 L8.8 19.8 L11.6 14.1 L5.9 14.1 Z' " +
+      "fill='#0c0c0c' stroke='#ffffff' stroke-width='1.6' stroke-linejoin='round'/></svg>";
+    const cursorUrl = `data:image/svg+xml;base64,${win.btoa(cursorSvg)}`;
 
     const STYLE_ID = "fb-admin-hover-style";
     let style = doc.getElementById(STYLE_ID) as HTMLStyleElement | null;
@@ -288,7 +301,9 @@ export default function AdminConsole() {
           outline-offset: 2px !important;
           background-color: rgba(180,44,42,0.08) !important;
         }
-        html.fb-admin-annotating, html.fb-admin-annotating * { cursor: crosshair !important; }
+        html.fb-admin-annotating, html.fb-admin-annotating * {
+          cursor: url("${cursorUrl}") 22 4, auto !important;
+        }
       `;
       doc.head.appendChild(style);
     }
@@ -342,9 +357,18 @@ export default function AdminConsole() {
       doc.documentElement.classList.remove("fb-admin-annotating");
       style?.remove();
     };
-  }, [mode, frameLoadKey, format]);
+  }, [mode, frameLoadKey, format, stageView]);
 
+  // « Modifier un élément » : active/desactive la selection de bloc sur l'apercu.
+  function toggleBlockSelect() {
+    setStageView("browser");
+    setMode((m) => (m === "annotate" ? "navigate" : "annotate"));
+  }
+
+  // « Modifier l'ensemble du site » : feedback general sur la page courante.
   function startGeneralFeedback() {
+    setStageView("browser");
+    setMode("navigate");
     resetForm();
     setPendingElement("Page entière");
     setPendingElementUrl("");
@@ -353,8 +377,10 @@ export default function AdminConsole() {
     setView("form");
   }
 
+  // « Gérer mes modifications » : ouvre la gestion des retours dans l'apercu.
   function openTickets() {
-    setView("tickets");
+    setMode("navigate");
+    setStageView("tickets");
     loadNotionTickets();
   }
 
@@ -363,9 +389,10 @@ export default function AdminConsole() {
     setView("hub");
   }
 
+  // « Gérer mes articles de blog » : ouvre l'espace blog dans l'apercu.
   function startBlogCreator() {
     setMode("navigate");
-    setView("blog");
+    setStageView("blog");
   }
 
   function toggleBlogTag(tag: string) {
@@ -391,7 +418,7 @@ export default function AdminConsole() {
 
   function closeBlog() {
     resetBlogForm();
-    setView("hub");
+    setStageView("browser");
   }
 
   async function uploadBlogCover(file: File) {
@@ -439,7 +466,7 @@ export default function AdminConsole() {
       if (res.ok) {
         showToast("Article créé dans Notion (statut Brouillon)", "success");
         resetBlogForm();
-        setView("hub");
+        setStageView("browser");
       } else {
         const data = await res.json().catch(() => ({}));
         showToast(data.error ?? "Erreur lors de la création", "error");
@@ -630,27 +657,37 @@ export default function AdminConsole() {
           </div>
 
           <div className={styles.actionsBlock}>
+            <h2 className={styles.actionsTitle}>Comment souhaitez-vous améliorer le site&nbsp;?</h2>
+
             <button
               className={`${styles.actionBtn} ${mode === "annotate" ? styles.actionBtnActive : styles.actionBtnPrimary}`}
-              onClick={() => setMode(mode === "annotate" ? "navigate" : "annotate")}
+              onClick={toggleBlockSelect}
               aria-pressed={mode === "annotate"}
             >
               <MousePointer size={16} strokeWidth={1.6} />
-              {mode === "annotate" ? "Sélection active — cliquez un bloc" : "Sélectionner un bloc"}
+              {mode === "annotate" ? "Sélection active — cliquez un élément" : "Modifier un élément"}
             </button>
             {mode === "annotate" && (
               <p className={styles.controlHint}>
-                Cliquez un bloc dans l&apos;aperçu pour l&apos;annoter. Échap ou recliquez pour quitter.
+                Cliquez un élément dans l&apos;aperçu pour l&apos;annoter. Échap ou recliquez pour quitter.
               </p>
             )}
             <button className={styles.actionBtn} onClick={startGeneralFeedback}>
-              <Globe size={16} strokeWidth={1.6} /> Feedback général
+              <Globe size={16} strokeWidth={1.6} /> Modifier l&apos;ensemble du site
             </button>
-            <button className={styles.actionBtn} onClick={startBlogCreator}>
-              <FileText size={16} strokeWidth={1.6} /> Créer un article de blog
+            <button
+              className={`${styles.actionBtn} ${stageView === "blog" ? styles.actionBtnOn : ""}`}
+              onClick={startBlogCreator}
+              aria-pressed={stageView === "blog"}
+            >
+              <Newspaper size={16} strokeWidth={1.6} /> Gérer mes articles de blog
             </button>
-            <button className={styles.actionBtn} onClick={openTickets}>
-              <LayoutGrid size={16} strokeWidth={1.6} /> Voir les retours envoyés
+            <button
+              className={`${styles.actionBtn} ${stageView === "tickets" ? styles.actionBtnOn : ""}`}
+              onClick={openTickets}
+              aria-pressed={stageView === "tickets"}
+            >
+              <MessagesSquare size={16} strokeWidth={1.6} /> Gérer mes modifications
               {notionTickets.length > 0 && (
                 <span className={styles.actionBtnCount}>{notionTickets.length}</span>
               )}
@@ -664,7 +701,7 @@ export default function AdminConsole() {
               {drafts.length > 0 && <span className={styles.draftsCount}>{drafts.length}</span>}
             </p>
             {drafts.length === 0 ? (
-              <p className={styles.draftsEmpty}>Aucun brouillon. Sélectionnez un bloc ou rédigez un feedback général.</p>
+              <p className={styles.draftsEmpty}>Aucune modification en attente. Modifiez un élément ou l&apos;ensemble du site.</p>
             ) : (
               <>
                 <ul className={styles.draftsList}>
@@ -696,14 +733,14 @@ export default function AdminConsole() {
         </div>
       </aside>
 
-      {/* Fenetre-navigateur */}
+      {/* Fenetre-navigateur (toujours montee pour preserver l'etat de l'iframe) */}
       <main className={styles.stage}>
         <BrowserFrame
           iframeRef={iframeRef}
           format={format}
           onFormatChange={setFormat}
           currentPath={currentPath}
-          annotating={mode === "annotate"}
+          annotating={mode === "annotate" && stageView === "browser"}
           onLoad={handleFrameLoad}
         />
       </main>
@@ -855,15 +892,18 @@ export default function AdminConsole() {
         </div>
       )}
 
-      {/* Modale article de blog */}
-      {view === "blog" && (
-        <div className={fb.backdrop} onClick={(e) => { if (e.target === e.currentTarget) closeBlog(); }}>
-          <div className={styles.modalSheet} role="dialog" aria-label="Créer un article de blog">
-            <div className={styles.modalSheetHeader}>
-              <p className={styles.modalSheetTitle}>Créer un article de blog</p>
-              <button className={fb.closeBtn} onClick={closeBlog} aria-label="Fermer">
-                <X size={18} />
+      {/* Espace de gestion des articles de blog (occupe la zone d'apercu) */}
+      {stageView === "blog" && (
+        <div className={styles.stageOverlay}>
+          <div className={styles.stagePanel} role="region" aria-label="Gestion des articles de blog">
+            <div className={styles.stagePanelHeader}>
+              <button className={styles.backBtn} onClick={closeBlog}>
+                <ArrowLeft size={15} /> Retour à l&apos;aperçu
               </button>
+              <div className={styles.stagePanelTitleWrap}>
+                <Newspaper size={17} strokeWidth={1.6} />
+                <p className={styles.stagePanelTitle}>Mes articles de blog</p>
+              </div>
             </div>
 
             <div className={styles.modalSheetBody}>
@@ -1102,26 +1142,27 @@ export default function AdminConsole() {
         </div>
       )}
 
-      {/* Modale grille des tickets */}
-      {view === "tickets" && (
-          <div className={fb.backdrop} onClick={(e) => { if (e.target === e.currentTarget) setView("hub"); }}>
-            <div className={styles.modalSheet} role="dialog" aria-label="Retours envoyés">
-              <div className={styles.modalSheetHeader}>
-                <p className={styles.modalSheetTitle}>Retours envoyés</p>
-                <div className={styles.modalSheetHeaderActions}>
-                  <button
-                    className={fb.refreshBtn}
-                    onClick={loadNotionTickets}
-                    disabled={loadingTickets}
-                    aria-label="Rafraîchir"
-                    title="Rafraîchir"
-                  >
-                    <RefreshCw size={13} className={loadingTickets ? fb.spinning : ""} />
-                  </button>
-                  <button className={fb.closeBtn} onClick={() => setView("hub")} aria-label="Fermer">
-                    <X size={18} />
-                  </button>
+      {/* Espace de gestion des modifications envoyees (occupe la zone d'apercu) */}
+      {stageView === "tickets" && (
+          <div className={styles.stageOverlay}>
+            <div className={styles.stagePanel} role="region" aria-label="Mes modifications">
+              <div className={styles.stagePanelHeader}>
+                <button className={styles.backBtn} onClick={() => setStageView("browser")}>
+                  <ArrowLeft size={15} /> Retour à l&apos;aperçu
+                </button>
+                <div className={styles.stagePanelTitleWrap}>
+                  <MessagesSquare size={17} strokeWidth={1.6} />
+                  <p className={styles.stagePanelTitle}>Mes modifications</p>
                 </div>
+                <button
+                  className={fb.refreshBtn}
+                  onClick={loadNotionTickets}
+                  disabled={loadingTickets}
+                  aria-label="Rafraîchir"
+                  title="Rafraîchir"
+                >
+                  <RefreshCw size={13} className={loadingTickets ? fb.spinning : ""} />
+                </button>
               </div>
 
               <div className={styles.modalSheetBody}>
