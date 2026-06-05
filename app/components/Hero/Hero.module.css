@@ -89,22 +89,23 @@
     max-width: 1040px;
   }
 
-  /* Transition discrète façon image de référence : fondu crème doux et
-     progressif sur le bord gauche de la photo (pas de coupe nette). */
+  /* Transition discrète façon image de référence : fondu crème doux,
+     progressif ET EN DIAGONALE (~20° : plus de crème en haut, la photo
+     s'avance vers la gauche en bas) sur le bord gauche de la photo. */
   .imageWrap::before {
     display: block;
     background: linear-gradient(
-      to right,
+      110deg,
       var(--c-bg) 0%,
-      rgba(247, 245, 241, 0.95) 8%,
-      rgba(247, 245, 241, 0.55) 19%,
-      rgba(247, 245, 241, 0.2) 28%,
-      transparent 38%
+      rgba(247, 245, 241, 0.95) 9%,
+      rgba(247, 245, 241, 0.55) 20%,
+      rgba(247, 245, 241, 0.2) 29%,
+      transparent 40%
     );
   }
 
-  /* Flou TRÈS léger, confiné à une bande étroite sur la couture, pour adoucir
-     la transition sans créer d'effet de brouillard. */
+  /* Flou TRÈS léger, confiné à une bande étroite suivant la même diagonale,
+     pour adoucir la couture sans créer d'effet de brouillard. */
   .imageWrap::after {
     content: '';
     position: absolute;
@@ -114,18 +115,18 @@
     backdrop-filter: blur(2px);
     -webkit-backdrop-filter: blur(2px);
     -webkit-mask-image: linear-gradient(
-      to right,
-      transparent 8%,
-      #000 18%,
-      #000 28%,
-      transparent 40%
+      110deg,
+      transparent 9%,
+      #000 19%,
+      #000 29%,
+      transparent 41%
     );
     mask-image: linear-gradient(
-      to right,
-      transparent 8%,
-      #000 18%,
-      #000 28%,
-      transparent 40%
+      110deg,
+      transparent 9%,
+      #000 19%,
+      #000 29%,
+      transparent 41%
     );
   }
 }
