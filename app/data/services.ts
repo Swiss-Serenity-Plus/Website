@@ -14,6 +14,7 @@ export const ALL_SERVICES = [
     shortDescription: "Animation et optimisation de votre activité au quotidien avec continuité et précision.",
     href: "/entreprises/suivi-optimisation",
     Icon: TrendingUp,
+    iconScale: 1.5,
     audience: "pro" as const,
   },
   {
@@ -29,6 +30,7 @@ export const ALL_SERVICES = [
     shortDescription: "Renforcer la satisfaction et la fidélisation de vos clients avec rigueur et sens du détail.",
     href: "/entreprises/experience-client",
     iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20%3A%20Exp%C3%A9rience%20Client%20%3A%20Swiss%20Serenity%20Plus.png",
+    iconScale: 1.2,
     audience: "pro" as const,
   },
   {

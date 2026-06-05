@@ -39,7 +39,7 @@ export default function ServiceCard({
         {(Icon || iconImage) && (
           <div className={styles.iconWrap} aria-hidden="true" data-fb-label="Icône">
             {Icon ? (
-              <Icon size={28} color="var(--c-accent-secondary)" strokeWidth={1.5} />
+              <Icon size={28} color="var(--c-accent-secondary)" strokeWidth={1.5} style={iconScale ? { transform: `scale(${iconScale})` } : undefined} />
             ) : (
               <Image
                 src={iconImage!}
