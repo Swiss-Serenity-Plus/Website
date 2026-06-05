@@ -83,6 +83,9 @@ export default function TicketsManager({ onClose, showToast, onCount }: Props) {
   const [error, setError] = useState<string | null>(null);
   const [tab, setTab] = useState<Tab>("tous");
   const [search, setSearch] = useState("");
+  const [visibleCount, setVisibleCount] = useState(15); // affichage progressif
+  const bodyRef = useRef<HTMLDivElement | null>(null);
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [comments, setComments] = useState<Record<string, { data: Comment[]; loading: boolean; error?: string }>>({});
   const [lightboxUrl, setLightboxUrl] = useState<string | null>(null);
@@ -119,6 +122,22 @@ export default function TicketsManager({ onClose, showToast, onCount }: Props) {
 
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { loadTickets(); }, [loadTickets]);
+
+  // Affichage progressif : on repart a 15 quand le filtre ou la recherche change.
+  // eslint-disable-next-line react-hooks/set-state-in-effect
+  useEffect(() => { setVisibleCount(15); bodyRef.current?.scrollTo({ top: 0 }); }, [tab, search]);
+
+  // Charge 15 cartes de plus quand la sentinelle entre dans la zone de scroll.
+  useEffect(() => {
+    const el = sentinelRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(
+      (entries) => { if (entries[0]?.isIntersecting) setVisibleCount((c) => c + 15); },
+      { root: bodyRef.current, rootMargin: "300px" }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [visibleCount, tab, search, tickets.length]);
 
   const loadComments = useCallback(async (id: string) => {
     setComments((p) => ({ ...p, [id]: { data: p[id]?.data ?? [], loading: true } }));
@@ -217,6 +236,7 @@ export default function TicketsManager({ onClose, showToast, onCount }: Props) {
     return matchTab && matchSearch;
   });
 
+  const shown = filtered.slice(0, visibleCount);
   const selected = tickets.find((t) => t.notionId === selectedId) ?? null;
   const isInitialLoading = loading && tickets.length === 0;
   const cmt = selected ? comments[selected.notionId] : undefined;
@@ -243,7 +263,7 @@ export default function TicketsManager({ onClose, showToast, onCount }: Props) {
         </button>
       </div>
 
-      <div className={styles.body}>
+      <div className={styles.body} ref={bodyRef}>
         {/* Indicateurs */}
         <div className={styles.stats}>
           {stats.map((s) => (
@@ -299,9 +319,12 @@ export default function TicketsManager({ onClose, showToast, onCount }: Props) {
 
         {!isInitialLoading && filtered.length > 0 && (
           <>
-            <p className={styles.resultCount}>{filtered.length} ticket{filtered.length > 1 ? "s" : ""}</p>
+            <p className={styles.resultCount}>
+              {filtered.length} ticket{filtered.length > 1 ? "s" : ""}
+              {shown.length < filtered.length && ` · ${shown.length} affichés`}
+            </p>
             <div className={styles.grid}>
-              {filtered.map((t) => (
+              {shown.map((t) => (
                 <button key={t.notionId} className={styles.card} onClick={() => openDetail(t)}>
                   <div className={styles.cardTop}>
                     <StatusBadge status={t.status} />
@@ -318,11 +341,15 @@ export default function TicketsManager({ onClose, showToast, onCount }: Props) {
                   )}
                   <div className={styles.cardFoot}>
                     <span className={styles.cardDate}>{fmtDate(t.timestamp)}</span>
-                    {t.action && <span className={styles.cardAction}>{t.action}</span>}
                   </div>
                 </button>
               ))}
             </div>
+            {shown.length < filtered.length && (
+              <div ref={sentinelRef} className={styles.sentinel} aria-hidden="true">
+                <span className={`${styles.skeleton} ${styles.skMore}`} />
+              </div>
+            )}
           </>
         )}
       </div>
