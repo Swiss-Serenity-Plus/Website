@@ -1,11 +1,11 @@
-import { LayoutGrid, TrendingUp, FileText } from "lucide-react";
+import { TrendingUp, FileText } from "lucide-react";
 
 export const ALL_SERVICES = [
   {
     title: "Coordination & Optimisation",
     shortDescription: "Simplifier et fluidifier votre organisation pour vous concentrer sur votre activité principale.",
     href: "/entreprises/structuration-organisation",
-    Icon: LayoutGrid,
+    iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20%3A%20Coordination%20%26%20Optimisation%20%3A%20Swiss%20Serenity%20Plus.png",
     audience: "pro" as const,
   },
   {
