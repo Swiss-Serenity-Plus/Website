@@ -97,7 +97,7 @@ export default function StructurationPage() {
         title: "Les bénéfices d'une organisation plus fluide",
         columns: [
           { icon: Clock, title: "Plus de temps pour l'essentiel", text: "Des échanges mieux coordonnés et des suivis plus clairs pour limiter les pertes de temps et les demandes répétitives." },
-          { icon: Smile, image: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/blog-covers/1780593218791-8e7464bf-43df-4f6f-9273-ac0c936b3a3a.png", title: "Une activité plus fluide et plus sereine", text: "Une organisation plus claire et mieux coordonnée pour assurer des suivis fiables et une meilleure continuité dans les échanges et les actions." },
+          { icon: Smile, image: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/blog-covers/1780593218791-8e7464bf-43df-4f6f-9273-ac0c936b3a3a.png", iconScale: 1.7, title: "Une activité plus fluide et plus sereine", text: "Une organisation plus claire et mieux coordonnée pour assurer des suivis fiables et une meilleure continuité dans les échanges et les actions." },
           { icon: TrendingUp, title: "Développement facilité", text: "Des échanges et des suivis mieux maîtrisés pour accompagner plus efficacement l'évolution de vos projets, de votre organisation et de vos priorités." },
         ],
       }}

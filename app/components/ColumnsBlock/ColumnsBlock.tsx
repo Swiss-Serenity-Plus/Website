@@ -10,6 +10,7 @@ interface Column {
   text: string;
   icon?: LucideIcon;
   image?: string;
+  iconScale?: number;
 }
 
 interface ColumnsBlockProps {
@@ -73,7 +74,7 @@ export default function ColumnsBlock({
               {variant === "results" && (col.image || col.icon) && (
                 <div className={styles.colIcon} aria-hidden="true">
                   {col.image ? (
-                    <Image src={col.image} alt="" width={30} height={30} className={styles.colIconImage} unoptimized />
+                    <Image src={col.image} alt="" width={30} height={30} className={styles.colIconImage} style={col.iconScale ? { transform: `scale(${col.iconScale})` } : undefined} unoptimized />
                   ) : col.icon ? (
                     <col.icon size={26} color="var(--c-accent-secondary)" strokeWidth={1.5} />
                   ) : null}

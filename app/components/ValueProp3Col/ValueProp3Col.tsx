@@ -9,6 +9,7 @@ import { fbSlug } from "../../lib/fbToken";
 interface Pillar {
   icon?: LucideIcon;
   iconImage?: string;
+  iconScale?: number;
   title: string;
   text: string;
 }
@@ -16,6 +17,7 @@ interface Pillar {
 const pillars: Pillar[] = [
   {
     iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20%3A%20Une%20pr%C3%A9sence%20proactive%20%3A%20Swiss%20Serenity%20Plus.png",
+    iconScale: 1.5,
     title: "Une présence proactive",
     text: "Une approche proactive pensée pour développer votre activité, fluidifier votre organisation et simplifier votre quotidien.",
   },
@@ -47,7 +49,7 @@ export default function ValueProp3Col() {
               <div key={p.title} className={styles.card} id={`b-pilier-${fbSlug(p.title)}`} data-fb-container={`Encadré pilier « ${p.title} »`}>
                 <div className={styles.iconWrap}>
                   {p.iconImage ? (
-                    <Image src={p.iconImage} alt="" width={44} height={44} unoptimized aria-hidden="true" />
+                    <Image src={p.iconImage} alt="" width={44} height={44} unoptimized aria-hidden="true" style={p.iconScale ? { transform: `scale(${p.iconScale})` } : undefined} />
                   ) : Icon ? (
                     <Icon size={28} color="var(--c-accent-secondary)" strokeWidth={1.5} aria-hidden="true" />
                   ) : null}
