@@ -78,6 +78,19 @@ function StatusBadge({ status }: { status: string }) {
   );
 }
 
+// Empreinte des champs de l'editeur, pour detecter les modifications non enregistrees.
+interface EditorFields {
+  title: string; slug: string; excerpt: string; category: string; tags: string[];
+  coverUrl: string; author: string; publishDate: string; readingMinutes: string;
+  metaDesc: string; bodyDoc: JSONContent | null;
+}
+function editorSignature(v: EditorFields): string {
+  return JSON.stringify([
+    v.title, v.slug, v.excerpt, v.category, v.tags, v.coverUrl,
+    v.author, v.publishDate, v.readingMinutes, v.metaDesc, v.bodyDoc,
+  ]);
+}
+
 export default function BlogManager({ onClose, showToast }: Props) {
   const [mode, setMode] = useState<"list" | "editor">("list");
   const [posts, setPosts] = useState<BlogPost[]>([]);
@@ -86,7 +99,10 @@ export default function BlogManager({ onClose, showToast }: Props) {
 
   // Champs editeur
   const [editingId, setEditingId] = useState<string | null>(null);
+  const [editingStatus, setEditingStatus] = useState<string>("Brouillon");
   const [editorKey, setEditorKey] = useState(0);
+  const [confirmLeave, setConfirmLeave] = useState(false);
+  const initialSigRef = useRef("");
   const [title, setTitle] = useState("");
   const [slug, setSlug] = useState("");
   const [slugTouched, setSlugTouched] = useState(false);
@@ -106,7 +122,7 @@ export default function BlogManager({ onClose, showToast }: Props) {
   const [readingMinutes, setReadingMinutes] = useState("");
   const [metaDesc, setMetaDesc] = useState("");
   const [bodyDoc, setBodyDoc] = useState<JSONContent | null>(null);
-  const [sending, setSending] = useState<null | "Brouillon" | "Publié">(null);
+  const [sending, setSending] = useState<string | null>(null);
   const [previewOpen, setPreviewOpen] = useState(false);
   const coverInputRef = useRef<HTMLInputElement>(null);
 
@@ -120,17 +136,7 @@ export default function BlogManager({ onClose, showToast }: Props) {
         throw new Error(d.error ?? `Erreur ${res.status}`);
       }
       const data = await res.json();
-      const list: BlogPost[] = data.posts ?? [];
-      setPosts(list);
-      // Enrichit les categories avec celles deja presentes sur les articles.
-      setCategories((prev) => {
-        const known = new Set(prev.map((c) => c.value));
-        const extra = list
-          .map((p) => p.category)
-          .filter((c) => c && !known.has(c))
-          .map((c) => ({ id: c, label: c, value: c }));
-        return extra.length ? [...prev, ...extra] : prev;
-      });
+      setPosts(data.posts ?? []);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Impossible de charger les articles.");
     } finally {
@@ -142,6 +148,19 @@ export default function BlogManager({ onClose, showToast }: Props) {
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { loadPosts(); }, [loadPosts]);
 
+  // Enrichit la liste des categories avec celles deja presentes sur les articles.
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setCategories((prev) => {
+      const known = new Set(prev.map((c) => c.value));
+      const extra = posts
+        .map((p) => p.category)
+        .filter((c) => c && !known.has(c))
+        .map((c) => ({ id: c, label: c, value: c }));
+      return extra.length ? [...prev, ...extra] : prev;
+    });
+  }, [posts]);
+
   function resetEditor() {
     setTitle(""); setSlug(""); setSlugTouched(false); setExcerpt(""); setCategory("");
     setTags([]); setCoverUrl(""); setCoverName(""); setCoverError("");
@@ -151,12 +170,20 @@ export default function BlogManager({ onClose, showToast }: Props) {
   function openNew() {
     resetEditor();
     setEditingId(null);
+    setEditingStatus("Brouillon");
+    setConfirmLeave(false);
+    initialSigRef.current = editorSignature({
+      title: "", slug: "", excerpt: "", category: "", tags: [], coverUrl: "",
+      author: "Mireille Dayer", publishDate: "", readingMinutes: "", metaDesc: "", bodyDoc: null,
+    });
     setEditorKey((k) => k + 1);
     setMode("editor");
   }
 
   function openEdit(p: BlogPost) {
     setEditingId(p.id);
+    setEditingStatus(p.status || "Brouillon");
+    setConfirmLeave(false);
     setTitle(p.title);
     setSlug(p.slug);
     setSlugTouched(true);
@@ -171,8 +198,23 @@ export default function BlogManager({ onClose, showToast }: Props) {
     setReadingMinutes(p.readingMinutes ? String(p.readingMinutes) : "");
     setMetaDesc(p.metaDescription);
     setBodyDoc(p.bodyJson ?? null);
+    initialSigRef.current = editorSignature({
+      title: p.title, slug: p.slug, excerpt: p.excerpt, category: p.category, tags: p.tags,
+      coverUrl: p.coverUrl, author: p.author || "Mireille Dayer", publishDate: p.publishDate,
+      readingMinutes: p.readingMinutes ? String(p.readingMinutes) : "", metaDesc: p.metaDescription,
+      bodyDoc: p.bodyJson ?? null,
+    });
     setEditorKey((k) => k + 1);
     setMode("editor");
+  }
+
+  // Retour a la liste : si des modifications sont en cours, on demande confirmation.
+  function requestBackToList() {
+    const current = editorSignature({
+      title, slug, excerpt, category, tags, coverUrl, author, publishDate, readingMinutes, metaDesc, bodyDoc,
+    });
+    if (current !== initialSigRef.current) setConfirmLeave(true);
+    else setMode("list");
   }
 
   function toggleTag(tag: string) {
@@ -199,8 +241,9 @@ export default function BlogManager({ onClose, showToast }: Props) {
     }
   }
 
-  async function save(status: "Brouillon" | "Publié") {
+  async function save(status: string) {
     if (!title.trim() || sending) return;
+    setConfirmLeave(false);
     setSending(status);
     const payload = {
       title: title.trim(),
@@ -315,7 +358,7 @@ export default function BlogManager({ onClose, showToast }: Props) {
   return (
     <div className={styles.panel}>
       <div className={styles.header}>
-        <button className={styles.backBtn} onClick={() => setMode("list")}>
+        <button className={styles.backBtn} onClick={requestBackToList}>
           <ArrowLeft size={15} /> Retour à la liste
         </button>
         <div className={styles.titleWrap}>
@@ -476,6 +519,29 @@ export default function BlogManager({ onClose, showToast }: Props) {
           </div>
         </div>
       </div>
+
+      {/* Confirmation : modifications non enregistrees */}
+      {confirmLeave && (
+        <div className={styles.confirmOverlay} onClick={(e) => { if (e.target === e.currentTarget && !sending) setConfirmLeave(false); }}>
+          <div className={styles.confirmBox} role="dialog" aria-label="Modifications non enregistrées">
+            <p className={styles.confirmTitle}>Modifications non enregistrées</p>
+            <p className={styles.confirmText}>
+              Vous avez des modifications en cours sur cet article. Souhaitez-vous les enregistrer avant de revenir à la liste&nbsp;?
+            </p>
+            {!title.trim() && (
+              <p className={styles.confirmHint}>Un titre est requis pour pouvoir enregistrer.</p>
+            )}
+            <div className={styles.confirmActions}>
+              <button className={styles.ghostBtn} onClick={() => setConfirmLeave(false)} disabled={sending !== null}>
+                Continuer les modifications
+              </button>
+              <button className={styles.primaryBtn} onClick={() => save(editingStatus)} disabled={sending !== null || !title.trim()}>
+                {sending !== null ? "Enregistrement…" : "Enregistrer et quitter"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Apercu de l'article publie */}
       {previewOpen && (

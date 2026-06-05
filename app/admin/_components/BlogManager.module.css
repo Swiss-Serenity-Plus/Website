@@ -214,6 +214,32 @@
 .okText { color: #3b5e32; }
 .warnText { color: #9a3412; }
 
+/* ── Confirmation modifications non enregistrees ── */
+.confirmOverlay {
+  position: fixed; inset: 0; z-index: 9100;
+  background: rgba(6, 36, 69, 0.45); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+  display: flex; align-items: center; justify-content: center; padding: 28px;
+  animation: previewIn 0.22s ease;
+}
+.confirmBox {
+  width: 100%; max-width: 440px;
+  background: var(--c-surface, #fff); border: 1px solid var(--c-border, #e8e3d8);
+  border-radius: 18px; padding: 26px 26px 22px;
+  box-shadow: 0 30px 90px rgba(6, 36, 69, 0.34);
+  animation: confirmPop 0.26s cubic-bezier(0.22, 1, 0.36, 1);
+}
+@keyframes confirmPop {
+  from { opacity: 0; transform: translateY(12px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.confirmTitle {
+  font-family: var(--font-display, "Fraunces", serif);
+  font-size: 1.25rem; color: var(--c-text, #062445); margin: 0 0 10px;
+}
+.confirmText { font-size: 0.92rem; line-height: 1.55; color: var(--c-text-muted, #4a5a6f); margin: 0; }
+.confirmHint { font-size: 0.82rem; color: var(--c-accent-primary, #b42c2a); margin: 10px 0 0; }
+.confirmActions { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+
 /* ── Apercu article ── */
 .previewOverlay {
   position: fixed; inset: 0; z-index: 9000;
