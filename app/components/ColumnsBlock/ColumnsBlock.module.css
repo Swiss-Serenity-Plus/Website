@@ -13,6 +13,18 @@
   max-width: 560px;
 }
 
+/* Titre court (ex. « Rigueur • Discrétion • Bienveillance ») : on libère la
+   largeur pour qu'il tienne sur une seule ligne (desktop). */
+.headerWide {
+  max-width: none;
+}
+
+@media (min-width: 768px) {
+  .headerWide .title {
+    white-space: nowrap;
+  }
+}
+
 .headerImageWrap {
   width: 80px;
   height: 80px;

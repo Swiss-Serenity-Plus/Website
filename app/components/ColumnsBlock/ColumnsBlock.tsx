@@ -21,6 +21,7 @@ interface ColumnsBlockProps {
   background?: "bg" | "surface";
   cols?: 2 | 3 | 4;
   headerImage?: string;
+  wideHeader?: boolean;
 }
 
 const FB_BY_VARIANT: Record<string, { section: string; noun: string; prefix: string }> = {
@@ -39,13 +40,14 @@ export default function ColumnsBlock({
   background = "bg",
   cols,
   headerImage,
+  wideHeader = false,
 }: ColumnsBlockProps) {
   const gridClass = cols === 2 ? styles.grid2 : cols === 4 ? styles.grid4 : styles.grid;
   const fb = FB_BY_VARIANT[variant] ?? FB_BY_VARIANT.default;
   return (
     <section className={`${styles.section} ${styles[`bg_${background}`]}`} data-fb-container={fb.section}>
       <Container>
-        <div className={styles.header}>
+        <div className={`${styles.header} ${wideHeader ? styles.headerWide : ""}`}>
           {headerImage && (
             <div className={styles.headerImageWrap} aria-hidden="true">
               <Image src={headerImage} alt="" width={80} height={80} className={styles.headerImage} unoptimized />
