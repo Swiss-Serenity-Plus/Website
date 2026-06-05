@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import FeedbackWidgetLoader from "./components/FeedbackWidget/FeedbackWidgetLoader";
 import { SITE_URL, OG_IMAGE, OG_DEFAULTS } from "./lib/seo";
 import "./globals.css";
 
@@ -102,7 +101,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         {children}
-        <FeedbackWidgetLoader />
       </body>
     </html>
   );

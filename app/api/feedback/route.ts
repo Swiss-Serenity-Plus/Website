@@ -20,6 +20,7 @@ interface FeedbackItem {
   text: string;
   timestamp: string;
   imageUrl?: string;
+  format?: "desktop" | "mobile";
 }
 
 // Notion limite chaque rich_text à 2000 caractères.
@@ -150,6 +151,7 @@ export async function POST(request: NextRequest) {
             "Retour client": truncatedProperty(fb.text),
             "Date soumission": { date: { start: fb.timestamp } },
             "Session ID": truncatedProperty(sessionId ?? ""),
+            ...(fb.format ? { Format: { select: { name: fb.format } } } : {}),
             ...(fb.elementUrl ? { URL: { url: fb.elementUrl } } : {}),
             ...(fb.imageUrl ? {
               "Files & media": {
