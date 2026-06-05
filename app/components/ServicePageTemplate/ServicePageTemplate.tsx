@@ -47,7 +47,7 @@ interface ServicePageTemplateProps {
     eyebrow?: string;
     title?: string;
     description?: string;
-    columns: { title: string; text: string; icon?: LucideIcon }[];
+    columns: { title: string; text: string; icon?: LucideIcon; image?: string }[];
   };
   ctaTitle?: string;
   ctaSubtitle?: string;

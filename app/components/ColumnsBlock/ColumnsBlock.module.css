@@ -132,6 +132,13 @@
   display: block;
 }
 
+.colIconImage {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  display: block;
+}
+
 /* Values variant */
 .variant_values {
   padding: var(--sp-4);

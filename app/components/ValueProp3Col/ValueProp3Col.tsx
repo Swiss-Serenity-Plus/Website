@@ -3,7 +3,6 @@ import Image from "next/image";
 import Container from "../Container/Container";
 import AtmosphericAccent from "../AtmosphericAccent/AtmosphericAccent";
 import styles from "./ValueProp3Col.module.css";
-import { Shield } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { fbSlug } from "../../lib/fbToken";
 
@@ -21,7 +20,7 @@ const pillars: Pillar[] = [
     text: "Une approche proactive pensée pour développer votre activité, fluidifier votre organisation et simplifier votre quotidien.",
   },
   {
-    icon: Shield,
+    iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/image-removebg-preview%20(1).png",
     title: "Confiance, discrétion & rigueur",
     text: "Discrétion, rigueur et professionnalisme au cœur de chaque mission. Votre confiance est la base de notre partenariat.",
   },

@@ -70,9 +70,13 @@ export default function ColumnsBlock({
                   <Image src={col.image} alt="" width={48} height={48} className={styles.colCardImage} unoptimized />
                 </div>
               )}
-              {variant === "results" && col.icon && (
+              {variant === "results" && (col.image || col.icon) && (
                 <div className={styles.colIcon} aria-hidden="true">
-                  <col.icon size={26} color="var(--c-accent-secondary)" strokeWidth={1.5} />
+                  {col.image ? (
+                    <Image src={col.image} alt="" width={30} height={30} className={styles.colIconImage} unoptimized />
+                  ) : col.icon ? (
+                    <col.icon size={26} color="var(--c-accent-secondary)" strokeWidth={1.5} />
+                  ) : null}
                 </div>
               )}
               <h3 className={styles.colTitle}>{col.title}</h3>
