@@ -136,6 +136,35 @@
 }
 .actionBtnOn:hover { background: rgba(151, 123, 87, 0.16); }
 
+/* Vignette d'image dans une carte de ticket : petit carre aligne a gauche. */
+.ticketThumb {
+  position: relative;
+  display: block;
+  width: 84px;
+  height: 84px;
+  margin-top: 4px;
+  padding: 0;
+  border: 1px solid var(--c-border, #e8e3d8);
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--c-bg, #f7f5f1);
+  cursor: zoom-in;
+}
+.ticketThumbImg { width: 100%; height: 100%; object-fit: cover; display: block; }
+.ticketThumbHint {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 2px 0;
+  font-size: 0.6rem;
+  text-align: center;
+  color: #fff;
+  background: rgba(6, 36, 69, 0.62);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.ticketThumb:hover .ticketThumbHint { opacity: 1; }
+.ticketFoot { margin-top: 2px; }
+
 /* Slug d'article editable directement dans l'apercu d'URL. */
 .slugEditable { cursor: text; }
 .slugInlineInput {

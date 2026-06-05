@@ -6,15 +6,14 @@
 // les modales (formulaire, grille de tickets). Le widget flottant n'est plus
 // injecte dans les pages publiques.
 
-import { useState, useEffect, useRef, useCallback, useId } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import {
   MousePointer, Globe, Send, X, Trash2, RefreshCw, Pencil,
-  ExternalLink, Upload, FileImage, Check, LogOut, Info, MessageSquarePlus,
+  ExternalLink, Upload, FileImage, Check, LogOut,
   ArrowLeft, Newspaper, MessagesSquare,
 } from "lucide-react";
 import CustomSelect from "../../components/CustomSelect/CustomSelect";
-import RichTextEditor from "../../components/RichTextEditor/RichTextEditor";
-import CategorySelect, { type CategoryItem } from "./CategorySelect";
+import BlogManager from "./BlogManager";
 import {
   PAGE_OPTIONS, pageNameForPath, ACTION_OPTIONS, PLACEHOLDERS, type ActionOption,
   getElementLabel, getElementUrl,
@@ -49,31 +48,6 @@ type View = "hub" | "form";
 // des articles de blog, ou la gestion des retours envoyes.
 type StageView = "browser" | "blog" | "tickets";
 type ToastType = "success" | "error" | "partial";
-
-const BLOG_CATEGORY_OPTIONS = [
-  { value: "conseils-dirigeants", label: "Conseils dirigeants" },
-  { value: "temoignages", label: "Témoignages" },
-  { value: "actualites", label: "Actualités" },
-  { value: "ressources-particuliers", label: "Ressources particuliers" },
-  { value: "autre", label: "Autre" },
-];
-const BLOG_TAGS = [
-  "PME", "Entrepreneurs", "Particuliers", "Suisse romande",
-  "Organisation", "Stratégie", "Discrétion",
-] as const;
-const SEO_DESC_MIN = 120;
-const SEO_DESC_MAX = 160;
-const SITE_DOMAIN = "swiss-serenity-plus.ch";
-
-function slugify(s: string): string {
-  return s
-    .normalize("NFD")
-    .replace(/[̀-ͯ]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "")
-    .slice(0, 80);
-}
 
 interface Draft {
   id: string;
@@ -170,31 +144,6 @@ export default function AdminConsole() {
 
   const [isSending, setIsSending] = useState(false);
   const [toast, setToast] = useState<{ message: string; type: ToastType } | null>(null);
-
-  // Formulaire article de blog
-  const [blogTitle, setBlogTitle] = useState("");
-  const [blogSlug, setBlogSlug] = useState("");
-  const [blogSlugTouched, setBlogSlugTouched] = useState(false);
-  const [blogExcerpt, setBlogExcerpt] = useState("");
-  const [blogCategory, setBlogCategory] = useState("");
-  const [blogCategories, setBlogCategories] = useState<CategoryItem[]>(() =>
-    BLOG_CATEGORY_OPTIONS.map((o) => ({ id: o.value, label: o.label, value: o.value }))
-  );
-  const [blogTags, setBlogTags] = useState<string[]>([]);
-  const [blogCoverUrl, setBlogCoverUrl] = useState("");
-  const [blogCoverName, setBlogCoverName] = useState("");
-  const [blogCoverUploading, setBlogCoverUploading] = useState(false);
-  const [blogCoverError, setBlogCoverError] = useState("");
-  const [blogIsDragOver, setBlogIsDragOver] = useState(false);
-  const [blogAuthor, setBlogAuthor] = useState("Mireille Dayer");
-  const [blogPublishDate, setBlogPublishDate] = useState("");
-  const [blogReadingMinutes, setBlogReadingMinutes] = useState("");
-  const [blogMetaDesc, setBlogMetaDesc] = useState("");
-  const [blogMetaTooltip, setBlogMetaTooltip] = useState(false);
-  const [blogBody, setBlogBody] = useState("");
-  const [blogSending, setBlogSending] = useState(false);
-  const blogMetaTooltipId = useId();
-  const blogCoverFileInputRef = useRef<HTMLInputElement>(null);
 
   // Init session + garde desktop
   useEffect(() => {
@@ -397,89 +346,6 @@ export default function AdminConsole() {
   function startBlogCreator() {
     setMode("navigate");
     setStageView("blog");
-  }
-
-  function toggleBlogTag(tag: string) {
-    setBlogTags((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]));
-  }
-
-  function resetBlogForm() {
-    setBlogTitle("");
-    setBlogSlug("");
-    setBlogSlugTouched(false);
-    setBlogExcerpt("");
-    setBlogCategory("");
-    setBlogTags([]);
-    setBlogCoverUrl("");
-    setBlogCoverName("");
-    setBlogCoverError("");
-    setBlogAuthor("Mireille Dayer");
-    setBlogPublishDate("");
-    setBlogReadingMinutes("");
-    setBlogMetaDesc("");
-    setBlogBody("");
-  }
-
-  function closeBlog() {
-    resetBlogForm();
-    setStageView("browser");
-  }
-
-  async function uploadBlogCover(file: File) {
-    if (!file.type.startsWith("image/")) return;
-    setBlogCoverName(file.name);
-    setBlogCoverUrl("");
-    setBlogCoverError("");
-    setBlogCoverUploading(true);
-    try {
-      const fd = new FormData();
-      fd.append("file", file);
-      const res = await fetch("/api/upload-image", { method: "POST", body: fd });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? `Erreur ${res.status}`);
-      setBlogCoverUrl(data.url);
-    } catch (err) {
-      setBlogCoverError(err instanceof Error ? err.message : "Échec de l'upload");
-    } finally {
-      setBlogCoverUploading(false);
-    }
-  }
-
-  async function submitBlogPost() {
-    if (!blogTitle.trim() || blogSending) return;
-    setBlogSending(true);
-    try {
-      const res = await fetch("/api/blog-posts", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          title: blogTitle.trim(),
-          slug: blogSlug.trim() || undefined,
-          excerpt: blogExcerpt.trim() || undefined,
-          category: blogCategory || undefined,
-          tags: blogTags.length > 0 ? blogTags : undefined,
-          coverUrl: blogCoverUrl.trim() || undefined,
-          author: blogAuthor.trim() || undefined,
-          publishDate: blogPublishDate || undefined,
-          readingMinutes: blogReadingMinutes ? Number(blogReadingMinutes) : undefined,
-          metaDescription: blogMetaDesc.trim() || undefined,
-          body: blogBody.trim() || undefined,
-          status: "Brouillon",
-        }),
-      });
-      if (res.ok) {
-        showToast("Article créé dans Notion (statut Brouillon)", "success");
-        resetBlogForm();
-        setStageView("browser");
-      } else {
-        const data = await res.json().catch(() => ({}));
-        showToast(data.error ?? "Erreur lors de la création", "error");
-      }
-    } catch {
-      showToast("Erreur réseau, réessayez", "error");
-    } finally {
-      setBlogSending(false);
-    }
   }
 
   function addFeedback() {
@@ -893,248 +759,7 @@ export default function AdminConsole() {
       {/* Espace de gestion des articles de blog (occupe la zone d'apercu) */}
       {stageView === "blog" && (
         <div className={styles.stageOverlay}>
-          <div className={styles.stagePanel} role="region" aria-label="Gestion des articles de blog">
-            <div className={styles.stagePanelHeader}>
-              <button className={styles.backBtn} onClick={closeBlog}>
-                <ArrowLeft size={15} /> Retour à l&apos;aperçu
-              </button>
-              <div className={styles.stagePanelTitleWrap}>
-                <Newspaper size={17} strokeWidth={1.6} />
-                <p className={styles.stagePanelTitle}>Mes articles de blog</p>
-              </div>
-            </div>
-
-            <div className={styles.modalSheetBody}>
-              <div className={fb.blogForm}>
-                <div className={fb.notionInfo}>
-                  <Info size={14} />
-                  <span>L&apos;article sera enregistré en <strong>Brouillon</strong> — vous pourrez le réviser avant publication.</span>
-                </div>
-
-                <div className={fb.field}>
-                  <label className={fb.fieldLabel}>Titre <span aria-hidden="true">*</span></label>
-                  <input
-                    type="text"
-                    className={fb.input}
-                    value={blogTitle}
-                    onChange={(e) => {
-                      setBlogTitle(e.target.value);
-                      if (!blogSlugTouched) setBlogSlug(slugify(e.target.value));
-                    }}
-                    placeholder="Le bras droit externalisé : un levier stratégique pour les PME suisses"
-                    maxLength={120}
-                  />
-                </div>
-
-                <div className={fb.field}>
-                  <label className={fb.fieldLabel}>URL de l&apos;article</label>
-                  <div className={`${fb.slugPreview} ${styles.slugEditable}`}>
-                    <Globe size={12} className={fb.slugGlobe} aria-hidden="true" />
-                    <span className={fb.slugDomain}>{SITE_DOMAIN}/blog/</span>
-                    <input
-                      type="text"
-                      className={styles.slugInlineInput}
-                      value={blogSlug}
-                      onChange={(e) => { setBlogSlug(slugify(e.target.value)); setBlogSlugTouched(true); }}
-                      placeholder="votre-article"
-                      aria-label="Identifiant URL de l'article (modifiable)"
-                      spellCheck={false}
-                    />
-                  </div>
-                </div>
-
-                <div className={fb.field}>
-                  <label className={fb.fieldLabel}>Extrait</label>
-                  <textarea
-                    className={fb.textarea}
-                    value={blogExcerpt}
-                    onChange={(e) => setBlogExcerpt(e.target.value)}
-                    placeholder="Résumé court (1-2 phrases) affiché en prévisualisation."
-                    rows={2}
-                    maxLength={300}
-                  />
-                </div>
-
-                <div className={fb.field}>
-                  <label className={fb.fieldLabel}>Catégorie</label>
-                  <CategorySelect
-                    categories={blogCategories}
-                    onCategoriesChange={setBlogCategories}
-                    value={blogCategory}
-                    onChange={setBlogCategory}
-                  />
-                </div>
-
-                <div className={fb.field}>
-                  <label className={fb.fieldLabel}>Tags</label>
-                  <div className={fb.actionPills}>
-                    {BLOG_TAGS.map((tag) => (
-                      <button
-                        key={tag}
-                        type="button"
-                        className={`${fb.actionPill} ${blogTags.includes(tag) ? fb.actionPillActive : ""}`}
-                        onClick={() => toggleBlogTag(tag)}
-                      >
-                        {blogTags.includes(tag) && <Check size={12} />}
-                        {tag}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                <div className={fb.field}>
-                  <label className={fb.fieldLabel}>Image de couverture</label>
-                  <div
-                    className={`${fb.dropZone} ${blogIsDragOver ? fb.dropZoneOver : ""} ${blogCoverName ? fb.dropZoneFilled : ""}`}
-                    onDragOver={(e) => { e.preventDefault(); setBlogIsDragOver(true); }}
-                    onDragLeave={() => setBlogIsDragOver(false)}
-                    onDrop={async (e) => {
-                      e.preventDefault();
-                      setBlogIsDragOver(false);
-                      const file = e.dataTransfer.files[0];
-                      if (file?.type.startsWith("image/")) await uploadBlogCover(file);
-                    }}
-                  >
-                    {blogCoverUploading ? (
-                      <div className={fb.dropZoneUploading}>
-                        <span className={fb.uploadSpinner} aria-hidden="true" />
-                        <span>Upload en cours…</span>
-                      </div>
-                    ) : blogCoverName ? (
-                      <div className={fb.dropZoneFile}>
-                        <FileImage size={16} className={blogCoverUrl ? fb.dropZoneFileIconOk : fb.dropZoneFileIcon} aria-hidden="true" />
-                        <span className={fb.dropZoneFileName}>{blogCoverName}</span>
-                        <button
-                          type="button"
-                          className={fb.dropZoneRemove}
-                          onClick={() => { setBlogCoverName(""); setBlogCoverUrl(""); setBlogCoverError(""); }}
-                          aria-label="Supprimer l'image"
-                        >
-                          <X size={12} />
-                        </button>
-                      </div>
-                    ) : (
-                      <>
-                        <Upload size={18} className={fb.dropZoneIcon} aria-hidden="true" />
-                        <span className={fb.dropZoneText}>Glissez votre image ici</span>
-                        <button
-                          type="button"
-                          className={fb.dropZoneBtn}
-                          onClick={() => blogCoverFileInputRef.current?.click()}
-                        >
-                          Choisir un fichier
-                        </button>
-                      </>
-                    )}
-                  </div>
-                  <input
-                    ref={blogCoverFileInputRef}
-                    type="file"
-                    accept="image/*"
-                    className={fb.fileInputHidden}
-                    onChange={async (e) => {
-                      const file = e.target.files?.[0];
-                      if (file) await uploadBlogCover(file);
-                      e.target.value = "";
-                    }}
-                  />
-                  {blogCoverError && <span className={fb.hintWarn}>{blogCoverError}</span>}
-                  {blogCoverUrl && (
-                    <div className={fb.uploadedPreview}>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={blogCoverUrl} alt="Image de couverture" className={fb.uploadedPreviewImg} />
-                      <div className={fb.uploadedPreviewMsg}>
-                        <Check size={14} strokeWidth={2.5} />
-                        <span>Image bien reçue.</span>
-                      </div>
-                    </div>
-                  )}
-                </div>
-
-                <div className={fb.fieldRow}>
-                  <div className={fb.field}>
-                    <label className={fb.fieldLabel}>Auteur</label>
-                    <input
-                      type="text"
-                      className={fb.input}
-                      value={blogAuthor}
-                      onChange={(e) => setBlogAuthor(e.target.value)}
-                    />
-                  </div>
-                  <div className={fb.field}>
-                    <label className={fb.fieldLabel}>Temps de lecture (min)</label>
-                    <input
-                      type="number"
-                      min={1}
-                      max={60}
-                      className={fb.input}
-                      value={blogReadingMinutes}
-                      onChange={(e) => setBlogReadingMinutes(e.target.value)}
-                      placeholder="5"
-                    />
-                  </div>
-                </div>
-
-                <div className={fb.field}>
-                  <div className={fb.fieldLabelRow}>
-                    <label className={fb.fieldLabel}>Méta description SEO</label>
-                    <button
-                      type="button"
-                      className={fb.seoTooltipTrigger}
-                      aria-describedby={blogMetaTooltipId}
-                      onMouseEnter={() => setBlogMetaTooltip(true)}
-                      onMouseLeave={() => setBlogMetaTooltip(false)}
-                      onFocus={() => setBlogMetaTooltip(true)}
-                      onBlur={() => setBlogMetaTooltip(false)}
-                      aria-label="Aide SEO"
-                    >
-                      <Info size={13} />
-                    </button>
-                    {blogMetaTooltip && (
-                      <div id={blogMetaTooltipId} role="tooltip" className={fb.seoTooltip}>
-                        <strong>120–160 caractères recommandés.</strong> Ce texte s&apos;affiche sous le titre dans Google.
-                      </div>
-                    )}
-                  </div>
-                  <textarea
-                    className={`${fb.textarea} ${blogMetaDesc.length >= SEO_DESC_MIN && blogMetaDesc.length <= SEO_DESC_MAX ? fb.textareaOk : blogMetaDesc.length > 0 ? fb.textareaWarn : ""}`}
-                    value={blogMetaDesc}
-                    onChange={(e) => setBlogMetaDesc(e.target.value)}
-                    placeholder="Résumé pour les moteurs de recherche (120–160 caractères)"
-                    rows={2}
-                    maxLength={200}
-                  />
-                  <span className={`${fb.fieldHint} ${blogMetaDesc.length >= SEO_DESC_MIN && blogMetaDesc.length <= SEO_DESC_MAX ? fb.hintOk : blogMetaDesc.length > SEO_DESC_MAX ? fb.hintWarn : ""}`}>
-                    {blogMetaDesc.length}/{SEO_DESC_MAX} car.
-                    {blogMetaDesc.length > 0 && blogMetaDesc.length < SEO_DESC_MIN && ` — encore ${SEO_DESC_MIN - blogMetaDesc.length} recommandés`}
-                    {blogMetaDesc.length > SEO_DESC_MAX && " — trop long"}
-                    {blogMetaDesc.length >= SEO_DESC_MIN && blogMetaDesc.length <= SEO_DESC_MAX && " — idéal"}
-                  </span>
-                </div>
-
-                <div className={fb.field}>
-                  <label className={fb.fieldLabel}>Corps de l&apos;article</label>
-                  <RichTextEditor
-                    value={blogBody}
-                    onChange={setBlogBody}
-                    placeholder="Rédigez votre article — utilisez la barre d'outils pour mettre en forme (gras, listes…)."
-                  />
-                </div>
-              </div>
-            </div>
-
-            <div className={styles.modalSheetFooter}>
-              <button className={fb.cancelBtn} onClick={closeBlog}>Annuler</button>
-              <button
-                className={fb.addBtn}
-                onClick={submitBlogPost}
-                disabled={!blogTitle.trim() || blogSending}
-                aria-busy={blogSending}
-              >
-                {blogSending ? "Création..." : <><MessageSquarePlus size={14} />Créer le brouillon</>}
-              </button>
-            </div>
-          </div>
+          <BlogManager onClose={() => setStageView("browser")} showToast={showToast} />
         </div>
       )}
 
@@ -1219,19 +844,18 @@ export default function AdminConsole() {
                         {ticket.imageUrl && (
                           <button
                             type="button"
-                            className={fb.ticketThumb}
+                            className={styles.ticketThumb}
                             onClick={() => setLightboxUrl(ticket.imageUrl!)}
                             aria-label="Agrandir l'image jointe"
                           >
                             {/* eslint-disable-next-line @next/next/no-img-element */}
-                            <img src={ticket.imageUrl} alt="" className={fb.ticketThumbImg} />
-                            <span className={fb.ticketThumbHint} aria-hidden="true">Agrandir</span>
+                            <img src={ticket.imageUrl} alt="" className={styles.ticketThumbImg} />
+                            <span className={styles.ticketThumbHint} aria-hidden="true">Agrandir</span>
                           </button>
                         )}
-                        {(ticket.action || ticket.format) && (
-                          <div className={fb.notionItemFooter}>
-                            {ticket.action && <span className={fb.actionTag}>{ticket.action}</span>}
-                            {ticket.format && <span className={styles.draftFormat}>{ticket.format}</span>}
+                        {ticket.format && (
+                          <div className={styles.ticketFoot}>
+                            <span className={styles.draftFormat}>{ticket.format}</span>
                           </div>
                         )}
                       </div>
