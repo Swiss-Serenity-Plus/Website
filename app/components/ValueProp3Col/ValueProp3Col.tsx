@@ -3,7 +3,7 @@ import Image from "next/image";
 import Container from "../Container/Container";
 import AtmosphericAccent from "../AtmosphericAccent/AtmosphericAccent";
 import styles from "./ValueProp3Col.module.css";
-import { Shield, Zap } from "lucide-react";
+import { Shield } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { fbSlug } from "../../lib/fbToken";
 
@@ -26,7 +26,7 @@ const pillars: Pillar[] = [
     text: "Discrétion, rigueur et professionnalisme au cœur de chaque mission. Votre confiance est la base de notre partenariat.",
   },
   {
-    icon: Zap,
+    iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20%22Solutions%20sur%20mesure%22.png",
     title: "Solutions sur mesure",
     text: "Une collaboration efficace, souple et adaptée à vos besoins, sans les contraintes d'un poste interne.",
   },
