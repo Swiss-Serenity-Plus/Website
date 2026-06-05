@@ -19,7 +19,7 @@ export const ALL_SERVICES = [
     title: "Sourcing & Partenaires",
     shortDescription: "Identifier et coordonner les bons partenaires pour gagner en efficacité et en qualité.",
     href: "/entreprises/sourcing-partenaires",
-    iconImage: "/icons/sourcing-partenaires.svg",
+    iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20%3A%20Sourcing%20%26%20Partenaires%20%3A%20Swiss%20Serenity%20Plus.png",
     audience: "pro" as const,
   },
   {
