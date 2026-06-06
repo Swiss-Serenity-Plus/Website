@@ -125,6 +125,93 @@ export function tiptapToNotionBlocks(doc: TipTapDoc | null | undefined): NotionB
   return blocks;
 }
 
+// ── Blocs Notion (API) -> JSON TipTap ────────────────────────────────────────
+// Reconstruit un document TipTap a partir des blocs enfants d'une page Notion.
+// Sert a editer un article cree/modifie directement dans Notion (quand la
+// propriete "Contenu JSON" est absente).
+interface NotionApiRichText {
+  plain_text?: string;
+  href?: string | null;
+  annotations?: { bold?: boolean; italic?: boolean };
+  text?: { content?: string; link?: { url: string } | null };
+}
+interface NotionApiBlock {
+  type: string;
+  paragraph?: { rich_text: NotionApiRichText[] };
+  heading_2?: { rich_text: NotionApiRichText[] };
+  heading_3?: { rich_text: NotionApiRichText[] };
+  bulleted_list_item?: { rich_text: NotionApiRichText[] };
+  numbered_list_item?: { rich_text: NotionApiRichText[] };
+  image?: { external?: { url: string }; file?: { url: string }; caption?: NotionApiRichText[] };
+}
+
+function richTextToTiptap(rts?: NotionApiRichText[]): TipTapNode[] {
+  if (!rts || rts.length === 0) return [];
+  const out: TipTapNode[] = [];
+  for (const r of rts) {
+    const content = r.plain_text ?? r.text?.content ?? "";
+    if (!content) continue;
+    const marks: TipTapMark[] = [];
+    if (r.annotations?.bold) marks.push({ type: "bold" });
+    if (r.annotations?.italic) marks.push({ type: "italic" });
+    const href = r.href ?? r.text?.link?.url ?? null;
+    if (href) marks.push({ type: "link", attrs: { href } });
+    out.push({ type: "text", text: content, ...(marks.length ? { marks } : {}) });
+  }
+  return out;
+}
+
+function plainText(rts?: NotionApiRichText[]): string {
+  return (rts ?? []).map((r) => r.plain_text ?? r.text?.content ?? "").join("");
+}
+
+export function notionBlocksToTiptap(blocks: NotionApiBlock[]): TipTapDoc {
+  const content: TipTapNode[] = [];
+  let i = 0;
+  while (i < blocks.length) {
+    const b = blocks[i];
+    if (b.type === "bulleted_list_item" || b.type === "numbered_list_item") {
+      const notionKey = b.type;
+      const listType = notionKey === "bulleted_list_item" ? "bulletList" : "orderedList";
+      const items: TipTapNode[] = [];
+      while (i < blocks.length && blocks[i].type === notionKey) {
+        const rt = notionKey === "bulleted_list_item"
+          ? blocks[i].bulleted_list_item?.rich_text
+          : blocks[i].numbered_list_item?.rich_text;
+        items.push({ type: "listItem", content: [{ type: "paragraph", content: richTextToTiptap(rt) }] });
+        i++;
+      }
+      content.push({ type: listType, content: items });
+      continue;
+    }
+    switch (b.type) {
+      case "paragraph": {
+        const c = richTextToTiptap(b.paragraph?.rich_text);
+        content.push(c.length ? { type: "paragraph", content: c } : { type: "paragraph" });
+        break;
+      }
+      case "heading_2":
+        content.push({ type: "heading", attrs: { level: 2 }, content: richTextToTiptap(b.heading_2?.rich_text) });
+        break;
+      case "heading_3":
+        content.push({ type: "heading", attrs: { level: 3 }, content: richTextToTiptap(b.heading_3?.rich_text) });
+        break;
+      case "image": {
+        const src = b.image?.external?.url ?? b.image?.file?.url ?? "";
+        if (src) {
+          const alt = plainText(b.image?.caption);
+          content.push({ type: "image", attrs: { src, ...(alt ? { alt } : {}) } });
+        }
+        break;
+      }
+      default:
+        break;
+    }
+    i++;
+  }
+  return { type: "doc", content };
+}
+
 // ── Stockage du JSON brut dans une propriete rich_text (decoupe en segments) ──
 export function jsonToRichTextSegments(jsonStr: string): { text: { content: string } }[] {
   if (!jsonStr) return [];

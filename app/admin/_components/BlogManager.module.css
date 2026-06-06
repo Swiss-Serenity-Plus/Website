@@ -144,6 +144,33 @@
 }
 .statusDot { width: 6px; height: 6px; border-radius: 50%; }
 
+/* ── Tag de statut editable (entete editeur) ── */
+.statusSelect { position: relative; }
+.statusTrigger {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 12px; border: none; border-radius: 9999px;
+  font-size: 0.82rem; font-weight: 600; font-family: inherit; cursor: pointer;
+  transition: filter 0.15s ease;
+}
+.statusTrigger:hover:not(:disabled) { filter: brightness(0.97); }
+.statusTrigger:disabled { opacity: 0.6; cursor: not-allowed; }
+.statusChevron, .statusChevronOpen { transition: transform 0.18s ease; opacity: 0.7; }
+.statusChevronOpen { transform: rotate(180deg); }
+.statusMenu {
+  position: absolute; top: calc(100% + 6px); left: 0; z-index: 50;
+  min-width: 190px; margin: 0; padding: 6px; list-style: none;
+  background: var(--c-surface, #fff); border: 1px solid var(--c-border, #e8e3d8);
+  border-radius: 12px; box-shadow: 0 14px 40px rgba(6, 36, 69, 0.18);
+  animation: confirmPop 0.16s ease;
+}
+.statusOption {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+  padding: 7px 8px; border-radius: 8px; cursor: pointer; color: var(--c-accent-secondary, #977b57);
+  transition: background 0.12s ease;
+}
+.statusOption:hover { background: rgba(151, 123, 87, 0.08); }
+.statusOptionCheck { color: var(--c-text, #062445); flex-shrink: 0; }
+
 /* ── Editeur compact ── */
 .editor { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 18px; }
 
@@ -220,14 +247,39 @@
   display: inline-flex; flex-direction: column; align-items: center; gap: 4px;
   color: var(--c-text-muted, #4a5a6f); font-size: 0.74rem;
 }
-.coverFileRow { display: flex; align-items: center; gap: 5px; font-size: 0.72rem; color: var(--c-text-muted, #4a5a6f); }
-.coverFileName { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 110px; }
-.coverRemove {
-  display: inline-flex; align-items: center; justify-content: center; width: 18px; height: 18px;
-  border: none; border-radius: 5px; background: transparent; color: var(--c-accent-primary, #b42c2a); cursor: pointer;
-}
-.coverRemove:hover { background: rgba(180, 44, 42, 0.1); }
 .fileHidden { display: none; }
+
+/* Actions au survol de la couverture : Remplacer / Supprimer */
+.coverZoneFilled { cursor: default; position: relative; }
+.coverActions {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+  background: rgba(6, 36, 69, 0.5); opacity: 0; transition: opacity 0.16s ease;
+}
+.coverZoneFilled:hover .coverActions, .coverZoneFilled:focus-within .coverActions { opacity: 1; }
+.coverActionBtn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 7px 13px; border: 1px solid rgba(255, 255, 255, 0.7); border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.95); color: var(--c-text, #062445);
+  font-size: 0.76rem; font-weight: 600; font-family: inherit; cursor: pointer;
+  transition: background 0.14s ease, color 0.14s ease, border-color 0.14s ease;
+}
+.coverActionBtn:hover { background: #fff; }
+.coverActionDanger { color: var(--c-accent-primary, #b42c2a); }
+.coverActionDanger:hover { background: var(--c-accent-primary, #b42c2a); color: #fff; border-color: var(--c-accent-primary, #b42c2a); }
+
+/* Date de publication : dropdown + champ, empiles verticalement */
+.dateField { display: flex; flex-direction: column; gap: 8px; }
+.dateResolved {
+  margin: 0; padding: 9px 11px;
+  border: 1px solid var(--c-border, #e8e3d8); border-radius: 8px; background: var(--c-bg, #f7f5f1);
+  font-size: 0.86rem; color: var(--c-text, #062445);
+}
+
+.bodyLoadingHint {
+  margin-left: 8px; font-weight: 500; font-size: 0.72rem;
+  color: var(--c-accent-secondary, #977b57); font-style: italic;
+}
 
 .bodyField, .seoField { display: flex; flex-direction: column; gap: 7px; }
 

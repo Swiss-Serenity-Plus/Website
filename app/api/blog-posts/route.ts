@@ -10,6 +10,7 @@ import { revalidatePath } from "next/cache";
 import {
   tiptapToNotionBlocks, jsonToRichTextSegments, richTextSegmentsToString, type TipTapDoc,
 } from "../../lib/notionBlocks";
+import { deleteR2Object } from "../../lib/r2";
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",
@@ -239,6 +240,15 @@ export async function PATCH(request: NextRequest) {
   if (!token) return NextResponse.json({ error: "Configuration serveur manquante" }, { status: 500, headers });
 
   try {
+    // Image cover actuelle (pour nettoyer l'ancien fichier R2 si elle change).
+    let oldCover = "";
+    if (body.coverUrl !== undefined) {
+      try {
+        const pre = await fetch(`${NOTION}/pages/${id}`, { headers: notionHeaders(token), cache: "no-store" });
+        if (pre.ok) oldCover = (await pre.json())?.properties?.["Image cover"]?.url ?? "";
+      } catch { /* best-effort */ }
+    }
+
     // 1) Met a jour les proprietes.
     const res = await fetch(`${NOTION}/pages/${id}`, {
       method: "PATCH", headers: notionHeaders(token), body: JSON.stringify({ properties: buildProperties(body) }),
@@ -253,6 +263,11 @@ export async function PATCH(request: NextRequest) {
       await clearChildren(id, token);
       const blocks = tiptapToNotionBlocks(body.bodyJson);
       if (blocks.length > 0) await appendChildren(id, blocks, token);
+    }
+    // 3) Nettoie l'ancien fichier de couverture R2 s'il a ete remplace/supprime.
+    const newCover = (body.coverUrl ?? "").trim();
+    if (body.coverUrl !== undefined && oldCover && oldCover !== newCover) {
+      await deleteR2Object(oldCover);
     }
     revalidateIfPublished(body.status, body.slug);
     return NextResponse.json({ success: true, id }, { headers });

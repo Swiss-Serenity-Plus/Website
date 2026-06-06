@@ -1,8 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
+import { deleteR2Object } from "../../lib/r2";
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "POST, OPTIONS",
+  "Access-Control-Allow-Methods": "POST, DELETE, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type",
 };
 
@@ -70,4 +71,21 @@ export async function POST(request: NextRequest) {
 
   const url = `${publicUrl}/${key}`;
   return NextResponse.json({ url }, { status: 200, headers });
+}
+
+// Supprime un fichier image du bucket R2 (a partir de son URL publique).
+export async function DELETE(request: NextRequest) {
+  const headers = { ...CORS, "Content-Type": "application/json" };
+  let url = new URL(request.url).searchParams.get("url") ?? "";
+  if (!url) {
+    try { url = (await request.json())?.url ?? ""; } catch { /* corps absent */ }
+  }
+  if (!url) {
+    return NextResponse.json({ error: "URL manquante" }, { status: 400, headers });
+  }
+  const ok = await deleteR2Object(url);
+  if (!ok) {
+    return NextResponse.json({ error: "Suppression R2 échouée" }, { status: 502, headers });
+  }
+  return NextResponse.json({ success: true }, { status: 200, headers });
 }
