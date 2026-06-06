@@ -5,7 +5,8 @@ import { NextRequest, NextResponse } from "next/server";
 const CORS = { "Content-Type": "application/json" };
 
 interface NotionRichText {
-  text: { content: string };
+  plain_text?: string;
+  text?: { content: string };
 }
 interface NotionSelect {
   name: string;
@@ -33,8 +34,18 @@ interface NotionPage {
   };
 }
 
+// Concatene TOUS les segments rich_text (Notion decoupe le texte aux mentions,
+// liens, et toutes les 2000 car.). `plain_text` couvre aussi les mentions.
 function str(arr?: NotionRichText[]): string {
-  return arr?.[0]?.text?.content ?? "";
+  return arr ? arr.map((r) => r.plain_text ?? r.text?.content ?? "").join("") : "";
+}
+
+// Decoupe un texte en segments rich_text Notion (<= 2000 car. chacun), sans troncature.
+function chunkRichText(text: string): { text: { content: string } }[] {
+  if (!text) return [];
+  const out: { text: { content: string } }[] = [];
+  for (let i = 0; i < text.length; i += 2000) out.push({ text: { content: text.slice(i, i + 2000) } });
+  return out;
 }
 
 export async function GET() {
@@ -144,7 +155,8 @@ export async function PATCH(request: NextRequest) {
     properties["Action"] = body.action ? { select: { name: body.action } } : { select: null };
   }
   if (body.text !== undefined) {
-    properties["Retour"] = { rich_text: body.text ? [{ text: { content: body.text.slice(0, 2000) } }] : [] };
+    // Notion limite chaque rich_text a 2000 car. : on decoupe en segments sans tronquer.
+    properties["Retour"] = { rich_text: chunkRichText(body.text) };
   }
   // Image jointe : on reecrit completement la propriete (remplacement) ou on la
   // vide (suppression). Notion remplace l'ancienne valeur par la nouvelle.
