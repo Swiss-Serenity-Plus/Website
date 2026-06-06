@@ -120,6 +120,7 @@ interface NotionBlogPage {
     url?: string | null;
     date?: { start: string } | null;
     number?: number | null;
+    unique_id?: { prefix: string | null; number: number | null } | null;
   }>;
 }
 
@@ -128,8 +129,13 @@ function mapPost(p: NotionBlogPage) {
   let bodyJson: unknown = null;
   const rawJson = richTextSegmentsToString(props["Contenu JSON"]?.rich_text);
   if (rawJson) { try { bodyJson = JSON.parse(rawJson); } catch { bodyJson = null; } }
+  const uid = props["Article ID"]?.unique_id;
+  const articleId = uid && uid.number != null
+    ? `${uid.prefix ? uid.prefix + "-" : ""}${uid.number}`
+    : "";
   return {
     id: p.id,
+    articleId,
     url: p.url ?? "",
     lastEdited: p.last_edited_time ?? "",
     title: readRT(props["Titre"]?.title),

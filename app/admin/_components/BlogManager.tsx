@@ -25,6 +25,7 @@ interface Props {
 
 interface BlogPost {
   id: string;
+  articleId: string;
   url: string;
   lastEdited: string;
   title: string;
@@ -463,6 +464,7 @@ export default function BlogManager({ onClose, showToast }: Props) {
                   <div className={styles.cardBody}>
                     <div className={styles.cardTop}>
                       <StatusBadge status={p.status} />
+                      {p.articleId && <span className={styles.cardId}>{p.articleId}</span>}
                       {p.category && <span className={styles.cardCat}>{p.category}</span>}
                     </div>
                     <h3 className={styles.cardTitle}>{p.title || "Sans titre"}</h3>

@@ -97,6 +97,11 @@
   font-size: 0.7rem; color: var(--c-accent-secondary, #977b57);
   background: rgba(151, 123, 87, 0.12); padding: 2px 8px; border-radius: 9999px;
 }
+.cardId {
+  font-family: var(--font-mono, monospace); font-size: 0.68rem; font-weight: 600;
+  letter-spacing: 0.02em; color: var(--c-text-muted, #4a5a6f);
+  background: rgba(6, 36, 69, 0.06); padding: 2px 7px; border-radius: 6px;
+}
 .cardTitle {
   font-family: var(--font-display, "Fraunces", serif);
   font-size: 1.04rem; line-height: 1.25; color: var(--c-text, #062445); margin: 0;
