@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import Button from "../Button/Button";
+import PageTreeNav from "../PageTreeNav/PageTreeNav";
 import { fbSlug } from "../../lib/fbToken";
 import styles from "./Header.module.css";
 
@@ -79,6 +80,7 @@ export default function Header() {
               {item.label}
             </Link>
           ))}
+          <PageTreeNav />
           <div className={styles.navCta}>
             <Button href="/contact" variant="dark" size="sm" id="b-nav-cta-contact" fbLabel="Bouton « Prendre contact »">
               Prendre contact
