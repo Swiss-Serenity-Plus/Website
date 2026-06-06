@@ -4,7 +4,6 @@ import Header from "../../components/Header/Header";
 import Footer from "../../components/Footer/Footer";
 import Container from "../../components/Container/Container";
 import PageHero from "../../components/PageHero/PageHero";
-import ContactCTA from "../../components/ContactCTA/ContactCTA";
 import { getPublishedPosts, getPostBySlug, getPostBlocks } from "../../lib/blog";
 import { SITE_URL } from "../../lib/seo";
 import styles from "./article.module.css";
@@ -110,8 +109,6 @@ export default async function ArticlePage(
             </div>
           </Container>
         </article>
-
-        <ContactCTA />
       </main>
       <Footer />
 
