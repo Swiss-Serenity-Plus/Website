@@ -54,6 +54,7 @@ export default function ExperienceClientPage() {
       targetAudience={{
         eyebrow: null,
         description: "Ce service s'adresse aux entreprises, commerces et institutions qui souhaitent améliorer l'expérience client, renforcer leur image et créer une relation durable avec leur clientèle.",
+        image: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/blog-covers/1780841740690-a969a7bc-f04e-43d8-9833-f5f6023b668c.png",
         profiles: [
           "PME, Commerces et Restaurants — Souhaitant renforcer la satisfaction et la fidélisation de leur clientèle.",
           "EMS, Institutions et lieux d'accueil — Souhaitant améliorer le parcours, le confort et la qualité perçue par les usagers et visiteurs.",
