@@ -31,6 +31,7 @@ interface NotionPage {
     "Format"?: { select: NotionSelect | null };
     "URL"?: { url: string | null };
     "Files & media"?: { files: NotionFileEntry[] };
+    "JSON"?: { formula?: { type?: string; string?: string | null } | null };
   };
 }
 
@@ -120,6 +121,7 @@ export async function GET() {
           format:      p.properties["Format"]?.select?.name ?? "",
           url:         p.properties["URL"]?.url ?? "",
           imageUrl:    p.properties["Files & media"]?.files?.find((f) => f.type === "external")?.external?.url ?? "",
+          json:        p.properties["JSON"]?.formula?.string ?? "",
         };
       });
 

@@ -35,10 +35,12 @@ interface Ticket {
   url?: string;
   timestamp: string;
   imageUrl?: string;
+  json?: string;
 }
 
 interface Comment { id: string; text: string; createdTime: string; author?: string }
 
+const CLAUDE_ICON = "https://cdn.jsdelivr.net/npm/@lobehub/icons-static-svg@latest/icons/claude-color.svg";
 const STATUS_OPTIONS = ["À traiter", "En cours", "Traité", "Bloqué", "Refusé", "À clarifier"];
 const STATUS_SELECT = STATUS_OPTIONS.map((s) => ({ value: s, label: s }));
 const ACTION_SELECT = [{ value: "", label: "Aucune action" }, ...ACTION_OPTIONS.map((a) => ({ value: a, label: a }))];
@@ -104,6 +106,11 @@ export default function TicketsManager({ onClose, showToast, onCount }: Props) {
   const [saving, setSaving] = useState(false);
   const editImageInputRef = useRef<HTMLInputElement>(null);
 
+  // Modale « Copier pour Claude Code »
+  const [claudeOpen, setClaudeOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
+  const copyResetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
   const onCountRef = useRef(onCount);
   useEffect(() => { onCountRef.current = onCount; }, [onCount]);
 
@@ -168,22 +175,40 @@ export default function TicketsManager({ onClose, showToast, onCount }: Props) {
 
   // Fermeture du detail avec Echap
   useEffect(() => {
-    if (!selectedId && !lightboxUrl) return;
+    if (!selectedId && !lightboxUrl && !claudeOpen) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== "Escape") return;
-      if (lightboxUrl) setLightboxUrl(null);
+      if (claudeOpen) setClaudeOpen(false);
+      else if (lightboxUrl) setLightboxUrl(null);
       else { setSelectedId(null); setEditMode(false); }
     };
     document.addEventListener("keydown", onKey);
     return () => document.removeEventListener("keydown", onKey);
-  }, [selectedId, lightboxUrl]);
+  }, [selectedId, lightboxUrl, claudeOpen]);
+
+  // Nettoyage du timer de réinitialisation de l'état « copié ».
+  useEffect(() => () => { if (copyResetTimer.current) clearTimeout(copyResetTimer.current); }, []);
 
   function openDetail(t: Ticket) {
     setSelectedId(t.notionId);
     setEditMode(false);
     if (!comments[t.notionId]) loadComments(t.notionId);
   }
-  function closeDetail() { setSelectedId(null); setEditMode(false); }
+  function closeDetail() { setSelectedId(null); setEditMode(false); setClaudeOpen(false); }
+
+  // Copie la commande (propriete formule « JSON » du ticket) et ouvre la modale
+  // d'instructions pour la coller dans Claude Code.
+  async function copyForClaude(cmd: string) {
+    try {
+      await navigator.clipboard.writeText(cmd);
+      setCopied(true);
+      if (copyResetTimer.current) clearTimeout(copyResetTimer.current);
+      copyResetTimer.current = setTimeout(() => setCopied(false), 2200);
+    } catch {
+      setCopied(false); // l'utilisateur pourra copier depuis l'encadré de la modale
+    }
+    setClaudeOpen(true);
+  }
 
   function startEdit(t: Ticket) {
     setEditStatus(t.status);
@@ -394,6 +419,13 @@ export default function TicketsManager({ onClose, showToast, onCount }: Props) {
           <div className={styles.detail} role="dialog" aria-label="Détail du ticket">
             <div className={styles.detailBar}>
               <div className={styles.detailBarActions}>
+                {!editMode && selected.json && (
+                  <button className={`${styles.detailBtn} ${styles.detailBtnClaude}`} onClick={() => copyForClaude(selected.json!)}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={CLAUDE_ICON} alt="" className={styles.claudeIcon} />
+                    Copier pour Claude Code
+                  </button>
+                )}
                 {!editMode && (
                   <button className={styles.detailBtn} onClick={() => startEdit(selected)}>
                     <Pencil size={14} /> Éditer
@@ -546,6 +578,39 @@ export default function TicketsManager({ onClose, showToast, onCount }: Props) {
                   )}
                 </div>
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modale d'instructions : coller la commande dans Claude Code */}
+      {claudeOpen && selected && (
+        <div className={styles.claudeOverlay} onClick={(e) => { if (e.target === e.currentTarget) setClaudeOpen(false); }}>
+          <div className={styles.claudeModal} role="dialog" aria-label="Coller dans Claude Code">
+            <button className={styles.claudeClose} onClick={() => setClaudeOpen(false)} aria-label="Fermer"><X size={18} /></button>
+            <div className={styles.claudeHead}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={CLAUDE_ICON} alt="Claude Code" className={styles.claudeHeadIcon} />
+              <div>
+                <p className={styles.claudeTitle}>Coller dans Claude&nbsp;Code</p>
+                <p className={styles.claudeSubtitle}>
+                  {copied ? "Commande copiée dans le presse-papiers ✓" : "Copiez la commande ci-dessous, puis collez-la dans Claude Code."}
+                </p>
+              </div>
+            </div>
+
+            <ol className={styles.claudeSteps}>
+              <li><span className={styles.claudeStepNum}>1</span> Ouvrez <strong>Claude&nbsp;Code</strong> (terminal, application ou claude.ai/code).</li>
+              <li><span className={styles.claudeStepNum}>2</span> Collez la commande (<kbd>Cmd/Ctrl</kbd> + <kbd>V</kbd>) puis validez.</li>
+              <li><span className={styles.claudeStepNum}>3</span> Claude implémente le changement décrit par ce ticket.</li>
+            </ol>
+
+            <pre className={styles.claudeCmd}>{selected.json}</pre>
+
+            <div className={styles.claudeActions}>
+              <button className={styles.claudeCopyBtn} onClick={() => copyForClaude(selected.json!)}>
+                {copied ? <><Check size={14} /> Copié</> : <><Replace size={14} /> Copier la commande</>}
+              </button>
             </div>
           </div>
         </div>
