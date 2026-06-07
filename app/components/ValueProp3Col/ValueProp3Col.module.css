@@ -21,14 +21,21 @@
 }
 
 .title {
-  font-size: 34px;
+  /* MIR-383 : titre sur une seule ligne. clamp() pour qu'il tienne sur une
+     ligne meme sur mobile sans deborder (nowrap). */
+  font-size: clamp(20px, 5.2vw, 42px);
   font-weight: 700;
   letter-spacing: -0.01em;
-  max-width: 520px;
+  white-space: nowrap;
 }
 
-@media (min-width: 768px) {
-  .title { font-size: 42px; }
+/* MIR-383 : le ® etait trop gros a taille pleine. On le reduit nettement et
+   on le place en exposant. */
+.reg {
+  font-size: 0.42em;
+  vertical-align: top;
+  font-weight: 600;
+  margin-left: 0.04em;
 }
 
 .grid {
