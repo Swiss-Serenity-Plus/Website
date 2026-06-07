@@ -55,6 +55,7 @@ export default function StructurationPage() {
         eyebrow: null,
         title: "Contextes d'intervention",
         description: "Un accompagnement pensé pour les structures souhaitant améliorer la coordination entre les différents intervenants internes, renforcer leur organisation et gagner en efficacité au quotidien.",
+        image: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/blog-covers/1780839949235-3839c236-dc5f-4c28-86d7-672a75fa6990.png",
         profiles: [
           "Communes, Institutions ou EMS souhaitant améliorer la circulation des informations et la coordination administrative au quotidien.",
           "Dirigeants ou Indépendants souhaitant alléger leur gestion quotidienne et bénéficier d'un soutien fiable dans la coordination de leurs activités.",

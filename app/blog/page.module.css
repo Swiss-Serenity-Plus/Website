@@ -3,6 +3,12 @@
   background: var(--c-bg);
 }
 
+/* MIR-380 : sur mobile, on resserre l'espace entre la description (PageHero)
+   et la liste des cartes. */
+@media (max-width: 767px) {
+  .section { padding-top: var(--sp-6); }
+}
+
 .grid {
   display: grid;
   grid-template-columns: 1fr;
