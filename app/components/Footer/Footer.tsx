@@ -1,6 +1,7 @@
 // Footer — 3 colonnes fond bleu nuit: Contact / Services / Utilitaires.
 import Link from "next/link";
 import Image from "next/image";
+import { Mail, Phone } from "lucide-react";
 import { fbSlug } from "../../lib/fbToken";
 import styles from "./Footer.module.css";
 
@@ -59,10 +60,14 @@ export default function Footer() {
               <p>Chemin de Clavoz 18</p>
               <p>1950 Sion, Valais, Suisse</p>
               <p style={{ marginTop: "12px" }}>
-                <a href="tel:+41762198513" className={styles.footerLink} id="b-footer-phone" data-fb-label="Lien téléphone">+41 76 219 85 13</a>
+                <a href="tel:+41762198513" className={`${styles.footerLink} ${styles.contactLink}`} id="b-footer-phone" data-fb-label="Lien téléphone">
+                  <Phone size={15} strokeWidth={1.5} className={styles.contactIcon} aria-hidden="true" />
+                  +41 76 219 85 13
+                </a>
               </p>
               <p>
-                <a href="mailto:mireille.dayer@swiss-serenity-plus.ch" className={styles.footerLink} id="b-footer-email" data-fb-label="Lien e-mail">
+                <a href="mailto:mireille.dayer@swiss-serenity-plus.ch" className={`${styles.footerLink} ${styles.contactLink}`} id="b-footer-email" data-fb-label="Lien e-mail">
+                  <Mail size={15} strokeWidth={1.5} className={styles.contactIcon} aria-hidden="true" />
                   mireille.dayer@swiss-serenity-plus.ch
                 </a>
               </p>

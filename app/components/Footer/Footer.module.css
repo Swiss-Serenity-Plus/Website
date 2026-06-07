@@ -69,6 +69,18 @@
 
 .footerLink:hover { color: #ffffff; }
 
+/* Lignes de contact (téléphone / e-mail) avec icône Lucide en tête. */
+.contactLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.contactIcon {
+  color: var(--c-accent-secondary);
+  flex-shrink: 0;
+}
+
 .socials {
   display: flex;
   gap: 10px;
