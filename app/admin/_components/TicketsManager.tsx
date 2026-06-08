@@ -8,7 +8,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import {
   ArrowLeft, RefreshCw, Search, X, ExternalLink, Pencil, Trash2, Check,
-  MessageSquare, Inbox, Loader, CircleCheck, Replace, ImagePlus,
+  MessageSquare, Inbox, Loader, CircleCheck, Replace, ImagePlus, Ban,
 } from "lucide-react";
 import { ACTION_OPTIONS } from "../../lib/fbResolve";
 import CustomSelect from "../../components/CustomSelect/CustomSelect";
@@ -41,8 +41,10 @@ interface Ticket {
 interface Comment { id: string; text: string; createdTime: string; author?: string }
 
 const CLAUDE_ICON = "https://cdn.jsdelivr.net/npm/@lobehub/icons-static-svg@latest/icons/claude-color.svg";
-const STATUS_OPTIONS = ["À traiter", "En cours", "Traité", "Bloqué", "Refusé", "À clarifier"];
+const STATUS_OPTIONS = ["À traiter", "En cours", "Traité", "À review", "Refusé", "À clarifier"];
 const STATUS_SELECT = STATUS_OPTIONS.map((s) => ({ value: s, label: s }));
+// Statuts « bloqués » : regroupés dans une vue dédiée.
+const BLOCKED_STATUSES = ["À clarifier", "Refusé", "À review"];
 const ACTION_SELECT = [{ value: "", label: "Aucune action" }, ...ACTION_OPTIONS.map((a) => ({ value: a, label: a }))];
 
 const STATUS_COLORS: Record<string, { bg: string; text: string; dot: string }> = {
@@ -51,6 +53,7 @@ const STATUS_COLORS: Record<string, { bg: string; text: string; dot: string }> =
   "Traité":    { bg: "rgba(90,122,79,0.14)",  text: "#3B5E32", dot: "#5A7A4F" },
   "Résolu":    { bg: "rgba(90,122,79,0.14)",  text: "#3B5E32", dot: "#5A7A4F" },
   "Refusé":    { bg: "rgba(180,44,42,0.12)",  text: "#7F1D1D", dot: "#B42C2A" },
+  "À review":  { bg: "rgba(168,85,247,0.12)", text: "#6B21A8", dot: "#A855F7" },
   "Bloqué":    { bg: "rgba(249,115,22,0.12)", text: "#9A3412", dot: "#F97316" },
   "À clarifier": { bg: "rgba(168,85,247,0.12)", text: "#6B21A8", dot: "#A855F7" },
 };
@@ -77,7 +80,7 @@ function fmtDate(iso: string): string {
   catch { return iso; }
 }
 
-type Tab = "tous" | "À traiter" | "En cours" | "Traité";
+type Tab = "tous" | "À traiter" | "En cours" | "Traité" | "Bloqués";
 
 // Cache memoire (persiste tant que l'onglet n'est pas recharge) : evite de
 // recharger les 320+ tickets a chaque ouverture de la vue.
@@ -211,7 +214,9 @@ export default function TicketsManager({ onClose, showToast, onCount }: Props) {
   }
 
   function startEdit(t: Ticket) {
-    setEditStatus(t.status);
+    // Un ticket bloqué (À clarifier / Refusé / À review) repasse à « À traiter »
+    // dès qu'on l'édite (modifiable ensuite si besoin).
+    setEditStatus(BLOCKED_STATUSES.includes(t.status) ? "À traiter" : t.status);
     setEditAction(t.action);
     setEditText(t.text);
     setEditImageUrl(t.imageUrl ?? "");
@@ -257,6 +262,25 @@ export default function TicketsManager({ onClose, showToast, onCount }: Props) {
     }
   }
 
+  // Édition inline du statut (vue « Bloqués ») : met à jour l'état choisi.
+  async function updateStatusInline(t: Ticket, newStatus: string) {
+    if (!newStatus || newStatus === t.status) return;
+    const prev = tickets;
+    commitTickets(tickets.map((x) => (x.notionId === t.notionId ? { ...x, status: newStatus } : x)));
+    try {
+      const res = await fetch(`/api/tickets?id=${encodeURIComponent(t.notionId)}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      if (!res.ok) throw new Error();
+      showToast(`${t.ticketId || "Ticket"} · ${newStatus}.`, "success");
+    } catch {
+      commitTickets(prev);
+      showToast("Mise à jour échouée.", "error");
+    }
+  }
+
   async function deleteTicket(id: string) {
     setDeletingId(id);
     commitTickets(tickets.filter((t) => t.notionId !== id));
@@ -278,6 +302,7 @@ export default function TicketsManager({ onClose, showToast, onCount }: Props) {
     aTraiter: tickets.filter((t) => t.status === "À traiter").length,
     enCours: tickets.filter((t) => t.status === "En cours").length,
     traite: tickets.filter((t) => ["Traité", "Résolu"].includes(t.status)).length,
+    bloques: tickets.filter((t) => BLOCKED_STATUSES.includes(t.status)).length,
   };
 
   const q = search.trim().toLowerCase();
@@ -285,6 +310,7 @@ export default function TicketsManager({ onClose, showToast, onCount }: Props) {
     const matchTab =
       tab === "tous" ? true :
       tab === "Traité" ? ["Traité", "Résolu"].includes(t.status) :
+      tab === "Bloqués" ? BLOCKED_STATUSES.includes(t.status) :
       t.status === tab;
     // Recherche : Ticket ID, Titre, Retour
     const matchSearch = !q ||
@@ -305,6 +331,7 @@ export default function TicketsManager({ onClose, showToast, onCount }: Props) {
     { key: "À traiter", label: "À traiter", value: counts.aTraiter, icon: <Inbox size={16} />, color: "#F59E0B" },
     { key: "En cours", label: "En cours", value: counts.enCours, icon: <Loader size={16} />, color: "#3B82F6" },
     { key: "Traité", label: "Traités", value: counts.traite, icon: <CircleCheck size={16} />, color: "#5A7A4F" },
+    { key: "Bloqués", label: "Bloqués", value: counts.bloques, icon: <Ban size={16} />, color: "#A855F7" },
   ];
 
   return (
@@ -383,26 +410,61 @@ export default function TicketsManager({ onClose, showToast, onCount }: Props) {
               {shown.length < filtered.length && ` · ${shown.length} affichés`}
             </p>
             <div className={styles.grid}>
-              {shown.map((t) => (
-                <button key={t.notionId} className={styles.card} onClick={() => openDetail(t)}>
-                  <div className={styles.cardTop}>
-                    <StatusBadge status={t.status} />
-                    {t.ticketId && <span className={styles.cardId}>{t.ticketId}</span>}
+              {shown.map((t) =>
+                tab === "Bloqués" ? (
+                  <div key={t.notionId} className={styles.card}>
+                    <button className={styles.cardOpen} onClick={() => openDetail(t)}>
+                      <div className={styles.cardTop}>
+                        <StatusBadge status={t.status} />
+                        {t.ticketId && <span className={styles.cardId}>{t.ticketId}</span>}
+                      </div>
+                      <p className={styles.cardTitle}>{t.title || t.element || "Sans titre"}</p>
+                      {t.element && <span className={styles.targetTag}>{t.element}</span>}
+                      {t.text && <p className={styles.cardText}>{t.text}</p>}
+                      {t.imageUrl && (
+                        <span className={styles.cardThumb}>
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={t.imageUrl} alt="" className={styles.cardThumbImg} />
+                        </span>
+                      )}
+                      <div className={styles.cardFoot}>
+                        <span className={styles.cardDate}>{fmtDate(t.timestamp)}</span>
+                      </div>
+                    </button>
+                    <div className={styles.cardStatusEdit}>
+                      <span className={styles.cardStatusLabel}>État</span>
+                      <div className={styles.cardStatusSelect}>
+                        <CustomSelect
+                          name={`status-${t.notionId}`}
+                          size="sm"
+                          options={STATUS_SELECT}
+                          value={t.status}
+                          onChange={(v) => updateStatusInline(t, v)}
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <p className={styles.cardTitle}>{t.title || t.element || "Sans titre"}</p>
-                  {t.element && <span className={styles.targetTag}>{t.element}</span>}
-                  {t.text && <p className={styles.cardText}>{t.text}</p>}
-                  {t.imageUrl && (
-                    <span className={styles.cardThumb}>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={t.imageUrl} alt="" className={styles.cardThumbImg} />
-                    </span>
-                  )}
-                  <div className={styles.cardFoot}>
-                    <span className={styles.cardDate}>{fmtDate(t.timestamp)}</span>
-                  </div>
-                </button>
-              ))}
+                ) : (
+                  <button key={t.notionId} className={styles.card} onClick={() => openDetail(t)}>
+                    <div className={styles.cardTop}>
+                      <StatusBadge status={t.status} />
+                      {t.ticketId && <span className={styles.cardId}>{t.ticketId}</span>}
+                    </div>
+                    <p className={styles.cardTitle}>{t.title || t.element || "Sans titre"}</p>
+                    {t.element && <span className={styles.targetTag}>{t.element}</span>}
+                    {t.text && <p className={styles.cardText}>{t.text}</p>}
+                    {t.imageUrl && (
+                      <span className={styles.cardThumb}>
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img src={t.imageUrl} alt="" className={styles.cardThumbImg} />
+                      </span>
+                    )}
+                    <div className={styles.cardFoot}>
+                      <span className={styles.cardDate}>{fmtDate(t.timestamp)}</span>
+                    </div>
+                  </button>
+                )
+              )}
             </div>
             {shown.length < filtered.length && (
               <div ref={sentinelRef} className={styles.sentinel} aria-hidden="true">
