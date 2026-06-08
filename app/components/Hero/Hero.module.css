@@ -9,16 +9,8 @@
    se fait uniquement via la diagonale du masque de l'image (voir .mountainImg
    en desktop). */
 
-/* SVG montagnes décoratives — derrière tout le contenu (desktop uniquement) */
-.mountainsSvg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  pointer-events: none;
-  display: none;
-}
+/* (Retiré) Plus de SVG montagnes décoratives floutées : elles transparaissaient
+   en tache grise. La photo nette + le voile crème opaque suffisent. */
 
 /* ---------------------------------------------------------------------------
    PHOTO — mobile : bandeau supérieur plein cadre, fondu progressif vers le bas
@@ -66,14 +58,8 @@
     min-height: 90vh;
   }
 
-  .mountainsSvg {
-    display: block;
-  }
-
-  /* L'image couvre tout le fond du hero pour laisser a la diagonale la place
-     de balayer : elle passe derriere et sous la zone de texte (et vient plus a
-     gauche en bas). Le voile beige (transparence du masque) maintient la
-     lisibilite du texte par-dessus. */
+  /* L'image couvre tout le fond du hero (inset 0), NETTE et OPAQUE (aucun
+     masque, aucun flou). C'est le voile creme (::before) qui la cache a gauche. */
   .imageWrap {
     inset: 0;
     width: auto;
@@ -81,42 +67,28 @@
     max-width: none;
   }
 
-  /* Transition en UNE seule diagonale : on masque directement l'image (pure
-     transparence -> ni overlay creme, ni flou, ni bande horizontale) pour
-     qu'elle se dissolve dans le fond beige. L'image est nette et pleine en
-     HAUT et a DROITE (ciel + montagnes) ; elle se dissout vers le BAS-GAUCHE,
-     ou reposent le sur-titre, le titre, le texte et les deux boutons. La
-     frontiere est une seule diagonale qui penche : en haut l'image deborde
-     loin vers la gauche (jusque derriere le sur-titre, effleurant le titre),
-     en bas le creme reprend tout le terrain (boutons entierement sur le creme).
-     Bande de fondu large et etalee -> aucune arete, aucune couture visible.
-     edgeBlur = 0 (transparence pure, jamais de voile qui blanchit l'image).
-     Reglages (a affiner visuellement) : angle 70deg ; transparent jusqu'a 18%,
-     montee douce jusqu'a 66% le long de la diagonale. */
-  .imageWrap::before { display: none; }
-  .imageWrap::after { display: none; }
-
   .mountainImg {
-    object-position: 72% 40%;
-    -webkit-mask-image: linear-gradient(
-      70deg,
-      transparent 0%,
-      transparent 18%,
-      rgba(0, 0, 0, 0.1) 30%,
-      rgba(0, 0, 0, 0.45) 44%,
-      rgba(0, 0, 0, 0.8) 55%,
-      #000 66%
-    );
-    mask-image: linear-gradient(
-      70deg,
-      transparent 0%,
-      transparent 18%,
-      rgba(0, 0, 0, 0.1) 30%,
-      rgba(0, 0, 0, 0.45) 44%,
-      rgba(0, 0, 0, 0.8) 55%,
-      #000 66%
+    object-position: 70% 45%;
+  }
+
+  /* Voile CREME opaque sur la partie gauche (sous tout le texte et les boutons),
+     qui se dissipe en une bande etroite a la limite droite de la zone de texte
+     pour reveler la photo. C'est un degrade d'OPACITE du fond creme, PAS un
+     flou et PAS un masque sur l'image : a gauche le creme est plein et opaque
+     (l'image n'est pas devinee), a droite il devient transparent et la photo
+     apparait parfaitement nette. Reglages : creme plein jusqu'a 55 %, fondu
+     etroit 55 % -> 67 %. */
+  .imageWrap::before {
+    display: block;
+    background: linear-gradient(
+      to right,
+      var(--c-bg) 0%,
+      var(--c-bg) 55%,
+      rgba(247, 245, 241, 0.65) 61%,
+      transparent 67%
     );
   }
+  .imageWrap::after { display: none; }
 }
 
 /* L'image est desormais en plein fond du hero (inset: 0) a tous les paliers
