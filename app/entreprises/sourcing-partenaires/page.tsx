@@ -55,6 +55,7 @@ export default function SourcingPartenairesPage() {
         eyebrow: null,
         title: "Une solution adaptée à différents secteurs d'activité",
         description: "Un appui fiable pour faciliter la recherche, la coordination et le suivi de vos collaborations externes.",
+        image: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/blog-covers/1780934509019-6dd3a2cd-5c86-4ab4-bfb0-1f6589297583.png",
         profiles: [
           "PME, Indépendants et Commerces — Identification de prestataires fiables pour soutenir vos projets et votre évolution.",
           "Cabinets médicaux, EMS, Institutions et PPE — Recherche de fournisseurs et de collaborations adaptés aux exigences du secteur.",
