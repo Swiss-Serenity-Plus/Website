@@ -18,13 +18,11 @@ export const metadata: Metadata = {
     title: "Swiss Serenity Plus — Bras droit externalisé en Suisse romande",
     description: "Bras droit externalisé haut de gamme pour entrepreneurs et PME en Suisse romande.",
     url: SITE_URL,
-    images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
     title: "Swiss Serenity Plus — Bras droit externalisé en Suisse romande",
     description: "Bras droit externalisé haut de gamme pour entrepreneurs et PME en Suisse romande.",
-    images: [OG_IMAGE.url],
   },
 };
 

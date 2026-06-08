@@ -9,7 +9,7 @@ import LocalTrust from "./components/LocalTrust/LocalTrust";
 import AboutTeaser from "./components/AboutTeaser/AboutTeaser";
 import ContactCTA from "./components/ContactCTA/ContactCTA";
 import { ALL_SERVICES } from "./data/services";
-import { SITE_URL, OG_IMAGE, OG_DEFAULTS } from "./lib/seo";
+import { SITE_URL, OG_DEFAULTS } from "./lib/seo";
 
 export const metadata: Metadata = {
   title: "Swiss Serenity Plus — Bras droit externalisé pour dirigeants en Suisse romande",
@@ -25,7 +25,6 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Swiss Serenity Plus — Bras droit externalisé pour dirigeants en Suisse romande",
     description: "Bras droit business externalisé pour entrepreneurs et PME en Suisse romande. Sion, Valais.",
-    images: [OG_IMAGE.url],
   },
 };
 

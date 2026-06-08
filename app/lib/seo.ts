@@ -11,5 +11,4 @@ export const OG_DEFAULTS = {
   siteName: "Swiss Serenity Plus",
   locale: "fr_CH",
   type: "website" as const,
-  images: [OG_IMAGE],
 };
