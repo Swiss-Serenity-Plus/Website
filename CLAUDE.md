@@ -221,7 +221,7 @@ services administratifs Suisse romande / Valais
 
 | Composant | Rôle | Notes |
 |-----------|------|-------|
-| `Header` | Navigation principale | Inclut `PageTreeNav` (desktop) |
+| `Header` | Navigation principale | |
 | `Footer` | Pied de page | |
 | `Hero` | Section hero homepage | Photo R2 montagne (absolute, right:0, width:62%) + SVG montagnes décoratives bords gauche/droite (z-index:1) ; imageWrap hors du container inner |
 | `ValueProp3Col` | 3 piliers de valeur | Icônes Lucide |
@@ -239,7 +239,7 @@ services administratifs Suisse romande / Valais
 | `RelatedServices` | Services connexes | |
 | `TargetAudience` | Section audience cible | |
 | `ColumnsBlock` | Bloc colonnes | |
-| `PageTreeNav` | Menu déroulant de navigation en arbre (header) | Dossiers Entreprises/Particuliers dépliables (accordion `grid-rows 0fr→1fr`, sans Radix), dropdown fondu+glissement (`data-closing` + timer 150ms), easing `cubic-bezier(0.22,1,0.36,1)` ; masqué <768px |
+| `PageTreeNav` | Menu déroulant de navigation en arbre (**console `/admin`**) | Pilote l'iframe via `onNavigate`/`currentPath` (pas de `Link`) ; dossiers Entreprises/Particuliers dépliables (accordion `grid-rows 0fr→1fr`, sans Radix), dropdown fondu+glissement (`data-closing` + timer 150ms), easing `cubic-bezier(0.22,1,0.36,1)` ; remplace l'ancien `CustomSelect` « Page affichée » |
 | `Button` | Bouton pill | variants: primary/secondary/ghost |
 | `Container` | Wrapper largeur max | |
 | `FeedbackWidget` | Outil retours Mireille (LEGACY) | ⚠️ Plus injecté dans les pages publiques (remplacé par `/admin`). Conservé non importé. |

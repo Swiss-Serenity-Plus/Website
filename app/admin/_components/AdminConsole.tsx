@@ -12,11 +12,11 @@ import {
   ExternalLink, Upload, FileImage, Check, LogOut,
   Newspaper, MessagesSquare,
 } from "lucide-react";
-import CustomSelect from "../../components/CustomSelect/CustomSelect";
+import PageTreeNav from "../../components/PageTreeNav/PageTreeNav";
 import BlogManager from "./BlogManager";
 import TicketsManager from "./TicketsManager";
 import {
-  PAGE_OPTIONS, pageNameForPath, ACTION_OPTIONS, PLACEHOLDERS, type ActionOption,
+  pageNameForPath, ACTION_OPTIONS, PLACEHOLDERS, type ActionOption,
   getElementLabel, getElementUrl,
 } from "../../lib/fbResolve";
 import BrowserFrame, { type Format } from "./BrowserFrame";
@@ -396,7 +396,6 @@ export default function AdminConsole() {
   }
 
   const currentPlaceholder = PLACEHOLDERS[pendingAction as ActionOption] ?? PLACEHOLDERS.default;
-  const pageSelectValue = PAGE_OPTIONS.some((o) => o.value === currentPath) ? currentPath : "";
 
   return (
     <div className={styles.shell}>
@@ -415,14 +414,7 @@ export default function AdminConsole() {
         <div className={styles.panelBody}>
           <div className={styles.controlBlock}>
             <label className={styles.controlLabelSm}>Page affichée</label>
-            <CustomSelect
-              name="adminPage"
-              options={PAGE_OPTIONS}
-              placeholder="Choisir une page..."
-              value={pageSelectValue}
-              onChange={(v) => navigateTo(v)}
-              size="sm"
-            />
+            <PageTreeNav currentPath={currentPath} onNavigate={navigateTo} />
           </div>
 
           <div className={styles.actionsBlock}>

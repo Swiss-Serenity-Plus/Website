@@ -1,14 +1,13 @@
 "use client";
 
-// Navigation « fil d'Ariane » en arbre, dans un menu déroulant.
+// Navigation « fil d'Ariane » en arbre, pour la console d'administration.
+// Pilote la fenêtre-navigateur (iframe) via `onNavigate`, sans recharger la page.
 //   - Dépliage vertical fluide des dossiers (technique grid-rows 0fr->1fr, qui
 //     anime height:auto sans dépendance ni mesure JS — équivalent du
 //     --radix-accordion-content-height).
 //   - Ouverture/fermeture du menu en fondu + glissement (keyframes), avec un
 //     drapeau `data-closing` joué avant le démontage (timer >= durée de sortie).
 import { useState, useRef, useCallback, useEffect, type ReactNode } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { ChevronDown, Folder, FolderOpen, File as FileIcon, Network } from "lucide-react";
 import { PRO_SERVICES, PERSO_SERVICES } from "../../data/services";
 import styles from "./PageTreeNav.module.css";
@@ -41,8 +40,24 @@ function foldersForPath(path: string): string[] {
     .map((n) => n.label);
 }
 
-export default function PageTreeNav() {
-  const pathname = usePathname();
+// Libellé de la page courante, pour l'afficher sur le déclencheur.
+function labelForPath(path: string): string {
+  for (const n of PAGE_TREE) {
+    if (n.type === "file" && n.href === path) return n.label;
+    if (n.type === "folder") {
+      const child = n.children.find((c) => c.href === path);
+      if (child) return child.label;
+    }
+  }
+  return "Naviguer";
+}
+
+interface Props {
+  currentPath: string;
+  onNavigate: (href: string) => void;
+}
+
+export default function PageTreeNav({ currentPath, onNavigate }: Props) {
   const [open, setOpen] = useState(false);
   const [closing, setClosing] = useState(false);
   const [expanded, setExpanded] = useState<string[]>([]);
@@ -60,13 +75,20 @@ export default function PageTreeNav() {
   function openMenu() {
     if (closeTimer.current) clearTimeout(closeTimer.current);
     setClosing(false);
-    setExpanded(foldersForPath(pathname));
+    setExpanded(foldersForPath(currentPath));
     setOpen(true);
   }
 
   function toggle() {
     if (open && !closing) closeMenu();
     else openMenu();
+  }
+
+  function select(href: string) {
+    onNavigate(href);
+    setOpen(false);
+    setClosing(false);
+    if (closeTimer.current) clearTimeout(closeTimer.current);
   }
 
   // Fermeture au clic extérieur + touche Échap.
@@ -93,18 +115,16 @@ export default function PageTreeNav() {
   }
 
   return (
-    <div className={styles.root} ref={rootRef} data-fb-container="Menu de navigation des pages">
+    <div className={styles.root} ref={rootRef}>
       <button
         type="button"
         className={styles.trigger}
         onClick={toggle}
         aria-haspopup="true"
         aria-expanded={open}
-        id="b-nav-tree-trigger"
-        data-fb-label="Bouton « Naviguer »"
       >
         <Network size={15} strokeWidth={1.7} aria-hidden />
-        Naviguer
+        <span className={styles.triggerLabel}>{labelForPath(currentPath)}</span>
         <ChevronDown size={14} className={open && !closing ? styles.chevronOpen : styles.chevron} aria-hidden />
       </button>
 
@@ -114,12 +134,11 @@ export default function PageTreeNav() {
           <div className={styles.tree}>
             {PAGE_TREE.map((node) =>
               node.type === "file" ? (
-                <FileLink
+                <FileButton
                   key={node.href}
                   label={node.label}
-                  href={node.href}
-                  active={pathname === node.href}
-                  onNavigate={() => setOpen(false)}
+                  active={currentPath === node.href}
+                  onSelect={() => select(node.href)}
                 />
               ) : (
                 <FolderItem
@@ -129,12 +148,11 @@ export default function PageTreeNav() {
                   onToggle={() => toggleFolder(node.label)}
                 >
                   {node.children.map((c) => (
-                    <FileLink
+                    <FileButton
                       key={c.href}
                       label={c.label}
-                      href={c.href}
-                      active={pathname === c.href}
-                      onNavigate={() => setOpen(false)}
+                      active={currentPath === c.href}
+                      onSelect={() => select(c.href)}
                     />
                   ))}
                 </FolderItem>
@@ -168,19 +186,19 @@ function FolderItem({ label, open, onToggle, children }: {
   );
 }
 
-function FileLink({ label, href, active, onNavigate }: {
-  label: string; href: string; active: boolean; onNavigate: () => void;
+function FileButton({ label, active, onSelect }: {
+  label: string; active: boolean; onSelect: () => void;
 }) {
   return (
-    <Link
-      href={href}
+    <button
+      type="button"
       className={`${styles.file} ${active ? styles.fileActive : ""}`}
       aria-current={active ? "page" : undefined}
-      onClick={onNavigate}
+      onClick={onSelect}
       role="menuitem"
     >
       <FileIcon size={14} className={styles.fileIcon} aria-hidden />
       <span className={styles.fileLabel}>{label}</span>
-    </Link>
+    </button>
   );
 }
