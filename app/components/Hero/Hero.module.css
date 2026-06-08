@@ -85,15 +85,16 @@
      doucement de la gauche vers la droite -> en haut l'image remonte un peu
      vers la gauche, en bas le creme s'etend un peu plus a droite. Lean subtile,
      pas d'oblique marquee (proche de 90deg = vertical). Le creme plein jusqu'a
-     48 % couvre toute la fin du titre (« Performance »). Bande resserree
-     (48->72 %) pour minimiser le voile pose sur le paysage. */
+     56 % couvre toute la fin du titre (« Performance ») et le lien
+     « Decouvrir notre accompagnement ». Bande de fondu inchangee en largeur
+     (56->80 %), simplement translatee vers la droite. */
   .imageWrap::before {
     display: block;
     background: linear-gradient(
       80deg,
       var(--c-bg) 0%,
-      var(--c-bg) 48%,
-      rgba(247, 245, 241, 0) 72%
+      var(--c-bg) 56%,
+      rgba(247, 245, 241, 0) 80%
     );
   }
   .imageWrap::after { display: none; }
