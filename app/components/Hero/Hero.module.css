@@ -80,11 +80,17 @@
      intermediaire qui creerait une strie) : creme plein jusqu'a 40 %, puis
      dissipation lisse de 40 % a 75 %. La fin du degrade vise un creme
      transparent (et non `transparent` pur) pour eviter tout assombrissement
-     au milieu de l'interpolation. */
+     au milieu de l'interpolation.
+     ORIENTATION DIAGONALE (65deg) : la frontiere descend de la gauche vers la
+     droite -> en haut l'image remonte loin vers la gauche, en bas le creme
+     plein s'etend plus largement vers la droite et recouvre tout le paragraphe
+     et les boutons. (NB : en CSS, 65deg place le creme en bas-gauche ; un angle
+     ~115deg ferait l'inverse et mettrait les boutons sur la photo.) Memes
+     points d'arret, seul l'angle change. */
   .imageWrap::before {
     display: block;
     background: linear-gradient(
-      to right,
+      65deg,
       var(--c-bg) 0%,
       var(--c-bg) 40%,
       rgba(247, 245, 241, 0) 75%
