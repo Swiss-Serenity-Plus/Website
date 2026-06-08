@@ -1,5 +1,5 @@
 // ServicePageTemplate — template réutilisé pour les 5 pages services.
-import type { ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 import type { LucideIcon } from "lucide-react";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
@@ -10,6 +10,7 @@ import ColumnsBlock from "../ColumnsBlock/ColumnsBlock";
 import RelatedServices from "../RelatedServices/RelatedServices";
 import ContactCTA from "../ContactCTA/ContactCTA";
 import { ALL_SERVICES } from "../../data/services";
+import styles from "./ServicePageTemplate.module.css";
 
 interface ServicePageTemplateProps {
   eyebrow: string;
@@ -52,6 +53,8 @@ interface ServicePageTemplateProps {
   ctaTitle?: string;
   ctaSubtitle?: string;
   afterProcess?: ReactNode;
+  /** Filigrane montagne discret en fond de page (URL d'image). */
+  backgroundImage?: string;
 }
 
 const SITE_URL = "https://swiss-serenity-plus.ch";
@@ -71,6 +74,7 @@ export default function ServicePageTemplate({
   ctaTitle,
   ctaSubtitle,
   afterProcess,
+  backgroundImage,
 }: ServicePageTemplateProps) {
   const breadcrumbSchema = {
     "@context": "https://schema.org",
@@ -84,13 +88,20 @@ export default function ServicePageTemplate({
   };
 
   return (
-    <>
+    <div className={styles.page}>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       {schema && (
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       )}
+      {backgroundImage && (
+        <div
+          className={styles.bgLayer}
+          aria-hidden="true"
+          style={{ "--mtn-bg": `url("${backgroundImage}")` } as CSSProperties}
+        />
+      )}
       <Header />
-      <main>
+      <main className={backgroundImage ? styles.withBg : undefined}>
         <PageHero
           eyebrow={eyebrow}
           title={title}
@@ -140,6 +151,6 @@ export default function ServicePageTemplate({
         <ContactCTA title={ctaTitle} subtitle={ctaSubtitle} />
       </main>
       <Footer />
-    </>
+    </div>
   );
 }

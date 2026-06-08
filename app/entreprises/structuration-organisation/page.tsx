@@ -51,6 +51,7 @@ export default function StructurationPage() {
       ]}
       currentHref="/entreprises/structuration-organisation"
       schema={serviceSchema}
+      backgroundImage="https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/Paysage%20-%20Swiss%20Serenity%20Plus%20-%20Mireille%20Dayer.png"
       targetAudience={{
         eyebrow: null,
         title: "Contextes d'intervention",
