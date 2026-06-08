@@ -4,6 +4,8 @@
   background: var(--c-bg);
   overflow: hidden;
   isolation: isolate;
+  /* Décalage pour que le titre ne passe pas sous le header au scroll d'ancre. */
+  scroll-margin-top: 88px;
 }
 
 .section > :not(svg) {
