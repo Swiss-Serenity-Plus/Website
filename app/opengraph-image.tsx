@@ -45,30 +45,33 @@ export default async function Image() {
           <img
             src={photoSrc}
             alt=""
-            width={720}
+            width={780}
             height={630}
             style={{
               position: "absolute",
               top: 0,
               right: 0,
-              width: "60%",
+              width: "65%",
               height: "100%",
               objectFit: "cover",
+              objectPosition: "60% 50%",
             }}
           />
         )}
 
-        {/* Fondu crème en diagonale sur le bord gauche de la photo */}
+        {/* Fondu crème large et progressif (diagonale douce facon hero) :
+            le crème reste opaque sur toute la zone de texte (gauche) puis se
+            dissout lentement dans la photo, sans couture ni arete. */}
         <div
           style={{
             position: "absolute",
             inset: 0,
             display: "flex",
-            backgroundImage: `linear-gradient(105deg, ${CREAM} 42%, rgba(247,245,241,0.55) 53%, rgba(247,245,241,0) 67%)`,
+            backgroundImage: `linear-gradient(107deg, ${CREAM} 0%, ${CREAM} 47%, rgba(247,245,241,0.88) 55%, rgba(247,245,241,0.45) 66%, rgba(247,245,241,0) 82%)`,
           }}
         />
 
-        {/* Bloc texte (gauche, sur le crème) */}
+        {/* Bloc texte (gauche) entierement pose sur le creme opaque */}
         <div
           style={{
             position: "relative",
@@ -76,19 +79,19 @@ export default async function Image() {
             flexDirection: "column",
             justifyContent: "center",
             height: "100%",
-            padding: "0 72px",
-            maxWidth: 660,
+            padding: "0 76px",
+            maxWidth: 540,
           }}
         >
           <div
             style={{
               display: "flex",
               color: TAUPE,
-              fontSize: 23,
+              fontSize: 22,
               letterSpacing: 3,
               textTransform: "uppercase",
               fontWeight: 600,
-              marginBottom: 26,
+              marginBottom: 24,
             }}
           >
             Votre partenaire de confiance
@@ -97,9 +100,9 @@ export default async function Image() {
             style={{
               display: "flex",
               color: NAVY,
-              fontSize: 58,
+              fontSize: 54,
               fontWeight: 700,
-              lineHeight: 1.08,
+              lineHeight: 1.1,
               letterSpacing: -1,
             }}
           >
@@ -109,17 +112,17 @@ export default async function Image() {
             style={{
               display: "flex",
               color: MUTED,
-              fontSize: 27,
+              fontSize: 25,
               lineHeight: 1.45,
-              marginTop: 28,
-              maxWidth: 540,
+              marginTop: 26,
+              maxWidth: 430,
             }}
           >
             Bras droit business externalisé pour dirigeants, PME et particuliers en Suisse romande.
           </div>
-          <div style={{ display: "flex", alignItems: "center", marginTop: 46 }}>
+          <div style={{ display: "flex", alignItems: "center", marginTop: 42 }}>
             <div style={{ display: "flex", width: 44, height: 3, backgroundColor: TAUPE, marginRight: 18 }} />
-            <div style={{ display: "flex", color: NAVY, fontSize: 26, fontWeight: 600 }}>
+            <div style={{ display: "flex", color: NAVY, fontSize: 25, fontWeight: 600 }}>
               Swiss Serenity Plus®
             </div>
           </div>
