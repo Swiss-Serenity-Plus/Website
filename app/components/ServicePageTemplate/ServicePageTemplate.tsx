@@ -1,5 +1,5 @@
 // ServicePageTemplate — template réutilisé pour les 5 pages services.
-import type { CSSProperties, ReactNode } from "react";
+import type { ReactNode } from "react";
 import type { LucideIcon } from "lucide-react";
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
@@ -9,8 +9,8 @@ import DeliverablesList from "../DeliverablesList/DeliverablesList";
 import ColumnsBlock from "../ColumnsBlock/ColumnsBlock";
 import RelatedServices from "../RelatedServices/RelatedServices";
 import ContactCTA from "../ContactCTA/ContactCTA";
+import MountainDecor from "../MountainDecor/MountainDecor";
 import { ALL_SERVICES } from "../../data/services";
-import styles from "./ServicePageTemplate.module.css";
 
 interface ServicePageTemplateProps {
   eyebrow: string;
@@ -53,8 +53,8 @@ interface ServicePageTemplateProps {
   ctaTitle?: string;
   ctaSubtitle?: string;
   afterProcess?: ReactNode;
-  /** Filigrane montagne discret en fond de page (URL d'image). */
-  backgroundImage?: string;
+  /** Décor montagnes atmosphérique (même effet que le corps de la home). */
+  mountainDecor?: boolean;
 }
 
 const SITE_URL = "https://swiss-serenity-plus.ch";
@@ -74,7 +74,7 @@ export default function ServicePageTemplate({
   ctaTitle,
   ctaSubtitle,
   afterProcess,
-  backgroundImage,
+  mountainDecor,
 }: ServicePageTemplateProps) {
   const breadcrumbSchema = {
     "@context": "https://schema.org",
@@ -88,20 +88,14 @@ export default function ServicePageTemplate({
   };
 
   return (
-    <div className={styles.page}>
+    <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       {schema && (
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
       )}
-      {backgroundImage && (
-        <div
-          className={styles.bgLayer}
-          aria-hidden="true"
-          style={{ "--mtn-bg": `url("${backgroundImage}")` } as CSSProperties}
-        />
-      )}
       <Header />
-      <main className={backgroundImage ? styles.withBg : undefined}>
+      <main>
+        {mountainDecor && <MountainDecor />}
         <PageHero
           eyebrow={eyebrow}
           title={title}
@@ -151,6 +145,6 @@ export default function ServicePageTemplate({
         <ContactCTA title={ctaTitle} subtitle={ctaSubtitle} />
       </main>
       <Footer />
-    </div>
+    </>
   );
 }
