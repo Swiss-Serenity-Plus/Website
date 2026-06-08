@@ -5,18 +5,9 @@
   background: var(--c-bg);
 }
 
-/* Transition de fond en bas du Hero vers la section suivante (surface) */
-.hero::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 18%;
-  background: linear-gradient(to bottom, transparent 0%, var(--c-surface) 100%);
-  pointer-events: none;
-  z-index: 6;
-}
+/* (Retiré) Plus de bande horizontale blanche en bas du Hero : la transition
+   se fait uniquement via la diagonale du masque de l'image (voir .mountainImg
+   en desktop). */
 
 /* SVG montagnes décoratives — derrière tout le contenu (desktop uniquement) */
 .mountainsSvg {
@@ -90,39 +81,40 @@
     max-width: none;
   }
 
-  /* Fondu DIAGONAL : on masque directement l'image (pas d'overlay creme, pas
-     de backdrop-filter) pour qu'elle devienne progressivement transparente et
-     se dissolve dans le fond beige. Aucune matiere ajoutee, aucun voile, aucune
-     brume : seule l'opacite de l'image diminue. Meme douceur et meme largeur de
-     fondu qu'avant, seule l'orientation change.
-     Orientation ~120deg : voile beige dense dans le coin superieur gauche
-     (texte + boutons), se dissolvant en diagonale vers le coin inferieur droit
-     ou l'image reste vive et nette. La frontiere penche du haut (vers la
-     droite) vers le bas (vers la gauche). Bande de transition large et legere
-     pour qu'aucune arete ne soit perceptible.
-     Reglages : angle 120deg ; transparent jusqu'a 36%, puis montee douce
-     jusqu'a 80% le long de la diagonale (le bloc de texte reste dans la zone
-     claire). edgeBlur = 0 (c'est le flou qui creait l'effet brouillard). */
+  /* Transition en UNE seule diagonale : on masque directement l'image (pure
+     transparence -> ni overlay creme, ni flou, ni bande horizontale) pour
+     qu'elle se dissolve dans le fond beige. L'image est nette et pleine en
+     HAUT et a DROITE (ciel + montagnes) ; elle se dissout vers le BAS-GAUCHE,
+     ou reposent le sur-titre, le titre, le texte et les deux boutons. La
+     frontiere est une seule diagonale qui penche : en haut l'image deborde
+     loin vers la gauche (jusque derriere le sur-titre, effleurant le titre),
+     en bas le creme reprend tout le terrain (boutons entierement sur le creme).
+     Bande de fondu large et etalee -> aucune arete, aucune couture visible.
+     edgeBlur = 0 (transparence pure, jamais de voile qui blanchit l'image).
+     Reglages (a affiner visuellement) : angle 70deg ; transparent jusqu'a 18%,
+     montee douce jusqu'a 66% le long de la diagonale. */
   .imageWrap::before { display: none; }
   .imageWrap::after { display: none; }
 
   .mountainImg {
-    object-position: 70% 50%;
+    object-position: 72% 40%;
     -webkit-mask-image: linear-gradient(
-      120deg,
+      70deg,
       transparent 0%,
-      transparent 36%,
-      rgba(0, 0, 0, 0.15) 48%,
-      rgba(0, 0, 0, 0.6) 64%,
-      #000 80%
+      transparent 18%,
+      rgba(0, 0, 0, 0.1) 30%,
+      rgba(0, 0, 0, 0.45) 44%,
+      rgba(0, 0, 0, 0.8) 55%,
+      #000 66%
     );
     mask-image: linear-gradient(
-      120deg,
+      70deg,
       transparent 0%,
-      transparent 36%,
-      rgba(0, 0, 0, 0.15) 48%,
-      rgba(0, 0, 0, 0.6) 64%,
-      #000 80%
+      transparent 18%,
+      rgba(0, 0, 0, 0.1) 30%,
+      rgba(0, 0, 0, 0.45) 44%,
+      rgba(0, 0, 0, 0.8) 55%,
+      #000 66%
     );
   }
 }

@@ -51,7 +51,7 @@ export default async function Image() {
               position: "absolute",
               top: 0,
               right: 0,
-              width: "65%",
+              width: "52%",
               height: "100%",
               objectFit: "cover",
               objectPosition: "60% 50%",
@@ -59,15 +59,15 @@ export default async function Image() {
           />
         )}
 
-        {/* Fondu crème large et progressif (diagonale douce facon hero) :
-            le crème reste opaque sur toute la zone de texte (gauche) puis se
-            dissout lentement dans la photo, sans couture ni arete. */}
+        {/* Fondu crème large : la colonne crème (gauche) reste opaque bien
+            au-delà du texte pour garantir la lisibilité, puis se dissout en
+            douceur dans la photo. */}
         <div
           style={{
             position: "absolute",
             inset: 0,
             display: "flex",
-            backgroundImage: `linear-gradient(107deg, ${CREAM} 0%, ${CREAM} 47%, rgba(247,245,241,0.88) 55%, rgba(247,245,241,0.45) 66%, rgba(247,245,241,0) 82%)`,
+            backgroundImage: `linear-gradient(102deg, ${CREAM} 0%, ${CREAM} 52%, rgba(247,245,241,0.7) 59%, rgba(247,245,241,0.3) 66%, rgba(247,245,241,0) 78%)`,
           }}
         />
 
@@ -79,8 +79,8 @@ export default async function Image() {
             flexDirection: "column",
             justifyContent: "center",
             height: "100%",
-            padding: "0 76px",
-            maxWidth: 540,
+            padding: "0 72px",
+            maxWidth: 600,
           }}
         >
           <div
@@ -115,7 +115,7 @@ export default async function Image() {
               fontSize: 25,
               lineHeight: 1.45,
               marginTop: 26,
-              maxWidth: 430,
+              maxWidth: 460,
             }}
           >
             Bras droit business externalisé pour dirigeants, PME et particuliers en Suisse romande.
