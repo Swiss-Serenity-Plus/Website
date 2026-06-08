@@ -76,16 +76,18 @@
      pour reveler la photo. C'est un degrade d'OPACITE du fond creme, PAS un
      flou et PAS un masque sur l'image : a gauche le creme est plein et opaque
      (l'image n'est pas devinee), a droite il devient transparent et la photo
-     apparait parfaitement nette. Reglages : creme plein jusqu'a 55 %, fondu
-     etroit 55 % -> 67 %. */
+     apparait parfaitement nette. Fondu large et continu (aucune etape
+     intermediaire qui creerait une strie) : creme plein jusqu'a 40 %, puis
+     dissipation lisse de 40 % a 75 %. La fin du degrade vise un creme
+     transparent (et non `transparent` pur) pour eviter tout assombrissement
+     au milieu de l'interpolation. */
   .imageWrap::before {
     display: block;
     background: linear-gradient(
       to right,
       var(--c-bg) 0%,
-      var(--c-bg) 55%,
-      rgba(247, 245, 241, 0.65) 61%,
-      transparent 67%
+      var(--c-bg) 40%,
+      rgba(247, 245, 241, 0) 75%
     );
   }
   .imageWrap::after { display: none; }
