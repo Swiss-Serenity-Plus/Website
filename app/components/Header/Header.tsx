@@ -43,6 +43,25 @@ export default function Header() {
     setMenuOpen(false);
   }
 
+  // Lien de nav vers une ancre de la page courante (ex. « Prestations » ->
+  // /#services). Next.js ne re-scrolle pas quand l'URL est identique (hash deja
+  // present) ni de facon fiable en navigation soft -> on gere le scroll nous-
+  // memes a chaque clic. Sur une autre page, navigation normale (Next).
+  function handleNavClick(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
+    setMenuOpen(false);
+    const hashIndex = href.indexOf("#");
+    if (hashIndex < 0) return;
+    const targetPath = href.slice(0, hashIndex) || "/";
+    const id = href.slice(hashIndex + 1);
+    if (!id || pathname !== targetPath) return;
+    const el = document.getElementById(id);
+    if (!el) return;
+    e.preventDefault();
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    el.scrollIntoView({ behavior: prefersReducedMotion ? "auto" : "smooth", block: "start" });
+    window.history.replaceState(null, "", href);
+  }
+
   return (
     <header className={`${styles.header} ${scrolled ? styles.scrolled : ""} ${menuOpen ? styles.menuOpen : ""}`} role="banner" data-fb-container="En-tête">
       <div className={styles.inner}>
@@ -72,7 +91,7 @@ export default function Header() {
               key={item.href}
               href={item.href}
               className={styles.navLink}
-              onClick={item.href === "/" ? handleHomeClick : () => setMenuOpen(false)}
+              onClick={item.href === "/" ? handleHomeClick : (e) => handleNavClick(e, item.href)}
               id={`b-nav-${fbSlug(item.label)}`}
               data-fb-label={`Lien de navigation « ${item.label} »`}
             >
