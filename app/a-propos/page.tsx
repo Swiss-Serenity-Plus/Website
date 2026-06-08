@@ -8,7 +8,7 @@ import Divider from "../components/Divider/Divider";
 import ContactCTA from "../components/ContactCTA/ContactCTA";
 import Container from "../components/Container/Container";
 import styles from "./page.module.css";
-import { SITE_URL, OG_IMAGE, OG_DEFAULTS } from "../lib/seo";
+import { SITE_URL, OG_IMAGE, OG_DEFAULTS, buildBreadcrumbJsonLd } from "../lib/seo";
 import { fbSlug } from "../lib/fbToken";
 
 const PORTRAIT_SRC = "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/image.png";
@@ -58,14 +58,10 @@ const personSchema = {
   ],
 };
 
-const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Accueil", "item": SITE_URL },
-    { "@type": "ListItem", "position": 2, "name": "À propos", "item": PAGE_URL },
-  ],
-};
+const breadcrumbSchema = buildBreadcrumbJsonLd([
+  { label: "Accueil", href: "/" },
+  { label: "À propos" },
+]);
 
 const engagementValues = [
   { icon: HeartHandshake, title: "Engagement", text: "Une présence impliquée, réactive et pleinement investie." },

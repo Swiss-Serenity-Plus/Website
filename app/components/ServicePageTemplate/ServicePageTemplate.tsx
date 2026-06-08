@@ -11,6 +11,7 @@ import RelatedServices from "../RelatedServices/RelatedServices";
 import ContactCTA from "../ContactCTA/ContactCTA";
 import MountainDecor from "../MountainDecor/MountainDecor";
 import { ALL_SERVICES } from "../../data/services";
+import { buildBreadcrumbJsonLd } from "../../lib/seo";
 
 interface ServicePageTemplateProps {
   eyebrow: string;
@@ -57,8 +58,6 @@ interface ServicePageTemplateProps {
   mountainDecor?: boolean;
 }
 
-const SITE_URL = "https://swiss-serenity-plus.ch";
-
 export default function ServicePageTemplate({
   eyebrow,
   title,
@@ -76,16 +75,7 @@ export default function ServicePageTemplate({
   afterProcess,
   mountainDecor,
 }: ServicePageTemplateProps) {
-  const breadcrumbSchema = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: breadcrumbs.map((crumb, i) => ({
-      "@type": "ListItem",
-      position: i + 1,
-      name: crumb.label,
-      item: `${SITE_URL}${crumb.href ?? currentHref}`,
-    })),
-  };
+  const breadcrumbSchema = buildBreadcrumbJsonLd(breadcrumbs);
 
   return (
     <>

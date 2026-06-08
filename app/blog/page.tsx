@@ -6,6 +6,7 @@ import PageHero from "../components/PageHero/PageHero";
 import ContactCTA from "../components/ContactCTA/ContactCTA";
 import Container from "../components/Container/Container";
 import { getPublishedPosts } from "../lib/blog";
+import { buildBreadcrumbJsonLd } from "../lib/seo";
 import styles from "./page.module.css";
 
 export const revalidate = 3600;
@@ -14,13 +15,6 @@ export const metadata: Metadata = {
   title: "Blog — Conseils & Insights — Swiss Serenity Plus",
   description:
     "Conseils pratiques pour dirigeants de PME et particuliers en Suisse romande : structuration, organisation, bras droit externalisé, gestion administrative et performance.",
-  keywords: [
-    "bras droit externalisé",
-    "conseils dirigeants PME Suisse",
-    "organisation entreprise Valais",
-    "accompagnement administratif Suisse romande",
-    "partenaire stratégique externalisé",
-  ].join(", "),
   openGraph: {
     title: "Blog — Swiss Serenity Plus",
     description: "Insights et conseils pour entrepreneurs exigeants en Suisse romande.",
@@ -36,11 +30,17 @@ function isPerso(category: string) {
   return /particulier/i.test(category);
 }
 
+const breadcrumbSchema = buildBreadcrumbJsonLd([
+  { label: "Accueil", href: "/" },
+  { label: "Blog" },
+]);
+
 export default async function BlogPage() {
   const articles = await getPublishedPosts();
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <Header />
       <main>
         <PageHero

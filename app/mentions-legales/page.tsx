@@ -4,15 +4,22 @@ import Footer from "../components/Footer/Footer";
 import PageHero from "../components/PageHero/PageHero";
 import Container from "../components/Container/Container";
 import styles from "./page.module.css";
+import { buildBreadcrumbJsonLd } from "../lib/seo";
 
 export const metadata: Metadata = {
   title: "Mentions légales — Swiss Serenity Plus",
   description: "Mentions légales et informations juridiques du site Swiss Serenity Plus, raison individuelle basée à Sion en Valais.",
 };
 
+const breadcrumbSchema = buildBreadcrumbJsonLd([
+  { label: "Accueil", href: "/" },
+  { label: "Mentions légales" },
+]);
+
 export default function MentionsLegalesPage() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <Header />
       <main>
         <PageHero

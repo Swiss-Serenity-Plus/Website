@@ -5,7 +5,7 @@ import Footer from "../../components/Footer/Footer";
 import Container from "../../components/Container/Container";
 import PageHero from "../../components/PageHero/PageHero";
 import { getPublishedPosts, getPostBySlug, getPostBlocks } from "../../lib/blog";
-import { SITE_URL } from "../../lib/seo";
+import { SITE_URL, buildBreadcrumbJsonLd } from "../../lib/seo";
 import styles from "./article.module.css";
 
 export const revalidate = 3600;
@@ -71,8 +71,15 @@ export default async function ArticlePage(
     mainEntityOfPage: `${SITE_URL}/blog/${post.slug}`,
   };
 
+  const breadcrumbSchema = buildBreadcrumbJsonLd([
+    { label: "Accueil", href: "/" },
+    { label: "Blog", href: "/blog" },
+    { label: post.title },
+  ]);
+
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <Header />
       <main>
         <PageHero

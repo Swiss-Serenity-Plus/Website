@@ -90,7 +90,7 @@ const jsonLd = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="fr">
+    <html lang="fr-CH">
       <head>
         <script
           type="application/ld+json"

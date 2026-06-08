@@ -8,9 +8,14 @@ import FilloutForm from "../components/FilloutForm/FilloutForm";
 import Quote from "../components/Quote/Quote";
 import styles from "./page.module.css";
 import { MapPin, Phone, Mail } from "lucide-react";
-import { SITE_URL, OG_IMAGE, OG_DEFAULTS } from "../lib/seo";
+import { SITE_URL, OG_IMAGE, OG_DEFAULTS, buildBreadcrumbJsonLd } from "../lib/seo";
 
 const PAGE_URL = `${SITE_URL}/contact`;
+
+const breadcrumbSchema = buildBreadcrumbJsonLd([
+  { label: "Accueil", href: "/" },
+  { label: "Contact" },
+]);
 
 export const metadata: Metadata = {
   title: "Contact — Bras droit externalisé Sion, Valais — Swiss Serenity Plus",
@@ -34,6 +39,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }} />
       <Header />
       <main>
         <PageHero
