@@ -5,9 +5,22 @@
   background: var(--c-bg);
 }
 
-/* (Retiré) Plus de bande horizontale blanche en bas du Hero : la transition
-   se fait uniquement via la diagonale du masque de l'image (voir .mountainImg
-   en desktop). */
+/* Transition douce vers la section suivante (surface blanche) : leger fondu
+   progressif en bas du hero pour eviter une separation nette entre la photo /
+   le creme et la section du dessous. Bande fine, degrade d'opacite (pas de
+   bloc marque, pas de flou). z-index 4 : au-dessus de la photo et du voile
+   creme, mais sous le texte. */
+.hero::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 16%;
+  background: linear-gradient(to bottom, transparent 0%, var(--c-surface) 100%);
+  pointer-events: none;
+  z-index: 4;
+}
 
 /* (Retiré) Plus de SVG montagnes décoratives floutées : elles transparaissaient
    en tache grise. La photo nette + le voile crème opaque suffisent. */
