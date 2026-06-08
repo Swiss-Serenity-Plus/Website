@@ -77,23 +77,23 @@
      flou et PAS un masque sur l'image : a gauche le creme est plein et opaque
      (l'image n'est pas devinee), a droite il devient transparent et la photo
      apparait parfaitement nette. Fondu large et continu (aucune etape
-     intermediaire qui creerait une strie) : creme plein jusqu'a 40 %, puis
-     dissipation lisse de 40 % a 75 %. La fin du degrade vise un creme
+     intermediaire qui creerait une strie) : creme plein jusqu'a 48 %, puis
+     dissipation lisse de 48 % a 72 %. La fin du degrade vise un creme
      transparent (et non `transparent` pur) pour eviter tout assombrissement
      au milieu de l'interpolation.
-     ORIENTATION DIAGONALE (65deg) : la frontiere descend de la gauche vers la
-     droite -> en haut l'image remonte loin vers la gauche, en bas le creme
-     plein s'etend plus largement vers la droite et recouvre tout le paragraphe
-     et les boutons. (NB : en CSS, 65deg place le creme en bas-gauche ; un angle
-     ~115deg ferait l'inverse et mettrait les boutons sur la photo.) Memes
-     points d'arret, seul l'angle change. */
+     ORIENTATION DIAGONALE TRES LEGERE (80deg) : la frontiere descend
+     doucement de la gauche vers la droite -> en haut l'image remonte un peu
+     vers la gauche, en bas le creme s'etend un peu plus a droite. Lean subtile,
+     pas d'oblique marquee (proche de 90deg = vertical). Le creme plein jusqu'a
+     48 % couvre toute la fin du titre (« Performance »). Bande resserree
+     (48->72 %) pour minimiser le voile pose sur le paysage. */
   .imageWrap::before {
     display: block;
     background: linear-gradient(
-      65deg,
+      80deg,
       var(--c-bg) 0%,
-      var(--c-bg) 40%,
-      rgba(247, 245, 241, 0) 75%
+      var(--c-bg) 48%,
+      rgba(247, 245, 241, 0) 72%
     );
   }
   .imageWrap::after { display: none; }
