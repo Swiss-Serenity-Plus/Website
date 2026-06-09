@@ -55,6 +55,7 @@ export default function SuiviOptimisationPage() {
         eyebrow: null,
         title: "Un partenaire de confiance et opérationnel pour tous les secteurs d'activité",
         description: "Une présence externalisée fiable et efficace pour contribuer activement à votre croissance.",
+        image: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/blog-covers/1780938230652-838d8a4d-0be3-4345-b4d6-b3306d4d9ef1.png",
         profiles: [
           { title: "Indépendants, Commerces & PME", text: "Développement commercial, opportunités de croissance et nouveaux partenariats" },
           { title: "Cabinets médicaux & EMS", text: "Recherche de solutions, d'équipements et de partenaires adaptés aux besoins du terrain" },
