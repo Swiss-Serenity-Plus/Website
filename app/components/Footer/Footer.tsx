@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Mail, Phone } from "lucide-react";
 import { fbSlug } from "../../lib/fbToken";
+import FooterLanguageFlags from "./FooterLanguageFlags";
 import styles from "./Footer.module.css";
 
 function LinkedInIcon() {
@@ -57,39 +58,7 @@ export default function Footer() {
               data-fb-label="Image avec le logo"
             />
 
-            {/* Langues parlées — FR · DE · EN */}
-            <div className={styles.languages} id="b-footer-languages" data-fb-label="Langues parlées (drapeaux)">
-              <p className={styles.langLabel}>Langues parlées</p>
-              <div className={styles.flags}>
-                <span className={styles.flag} title="Français" aria-label="Français">
-                  <svg viewBox="0 0 3 2" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <rect width="1" height="2" fill="#002395"/>
-                    <rect x="1" width="1" height="2" fill="#EDEDED"/>
-                    <rect x="2" width="1" height="2" fill="#ED2939"/>
-                  </svg>
-                </span>
-                <span className={styles.flag} title="Deutsch" aria-label="Deutsch">
-                  <svg viewBox="0 0 5 3" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <rect width="5" height="1" fill="#000000"/>
-                    <rect y="1" width="5" height="1" fill="#DD0000"/>
-                    <rect y="2" width="5" height="1" fill="#FFCE00"/>
-                  </svg>
-                </span>
-                <span className={styles.flag} title="English" aria-label="English">
-                  <svg viewBox="0 0 60 30" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-                    <rect width="60" height="30" fill="#012169"/>
-                    <line x1="0" y1="0" x2="60" y2="30" stroke="white" strokeWidth="9"/>
-                    <line x1="60" y1="0" x2="0" y2="30" stroke="white" strokeWidth="9"/>
-                    <line x1="0" y1="0" x2="60" y2="30" stroke="#C8102E" strokeWidth="5"/>
-                    <line x1="60" y1="0" x2="0" y2="30" stroke="#C8102E" strokeWidth="5"/>
-                    <rect x="0" y="10" width="60" height="10" fill="white"/>
-                    <rect x="25" y="0" width="10" height="30" fill="white"/>
-                    <rect x="0" y="12" width="60" height="6" fill="#C8102E"/>
-                    <rect x="27" y="0" width="6" height="30" fill="#C8102E"/>
-                  </svg>
-                </span>
-              </div>
-            </div>
+            <FooterLanguageFlags />
 
             <address className={styles.address}>
               <p>Chemin de Clavoz 18</p>
