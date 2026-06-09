@@ -12,6 +12,7 @@ import styles from "./Header.module.css";
 const navItems = [
   { label: "Accueil", href: "/" },
   { label: "Prestations", href: "/#services" },
+  { label: "Modalités", href: "/modalites" },
   { label: "À propos", href: "/a-propos" },
 ];
 

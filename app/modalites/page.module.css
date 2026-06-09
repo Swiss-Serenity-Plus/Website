@@ -1,0 +1,177 @@
+/* ================================================================
+   Modalités d'intervention — sections spécifiques à cette page
+   ================================================================ */
+
+/* ===== Section Premier échange offert ===== */
+
+.premierEchange {
+  background: var(--c-bg);
+  padding-block: var(--sp-8);
+}
+
+.encadre {
+  max-width: var(--container-narrow);
+  margin-inline: auto;
+  background: var(--c-surface);
+  border: 1.5px solid var(--c-accent-secondary);
+  border-radius: var(--radius-card);
+  padding: var(--sp-6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-6);
+}
+
+@media (min-width: 640px) {
+  .encadre {
+    padding: var(--sp-8);
+  }
+}
+
+/* En-tête de l'encadré */
+
+.encadreHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-3);
+  width: 100%;
+  text-align: center;
+}
+
+.encadreTitle {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(22px, 3.5vw, 34px);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--c-text);
+  line-height: 1.15;
+}
+
+.encadreSub {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  width: 100%;
+  max-width: 500px;
+}
+
+.subRule {
+  flex: 1;
+  height: 1px;
+  background: var(--c-accent-secondary);
+  opacity: 0.45;
+}
+
+.subText {
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--c-accent-secondary);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* Liste à puces avec checkmarks */
+
+.checkList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-4);
+  width: 100%;
+  max-width: 540px;
+}
+
+.checkItem {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.checkBadge {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 9999px;
+  border: 1px solid rgba(151, 123, 87, 0.45);
+  color: var(--c-accent-secondary);
+}
+
+.checkSep {
+  flex-shrink: 0;
+  width: 1px;
+  height: 32px;
+  background: var(--c-border);
+}
+
+.checkText {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--c-text);
+  line-height: 1.45;
+}
+
+/* CTA */
+
+.encadreCta {
+  display: flex;
+  justify-content: center;
+  padding-top: var(--sp-2);
+}
+
+/* ===== Section Disclaimer ===== */
+
+.disclaimer {
+  background: var(--c-bg);
+  padding-block: var(--sp-6);
+  border-top: 1px solid var(--c-border);
+}
+
+.disclaimerInner {
+  max-width: 820px;
+  margin-inline: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+}
+
+.disclaimerIcon {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 68px;
+  height: 68px;
+  border-radius: 9999px;
+  border: 1.5px solid var(--c-accent-secondary);
+  color: var(--c-accent-secondary);
+  background: rgba(151, 123, 87, 0.06);
+}
+
+.disclaimerText {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(13px, 1.4vw, 15px);
+  line-height: 1.75;
+  color: var(--c-text-muted);
+  text-wrap: balance;
+}
+
+@media (max-width: 600px) {
+  .disclaimerInner {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .subText {
+    white-space: normal;
+    text-align: center;
+  }
+}

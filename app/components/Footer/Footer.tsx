@@ -38,6 +38,7 @@ const services = [
 const utils = [
   { label: "Blog", href: "/blog" },
   { label: "À propos", href: "/a-propos" },
+  { label: "Modalités", href: "/modalites" },
   { label: "Contact", href: "/contact" },
   { label: "Mentions légales", href: "/mentions-legales" },
 ];

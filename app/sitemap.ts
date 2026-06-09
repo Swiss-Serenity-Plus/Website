@@ -11,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/entreprises/sourcing-partenaires`,                             lastModified: now, changeFrequency: "monthly", priority: 0.85 },
     { url: `${BASE}/entreprises/experience-client`,                                lastModified: now, changeFrequency: "monthly", priority: 0.85 },
     { url: `${BASE}/particuliers/accompagnement-administratif`,                    lastModified: now, changeFrequency: "monthly", priority: 0.85 },
+    { url: `${BASE}/modalites`,                                                     lastModified: now, changeFrequency: "monthly", priority: 0.75 },
     { url: `${BASE}/contact`,                                                      lastModified: now, changeFrequency: "monthly", priority: 0.80 },
     { url: `${BASE}/blog`,                                                         lastModified: now, changeFrequency: "weekly",  priority: 0.70 },
     { url: `${BASE}/a-propos`,                                                     lastModified: now, changeFrequency: "monthly", priority: 0.60 },
