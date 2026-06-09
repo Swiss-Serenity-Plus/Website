@@ -26,7 +26,11 @@ async function fetchCommentsFor(blockId: string, token: string): Promise<NotionC
   do {
     const url = `${NOTION}/comments?block_id=${encodeURIComponent(blockId)}&page_size=100${cursor ? `&start_cursor=${cursor}` : ""}`;
     const res = await fetch(url, { headers: headers(token), cache: "no-store" });
-    if (!res.ok) break;
+    if (!res.ok) {
+      const errBody = await res.json().catch(() => ({}));
+      console.error("[comments] Notion comments API error", res.status, JSON.stringify(errBody));
+      break;
+    }
     const data = await res.json();
     out.push(...((data.results ?? []) as NotionComment[]));
     cursor = data.has_more ? data.next_cursor : undefined;
@@ -41,7 +45,11 @@ async function fetchChildBlockIds(pageId: string, token: string): Promise<string
   do {
     const url = `${NOTION}/blocks/${encodeURIComponent(pageId)}/children?page_size=100${cursor ? `&start_cursor=${cursor}` : ""}`;
     const res = await fetch(url, { headers: headers(token), cache: "no-store" });
-    if (!res.ok) break;
+    if (!res.ok) {
+      const errBody = await res.json().catch(() => ({}));
+      console.error("[comments] Notion blocks API error", res.status, JSON.stringify(errBody));
+      break;
+    }
     const data = await res.json();
     for (const b of data.results ?? []) if (b?.id) ids.push(b.id);
     cursor = data.has_more ? data.next_cursor : undefined;
