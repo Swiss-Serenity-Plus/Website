@@ -5,25 +5,29 @@
   background: var(--c-bg);
 }
 
-/* Transition douce vers la section suivante (surface blanche) : leger fondu
-   progressif en bas du hero pour eviter une separation nette entre la photo /
-   le creme et la section du dessous. Bande fine, degrade d'opacite (pas de
-   bloc marque, pas de flou). z-index 4 : au-dessus de la photo et du voile
-   creme, mais sous le texte. */
+/* Transition de fond en bas du Hero vers la section suivante (surface) */
 .hero::after {
   content: '';
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 16%;
+  height: 18%;
   background: linear-gradient(to bottom, transparent 0%, var(--c-surface) 100%);
   pointer-events: none;
-  z-index: 4;
+  z-index: 6;
 }
 
-/* (Retiré) Plus de SVG montagnes décoratives floutées : elles transparaissaient
-   en tache grise. La photo nette + le voile crème opaque suffisent. */
+/* SVG montagnes décoratives — derrière tout le contenu (desktop uniquement) */
+.mountainsSvg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  display: none;
+}
 
 /* ---------------------------------------------------------------------------
    PHOTO — mobile : bandeau supérieur plein cadre, fondu progressif vers le bas
@@ -71,8 +75,14 @@
     min-height: 90vh;
   }
 
-  /* L'image couvre tout le fond du hero (inset 0), NETTE et OPAQUE (aucun
-     masque, aucun flou). C'est le voile creme (::before) qui la cache a gauche. */
+  .mountainsSvg {
+    display: block;
+  }
+
+  /* L'image couvre tout le fond du hero pour laisser a la diagonale la place
+     de balayer : elle passe derriere et sous la zone de texte (et vient plus a
+     gauche en bas). Le voile beige (transparence du masque) maintient la
+     lisibilite du texte par-dessus. */
   .imageWrap {
     inset: 0;
     width: auto;
@@ -80,37 +90,34 @@
     max-width: none;
   }
 
-  .mountainImg {
-    object-position: 70% 45%;
-  }
+  /* Fondu DIAGONAL : on masque directement l'image (pas d'overlay creme, pas
+     de backdrop-filter) pour qu'elle devienne progressivement transparente et
+     se dissolve dans le fond beige. Aucune matiere ajoutee, aucun voile, aucune
+     brume : seule l'opacite de l'image diminue. Orientation ~120deg : voile beige
+     dense dans le coin superieur gauche (texte + boutons), se dissolvant en
+     diagonale vers le coin inferieur droit ou l'image reste vive et nette. */
+  .imageWrap::before { display: none; }
+  .imageWrap::after { display: none; }
 
-  /* Voile CREME opaque sur la partie gauche (sous tout le texte et les boutons),
-     qui se dissipe en une bande etroite a la limite droite de la zone de texte
-     pour reveler la photo. C'est un degrade d'OPACITE du fond creme, PAS un
-     flou et PAS un masque sur l'image : a gauche le creme est plein et opaque
-     (l'image n'est pas devinee), a droite il devient transparent et la photo
-     apparait parfaitement nette. Fondu large et continu (aucune etape
-     intermediaire qui creerait une strie) : creme plein jusqu'a 48 %, puis
-     dissipation lisse de 48 % a 72 %. La fin du degrade vise un creme
-     transparent (et non `transparent` pur) pour eviter tout assombrissement
-     au milieu de l'interpolation.
-     ORIENTATION DIAGONALE TRES LEGERE (80deg) : la frontiere descend
-     doucement de la gauche vers la droite -> en haut l'image remonte un peu
-     vers la gauche, en bas le creme s'etend un peu plus a droite. Lean subtile,
-     pas d'oblique marquee (proche de 90deg = vertical). Le creme plein jusqu'a
-     56 % couvre toute la fin du titre (« Performance ») et le lien
-     « Decouvrir notre accompagnement ». Bande de fondu inchangee en largeur
-     (56->80 %), simplement translatee vers la droite. */
-  .imageWrap::before {
-    display: block;
-    background: linear-gradient(
-      80deg,
-      var(--c-bg) 0%,
-      var(--c-bg) 56%,
-      rgba(247, 245, 241, 0) 80%
+  .mountainImg {
+    object-position: 70% 50%;
+    -webkit-mask-image: linear-gradient(
+      120deg,
+      transparent 0%,
+      transparent 36%,
+      rgba(0, 0, 0, 0.15) 48%,
+      rgba(0, 0, 0, 0.6) 64%,
+      #000 80%
+    );
+    mask-image: linear-gradient(
+      120deg,
+      transparent 0%,
+      transparent 36%,
+      rgba(0, 0, 0, 0.15) 48%,
+      rgba(0, 0, 0, 0.6) 64%,
+      #000 80%
     );
   }
-  .imageWrap::after { display: none; }
 }
 
 /* L'image est desormais en plein fond du hero (inset: 0) a tous les paliers
