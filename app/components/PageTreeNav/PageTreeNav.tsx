@@ -1,48 +1,37 @@
 "use client";
 
 // Navigation « fil d'Ariane » en arbre, pour la console d'administration.
-// Pilote la fenêtre-navigateur (iframe) via `onNavigate`, sans recharger la page.
-//   - Dépliage vertical fluide des dossiers (technique grid-rows 0fr->1fr, qui
-//     anime height:auto sans dépendance ni mesure JS — équivalent du
-//     --radix-accordion-content-height).
-//   - Ouverture/fermeture du menu en fondu + glissement (keyframes), avec un
-//     drapeau `data-closing` joué avant le démontage (timer >= durée de sortie).
+// Le menu est alimenté dynamiquement par /api/admin/pages (scan du filesystem)
+// et se met en cache en mémoire pour éviter les rechargements inutiles.
+//   - Dépliage vertical fluide des dossiers (technique grid-rows 0fr->1fr).
+//   - Ouverture/fermeture du menu en fondu + glissement (keyframes).
 import { useState, useRef, useCallback, useEffect, type ReactNode } from "react";
-import { ChevronDown, Folder, FolderOpen, File as FileIcon, Network } from "lucide-react";
-import { PRO_SERVICES, PERSO_SERVICES } from "../../data/services";
+import { ChevronDown, Folder, FolderOpen, File as FileIcon, Network, Loader } from "lucide-react";
 import styles from "./PageTreeNav.module.css";
 
 type FileNode = { type: "file"; label: string; href: string };
 type TreeNode = FileNode | { type: "folder"; label: string; children: FileNode[] };
 
-const PAGE_TREE: TreeNode[] = [
+// Arbre de secours si l'API est indisponible
+const FALLBACK_TREE: TreeNode[] = [
   { type: "file", label: "Accueil", href: "/" },
-  {
-    type: "folder",
-    label: "Entreprises",
-    children: PRO_SERVICES.map((s) => ({ type: "file", label: s.title, href: s.href })),
-  },
-  {
-    type: "folder",
-    label: "Particuliers",
-    children: PERSO_SERVICES.map((s) => ({ type: "file", label: s.title, href: s.href })),
-  },
   { type: "file", label: "Blog", href: "/blog" },
   { type: "file", label: "À propos", href: "/a-propos" },
   { type: "file", label: "Contact", href: "/contact" },
   { type: "file", label: "Mentions légales", href: "/mentions-legales" },
 ];
 
-// Dossiers contenant la route courante (ouverts par défaut à l'ouverture du menu).
-function foldersForPath(path: string): string[] {
-  return PAGE_TREE
+// Cache module-level : survit aux re-renders, pas aux rechargements de page.
+let treeCache: TreeNode[] | null = null;
+
+function foldersForPath(tree: TreeNode[], path: string): string[] {
+  return tree
     .filter((n) => n.type === "folder" && n.children.some((c) => c.href === path))
     .map((n) => n.label);
 }
 
-// Libellé de la page courante, pour l'afficher sur le déclencheur.
-function labelForPath(path: string): string {
-  for (const n of PAGE_TREE) {
+function labelForPath(tree: TreeNode[], path: string): string {
+  for (const n of tree) {
     if (n.type === "file" && n.href === path) return n.label;
     if (n.type === "folder") {
       const child = n.children.find((c) => c.href === path);
@@ -61,21 +50,47 @@ export default function PageTreeNav({ currentPath, onNavigate }: Props) {
   const [open, setOpen] = useState(false);
   const [closing, setClosing] = useState(false);
   const [expanded, setExpanded] = useState<string[]>([]);
+  const [tree, setTree] = useState<TreeNode[]>(treeCache ?? []);
+  const [loading, setLoading] = useState(!treeCache);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const rootRef = useRef<HTMLDivElement>(null);
 
+  // Chargement initial de l'arbre depuis l'API
+  useEffect(() => {
+    if (treeCache) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("/api/admin/pages");
+        if (!res.ok) throw new Error("api_error");
+        const data = await res.json();
+        if (!cancelled && Array.isArray(data.tree) && data.tree.length > 0) {
+          treeCache = data.tree;
+          setTree(data.tree);
+        } else if (!cancelled) {
+          setTree(FALLBACK_TREE);
+        }
+      } catch {
+        if (!cancelled) setTree(FALLBACK_TREE);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
+
   const closeMenu = useCallback(() => {
-    setClosing(true); // déclenche l'animation de sortie
+    setClosing(true);
     closeTimer.current = setTimeout(() => {
       setOpen(false);
       setClosing(false);
-    }, 150); // >= durée de ncDropdownOut (140ms)
+    }, 150);
   }, []);
 
   function openMenu() {
     if (closeTimer.current) clearTimeout(closeTimer.current);
     setClosing(false);
-    setExpanded(foldersForPath(currentPath));
+    setExpanded(foldersForPath(tree, currentPath));
     setOpen(true);
   }
 
@@ -91,7 +106,6 @@ export default function PageTreeNav({ currentPath, onNavigate }: Props) {
     if (closeTimer.current) clearTimeout(closeTimer.current);
   }
 
-  // Fermeture au clic extérieur + touche Échap.
   useEffect(() => {
     if (!open) return;
     function onDown(e: MouseEvent) {
@@ -111,8 +125,12 @@ export default function PageTreeNav({ currentPath, onNavigate }: Props) {
   useEffect(() => () => { if (closeTimer.current) clearTimeout(closeTimer.current); }, []);
 
   function toggleFolder(label: string) {
-    setExpanded((prev) => (prev.includes(label) ? prev.filter((l) => l !== label) : [...prev, label]));
+    setExpanded((prev) =>
+      prev.includes(label) ? prev.filter((l) => l !== label) : [...prev, label]
+    );
   }
+
+  const currentLabel = loading ? "Chargement…" : labelForPath(tree, currentPath);
 
   return (
     <div className={styles.root} ref={rootRef}>
@@ -122,17 +140,29 @@ export default function PageTreeNav({ currentPath, onNavigate }: Props) {
         onClick={toggle}
         aria-haspopup="true"
         aria-expanded={open}
+        disabled={loading}
       >
-        <Network size={15} strokeWidth={1.7} aria-hidden />
-        <span className={styles.triggerLabel}>{labelForPath(currentPath)}</span>
-        <ChevronDown size={14} className={open && !closing ? styles.chevronOpen : styles.chevron} aria-hidden />
+        {loading
+          ? <Loader size={15} className={styles.loaderSpin} aria-hidden />
+          : <Network size={15} strokeWidth={1.7} aria-hidden />}
+        <span className={styles.triggerLabel}>{currentLabel}</span>
+        <ChevronDown
+          size={14}
+          className={open && !closing ? styles.chevronOpen : styles.chevron}
+          aria-hidden
+        />
       </button>
 
       {open && (
-        <div className={styles.dropdown} data-closing={closing} role="menu" aria-label="Pages du site">
+        <div
+          className={styles.dropdown}
+          data-closing={closing}
+          role="menu"
+          aria-label="Pages du site"
+        >
           <p className={styles.heading}>Pages du site</p>
           <div className={styles.tree}>
-            {PAGE_TREE.map((node) =>
+            {tree.map((node) =>
               node.type === "file" ? (
                 <FileButton
                   key={node.href}
@@ -165,17 +195,26 @@ export default function PageTreeNav({ currentPath, onNavigate }: Props) {
   );
 }
 
-function FolderItem({ label, open, onToggle, children }: {
-  label: string; open: boolean; onToggle: () => void; children: ReactNode;
-}) {
+function FolderItem({
+  label, open, onToggle, children,
+}: { label: string; open: boolean; onToggle: () => void; children: ReactNode }) {
   return (
     <div className={styles.folder}>
-      <button type="button" className={styles.folderTrigger} onClick={onToggle} aria-expanded={open}>
+      <button
+        type="button"
+        className={styles.folderTrigger}
+        onClick={onToggle}
+        aria-expanded={open}
+      >
         {open
           ? <FolderOpen size={15} className={styles.folderIconOpen} aria-hidden />
           : <Folder size={15} className={styles.folderIcon} aria-hidden />}
         <span className={styles.folderLabel}>{label}</span>
-        <ChevronDown size={13} className={open ? styles.chevronOpen : styles.chevron} aria-hidden />
+        <ChevronDown
+          size={13}
+          className={open ? styles.chevronOpen : styles.chevron}
+          aria-hidden
+        />
       </button>
       <div className={styles.folderContent} data-open={open}>
         <div className={styles.folderContentInner}>
@@ -186,9 +225,9 @@ function FolderItem({ label, open, onToggle, children }: {
   );
 }
 
-function FileButton({ label, active, onSelect }: {
-  label: string; active: boolean; onSelect: () => void;
-}) {
+function FileButton({
+  label, active, onSelect,
+}: { label: string; active: boolean; onSelect: () => void }) {
   return (
     <button
       type="button"

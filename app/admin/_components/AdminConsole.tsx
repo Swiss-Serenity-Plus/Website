@@ -10,11 +10,12 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import {
   MousePointer, Globe, Send, X, Trash2, Pencil,
   ExternalLink, Upload, FileImage, Check, LogOut,
-  Newspaper, MessagesSquare,
+  Newspaper, MessagesSquare, Bookmark,
 } from "lucide-react";
 import PageTreeNav from "../../components/PageTreeNav/PageTreeNav";
 import BlogManager from "./BlogManager";
 import TicketsManager from "./TicketsManager";
+import FormationManager from "./FormationManager";
 import {
   pageNameForPath, ACTION_OPTIONS, PLACEHOLDERS, type ActionOption,
   getElementLabel, getElementUrl,
@@ -28,8 +29,8 @@ const DESKTOP_MIN = 1024;
 type Mode = "navigate" | "annotate";
 type View = "hub" | "form";
 // Ce qui occupe la zone d'apercu a droite : la fenetre-navigateur, la gestion
-// des articles de blog, ou la gestion des retours envoyes.
-type StageView = "browser" | "blog" | "tickets";
+// des articles de blog, la gestion des retours envoyes, ou la formation.
+type StageView = "browser" | "blog" | "tickets" | "formation";
 type ToastType = "success" | "error" | "partial";
 
 interface Draft {
@@ -126,9 +127,12 @@ export default function AdminConsole() {
   useEffect(() => { refreshTicketCount(); }, [refreshTicketCount]);
 
   // Navigation : charge un chemin dans l'iframe (URLs relatives, same-origin).
+  // Si on est dans une vue dédiée (blog, tickets, formation), on revient au
+  // navigateur pour que la page sélectionnée soit visible.
   const navigateTo = useCallback((path: string) => {
     const frame = iframeRef.current;
     if (frame) frame.src = path;
+    setStageView("browser");
   }, []);
 
   function handleFrameLoad(pathname: string) {
@@ -269,6 +273,12 @@ export default function AdminConsole() {
   function startBlogCreator() {
     setMode("navigate");
     setStageView("blog");
+  }
+
+  // « Formation » : ouvre la base de formations dans l'apercu.
+  function openFormation() {
+    setMode("navigate");
+    setStageView("formation");
   }
 
   function addFeedback() {
@@ -450,6 +460,14 @@ export default function AdminConsole() {
               {ticketCount > 0 && (
                 <span className={styles.actionBtnCount}>{ticketCount}</span>
               )}
+            </button>
+            <div className={styles.actionsDivider} />
+            <button
+              className={`${styles.actionBtn} ${stageView === "formation" ? styles.actionBtnOn : ""}`}
+              onClick={openFormation}
+              aria-pressed={stageView === "formation"}
+            >
+              <Bookmark size={16} strokeWidth={1.6} /> Formation
             </button>
           </div>
 
@@ -661,6 +679,13 @@ export default function AdminConsole() {
             showToast={showToast}
             onCount={setTicketCount}
           />
+        </div>
+      )}
+
+      {/* Espace de formation (occupe la zone d'apercu) */}
+      {stageView === "formation" && (
+        <div className={styles.stageOverlay}>
+          <FormationManager onClose={() => setStageView("browser")} />
         </div>
       )}
 

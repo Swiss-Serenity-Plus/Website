@@ -96,6 +96,11 @@
   flex-direction: column;
   gap: 8px;
 }
+.actionsDivider {
+  height: 1px;
+  background: var(--c-border, #e8e3d8);
+  margin: 2px 0;
+}
 .actionBtn {
   display: inline-flex;
   align-items: center;
