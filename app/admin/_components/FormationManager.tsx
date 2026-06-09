@@ -3,7 +3,7 @@
 // Gestionnaire de formations : affiche la liste des items de la base Notion
 // Notion_Training_Database_ID et ouvre un pop-up avec l'iframe Tella + le corps
 // de la page (markdown converti en HTML par l'API).
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import {
   Bookmark, ArrowLeft, X, Play, Loader, AlertCircle, ExternalLink,
 } from "lucide-react";
@@ -44,6 +44,7 @@ export default function FormationManager({ onClose }: Props) {
   const [selected, setSelected] = useState<FormationItem | null>(null);
   const [bodyHtml, setBodyHtml] = useState("");
   const [bodyLoading, setBodyLoading] = useState(false);
+  const bodyRef = useRef<HTMLDivElement>(null);
 
   const loadItems = useCallback(async () => {
     setLoading(true);
@@ -62,6 +63,25 @@ export default function FormationManager({ onClose }: Props) {
 
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { loadItems(); }, [loadItems]);
+
+  // Délégation d'événement pour les boutons « Copier » dans les blocs de code
+  // injectés via dangerouslySetInnerHTML. Feedback visuel 1,5 s.
+  useEffect(() => {
+    const container = bodyRef.current;
+    if (!container || !bodyHtml) return;
+    function handleClick(e: MouseEvent) {
+      const btn = (e.target as Element).closest<HTMLElement>("[data-copy]");
+      if (!btn) return;
+      const text = btn.dataset.copy ?? "";
+      navigator.clipboard.writeText(text).catch(() => {});
+      const prev = btn.textContent;
+      btn.textContent = "✓";
+      btn.classList.add("copied");
+      setTimeout(() => { btn.textContent = prev; btn.classList.remove("copied"); }, 1500);
+    }
+    container.addEventListener("click", handleClick);
+    return () => container.removeEventListener("click", handleClick);
+  }, [bodyHtml]);
 
   async function openItem(item: FormationItem) {
     setSelected(item);
@@ -167,6 +187,7 @@ export default function FormationManager({ onClose }: Props) {
               )}
               {!bodyLoading && bodyHtml && (
                 <div
+                  ref={bodyRef}
                   className={styles.bodyContent}
                   // Contenu Notion admin uniquement, jamais soumis par des visiteurs
                   // eslint-disable-next-line react/no-danger
