@@ -194,13 +194,22 @@ function blocksToHtml(blocks: EnrichedBlock[], pageTitle = ""): string {
         const rows = block._children ?? [];
         if (!rows.length) break;
 
+        function renderCell(cell: RT[], tag: "th" | "td"): string {
+          const html = rtToHtml(cell);
+          const plain = escHtml(readRT(cell));
+          return `<${tag}><div class="fm-cell-inner">` +
+            `<span class="fm-cell-text">${html}</span>` +
+            (plain ? `<button class="fm-cell-copy" data-copy="${plain}" aria-label="Copier">⧉</button>` : "") +
+            `</div></${tag}>`;
+        }
+
         let html = `<div class="fm-table-wrap"><table class="fm-table">`;
         const bodyStart = hasHeader ? 1 : 0;
 
         if (hasHeader && rows[0]) {
           const cells = ((rows[0]["table_row"] as { cells?: RT[][] }) ?? {}).cells ?? [];
           html += "<thead><tr>";
-          for (const cell of cells) html += `<th>${rtToHtml(cell)}</th>`;
+          for (const cell of cells) html += renderCell(cell, "th");
           html += "</tr></thead>";
         }
 
@@ -208,7 +217,7 @@ function blocksToHtml(blocks: EnrichedBlock[], pageTitle = ""): string {
         for (let i = bodyStart; i < rows.length; i++) {
           const cells = ((rows[i]["table_row"] as { cells?: RT[][] }) ?? {}).cells ?? [];
           html += "<tr>";
-          for (const cell of cells) html += `<td>${rtToHtml(cell)}</td>`;
+          for (const cell of cells) html += renderCell(cell, "td");
           html += "</tr>";
         }
         html += "</tbody></table></div>";
