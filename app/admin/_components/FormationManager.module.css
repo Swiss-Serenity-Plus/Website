@@ -167,6 +167,27 @@
   border: none;
 }
 
+/* ── Squelette shimmer (même pattern que TicketsManager) ── */
+.skeleton {
+  display: block;
+  border-radius: 10px;
+  background: linear-gradient(100deg, #ece7dc 30%, #f6f3ec 50%, #ece7dc 70%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+/* Squelette 16:9 qui remplace visuellement l'iframe pendant le chargement */
+.skVideo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+
 /* Lien de secours sous l'iframe Tella */
 .videoLink {
   display: inline-flex;

@@ -184,20 +184,25 @@ export default function FormationManager({ onClose }: Props) {
   );
 }
 
-// Composant vidéo Tella : tente l'iframe embed, toujours accompagnée d'un
-// lien « Ouvrir dans Tella » (fallback si X-Frame-Options bloque l'embed).
+// Composant vidéo Tella : squelette shimmer pendant le chargement, puis
+// affiche l'iframe. L'iframe reste dans le DOM (visibility:hidden) pendant
+// le chargement pour que onLoad se déclenche correctement.
 function TellaVideo({ url, title }: { url: string; title: string }) {
   const embedUrl = toEmbedUrl(url);
+  const [loaded, setLoaded] = useState(false);
 
   return (
     <div>
       <div className={styles.videoWrap}>
+        {!loaded && <div className={`${styles.skeleton} ${styles.skVideo}`} />}
         <iframe
           src={embedUrl}
           className={styles.video}
+          style={loaded ? undefined : { visibility: "hidden", position: "absolute", inset: 0 }}
           title={title}
           allow="autoplay; fullscreen; picture-in-picture"
           allowFullScreen
+          onLoad={() => setLoaded(true)}
         />
       </div>
       <a
