@@ -3,14 +3,14 @@
 // Console d'administration : affiche le site dans une fenetre-navigateur (iframe
 // same-origin) et porte les controles de retours autour. Reutilise la logique de
 // resolution de libelle (app/lib/fbResolve) et les styles du widget legacy pour
-// les modales (formulaire, grille de tickets). Le widget flottant n'est plus
-// injecte dans les pages publiques.
+// les modales (formulaire). Le widget flottant n'est plus injecte dans les pages
+// publiques. Les retours sont envoyes directement dans Notion (sans brouillon).
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import {
-  MousePointer, Globe, Send, X, Trash2, Pencil,
+  MousePointer, Globe, Send, X,
   ExternalLink, Upload, FileImage, Check, LogOut,
-  Newspaper, MessagesSquare, Bookmark,
+  Newspaper, MessagesSquare, Bookmark, ArrowRight,
 } from "lucide-react";
 import PageTreeNav from "../../components/PageTreeNav/PageTreeNav";
 import BlogManager from "./BlogManager";
@@ -28,23 +28,8 @@ const DESKTOP_MIN = 1024;
 
 type Mode = "navigate" | "annotate";
 type View = "hub" | "form";
-// Ce qui occupe la zone d'apercu a droite : la fenetre-navigateur, la gestion
-// des articles de blog, la gestion des retours envoyes, ou la formation.
 type StageView = "browser" | "blog" | "tickets" | "formation";
 type ToastType = "success" | "error" | "partial";
-
-interface Draft {
-  id: string;
-  element: string;
-  elementUrl: string;
-  action: string;
-  page: string;
-  text: string;
-  timestamp: string;
-  format: Format;
-  isGeneral?: boolean;
-  imageUrl?: string;
-}
 
 export default function AdminConsole() {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
@@ -61,9 +46,7 @@ export default function AdminConsole() {
   const [view, setView] = useState<View>("hub");
   const [stageView, setStageView] = useState<StageView>("browser");
 
-  // Brouillons + formulaire de retour
-  const [drafts, setDrafts] = useState<Draft[]>([]);
-  const [editingId, setEditingId] = useState<string | null>(null);
+  // Formulaire de retour
   const [pendingElement, setPendingElement] = useState<string | null>(null);
   const [pendingElementUrl, setPendingElementUrl] = useState("");
   const [pendingAction, setPendingAction] = useState("");
@@ -77,11 +60,12 @@ export default function AdminConsole() {
   const [pendingImageError, setPendingImageError] = useState("");
   const [pendingImageDragOver, setPendingImageDragOver] = useState(false);
 
-  // Nombre de tickets (pour la pastille « Gérer mes modifications »).
+  // Pastille tickets + auto-ouverture du dernier ticket créé
   const [ticketCount, setTicketCount] = useState(0);
+  const [autoOpenTicketId, setAutoOpenTicketId] = useState<string | null>(null);
 
-  const [isSending, setIsSending] = useState(false);
-  const [toast, setToast] = useState<{ message: string; type: ToastType } | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [toast, setToast] = useState<{ message: string; type: ToastType; ticketId?: string } | null>(null);
 
   // Init session + garde desktop
   useEffect(() => {
@@ -93,16 +77,12 @@ export default function AdminConsole() {
   }, []);
 
   // Synchronise la barre d'URL avec les navigations internes de l'iframe.
-  // L'evenement load ne couvre pas les navigations client (Next App Router) :
-  // on lit donc periodiquement le pathname same-origin.
   useEffect(() => {
     const id = setInterval(() => {
       try {
         const p = iframeRef.current?.contentWindow?.location.pathname;
         if (p) setCurrentPath((prev) => (p !== prev ? p : prev));
-      } catch {
-        // cross-origin inattendu : on ignore
-      }
+      } catch { /* cross-origin inattendu */ }
     }, 350);
     return () => clearInterval(id);
   }, []);
@@ -113,22 +93,19 @@ export default function AdminConsole() {
     toastTimer.current = setTimeout(() => setToast(null), 4000);
   }, []);
 
-  // Rafraichit la pastille de comptage des tickets (badge du panneau).
   const refreshTicketCount = useCallback(async () => {
     try {
       const res = await fetch("/api/tickets");
       if (!res.ok) return;
       const data = await res.json();
       setTicketCount((data.tickets ?? []).length);
-    } catch { /* hors-ligne : on garde la valeur courante */ }
+    } catch { /* hors-ligne */ }
   }, []);
 
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { refreshTicketCount(); }, [refreshTicketCount]);
 
   // Navigation : charge un chemin dans l'iframe (URLs relatives, same-origin).
-  // Si on est dans une vue dédiée (blog, tickets, formation), on revient au
-  // navigateur pour que la page sélectionnée soit visible.
   const navigateTo = useCallback((path: string) => {
     const frame = iframeRef.current;
     if (frame) frame.src = path;
@@ -150,12 +127,9 @@ export default function AdminConsole() {
     setPendingImageUrl("");
     setPendingImageName("");
     setPendingImageError("");
-    setEditingId(null);
   }
 
   // Mode annotation : ecouteurs poses dans le contentDocument de l'iframe.
-  // Le highlight est un outline injecte (suit nativement scroll, resize et
-  // changement de largeur du switcher responsive). Re-attache a chaque navigation.
   useEffect(() => {
     if (mode !== "annotate" || stageView !== "browser") return;
     const frame = iframeRef.current;
@@ -163,8 +137,6 @@ export default function AdminConsole() {
     const win = frame?.contentWindow;
     if (!doc || !win) return;
 
-    // Curseur personnalise (fleche noire cernee de blanc), inspire d'un pointeur
-    // classique, plutot que la croix fine. Encode en data-URI base64.
     const cursorSvg =
       "<svg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 24 24'>" +
       "<path d='M18.6 3 L18.6 19.6 L14.1 15.2 L11.3 21 L8.8 19.8 L11.6 14.1 L5.9 14.1 Z' " +
@@ -240,13 +212,11 @@ export default function AdminConsole() {
     };
   }, [mode, frameLoadKey, format, stageView]);
 
-  // « Modifier un élément » : active/desactive la selection de bloc sur l'apercu.
   function toggleBlockSelect() {
     setStageView("browser");
     setMode((m) => (m === "annotate" ? "navigate" : "annotate"));
   }
 
-  // « Modifier l'ensemble du site » : feedback general sur la page courante.
   function startGeneralFeedback() {
     setStageView("browser");
     setMode("navigate");
@@ -258,9 +228,10 @@ export default function AdminConsole() {
     setView("form");
   }
 
-  // « Gérer mes modifications » : ouvre la gestion des retours dans l'apercu.
+  // Ouverture manuelle des tickets : pas d'auto-open de carte.
   function openTickets() {
     setMode("navigate");
+    setAutoOpenTicketId(null);
     setStageView("tickets");
   }
 
@@ -269,59 +240,58 @@ export default function AdminConsole() {
     setView("hub");
   }
 
-  // « Gérer mes articles de blog » : ouvre l'espace blog dans l'apercu.
   function startBlogCreator() {
     setMode("navigate");
     setStageView("blog");
   }
 
-  // « Formation » : ouvre la base de formations dans l'apercu.
   function openFormation() {
     setMode("navigate");
     setStageView("formation");
   }
 
-  function addFeedback() {
+  // Envoi direct vers Notion — aucun brouillon intermédiaire.
+  // Après succès : toast cliquable qui ouvre les tickets avec auto-ouverture
+  // de la carte du ticket qui vient d'être créé.
+  async function submitFeedback() {
     if (!pendingElement || !pendingText.trim()) return;
     if (!isGeneralMode && !pendingAction) { setActionError(true); return; }
-
-    const draft: Draft = {
-      id: editingId ?? crypto.randomUUID(),
-      element: pendingElement,
-      elementUrl: pendingElementUrl,
-      action: pendingAction,
-      page: pageNameForPath(currentPath),
-      text: pendingText.trim(),
-      timestamp: new Date().toISOString(),
-      format: pendingFormat,
-      isGeneral: isGeneralMode,
-      ...(pendingImageUrl ? { imageUrl: pendingImageUrl } : {}),
-    };
-
-    if (editingId) {
-      setDrafts((prev) => prev.map((d) => (d.id === editingId ? draft : d)));
-    } else {
-      setDrafts((prev) => [...prev, draft]);
+    setIsSubmitting(true);
+    try {
+      const res = await fetch("/api/feedback", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          sessionId: sessionId.current,
+          feedbacks: [{
+            element: pendingElement,
+            elementUrl: pendingElementUrl,
+            action: pendingAction,
+            page: pageNameForPath(currentPath),
+            text: pendingText.trim(),
+            timestamp: new Date().toISOString(),
+            format: pendingFormat,
+            ...(pendingImageUrl ? { imageUrl: pendingImageUrl } : {}),
+          }],
+        }),
+      });
+      const data = await res.json();
+      if (res.ok || res.status === 207) {
+        const ticketId: string | undefined = data.createdIds?.[0];
+        closeForm();
+        setAutoOpenTicketId(ticketId ?? null);
+        setToast({ message: "Retour envoyé — Voir mes modifications", type: "success", ticketId });
+        clearTimeout(toastTimer.current);
+        toastTimer.current = setTimeout(() => setToast(null), 6000);
+        await refreshTicketCount();
+      } else {
+        showToast("Erreur lors de l'envoi, réessayez ou contactez Théo", "error");
+      }
+    } catch {
+      showToast("Erreur réseau, réessayez ou contactez Théo", "error");
+    } finally {
+      setIsSubmitting(false);
     }
-    closeForm();
-  }
-
-  function startEdit(draft: Draft) {
-    setEditingId(draft.id);
-    setPendingElement(draft.element);
-    setPendingElementUrl(draft.elementUrl);
-    setPendingAction(draft.action);
-    setPendingText(draft.text);
-    setPendingFormat(draft.format);
-    setIsGeneralMode(!!draft.isGeneral);
-    setPendingImageUrl(draft.imageUrl ?? "");
-    setPendingImageName(draft.imageUrl ? (draft.imageUrl.split("/").pop() ?? "image") : "");
-    setPendingImageError("");
-    setView("form");
-  }
-
-  function deleteDraft(id: string) {
-    setDrafts((prev) => prev.filter((d) => d.id !== id));
   }
 
   async function uploadFeedbackImage(file: File) {
@@ -341,43 +311,6 @@ export default function AdminConsole() {
       setPendingImageError(err instanceof Error ? err.message : "Échec de l'upload");
     } finally {
       setPendingImageUploading(false);
-    }
-  }
-
-  async function sendAll() {
-    if (drafts.length === 0 || isSending) return;
-    setIsSending(true);
-    try {
-      const res = await fetch("/api/feedback", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          sessionId: sessionId.current,
-          feedbacks: drafts.map((d) => ({
-            element: d.element, elementUrl: d.elementUrl, action: d.action,
-            page: d.page, text: d.text, timestamp: d.timestamp, format: d.format,
-            ...(d.imageUrl ? { imageUrl: d.imageUrl } : {}),
-          })),
-        }),
-      });
-      const data = await res.json();
-      if (res.status === 200 || res.status === 207) {
-        setDrafts([]);
-        sessionId.current = crypto.randomUUID();
-        showToast(
-          res.status === 207
-            ? `${data.created} retour(s) envoyé(s), ${data.failed} non transmis`
-            : "Retours envoyés avec succès",
-          res.status === 207 ? "partial" : "success"
-        );
-        await refreshTicketCount();
-      } else {
-        showToast("Erreur lors de l'envoi, réessayez ou contactez Théo", "error");
-      }
-    } catch {
-      showToast("Erreur réseau, réessayez ou contactez Théo", "error");
-    } finally {
-      setIsSending(false);
     }
   }
 
@@ -409,7 +342,7 @@ export default function AdminConsole() {
 
   return (
     <div className={styles.shell}>
-      {/* Panneau de controle */}
+      {/* Panneau de contrôle */}
       <aside className={styles.panel}>
         <div className={styles.panelHeader}>
           <div>
@@ -462,38 +395,6 @@ export default function AdminConsole() {
               )}
             </button>
           </div>
-
-          {/* Brouillons — masques tant qu'il n'y en a aucun */}
-          {drafts.length > 0 && (
-            <div className={styles.draftsBlock}>
-              <p className={styles.draftsHeading}>
-                Modifications en attente
-                <span className={styles.draftsCount}>{drafts.length}</span>
-              </p>
-              <ul className={styles.draftsList}>
-                {drafts.map((draft) => (
-                  <li key={draft.id} className={styles.draftItem}>
-                    <div className={styles.draftItemTop}>
-                      <span className={fb.actionTag}>{draft.isGeneral ? "Général" : draft.action}</span>
-                      <div className={styles.draftItemActions}>
-                        <button className={styles.draftEdit} onClick={() => startEdit(draft)} aria-label="Modifier">
-                          <Pencil size={13} />
-                        </button>
-                        <button className={styles.draftDelete} onClick={() => deleteDraft(draft.id)} aria-label="Supprimer">
-                          <Trash2 size={13} />
-                        </button>
-                      </div>
-                    </div>
-                    <p className={styles.draftElement}>{draft.element}</p>
-                    <p className={styles.draftText}>{draft.text}</p>
-                  </li>
-                ))}
-              </ul>
-              <button className={styles.sendBtn} onClick={sendAll} disabled={isSending} aria-busy={isSending}>
-                {isSending ? "Envoi en cours..." : <><Send size={15} /> Envoyer {drafts.length} retour{drafts.length > 1 ? "s" : ""}</>}
-              </button>
-            </div>
-          )}
         </div>
 
         {/* Formation — épinglé en bas du panneau, séparé du reste */}
@@ -508,7 +409,7 @@ export default function AdminConsole() {
         </div>
       </aside>
 
-      {/* Fenetre-navigateur (toujours montee pour preserver l'etat de l'iframe) */}
+      {/* Fenêtre-navigateur (toujours montée pour préserver l'état de l'iframe) */}
       <main className={styles.stage}>
         <BrowserFrame
           iframeRef={iframeRef}
@@ -520,13 +421,13 @@ export default function AdminConsole() {
         />
       </main>
 
-      {/* Modale formulaire (bloc ou general) */}
+      {/* Modale formulaire (bloc ou général) */}
       {view === "form" && pendingElement && (
         <div className={fb.backdrop} onClick={(e) => { if (e.target === e.currentTarget) closeForm(); }}>
           <div className={styles.modalSheet} role="dialog" aria-label="Nouveau retour">
             <div className={styles.modalSheetHeader}>
               <p className={styles.modalSheetTitle}>
-                {isGeneralMode ? "Feedback général" : editingId ? "Modifier le retour" : "Nouveau retour"}
+                {isGeneralMode ? "Feedback général" : "Nouveau retour"}
               </p>
               <button className={fb.closeBtn} onClick={closeForm} aria-label="Fermer">
                 <X size={18} />
@@ -536,7 +437,7 @@ export default function AdminConsole() {
             <div className={styles.modalSheetBody}>
               <div className={fb.pendingCover}>
                 <span className={fb.pendingCoverEyebrow}>
-                  {isGeneralMode ? "Feedback général sur la page" : editingId ? "Modification" : "Bloc sélectionné"}
+                  {isGeneralMode ? "Feedback général sur la page" : "Bloc sélectionné"}
                   {" · "}{pendingFormat === "mobile" ? "Vue mobile" : "Vue ordinateur"}
                 </span>
                 <p className={fb.pendingCoverName}>{pendingElement}</p>
@@ -578,13 +479,13 @@ export default function AdminConsole() {
                   value={pendingText}
                   onChange={(e) => setPendingText(e.target.value)}
                   onKeyDown={(e) => {
-                    if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) addFeedback();
+                    if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) submitFeedback();
                     if (e.key === "Escape") closeForm();
                   }}
                   rows={6}
                   autoFocus
                 />
-                <span className={fb.fieldHint}>Cmd+Entrée pour ajouter au brouillon</span>
+                <span className={fb.fieldHint}>Cmd+Entrée pour envoyer</span>
               </div>
 
               <div className={fb.field}>
@@ -658,44 +559,59 @@ export default function AdminConsole() {
             </div>
 
             <div className={styles.modalSheetFooter}>
-              <button className={fb.cancelBtn} onClick={closeForm}>Annuler</button>
-              <button className={fb.addBtn} onClick={addFeedback} disabled={!pendingText.trim()}>
-                {editingId ? "Mettre à jour" : "Ajouter au brouillon"}
+              <button className={fb.cancelBtn} onClick={closeForm} disabled={isSubmitting}>Annuler</button>
+              <button
+                className={fb.addBtn}
+                onClick={submitFeedback}
+                disabled={!pendingText.trim() || isSubmitting}
+                aria-busy={isSubmitting}
+              >
+                {isSubmitting ? "Envoi en cours…" : <><Send size={13} /> Envoyer</>}
               </button>
             </div>
           </div>
         </div>
       )}
 
-      {/* Espace de gestion des articles de blog (occupe la zone d'apercu) */}
+      {/* Blog manager */}
       {stageView === "blog" && (
         <div className={styles.stageOverlay}>
           <BlogManager onClose={() => setStageView("browser")} showToast={showToast} />
         </div>
       )}
 
-      {/* Espace de gestion des modifications (occupe la zone d'apercu) */}
+      {/* Tickets manager — reçoit l'ID du dernier ticket créé pour auto-ouverture */}
       {stageView === "tickets" && (
         <div className={styles.stageOverlay}>
           <TicketsManager
             onClose={() => setStageView("browser")}
             showToast={showToast}
             onCount={setTicketCount}
+            autoOpenTicketId={autoOpenTicketId}
           />
         </div>
       )}
 
-      {/* Espace de formation (occupe la zone d'apercu) */}
+      {/* Formation */}
       {stageView === "formation" && (
         <div className={styles.stageOverlay}>
           <FormationManager onClose={() => setStageView("browser")} />
         </div>
       )}
 
-      {/* Toast */}
+      {/* Toast — cliquable quand un ticketId est présent (retour venant d'être envoyé) */}
       {toast && (
-        <div className={`${fb.toast} ${fb[`toast_${toast.type}`]}`} role="alert">
+        <div
+          className={`${fb.toast} ${fb[`toast_${toast.type}`]}${toast.ticketId ? ` ${styles.toastClickable}` : ""}`}
+          role="alert"
+          onClick={toast.ticketId ? () => {
+            clearTimeout(toastTimer.current);
+            setToast(null);
+            setStageView("tickets");
+          } : undefined}
+        >
           {toast.message}
+          {toast.ticketId && <ArrowRight size={14} strokeWidth={2.2} className={styles.toastArrow} />}
         </div>
       )}
     </div>

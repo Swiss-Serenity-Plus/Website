@@ -476,3 +476,14 @@
   transition: background 0.15s ease;
 }
 .lightboxClose:hover { background: rgba(255, 255, 255, 0.3); }
+
+/* ── Toast cliquable (retour envoyé → ouvrir les tickets) ── */
+.toastClickable {
+  cursor: pointer;
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  user-select: none;
+}
+.toastClickable:hover { filter: brightness(0.92); }
+.toastArrow { flex-shrink: 0; }

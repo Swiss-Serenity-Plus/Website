@@ -20,6 +20,7 @@ interface Props {
   onClose: () => void;
   showToast: (message: string, type: ToastType) => void;
   onCount?: (n: number) => void;
+  autoOpenTicketId?: string | null;
 }
 
 interface Ticket {
@@ -86,7 +87,7 @@ type Tab = "tous" | "À traiter" | "En cours" | "Traité" | "Bloqués";
 // recharger les 320+ tickets a chaque ouverture de la vue.
 let ticketsCache: Ticket[] | null = null;
 
-export default function TicketsManager({ onClose, showToast, onCount }: Props) {
+export default function TicketsManager({ onClose, showToast, onCount, autoOpenTicketId }: Props) {
   const [tickets, setTickets] = useState<Ticket[]>(ticketsCache ?? []);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -117,6 +118,9 @@ export default function TicketsManager({ onClose, showToast, onCount }: Props) {
   const onCountRef = useRef(onCount);
   useEffect(() => { onCountRef.current = onCount; }, [onCount]);
 
+  // Garde une trace si l'auto-ouverture a déjà été déclenchée (évite les répétitions).
+  const autoOpenDone = useRef(false);
+
   // Garde le cache et la pastille de comptage synchronises.
   const commitTickets = useCallback((list: Ticket[]) => {
     ticketsCache = list;
@@ -143,10 +147,17 @@ export default function TicketsManager({ onClose, showToast, onCount }: Props) {
     }
   }, [commitTickets]);
 
-  // Au montage : si le cache existe, on l'affiche tout de suite et on rafraichit
-  // en arriere-plan ; sinon on charge avec squelette.
+  // Au montage : si autoOpenTicketId est fourni, on vide le cache pour inclure
+  // le ticket qui vient d'être créé ; sinon on utilise le cache s'il existe.
   // eslint-disable-next-line react-hooks/set-state-in-effect
-  useEffect(() => { loadTickets(ticketsCache !== null); }, [loadTickets]);
+  useEffect(() => {
+    if (autoOpenTicketId) {
+      ticketsCache = null;
+      loadTickets(false);
+    } else {
+      loadTickets(ticketsCache !== null);
+    }
+  }, [loadTickets]); // autoOpenTicketId lu une seule fois au montage
 
   // Affichage progressif : on repart a 15 quand le filtre ou la recherche change.
   // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -175,6 +186,22 @@ export default function TicketsManager({ onClose, showToast, onCount }: Props) {
       setComments((p) => ({ ...p, [id]: { data: [], loading: false, error: "Commentaires indisponibles." } }));
     }
   }, []);
+
+  // Auto-ouverture : dès que le ticket cible apparaît dans la liste chargée,
+  // attend 1 s puis ouvre sa carte détail (animation popIn existante).
+  useEffect(() => {
+    if (!autoOpenTicketId || autoOpenDone.current) return;
+    const normalized = autoOpenTicketId.replace(/-/g, "");
+    const ticket = tickets.find((t) => t.notionId.replace(/-/g, "") === normalized);
+    if (!ticket) return;
+    autoOpenDone.current = true;
+    const timer = setTimeout(() => {
+      setSelectedId(ticket.notionId);
+      setEditMode(false);
+      loadComments(ticket.notionId);
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [autoOpenTicketId, tickets, loadComments]);
 
   // Fermeture du detail avec Echap
   useEffect(() => {

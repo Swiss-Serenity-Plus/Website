@@ -185,8 +185,12 @@ export async function POST(request: NextRequest) {
 
   const results = await Promise.allSettled(feedbacks.map((fb) => createNotionPage(fb, true)));
 
-  const succeeded = results.filter((r) => r.status === "fulfilled").length;
+  const succeededResults = results.filter(
+    (r): r is PromiseFulfilledResult<{ id: string }> => r.status === "fulfilled"
+  );
   const failed = results.filter((r): r is PromiseRejectedResult => r.status === "rejected");
+  const succeeded = succeededResults.length;
+  const createdIds = succeededResults.map((r) => r.value?.id).filter(Boolean);
 
   failed.forEach((r) => {
     console.error("[feedback] Erreur Notion :", r.reason?.message);
@@ -205,11 +209,12 @@ export async function POST(request: NextRequest) {
         success: "partial",
         created: succeeded,
         failed: failed.length,
+        createdIds,
         errors: failed.map((r) => r.reason?.message ?? "Erreur inconnue"),
       },
       { status: 207, headers }
     );
   }
 
-  return NextResponse.json({ success: true, created: succeeded, sessionId }, { headers });
+  return NextResponse.json({ success: true, created: succeeded, createdIds, sessionId }, { headers });
 }
