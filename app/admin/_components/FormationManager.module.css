@@ -342,6 +342,7 @@
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+  white-space: nowrap;
 }
 .bodyContent :global(.fm-table thead tr th:first-child) {
   border-radius: 11px 0 0 0;
@@ -364,14 +365,15 @@
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-  gap: 8px;
-  padding: 10px 14px;
-  min-height: 38px;
+  gap: 6px;
+  padding: 7px 10px;
+  min-height: 32px;
 }
 .bodyContent :global(.fm-cell-text) {
   flex: 1;
   min-width: 0;
   word-break: break-word;
+  white-space: pre-line;
   line-height: 1.5;
 }
 .bodyContent :global(.fm-cell-copy) {
