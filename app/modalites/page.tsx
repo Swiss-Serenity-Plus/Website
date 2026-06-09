@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { Check } from "lucide-react";
+import { Check, Leaf } from "lucide-react";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer/Footer";
 import PageHero from "../components/PageHero/PageHero";
@@ -7,7 +7,6 @@ import Container from "../components/Container/Container";
 import OfferModalities from "../components/OfferModalities/OfferModalities";
 import Quote from "../components/Quote/Quote";
 import Button from "../components/Button/Button";
-import LotusIcon from "../components/icons/LotusIcon";
 import styles from "./page.module.css";
 import { SITE_URL, OG_IMAGE, OG_DEFAULTS } from "../lib/seo";
 
@@ -120,7 +119,7 @@ export default function ModalitesPage() {
           <Container>
             <div className={styles.disclaimerInner} id="b-disclaimer-perimetre">
               <span className={styles.disclaimerIcon} aria-hidden="true">
-                <LotusIcon size={28} strokeWidth={1.3} />
+                <Leaf size={48} strokeWidth={1.2} />
               </span>
               <p className={styles.disclaimerText}>
                 Les prestations proposées relèvent exclusivement de l&rsquo;accompagnement administratif,
