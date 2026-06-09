@@ -49,6 +49,41 @@ async function fetchChildBlockIds(pageId: string, token: string): Promise<string
   return ids;
 }
 
+export async function POST(
+  req: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
+  const token = process.env.NOTION_TOKEN;
+  if (!token) {
+    return NextResponse.json({ error: "Configuration manquante" }, { status: 500, headers: CORS });
+  }
+  let body: { text?: string };
+  try { body = await req.json(); } catch { body = {}; }
+  const text = (body.text ?? "").trim();
+  if (!text) {
+    return NextResponse.json({ error: "Texte requis" }, { status: 400, headers: CORS });
+  }
+  try {
+    const res = await fetch(`${NOTION}/comments`, {
+      method: "POST",
+      headers: { ...headers(token), "Content-Type": "application/json" },
+      body: JSON.stringify({
+        parent: { page_id: id },
+        rich_text: [{ type: "text", text: { content: text } }],
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      return NextResponse.json({ error: data.message ?? "Erreur Notion" }, { status: res.status, headers: CORS });
+    }
+    return NextResponse.json({ id: data.id }, { status: 201, headers: CORS });
+  } catch (err) {
+    console.error("[comments] POST error:", err);
+    return NextResponse.json({ error: "Erreur interne" }, { status: 500, headers: CORS });
+  }
+}
+
 export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
