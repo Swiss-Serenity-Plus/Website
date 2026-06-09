@@ -96,10 +96,12 @@
   flex-direction: column;
   gap: 8px;
 }
-.actionsDivider {
-  height: 1px;
-  background: var(--c-border, #e8e3d8);
-  margin: 2px 0;
+
+/* Formation — zone épinglée en bas du panneau de contrôle */
+.panelFooter {
+  flex-shrink: 0;
+  padding: 14px 22px;
+  border-top: 1px solid var(--c-border, #e8e3d8);
 }
 .actionBtn {
   display: inline-flex;

@@ -69,7 +69,8 @@ export default function FormationManager({ onClose }: Props) {
     setBodyHtml("");
     setBodyLoading(true);
     try {
-      const res = await fetch(`/api/training-posts?id=${item.id}`);
+      const params = new URLSearchParams({ id: item.id, title: item.title });
+      const res = await fetch(`/api/training-posts?${params}`);
       if (!res.ok) throw new Error(`Erreur ${res.status}`);
       const data = await res.json();
       setBodyHtml(data.html ?? "");

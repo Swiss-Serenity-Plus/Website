@@ -461,14 +461,6 @@ export default function AdminConsole() {
                 <span className={styles.actionBtnCount}>{ticketCount}</span>
               )}
             </button>
-            <div className={styles.actionsDivider} />
-            <button
-              className={`${styles.actionBtn} ${stageView === "formation" ? styles.actionBtnOn : ""}`}
-              onClick={openFormation}
-              aria-pressed={stageView === "formation"}
-            >
-              <Bookmark size={16} strokeWidth={1.6} /> Formation
-            </button>
           </div>
 
           {/* Brouillons — masques tant qu'il n'y en a aucun */}
@@ -502,6 +494,17 @@ export default function AdminConsole() {
               </button>
             </div>
           )}
+        </div>
+
+        {/* Formation — épinglé en bas du panneau, séparé du reste */}
+        <div className={styles.panelFooter}>
+          <button
+            className={`${styles.actionBtn} ${stageView === "formation" ? styles.actionBtnOn : ""}`}
+            onClick={openFormation}
+            aria-pressed={stageView === "formation"}
+          >
+            <Bookmark size={16} strokeWidth={1.6} /> Formation
+          </button>
         </div>
       </aside>
 
