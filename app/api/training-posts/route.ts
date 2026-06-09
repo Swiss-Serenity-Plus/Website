@@ -33,12 +33,12 @@ function escHtml(s: string): string {
 }
 
 // Toute URL Tella (share ou embed) → URL embed propre.
+// Simple : on retire le slash final s'il existe, puis on ajoute /embed.
+// Avant la correction, une regex erronée retirait l'ID vidéo.
 function toTellaEmbed(url: string): string {
   if (!url) return "";
-  // Déjà une URL d'embed
   if (url.includes("/embed")) return url;
-  // https://www.tella.tv/video/{id}[/...] → /embed
-  return url.replace(/(\/(embed|share|[a-z0-9-]+))?\/?$/, "/embed");
+  return url.replace(/\/$/, "") + "/embed";
 }
 
 function isTella(url: string): boolean {

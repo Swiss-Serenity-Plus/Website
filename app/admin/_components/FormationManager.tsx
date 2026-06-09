@@ -5,7 +5,7 @@
 // de la page (markdown converti en HTML par l'API).
 import { useState, useEffect, useCallback } from "react";
 import {
-  Bookmark, ArrowLeft, X, Play, Loader, AlertCircle,
+  Bookmark, ArrowLeft, X, Play, Loader, AlertCircle, ExternalLink,
 } from "lucide-react";
 import styles from "./FormationManager.module.css";
 
@@ -29,13 +29,12 @@ function fmtDate(iso: string): string {
   } catch { return iso; }
 }
 
-// Convertit une URL de partage Tella en URL d'embed si nécessaire.
+// URL de partage Tella → URL embed iframe.
+// Ex : https://www.tella.tv/video/{id} → https://www.tella.tv/video/{id}/embed
 function toEmbedUrl(url: string): string {
   if (!url) return "";
-  // Déjà une URL d'embed → on la garde
   if (url.includes("/embed")) return url;
-  // https://www.tella.tv/video/{id} → https://www.tella.tv/video/{id}/embed
-  return url.replace(/\/?$/, "/embed");
+  return url.replace(/\/$/, "") + "/embed";
 }
 
 export default function FormationManager({ onClose }: Props) {
@@ -153,20 +152,13 @@ export default function FormationManager({ onClose }: Props) {
         {/* Vue détail */}
         {selected && (
           <div className={styles.detail}>
-            {/* Iframe Tella */}
+            {/* Vidéo Tella principale (propriété Notion) */}
             {selected.tellaUrl && (
-              <div className={styles.videoWrap}>
-                <iframe
-                  src={toEmbedUrl(selected.tellaUrl)}
-                  className={styles.video}
-                  title={selected.title}
-                  allow="autoplay; fullscreen"
-                  allowFullScreen
-                />
-              </div>
+              <TellaVideo url={selected.tellaUrl} title={selected.title} />
             )}
 
-            {/* Corps de la page */}
+            {/* Corps de la page (blocs Notion → HTML, avec iframes inline pour les
+                autres vidéos embarquées dans le corps) */}
             <div className={styles.bodySection}>
               {bodyLoading && (
                 <div className={styles.centered}>
@@ -176,7 +168,7 @@ export default function FormationManager({ onClose }: Props) {
               {!bodyLoading && bodyHtml && (
                 <div
                   className={styles.bodyContent}
-                  // Contenu provenant de Notion (admin uniquement), non soumis par des utilisateurs
+                  // Contenu Notion admin uniquement, jamais soumis par des visiteurs
                   // eslint-disable-next-line react/no-danger
                   dangerouslySetInnerHTML={{ __html: bodyHtml }}
                 />
@@ -188,6 +180,35 @@ export default function FormationManager({ onClose }: Props) {
           </div>
         )}
       </div>
+    </div>
+  );
+}
+
+// Composant vidéo Tella : tente l'iframe embed, toujours accompagnée d'un
+// lien « Ouvrir dans Tella » (fallback si X-Frame-Options bloque l'embed).
+function TellaVideo({ url, title }: { url: string; title: string }) {
+  const embedUrl = toEmbedUrl(url);
+
+  return (
+    <div>
+      <div className={styles.videoWrap}>
+        <iframe
+          src={embedUrl}
+          className={styles.video}
+          title={title}
+          allow="autoplay; fullscreen; picture-in-picture"
+          allowFullScreen
+        />
+      </div>
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={styles.videoLink}
+      >
+        <ExternalLink size={13} />
+        Ouvrir dans Tella
+      </a>
     </div>
   );
 }

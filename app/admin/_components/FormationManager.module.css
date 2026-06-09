@@ -167,6 +167,20 @@
   border: none;
 }
 
+/* Lien de secours sous l'iframe Tella */
+.videoLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 8px;
+  font-size: 0.77rem;
+  font-weight: 500;
+  color: var(--c-text-muted, #4a5a6f);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+.videoLink:hover { color: var(--c-accent-secondary, #977b57); }
+
 /* Corps de la page (HTML Notion) */
 .bodySection {
   padding: 0 2px;
