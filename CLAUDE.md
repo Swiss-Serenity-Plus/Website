@@ -300,9 +300,10 @@ La console `/admin` (composant `AdminConsole`) propose 4 actions (titre « Comme
 ### ⚠️ PROCESS OBLIGATOIRE
 **Après chaque implémentation de tickets :**
 1. Committer et pusher les modifications
-2. Mettre à jour le statut de CHAQUE ticket traité à `Traité` via `notion-update-page`
-3. **Ajouter un commentaire** sur chaque ticket via `notion-create-comment` : décrire ce qui a été fait (fichiers, approche, comportement)
+2. **Mettre à jour le statut** à `Traité` : `PATCH https://api.notion.com/v1/pages/{id}` — body `{"properties": {"Statut": {"select": {"name": "Traité"}}}}` — headers `Authorization: Bearer $NOTION_TOKEN` + `Notion-Version: 2022-06-28`
+3. **Ajouter UN SEUL commentaire** en français simple (ton d'un ami, sans jargon) : `POST https://api.notion.com/v1/comments` — body `{"parent": {"page_id": "{id}"}, "rich_text": [{"type": "text", "text": {"content": "..."}}]}` — mêmes headers
 4. Ne jamais laisser un ticket implémenté en statut `À traiter` sans commentaire
+5. **Supprimer les commentaires en trop** si plusieurs ont été postés par erreur : `DELETE https://api.notion.com/v1/comments/{comment_id}` — header `Notion-Version: 2026-03-11` (version obligatoire pour le DELETE). On ne peut supprimer que ses propres commentaires. Toujours finir avec un seul commentaire clair.
 
 ---
 
@@ -371,8 +372,9 @@ La console `/admin` (composant `AdminConsole`) propose 4 actions (titre « Comme
 2. **CSS Modules uniquement** — jamais de style inline sauf valeurs dynamiques, jamais de Tailwind
 3. **Icônes Lucide** — jamais de caractères Unicode pour les flèches ou icônes
 4. **Tickets Notion** — après implémentation :
-   - Mettre à jour le statut à `Traité` via `notion-update-page`
-   - **Ajouter un commentaire** via `notion-create-comment` sur la page du ticket pour décrire précisément ce qui a été fait (fichiers modifiés, approche technique, commit hash)
+   - Mettre à jour le statut à `Traité` via `PATCH /v1/pages/{id}` (`Notion-Version: 2022-06-28`)
+   - **Ajouter UN SEUL commentaire** via `POST /v1/comments` en français simple, sans jargon technique — comme si on l'expliquait à un ami
+   - Si plusieurs commentaires postés par erreur : supprimer les mauvais via `DELETE /v1/comments/{comment_id}` (`Notion-Version: 2026-03-11`)
 5. **Commits** — messages clairs en français, 1 commit par groupe de changements cohérent
 6. **Branche** — ⛔ **toujours pusher sur la « main » de production `claude/setup-swiss-serenity-plus-Fm7s6`** (règle absolue, voir ci-dessus). Plus aucun push de preview.
 7. **Questions** — si un ticket est ambigu, poser la question avant d'implémenter
