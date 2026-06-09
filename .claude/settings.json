@@ -4,6 +4,10 @@
       "allowedDomains": ["api.notion.com"]
     }
   },
+  "env": {
+    "NOTION_TOKEN": "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",
+    "ADMIN_PASSWORD": "demo"
+  },
   "hooks": {
     "SessionStart": [
       {
