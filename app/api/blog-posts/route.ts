@@ -14,7 +14,7 @@ import { deleteR2Object } from "../../lib/r2";
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "GET, POST, PATCH, OPTIONS",
+  "Access-Control-Allow-Methods": "GET, POST, PATCH, DELETE, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type",
 };
 const DEFAULT_BLOG_DB_ID = "ca0b4df233c54095917cb3ea38bc59a0";
@@ -279,6 +279,40 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json({ success: true, id }, { headers });
   } catch (err) {
     console.error("[blog-posts] PATCH network error:", err);
+    return NextResponse.json({ error: "Erreur réseau" }, { status: 500, headers });
+  }
+}
+
+// ── DELETE (?id=&coverUrl=) ────────────────────────────────────────────────
+// Archive la page Notion (l'API publique ne permet pas la suppression définitive)
+// et supprime la couverture R2 si elle est fournie.
+export async function DELETE(request: NextRequest) {
+  const headers = { ...CORS, "Content-Type": "application/json" };
+  const token = process.env.NOTION_TOKEN;
+  if (!token) return NextResponse.json({ error: "NOTION_TOKEN manquant" }, { status: 500, headers });
+
+  const { searchParams } = new URL(request.url);
+  const id = searchParams.get("id");
+  if (!id) return NextResponse.json({ error: "ID manquant" }, { status: 400, headers });
+
+  try {
+    const res = await fetch(`${NOTION}/pages/${encodeURIComponent(id)}`, {
+      method: "PATCH",
+      headers: notionHeaders(token),
+      body: JSON.stringify({ archived: true }),
+    });
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      return NextResponse.json({ error: JSON.stringify(err) }, { status: res.status, headers });
+    }
+
+    const coverUrl = searchParams.get("coverUrl");
+    if (coverUrl) await deleteR2Object(coverUrl);
+
+    revalidatePath("/blog");
+    return NextResponse.json({ success: true }, { headers });
+  } catch (err) {
+    console.error("[blog-posts] DELETE error:", err);
     return NextResponse.json({ error: "Erreur réseau" }, { status: 500, headers });
   }
 }

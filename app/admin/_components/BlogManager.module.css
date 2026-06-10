@@ -112,6 +112,7 @@
 }
 .cardFoot { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 6px; }
 .cardMeta { font-size: 0.74rem; color: var(--c-text-muted, #4a5a6f); }
+.cardActions { display: flex; align-items: center; gap: 5px; }
 .cardEdit {
   display: inline-flex; align-items: center; gap: 5px; padding: 5px 11px;
   border: 1px solid var(--c-border, #e8e3d8); border-radius: 9999px; background: transparent;
@@ -119,6 +120,18 @@
   transition: border-color 0.15s ease, background 0.15s ease;
 }
 .cardEdit:hover { border-color: var(--c-accent-secondary, #977b57); background: rgba(151, 123, 87, 0.06); }
+.cardActionBtn {
+  display: inline-flex; align-items: center; gap: 4px; padding: 5px 8px;
+  border: 1px solid var(--c-border, #e8e3d8); border-radius: 9999px; background: transparent;
+  color: var(--c-text-muted, #4a5a6f); font-size: 0.74rem; font-weight: 500; font-family: inherit;
+  cursor: pointer; transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+.cardActionBtn:disabled { opacity: 0.5; cursor: not-allowed; }
+.cardActionDanger:hover { border-color: var(--c-accent-primary, #b42c2a); color: var(--c-accent-primary, #b42c2a); }
+.cardActionConfirm {
+  color: #3B5E32; border-color: #5a7a4f;
+}
+.cardActionConfirm:hover { background: rgba(90,122,79,0.08); }
 
 /* ── Squelettes de chargement ── */
 .skelCard {

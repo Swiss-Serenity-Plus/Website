@@ -189,6 +189,8 @@ export default function BlogManager({ onClose, showToast }: Props) {
   const [bodyLoading, setBodyLoading] = useState(false);
   const [sending, setSending] = useState<string | null>(null);
   const [previewOpen, setPreviewOpen] = useState(false);
+  const [confirmDeleteId, setConfirmDeleteId] = useState<string | null>(null);
+  const [deleting, setDeleting] = useState(false);
   const coverInputRef = useRef<HTMLInputElement>(null);
 
   const loadPosts = useCallback(async () => {
@@ -225,6 +227,26 @@ export default function BlogManager({ onClose, showToast }: Props) {
       return extra.length ? [...prev, ...extra] : prev;
     });
   }, [posts]);
+
+  async function deletePost(post: BlogPost) {
+    setDeleting(true);
+    try {
+      const params = new URLSearchParams({ id: post.id });
+      if (post.coverUrl) params.set("coverUrl", post.coverUrl);
+      const res = await fetch(`/api/blog-posts?${params}`, { method: "DELETE" });
+      if (!res.ok) {
+        const d = await res.json().catch(() => ({}));
+        throw new Error(d.error ?? `Erreur ${res.status}`);
+      }
+      setPosts((prev) => prev.filter((p) => p.id !== post.id));
+      showToast("Article supprimé", "success");
+    } catch (err) {
+      showToast(err instanceof Error ? err.message : "Erreur lors de la suppression", "error");
+    } finally {
+      setDeleting(false);
+      setConfirmDeleteId(null);
+    }
+  }
 
   function resetEditor() {
     setTitle(""); setSlug(""); setSlugTouched(false); setExcerpt(""); setCategory("");
@@ -473,9 +495,39 @@ export default function BlogManager({ onClose, showToast }: Props) {
                       <span className={styles.cardMeta}>
                         {p.publishDate ? fmtDate(p.publishDate) : `Modifié ${fmtDate(p.lastEdited)}`}
                       </span>
-                      <button className={styles.cardEdit} onClick={() => openEdit(p)}>
-                        <Pencil size={13} /> Modifier
-                      </button>
+                      <div className={styles.cardActions}>
+                        {confirmDeleteId === p.id ? (
+                          <>
+                            <button
+                              className={`${styles.cardActionBtn} ${styles.cardActionConfirm}`}
+                              onClick={() => deletePost(p)}
+                              disabled={deleting}
+                            >
+                              {deleting ? "…" : <><Check size={12} /> Confirmer</>}
+                            </button>
+                            <button
+                              className={styles.cardActionBtn}
+                              onClick={() => setConfirmDeleteId(null)}
+                              disabled={deleting}
+                            >
+                              <X size={12} />
+                            </button>
+                          </>
+                        ) : (
+                          <>
+                            <button
+                              className={`${styles.cardActionBtn} ${styles.cardActionDanger}`}
+                              onClick={() => setConfirmDeleteId(p.id)}
+                              aria-label="Supprimer l'article"
+                            >
+                              <Trash2 size={13} />
+                            </button>
+                            <button className={styles.cardEdit} onClick={() => openEdit(p)}>
+                              <Pencil size={13} /> Modifier
+                            </button>
+                          </>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </article>
