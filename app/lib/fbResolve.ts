@@ -27,29 +27,25 @@ export function pageNameForPath(pathname: string): string {
 }
 
 export const ACTION_OPTIONS = [
-  "Modifier du texte",
-  "Ajouter du texte",
-  "Ajouter une image",
-  "Changer une couleur",
-  "Modifier la mise en page",
-  "Supprimer un élément",
-  "Ajouter un lien",
-  "Corriger une faute",
-  "Autre",
+  "Corriger un problème (ça ne marche pas)",
+  "Modifier un texte (changer ce qui est écrit)",
+  "Changer l'affichage (taille / alignement / espacement / mise en page)",
+  "Ajouter ou remplacer une image / icône",
+  "Changer une couleur / un style (visuel)",
+  "Ajouter ou corriger un lien / bouton (destination)",
+  "Adapter l'affichage sur mobile (différent de l'ordinateur)",
 ] as const;
 
 export type ActionOption = (typeof ACTION_OPTIONS)[number];
 
 export const PLACEHOLDERS: Record<ActionOption | "default", string> = {
-  "Modifier du texte": "Quel texte souhaitez-vous modifier ? Quelle formulation préférez-vous à la place ?",
-  "Ajouter du texte": "Quel contenu souhaitez-vous ajouter et à quel emplacement précis sur la page ?",
-  "Ajouter une image": "Quelle image souhaitez-vous intégrer ? Avez-vous un fichier ou une référence à proposer ?",
-  "Changer une couleur": "Quelle couleur ou quel style souhaitez-vous appliquer ? Une référence visuelle aide beaucoup.",
-  "Modifier la mise en page": "Comment souhaitez-vous réorganiser cet élément ? Un croquis ou une description suffit.",
-  "Supprimer un élément": "Confirmez-vous la suppression ? Y a-t-il quelque chose à mettre à la place ?",
-  "Ajouter un lien": "Vers quelle page ou adresse ce lien doit-il pointer ?",
-  "Corriger une faute": "Quelle est la formulation correcte que vous souhaitez voir apparaître ?",
-  "Autre": "Décrivez précisément votre retour : contexte, attente, exemple si possible.",
+  "Corriger un problème (ça ne marche pas)": "Décrivez le problème : que se passe-t-il, sur quel navigateur ou appareil, et ce que vous attendiez à la place.",
+  "Modifier un texte (changer ce qui est écrit)": "Quel texte souhaitez-vous modifier ? Quelle formulation préférez-vous à la place ?",
+  "Changer l'affichage (taille / alignement / espacement / mise en page)": "Comment souhaitez-vous réorganiser ou redimensionner cet élément ? Un exemple ou une description suffit.",
+  "Ajouter ou remplacer une image / icône": "Quelle image ou icône souhaitez-vous intégrer ou remplacer ? Avez-vous un fichier ou une référence à proposer ?",
+  "Changer une couleur / un style (visuel)": "Quelle couleur ou quel style souhaitez-vous appliquer ? Une référence visuelle aide beaucoup.",
+  "Ajouter ou corriger un lien / bouton (destination)": "Vers quelle page ou adresse ce lien doit-il pointer ? Y a-t-il un libellé à corriger aussi ?",
+  "Adapter l'affichage sur mobile (différent de l'ordinateur)": "Sur quel appareil avez-vous constaté le problème ? Décrivez ce qui devrait être différent sur mobile.",
   default: "Décrivez précisément votre retour : contexte, attente, exemple si possible.",
 };
 
