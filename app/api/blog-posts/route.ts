@@ -284,8 +284,8 @@ export async function PATCH(request: NextRequest) {
 }
 
 // ── DELETE (?id=&coverUrl=) ────────────────────────────────────────────────
-// Archive la page Notion (l'API publique ne permet pas la suppression définitive)
-// et supprime la couverture R2 si elle est fournie.
+// DELETE /v1/blocks/{id} : les pages sont des blocs dans Notion.
+// Résultat : soft-delete (archivage), récupérable depuis la corbeille Notion.
 export async function DELETE(request: NextRequest) {
   const headers = { ...CORS, "Content-Type": "application/json" };
   const token = process.env.NOTION_TOKEN;
@@ -296,10 +296,9 @@ export async function DELETE(request: NextRequest) {
   if (!id) return NextResponse.json({ error: "ID manquant" }, { status: 400, headers });
 
   try {
-    const res = await fetch(`${NOTION}/pages/${encodeURIComponent(id)}`, {
-      method: "PATCH",
+    const res = await fetch(`${NOTION}/blocks/${encodeURIComponent(id)}`, {
+      method: "DELETE",
       headers: notionHeaders(token),
-      body: JSON.stringify({ archived: true }),
     });
     if (!res.ok) {
       const err = await res.json().catch(() => ({}));
