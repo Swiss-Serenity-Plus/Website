@@ -46,7 +46,7 @@ export default async function BlogPage() {
         <PageHero
           eyebrow="Blog"
           title="Conseils & Insights"
-          subtitle="Ressources pratiques pour dirigeants de PME exigeants et particuliers en Suisse romande — organisation, performance, accompagnement administratif."
+          subtitle="Retrouvez les actualités de Swiss Serenity Plus® ainsi que des conseils pratiques en assistance administrative, coordination, organisation et accompagnement personnalisé. Découvrez également des informations utiles sur les démarches administratives, l’AVS, l’AI, les assurances maladie, les EMS, Homes et les solutions facilitant le quotidien en Suisse romande."
           breadcrumbs={[{ label: "Accueil", href: "/" }, { label: "Blog" }]}
         />
 
