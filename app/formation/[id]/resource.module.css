@@ -1,0 +1,31 @@
+/* Route dédiée d'une ressource de formation /formation/[id] (espace admin) */
+.page {
+  min-height: 100vh;
+  background: var(--c-bg, #f7f5f1);
+  padding: 40px 24px 72px;
+}
+.inner {
+  max-width: 820px;
+  margin: 0 auto;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 24px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--c-text-muted, #4a5a6f);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+.backLink:hover { color: var(--c-accent-secondary, #977b57); }
+
+.title {
+  font-family: var(--font-display, "Fraunces", serif);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  line-height: 1.2;
+  color: var(--c-text, #062445);
+  margin: 0 0 28px;
+}

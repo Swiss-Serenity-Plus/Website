@@ -172,6 +172,17 @@ export default function FormationManager({ onClose }: Props) {
         {/* Vue détail */}
         {selected && (
           <div className={styles.detail}>
+            {/* Lien vers la route dédiée de la ressource (slug = identifiant Notion) */}
+            <a
+              href={`/formation/${selected.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles.routeLink}
+            >
+              <ExternalLink size={13} />
+              Ouvrir la page dédiée
+            </a>
+
             {/* Vidéo Tella principale (propriété Notion) */}
             {selected.tellaUrl && (
               <TellaVideo url={selected.tellaUrl} title={selected.title} />
