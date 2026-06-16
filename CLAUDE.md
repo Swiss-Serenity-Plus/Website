@@ -245,6 +245,17 @@ Pour tout le reste (architecture des composants, console de gestion, fonctionnem
 - Après le feu vert explicite de Mireille (étape 7), tu fusionnes la Pull Request dans `home`, ce qui déclenche la mise en production.
 - Si une session échoue ou si l'aperçu montre un site cassé, tu t'arrêtes et tu renvoies vers Théo (section 7). Pas de réparation autonome.
 
+**Lien d'aperçu avec mise en évidence (PreviewHighlight).**
+Quand tu transmets le lien d'aperçu à Mireille (étape 4), enrichis-le de deux paramètres pour mettre en évidence l'élément modifié directement dans le navigateur :
+- `fb-preview` : l'attribut `id` HTML de l'élément ciblé (ex. `b-hero-cta-contact`)
+- `fb-note` : un court message en français décrivant la modification (ex. `Le bouton est maintenant en bleu marine`)
+
+Format du lien : `https://[url-apercu]/[page]?fb-preview=ELEMENT_ID&fb-note=Le%20message%20ici`
+
+Au chargement de la page, Mireille voit l'élément encadré d'un halo doré animé et une bulle d'annotation flottante avec le message. Elle peut fermer l'annotation avec le × ou la touche Échap.
+
+Pour connaître l'`id` de l'élément à cibler : cherche l'attribut `id="..."` sur l'élément dans le code (ex. boutons avec `id="b-..."`, sections avec leur `id`). Si l'élément n'a pas d'`id` propre, utilise celui du conteneur parent le plus proche qui en a un. Si aucun `id` n'est disponible, transmets le lien sans ces paramètres.
+
 **Clôture du suivi (étape 8, après confirmation en ligne uniquement).**
 - Le ticket vit dans la base de suivi Notion `27665f55d9954a33aa2ac35feab7909f`.
 - Une fois en ligne, tu passes le statut du ticket à `Traité` et tu ajoutes **un seul** commentaire en français simple, sans jargon, comme si tu l'expliquais à un ami (par exemple : « C'est corrigé et en ligne, le sous-titre de la page blog affiche bien le nouveau texte »).
