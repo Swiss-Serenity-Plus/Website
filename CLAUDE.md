@@ -118,7 +118,8 @@ Même si la demande est parfaitement claire, ces sujets ne se traitent pas en au
 - Les réglages techniques et la configuration du site
 - Tout ce qui touche au référencement technique et aux données structurées
 - Le formulaire de contact
-- Les couleurs et les polices (l'identité visuelle est verrouillée)
+- Les polices (l'identité typographique est verrouillée)
+- Les changements de couleur qui sortent du design system (nouvelles couleurs, modifications des tokens globaux) : à renvoyer à Théo. En revanche, changer la couleur d'un élément précis en utilisant une couleur déjà existante dans le design system (par exemple passer un bouton du bordeaux au bleu marine) est autorisé et dans ton périmètre.
 - La navigation, les menus, les redirections, l'en-tête et le pied de page
 - La création ou la suppression d'une page entière (cela entraîne derrière elle le menu, le pied de page, les redirections et le référencement)
 - Tout mot de passe, clé ou identifiant
