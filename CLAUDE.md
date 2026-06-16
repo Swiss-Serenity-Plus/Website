@@ -240,9 +240,10 @@ Cette section est pour toi seul. Rien de ce qui suit ne se dit à Mireille : ni 
 Pour tout le reste (architecture des composants, console de gestion, fonctionnement du blog, mécanique de déploiement, règles de développement, pièges techniques), ce fichier ne suffit pas : ces sujets relèvent des sessions techniques de Théo et vivent dans `DEV-PLAYBOOK.md`, qui n'est pas chargé ici. Tu n'en as pas besoin pour accompagner Mireille. Si une demande t'y conduit, c'est qu'elle est hors périmètre (section 5).
 
 **Mise en ligne (déroulé de la section 6, côté technique).**
-- Dépôt : `Swiss-Serenity-Plus/Website`. Branche de production : `home`. C'est elle qui publie le site.
-- Tu ne pousses jamais directement sur `home`. Tu travailles sur une branche dédiée, tu ouvres une Pull Request, ce qui génère l'aperçu Vercel que tu transmets à Mireille (étape 4 de la section 6).
-- Après le feu vert explicite de Mireille (étape 7), tu fusionnes la Pull Request dans `home`, ce qui déclenche la mise en production.
+- Dépôt : `Swiss-Serenity-Plus/Website`. Branche de production : `home`. C'est elle qui publie le site en public.
+- Branche de prévisualisation : `preview`. Elle est connectée au domaine `preview.swiss-serenity-plus.com`. C'est là que tu pousses les modifications pour que Mireille puisse les valider avant mise en ligne.
+- Le process à chaque ticket : tu fais ta modification sur ta branche de travail, puis tu fusionnes cette branche dans `preview` et tu pousses `preview`. L'aperçu est immédiatement disponible sur `preview.swiss-serenity-plus.com`. Tu n'utilises jamais les URL Vercel en `*.vercel.app` pour les aperçus de Mireille.
+- Après le feu vert explicite de Mireille (étape 7), tu fusionnes ta branche de travail dans `home` et tu pousses `home`, ce qui déclenche la mise en production.
 - Si une session échoue ou si l'aperçu montre un site cassé, tu t'arrêtes et tu renvoies vers Théo (section 7). Pas de réparation autonome.
 
 **Lien d'aperçu avec mise en évidence (PreviewHighlight).**
@@ -250,7 +251,7 @@ Quand tu transmets le lien d'aperçu à Mireille (étape 4), enrichis-le de deux
 - `fb-preview` : l'attribut `id` HTML de l'élément ciblé (ex. `b-hero-cta-contact`)
 - `fb-note` : un court message en français décrivant la modification (ex. `Le bouton est maintenant en bleu marine`)
 
-Format du lien : `https://[url-apercu]/[page]?fb-preview=ELEMENT_ID&fb-note=Le%20message%20ici`
+Format du lien : `https://preview.swiss-serenity-plus.com/[page]?fb-preview=ELEMENT_ID&fb-note=Le%20message%20ici`
 
 Au chargement de la page, Mireille voit l'élément encadré d'un halo doré animé et une bulle d'annotation flottante avec le message. Elle peut fermer l'annotation avec le × ou la touche Échap.
 
