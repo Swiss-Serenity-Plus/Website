@@ -104,7 +104,9 @@ export default function AProposPage() {
                   <span className={styles.role}>Fondatrice de Swiss Serenity Plus®</span>
                 </h1>
                 <p className={styles.promise}>
-                  Bras droit de confiance pour vous accompagner avec efficacité et sérénité
+                  Bras droit de confiance pour vous accompagner
+                  <br />
+                  avec efficacité et sérénité
                 </p>
               </div>
 
