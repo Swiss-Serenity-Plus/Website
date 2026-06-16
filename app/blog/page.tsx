@@ -11,7 +11,7 @@ import styles from "./page.module.css";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Blog — Conseils & Insights — Swiss Serenity Plus",
+  title: "Blog — Actualités & Conseils — Swiss Serenity Plus",
   description:
     "Conseils pratiques pour dirigeants de PME et particuliers en Suisse romande : structuration, organisation, bras droit externalisé, gestion administrative et performance.",
   keywords: [
@@ -45,7 +45,7 @@ export default async function BlogPage() {
       <main>
         <PageHero
           eyebrow="Blog"
-          title="Conseils & Insights"
+          title="Actualités & Conseils"
           subtitle="Retrouvez les actualités de Swiss Serenity Plus® ainsi que des conseils pratiques en assistance administrative, coordination, organisation et accompagnement personnalisé. Découvrez également des informations utiles sur les démarches administratives, l'AVS, l'AI, les assurances maladie, les EMS, Homes et les solutions facilitant le quotidien en Suisse romande."
           breadcrumbs={[{ label: "Accueil", href: "/" }, { label: "Blog" }]}
         />
