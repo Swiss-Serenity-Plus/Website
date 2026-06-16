@@ -32,7 +32,14 @@ type View = "hub" | "form";
 type StageView = "browser" | "blog" | "tickets" | "formation";
 type ToastType = "success" | "error" | "partial";
 
-export default function AdminConsole() {
+interface AdminConsoleProps {
+  // Lien profond : ouvrir directement le gestionnaire de formations (vue liste)
+  // et, le cas échéant, une ressource précise (pré-ouverte) au chargement.
+  initialFormation?: boolean;
+  initialFormationId?: string | null;
+}
+
+export default function AdminConsole({ initialFormation, initialFormationId }: AdminConsoleProps = {}) {
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
   const sessionId = useRef("");
   const toastTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
@@ -45,7 +52,10 @@ export default function AdminConsole() {
   const [frameLoadKey, setFrameLoadKey] = useState(0);
 
   const [view, setView] = useState<View>("hub");
-  const [stageView, setStageView] = useState<StageView>("browser");
+  const [stageView, setStageView] = useState<StageView>(initialFormation ? "formation" : "browser");
+  // Ressource de formation ouverte (null = vue liste). Synchronisée avec l'URL
+  // /admin/formation/<id> via l'History API (pas de rechargement de page).
+  const [formationOpenId, setFormationOpenId] = useState<string | null>(initialFormationId ?? null);
 
   // Formulaire de retour
   const [pendingElement, setPendingElement] = useState<string | null>(null);
@@ -111,6 +121,9 @@ export default function AdminConsole() {
     const frame = iframeRef.current;
     if (frame) frame.src = path;
     setStageView("browser");
+    if (window.location.pathname.startsWith("/admin/formation")) {
+      window.history.pushState(null, "", "/admin");
+    }
   }, []);
 
   function handleFrameLoad(pathname: string) {
@@ -215,11 +228,13 @@ export default function AdminConsole() {
 
   function toggleBlockSelect() {
     setStageView("browser");
+    leaveFormationUrl();
     setMode((m) => (m === "annotate" ? "navigate" : "annotate"));
   }
 
   function startGeneralFeedback() {
     setStageView("browser");
+    leaveFormationUrl();
     setMode("navigate");
     resetForm();
     setPendingElement("Page entière");
@@ -234,6 +249,7 @@ export default function AdminConsole() {
     setMode("navigate");
     setAutoOpenTicketId(null);
     setStageView("tickets");
+    leaveFormationUrl();
   }
 
   function closeForm() {
@@ -244,12 +260,51 @@ export default function AdminConsole() {
   function startBlogCreator() {
     setMode("navigate");
     setStageView("blog");
+    leaveFormationUrl();
   }
 
+  // ── Formation : navigation pilotant l'URL (History API) ──────────────────
   function openFormation() {
     setMode("navigate");
     setStageView("formation");
+    setFormationOpenId(null);
+    window.history.pushState(null, "", "/admin/formation");
   }
+  function openFormationItem(id: string) {
+    setFormationOpenId(id);
+    window.history.pushState(null, "", `/admin/formation/${id}`);
+  }
+  function backFormationList() {
+    setFormationOpenId(null);
+    window.history.pushState(null, "", "/admin/formation");
+  }
+  function closeFormation() {
+    setStageView("browser");
+    setFormationOpenId(null);
+    window.history.pushState(null, "", "/admin");
+  }
+  // Remet l'URL à /admin quand on quitte la formation pour une autre vue.
+  function leaveFormationUrl() {
+    if (window.location.pathname.startsWith("/admin/formation")) {
+      window.history.pushState(null, "", "/admin");
+    }
+  }
+
+  // Boutons précédent/suivant du navigateur : resynchronise la vue sur l'URL.
+  useEffect(() => {
+    const onPop = () => {
+      const m = window.location.pathname.match(/^\/admin\/formation(?:\/([^/]+))?\/?$/);
+      if (m) {
+        setStageView("formation");
+        setFormationOpenId(m[1] ?? null);
+      } else {
+        setStageView("browser");
+        setFormationOpenId(null);
+      }
+    };
+    window.addEventListener("popstate", onPop);
+    return () => window.removeEventListener("popstate", onPop);
+  }, []);
 
   // Envoi direct vers Notion — aucun brouillon intermédiaire.
   // Après succès : toast cliquable qui ouvre les tickets avec auto-ouverture
@@ -592,7 +647,12 @@ export default function AdminConsole() {
       {/* Formation */}
       {stageView === "formation" && (
         <div className={styles.stageOverlay}>
-          <FormationManager onClose={() => setStageView("browser")} />
+          <FormationManager
+            openId={formationOpenId}
+            onOpenItem={openFormationItem}
+            onBack={backFormationList}
+            onClose={closeFormation}
+          />
         </div>
       )}
 

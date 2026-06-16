@@ -381,27 +381,3 @@ export async function getTrainingBodyHtml(pageId: string, title = ""): Promise<s
   await enrichBlocks(blocks);
   return blocksToHtml(blocks, title);
 }
-
-export interface TrainingResource {
-  id: string;
-  title: string;
-  tellaUrl: string;
-  html: string;
-}
-
-// Ressource complète (méta + corps HTML) pour une route dédiée. Renvoie null si
-// la page n'existe pas ou si la configuration Notion est absente.
-export async function getTrainingResource(pageId: string): Promise<TrainingResource | null> {
-  if (!trainingDatabaseId()) return null;
-
-  const res = await fetch(`${NOTION}/pages/${pageId}`, { headers: notionHeaders() });
-  if (!res.ok) return null;
-
-  const page = await res.json();
-  const props = (page.properties ?? {}) as Record<string, NotionProp>;
-  const title = findTitle(props);
-  const tellaUrl = findTellaUrl(props);
-  const html = await getTrainingBodyHtml(pageId, title);
-
-  return { id: page.id as string, title, tellaUrl, html };
-}

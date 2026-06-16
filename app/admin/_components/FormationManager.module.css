@@ -188,27 +188,6 @@
   border-radius: 10px;
 }
 
-/* Lien vers la route dédiée de la ressource (en tête du détail) */
-.routeLink {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  align-self: flex-start;
-  padding: 7px 14px;
-  border: 1px solid var(--c-border, #e8e3d8);
-  border-radius: 9999px;
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: var(--c-text-muted, #4a5a6f);
-  background: var(--c-surface, #fff);
-  text-decoration: none;
-  transition: border-color 0.15s ease, color 0.15s ease;
-}
-.routeLink:hover {
-  border-color: var(--c-accent-secondary, #977b57);
-  color: var(--c-text, #062445);
-}
-
 /* Lien de secours sous l'iframe Tella */
 .videoLink {
   display: inline-flex;

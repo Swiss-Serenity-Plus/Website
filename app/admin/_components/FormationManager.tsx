@@ -1,8 +1,13 @@
 "use client";
 
-// Gestionnaire de formations : affiche la liste des items de la base Notion
-// Notion_Training_Database_ID et ouvre un pop-up avec l'iframe Tella + le corps
-// de la page (markdown converti en HTML par l'API).
+// Gestionnaire de formations : liste les items de la base Notion
+// (Notion_Training_Database_ID) et affiche, dans le même layout, le détail d'une
+// ressource (vidéo Tella + corps de page converti en HTML).
+//
+// La ressource ouverte est pilotée par `openId` (fourni par AdminConsole, qui
+// synchronise l'URL /admin/formation/<id>). Ce composant ne décide pas de l'URL :
+// il remonte les intentions de navigation (ouvrir un item, revenir à la liste,
+// fermer) via les callbacks, et reflète l'état `openId` reçu.
 import { useState, useEffect, useCallback, useRef } from "react";
 import {
   Bookmark, ArrowLeft, X, Play, Loader, AlertCircle, ExternalLink,
@@ -17,6 +22,9 @@ interface FormationItem {
 }
 
 interface Props {
+  openId: string | null;
+  onOpenItem: (id: string) => void;
+  onBack: () => void;
   onClose: () => void;
 }
 
@@ -37,14 +45,16 @@ function toEmbedUrl(url: string): string {
   return url.replace(/\/$/, "") + "/embed";
 }
 
-export default function FormationManager({ onClose }: Props) {
+export default function FormationManager({ openId, onOpenItem, onBack, onClose }: Props) {
   const [items, setItems] = useState<FormationItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [selected, setSelected] = useState<FormationItem | null>(null);
   const [bodyHtml, setBodyHtml] = useState("");
   const [bodyLoading, setBodyLoading] = useState(false);
   const bodyRef = useRef<HTMLDivElement>(null);
+
+  // La ressource ouverte est dérivée de openId + des items chargés.
+  const selected = openId ? items.find((i) => i.id === openId) ?? null : null;
 
   const loadItems = useCallback(async () => {
     setLoading(true);
@@ -63,6 +73,28 @@ export default function FormationManager({ onClose }: Props) {
 
   // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { loadItems(); }, [loadItems]);
+
+  // Charge le corps de la ressource quand openId change.
+  const loadBody = useCallback(async (id: string) => {
+    setBodyHtml("");
+    setBodyLoading(true);
+    try {
+      const res = await fetch(`/api/training-posts?${new URLSearchParams({ id })}`);
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+      setBodyHtml(data.html ?? "");
+    } catch {
+      setBodyHtml("");
+    } finally {
+      setBodyLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    if (openId) loadBody(openId);
+    else setBodyHtml("");
+  }, [openId, loadBody]);
 
   // Délégation d'événement pour les boutons « Copier » dans les blocs de code
   // injectés via dangerouslySetInnerHTML. Feedback visuel 1,5 s.
@@ -83,35 +115,13 @@ export default function FormationManager({ onClose }: Props) {
     return () => container.removeEventListener("click", handleClick);
   }, [bodyHtml]);
 
-  async function openItem(item: FormationItem) {
-    setSelected(item);
-    setBodyHtml("");
-    setBodyLoading(true);
-    try {
-      const params = new URLSearchParams({ id: item.id, title: item.title });
-      const res = await fetch(`/api/training-posts?${params}`);
-      if (!res.ok) throw new Error(`Erreur ${res.status}`);
-      const data = await res.json();
-      setBodyHtml(data.html ?? "");
-    } catch {
-      setBodyHtml("");
-    } finally {
-      setBodyLoading(false);
-    }
-  }
-
-  function closeDetail() {
-    setSelected(null);
-    setBodyHtml("");
-  }
-
   return (
     <div className={styles.panel}>
       {/* En-tête */}
       <div className={styles.header}>
         <div className={styles.headerTitle}>
           {selected && (
-            <button className={styles.backBtn} onClick={closeDetail} aria-label="Retour à la liste">
+            <button className={styles.backBtn} onClick={onBack} aria-label="Retour à la liste">
               <ArrowLeft size={15} />
             </button>
           )}
@@ -153,7 +163,7 @@ export default function FormationManager({ onClose }: Props) {
               <ul className={styles.list}>
                 {items.map((item) => (
                   <li key={item.id}>
-                    <button className={styles.card} onClick={() => openItem(item)}>
+                    <button className={styles.card} onClick={() => onOpenItem(item.id)}>
                       <span className={styles.cardIconWrap}>
                         <Play size={16} strokeWidth={1.8} className={styles.cardIcon} />
                       </span>
@@ -172,17 +182,6 @@ export default function FormationManager({ onClose }: Props) {
         {/* Vue détail */}
         {selected && (
           <div className={styles.detail}>
-            {/* Lien vers la route dédiée de la ressource (slug = identifiant Notion) */}
-            <a
-              href={`/admin/formation/${selected.id}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.routeLink}
-            >
-              <ExternalLink size={13} />
-              Ouvrir la page dédiée
-            </a>
-
             {/* Vidéo Tella principale (propriété Notion) */}
             {selected.tellaUrl && (
               <TellaVideo url={selected.tellaUrl} title={selected.title} />
