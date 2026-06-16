@@ -20,10 +20,13 @@ export default function AboutTeaser() {
               votre bras droit stratégique
             </h2>
             <p className={styles.text}>
-              Forte d&rsquo;une expérience étendue dans le business development et la gestion opérationnelle, j&rsquo;ai fondé Swiss Serenity Plus pour offrir aux dirigeants suisses romands un soutien sur mesure, sans les contraintes d&rsquo;un poste interne.
+              Valaisanne, ayant étudié et exercé mon activité professionnelle en Suisse et en France, j&rsquo;évolue depuis plus de vingt ans dans des environnements mêlant développement commercial, coordination stratégique et relations clients.
             </p>
             <p className={styles.text}>
-              Mon approche&nbsp;: écouter, comprendre, agir. Avec rigueur, discrétion et un engagement total envers votre réussite.
+              Mon expérience m&rsquo;a ainsi permis de développer une méthode de travail à la fois rigoureuse, bienveillante et orientée résultats.
+            </p>
+            <p className={styles.text}>
+              Avec Swiss Serenity Plus®, j&rsquo;accompagne aussi bien les professionnels dans leur développement commercial et l&rsquo;optimisation de leur organisation que les particuliers dans leurs démarches administratives, leurs projets et les formalités liées aux étapes importantes de leur vie.
             </p>
             <div className={styles.cta}>
               <Button href="/a-propos" variant="secondary" size="md" id="b-about-teaser-cta" fbLabel="Bouton « En savoir plus sur mon parcours »">
