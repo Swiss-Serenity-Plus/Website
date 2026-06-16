@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import ArticleEditor from "./ArticleEditor";
 import { tiptapDocToHtml } from "../../lib/tiptapHtml";
+import { uploadImageToR2 } from "../../lib/uploadImageClient";
 import type { JSONContent } from "@tiptap/react";
 import CategorySelect, { type CategoryItem } from "./CategorySelect";
 import CustomSelect from "../../components/CustomSelect/CustomSelect";
@@ -349,15 +350,11 @@ export default function BlogManager({ onClose, showToast }: Props) {
     setCoverError("");
     setCoverUploading(true);
     try {
-      const fd = new FormData();
-      fd.append("file", file);
-      const res = await fetch("/api/upload-image", { method: "POST", body: fd });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? `Erreur ${res.status}`);
-      setCoverUrl(data.url);
+      const url = await uploadImageToR2(file, "blog");
+      setCoverUrl(url);
       // L'ancien fichier de cette session (non encore enregistre dans Notion) est
       // supprime de R2. La couverture deja enregistree sera nettoyee a la sauvegarde.
-      if (replacingPrev && replacingPrev !== savedCoverUrl && replacingPrev !== data.url) {
+      if (replacingPrev && replacingPrev !== savedCoverUrl && replacingPrev !== url) {
         deleteCoverFromR2(replacingPrev);
       }
     } catch (err) {

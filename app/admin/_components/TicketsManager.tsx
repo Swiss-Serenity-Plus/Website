@@ -11,6 +11,7 @@ import {
   MessageSquare, Inbox, Loader, CircleCheck, Replace, ImagePlus, Ban,
 } from "lucide-react";
 import { ACTION_OPTIONS } from "../../lib/fbResolve";
+import { uploadImageToR2 } from "../../lib/uploadImageClient";
 import CustomSelect from "../../components/CustomSelect/CustomSelect";
 import styles from "./TicketsManager.module.css";
 
@@ -254,12 +255,8 @@ export default function TicketsManager({ onClose, showToast, onCount, autoOpenTi
     if (!file.type.startsWith("image/")) return;
     setEditImageUploading(true);
     try {
-      const fd = new FormData();
-      fd.append("file", file);
-      const res = await fetch("/api/upload-image", { method: "POST", body: fd });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? "Échec de l'upload");
-      setEditImageUrl(data.url);
+      const url = await uploadImageToR2(file, "feedback");
+      setEditImageUrl(url);
     } catch {
       showToast("L'image n'a pas pu être envoyée.", "error");
     } finally {

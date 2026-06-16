@@ -12,6 +12,7 @@ import {
   Bold, Italic, Heading2, Heading3, List, ListOrdered, Link2, ImagePlus, LoaderCircle,
 } from "lucide-react";
 import { useState } from "react";
+import { uploadImageToR2 } from "../../lib/uploadImageClient";
 import styles from "./ArticleEditor.module.css";
 
 interface Props {
@@ -61,13 +62,9 @@ export default function ArticleEditor({ initialContent, onChange }: Props) {
     if (!file.type.startsWith("image/")) return;
     setUploading(true);
     try {
-      const fd = new FormData();
-      fd.append("file", file);
-      const res = await fetch("/api/upload-image", { method: "POST", body: fd });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? "Échec de l'upload");
+      const url = await uploadImageToR2(file, "blog");
       const alt = window.prompt("Texte alternatif de l'image (pour le SEO et l'accessibilité) :", "") ?? "";
-      editor!.chain().focus().setImage({ src: data.url, alt }).run();
+      editor!.chain().focus().setImage({ src: url, alt }).run();
     } catch {
       window.alert("L'image n'a pas pu être envoyée. Veuillez réessayer.");
     } finally {

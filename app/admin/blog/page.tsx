@@ -8,6 +8,7 @@ import Container from "../../components/Container/Container";
 import Button from "../../components/Button/Button";
 import CustomSelect from "../../components/CustomSelect/CustomSelect";
 import RichTextEditor from "../../components/RichTextEditor/RichTextEditor";
+import { uploadImageToR2 } from "../../lib/uploadImageClient";
 import styles from "./page.module.css";
 
 const CATEGORY_OPTIONS = [
@@ -67,12 +68,8 @@ export default function BlogEditorPage() {
     setImageError("");
     setImageUploading(true);
     try {
-      const fd = new FormData();
-      fd.append("file", file);
-      const res = await fetch("/api/upload-image", { method: "POST", body: fd });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? `Erreur ${res.status}`);
-      setImageUrl(data.url);
+      const url = await uploadImageToR2(file, "blog");
+      setImageUrl(url);
     } catch (err) {
       setImageError(err instanceof Error ? err.message : "Échec de l'upload");
     } finally {

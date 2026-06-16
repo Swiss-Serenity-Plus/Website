@@ -21,6 +21,7 @@ import {
   getElementLabel, getElementUrl,
 } from "../../lib/fbResolve";
 import BrowserFrame, { type Format } from "./BrowserFrame";
+import { uploadImageToR2 } from "../../lib/uploadImageClient";
 import fb from "../../components/FeedbackWidget/FeedbackWidget.module.css";
 import styles from "./AdminConsole.module.css";
 
@@ -301,12 +302,8 @@ export default function AdminConsole() {
     setPendingImageError("");
     setPendingImageUploading(true);
     try {
-      const fd = new FormData();
-      fd.append("file", file);
-      const res = await fetch("/api/upload-image", { method: "POST", body: fd });
-      const data = await res.json();
-      if (!res.ok) throw new Error(data.error ?? `Erreur ${res.status}`);
-      setPendingImageUrl(data.url);
+      const url = await uploadImageToR2(file, "feedback");
+      setPendingImageUrl(url);
     } catch (err) {
       setPendingImageError(err instanceof Error ? err.message : "Échec de l'upload");
     } finally {

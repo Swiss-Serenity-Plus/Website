@@ -1,14 +1,52 @@
 import { NextRequest, NextResponse } from "next/server";
+import { cookies } from "next/headers";
 import { deleteR2Object } from "../../lib/r2";
+import { isValidSession, ADMIN_COOKIE } from "../../lib/adminAuth";
+import { r2PresignConfig, presignR2Put, buildObjectKey } from "../../lib/r2Presign";
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Methods": "POST, DELETE, OPTIONS",
+  "Access-Control-Allow-Methods": "GET, POST, DELETE, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type",
 };
 
 export async function OPTIONS() {
   return new NextResponse(null, { status: 204, headers: CORS });
+}
+
+// Renvoie une URL PUT pré-signée pour un upload direct navigateur → R2.
+// Réservé à l'admin : les uploads ne proviennent que de la console /admin.
+//   GET /api/upload-image?action=presign&filename=…&context=blog|feedback
+export async function GET(request: NextRequest) {
+  const headers = { ...CORS, "Content-Type": "application/json" };
+  const { searchParams } = new URL(request.url);
+
+  if (searchParams.get("action") !== "presign") {
+    return NextResponse.json({ error: "Action inconnue" }, { status: 400, headers });
+  }
+
+  const store = await cookies();
+  if (!isValidSession(store.get(ADMIN_COOKIE)?.value)) {
+    return NextResponse.json({ error: "Non autorisé" }, { status: 401, headers });
+  }
+
+  const cfg = r2PresignConfig();
+  if (!cfg) {
+    console.error("[upload-image] Clés S3 R2 manquantes (CLOUDFLARE_R2_ACCESS_KEY_ID / CLOUDFLARE_R2_SECRET_ACCESS_KEY)");
+    return NextResponse.json(
+      { error: "Configuration d'upload manquante côté serveur" },
+      { status: 500, headers },
+    );
+  }
+
+  const filename = searchParams.get("filename") ?? "image";
+  const prefix = searchParams.get("context") === "feedback" ? "feedback" : "blog-covers";
+  const key = buildObjectKey(filename, prefix);
+
+  return NextResponse.json(
+    { uploadUrl: presignR2Put(cfg, key), publicUrl: `${cfg.publicUrl}/${key}`, key },
+    { status: 200, headers },
+  );
 }
 
 export async function POST(request: NextRequest) {
