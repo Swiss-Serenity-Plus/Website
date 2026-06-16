@@ -1,6 +1,7 @@
 // Tickets API — GET liste tous les items d'une database Notion (pagination complète), DELETE archive une page.
 // Variables d'env : NOTION_TOKEN, NOTION_DATABASE_ID
 import { NextRequest, NextResponse } from "next/server";
+import { deleteR2Object } from "../../lib/r2";
 
 const CORS = { "Content-Type": "application/json" };
 
@@ -208,14 +209,28 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ error: "Configuration manquante" }, { status: 500, headers: CORS });
   }
 
+  const notionHeaders = {
+    Authorization: `Bearer ${token}`,
+    "Notion-Version": "2022-06-28",
+    "Content-Type": "application/json",
+  };
+
   try {
+    // 1) Récupère l'image jointe (Files & media) avant d'archiver, pour pouvoir
+    //    supprimer l'objet correspondant sur R2.
+    let imageUrl = "";
+    try {
+      const pageRes = await fetch(`https://api.notion.com/v1/pages/${pageId}`, { headers: notionHeaders });
+      if (pageRes.ok) {
+        const page = (await pageRes.json()) as NotionPage;
+        imageUrl = page.properties["Files & media"]?.files?.find((f) => f.type === "external")?.external?.url ?? "";
+      }
+    } catch { /* lecture best-effort */ }
+
+    // 2) Archive la page Notion.
     const res = await fetch(`https://api.notion.com/v1/pages/${pageId}`, {
       method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Notion-Version": "2022-06-28",
-        "Content-Type": "application/json",
-      },
+      headers: notionHeaders,
       body: JSON.stringify({ archived: true }),
     });
 
@@ -224,6 +239,10 @@ export async function DELETE(request: NextRequest) {
       console.error("[tickets] DELETE error:", err);
       return NextResponse.json({ error: "Suppression échouée" }, { status: 502, headers: CORS });
     }
+
+    // 3) Supprime l'objet R2 associé (best-effort : ne supprime que les URLs du
+    //    bucket public configuré ; n'échoue jamais la requête si le nettoyage rate).
+    if (imageUrl) await deleteR2Object(imageUrl);
 
     return NextResponse.json({ success: true }, { headers: CORS });
   } catch (err) {

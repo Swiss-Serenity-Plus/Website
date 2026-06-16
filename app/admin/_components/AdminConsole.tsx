@@ -65,9 +65,12 @@ export default function AdminConsole({ initialFormation, initialFormationId }: A
   const [pendingFormat, setPendingFormat] = useState<Format>("desktop");
   const [actionError, setActionError] = useState(false);
   const [isGeneralMode, setIsGeneralMode] = useState(false);
-  const [pendingImageUrl, setPendingImageUrl] = useState("");
+  // L'image jointe n'est PAS uploadée à la sélection : on garde le fichier en
+  // mémoire et un aperçu local (object URL). L'upload vers R2 n'a lieu qu'à
+  // l'envoi du retour — si l'utilisateur abandonne, rien n'atterrit sur R2.
+  const [pendingImageFile, setPendingImageFile] = useState<File | null>(null);
+  const [pendingImagePreview, setPendingImagePreview] = useState("");
   const [pendingImageName, setPendingImageName] = useState("");
-  const [pendingImageUploading, setPendingImageUploading] = useState(false);
   const [pendingImageError, setPendingImageError] = useState("");
   const [pendingImageDragOver, setPendingImageDragOver] = useState(false);
 
@@ -131,6 +134,29 @@ export default function AdminConsole({ initialFormation, initialFormationId }: A
     setFrameLoadKey((k) => k + 1);
   }
 
+  // Sélectionne (sans uploader) une image jointe : conserve le fichier et un
+  // aperçu local. L'upload réel n'a lieu qu'à l'envoi du retour.
+  function selectFeedbackImage(file: File) {
+    if (!file.type.startsWith("image/")) return;
+    setPendingImageError("");
+    setPendingImageName(file.name);
+    setPendingImageFile(file);
+    setPendingImagePreview((prev) => {
+      if (prev) URL.revokeObjectURL(prev);
+      return URL.createObjectURL(file);
+    });
+  }
+
+  function clearPendingImage() {
+    setPendingImageFile(null);
+    setPendingImageName("");
+    setPendingImageError("");
+    setPendingImagePreview((prev) => {
+      if (prev) URL.revokeObjectURL(prev);
+      return "";
+    });
+  }
+
   function resetForm() {
     setPendingElement(null);
     setPendingElementUrl("");
@@ -138,9 +164,7 @@ export default function AdminConsole({ initialFormation, initialFormationId }: A
     setPendingText("");
     setActionError(false);
     setIsGeneralMode(false);
-    setPendingImageUrl("");
-    setPendingImageName("");
-    setPendingImageError("");
+    clearPendingImage();
   }
 
   // Mode annotation : ecouteurs poses dans le contentDocument de l'iframe.
@@ -314,6 +338,18 @@ export default function AdminConsole({ initialFormation, initialFormationId }: A
     if (!isGeneralMode && !pendingAction) { setActionError(true); return; }
     setIsSubmitting(true);
     try {
+      // Upload de l'image AU MOMENT de l'envoi seulement (jamais à la sélection) :
+      // si le retour n'est pas envoyé, aucun objet n'est créé sur R2.
+      let imageUrl = "";
+      if (pendingImageFile) {
+        try {
+          imageUrl = await uploadImageToR2(pendingImageFile, "feedback");
+        } catch {
+          setPendingImageError("L'image n'a pas pu être envoyée, réessayez.");
+          setIsSubmitting(false);
+          return;
+        }
+      }
       const res = await fetch("/api/feedback", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -327,7 +363,7 @@ export default function AdminConsole({ initialFormation, initialFormationId }: A
             text: pendingText.trim(),
             timestamp: new Date().toISOString(),
             format: pendingFormat,
-            ...(pendingImageUrl ? { imageUrl: pendingImageUrl } : {}),
+            ...(imageUrl ? { imageUrl } : {}),
           }],
         }),
       });
@@ -347,22 +383,6 @@ export default function AdminConsole({ initialFormation, initialFormationId }: A
       showToast("Erreur réseau, réessayez ou contactez Théo", "error");
     } finally {
       setIsSubmitting(false);
-    }
-  }
-
-  async function uploadFeedbackImage(file: File) {
-    if (!file.type.startsWith("image/")) return;
-    setPendingImageName(file.name);
-    setPendingImageUrl("");
-    setPendingImageError("");
-    setPendingImageUploading(true);
-    try {
-      const url = await uploadImageToR2(file, "feedback");
-      setPendingImageUrl(url);
-    } catch (err) {
-      setPendingImageError(err instanceof Error ? err.message : "Échec de l'upload");
-    } finally {
-      setPendingImageUploading(false);
     }
   }
 
@@ -546,26 +566,21 @@ export default function AdminConsole({ initialFormation, initialFormationId }: A
                   className={`${fb.feedbackImageZone} ${pendingImageDragOver ? fb.feedbackImageZoneOver : ""} ${pendingImageName ? fb.feedbackImageZoneFilled : ""}`}
                   onDragOver={(e) => { e.preventDefault(); setPendingImageDragOver(true); }}
                   onDragLeave={() => setPendingImageDragOver(false)}
-                  onDrop={async (e) => {
+                  onDrop={(e) => {
                     e.preventDefault();
                     setPendingImageDragOver(false);
                     const file = e.dataTransfer.files[0];
-                    if (file?.type.startsWith("image/")) await uploadFeedbackImage(file);
+                    if (file?.type.startsWith("image/")) selectFeedbackImage(file);
                   }}
                 >
-                  {pendingImageUploading ? (
-                    <div className={fb.dropZoneUploading}>
-                      <span className={fb.uploadSpinner} aria-hidden="true" />
-                      <span>Upload en cours…</span>
-                    </div>
-                  ) : pendingImageName ? (
+                  {pendingImageName ? (
                     <div className={fb.dropZoneFile}>
-                      <FileImage size={14} className={pendingImageUrl ? fb.dropZoneFileIconOk : fb.dropZoneFileIcon} aria-hidden="true" />
+                      <FileImage size={14} className={fb.dropZoneFileIconOk} aria-hidden="true" />
                       <span className={fb.dropZoneFileName}>{pendingImageName}</span>
                       <button
                         type="button"
                         className={fb.dropZoneRemove}
-                        onClick={() => { setPendingImageName(""); setPendingImageUrl(""); setPendingImageError(""); }}
+                        onClick={clearPendingImage}
                         aria-label="Supprimer l'image"
                       >
                         <X size={12} />
@@ -590,20 +605,20 @@ export default function AdminConsole({ initialFormation, initialFormationId }: A
                   type="file"
                   accept="image/*"
                   className={fb.fileInputHidden}
-                  onChange={async (e) => {
+                  onChange={(e) => {
                     const file = e.target.files?.[0];
-                    if (file) await uploadFeedbackImage(file);
+                    if (file) selectFeedbackImage(file);
                     e.target.value = "";
                   }}
                 />
                 {pendingImageError && <span className={fb.hintWarn}>{pendingImageError}</span>}
-                {pendingImageUrl && (
+                {pendingImagePreview && (
                   <div className={fb.uploadedPreview}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={pendingImageUrl} alt="Photo jointe" className={fb.uploadedPreviewImg} />
+                    <img src={pendingImagePreview} alt="Photo jointe" className={fb.uploadedPreviewImg} />
                     <div className={fb.uploadedPreviewMsg}>
                       <Check size={14} strokeWidth={2.5} />
-                      <span>Nous avons bien reçu votre photo.</span>
+                      <span>Photo jointe — elle sera envoyée avec votre retour.</span>
                     </div>
                   </div>
                 )}
