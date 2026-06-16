@@ -141,12 +141,16 @@ export default function TicketsManager({ onClose, showToast, onCount, autoOpenTi
       }
       const data = await res.json();
       commitTickets((data.tickets ?? []) as Ticket[]);
+      setSelectedId((cur) => {
+        if (cur) loadComments(cur);
+        return cur;
+      });
     } catch (err) {
       if (!silent) setError(err instanceof Error ? err.message : "Impossible de charger les tickets.");
     } finally {
       if (!silent) setLoading(false);
     }
-  }, [commitTickets]);
+  }, [commitTickets, loadComments]);
 
   // Au montage : si autoOpenTicketId est fourni, on vide le cache pour inclure
   // le ticket qui vient d'être créé ; sinon on utilise le cache s'il existe.
@@ -223,7 +227,7 @@ export default function TicketsManager({ onClose, showToast, onCount, autoOpenTi
   function openDetail(t: Ticket) {
     setSelectedId(t.notionId);
     setEditMode(false);
-    if (!comments[t.notionId]) loadComments(t.notionId);
+    loadComments(t.notionId);
   }
   function closeDetail() { setSelectedId(null); setEditMode(false); setClaudeOpen(false); }
 
