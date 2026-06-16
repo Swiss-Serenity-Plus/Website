@@ -129,6 +129,18 @@ export default function TicketsManager({ onClose, showToast, onCount, autoOpenTi
     onCountRef.current?.(list.length);
   }, []);
 
+  const loadComments = useCallback(async (id: string) => {
+    setComments((p) => ({ ...p, [id]: { data: p[id]?.data ?? [], loading: true } }));
+    try {
+      const res = await fetch(`/api/tickets/${encodeURIComponent(id)}/comments`);
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+      setComments((p) => ({ ...p, [id]: { data: data.comments ?? [], loading: false } }));
+    } catch {
+      setComments((p) => ({ ...p, [id]: { data: [], loading: false, error: "Commentaires indisponibles." } }));
+    }
+  }, []);
+
   // silent = rafraichissement en arriere-plan (pas de squelette) quand le cache existe.
   const loadTickets = useCallback(async (silent = false) => {
     if (!silent) setLoading(true);
@@ -141,12 +153,16 @@ export default function TicketsManager({ onClose, showToast, onCount, autoOpenTi
       }
       const data = await res.json();
       commitTickets((data.tickets ?? []) as Ticket[]);
+      setSelectedId((cur) => {
+        if (cur) loadComments(cur);
+        return cur;
+      });
     } catch (err) {
       if (!silent) setError(err instanceof Error ? err.message : "Impossible de charger les tickets.");
     } finally {
       if (!silent) setLoading(false);
     }
-  }, [commitTickets]);
+  }, [commitTickets, loadComments]);
 
   // Au montage : si autoOpenTicketId est fourni, on vide le cache pour inclure
   // le ticket qui vient d'être créé ; sinon on utilise le cache s'il existe.
@@ -175,18 +191,6 @@ export default function TicketsManager({ onClose, showToast, onCount, autoOpenTi
     io.observe(el);
     return () => io.disconnect();
   }, [visibleCount, tab, search, tickets.length]);
-
-  const loadComments = useCallback(async (id: string) => {
-    setComments((p) => ({ ...p, [id]: { data: p[id]?.data ?? [], loading: true } }));
-    try {
-      const res = await fetch(`/api/tickets/${encodeURIComponent(id)}/comments`);
-      if (!res.ok) throw new Error();
-      const data = await res.json();
-      setComments((p) => ({ ...p, [id]: { data: data.comments ?? [], loading: false } }));
-    } catch {
-      setComments((p) => ({ ...p, [id]: { data: [], loading: false, error: "Commentaires indisponibles." } }));
-    }
-  }, []);
 
   // Auto-ouverture : dès que le ticket cible apparaît dans la liste chargée,
   // attend 1 s puis ouvre sa carte détail (animation popIn existante).
@@ -223,7 +227,7 @@ export default function TicketsManager({ onClose, showToast, onCount, autoOpenTi
   function openDetail(t: Ticket) {
     setSelectedId(t.notionId);
     setEditMode(false);
-    if (!comments[t.notionId]) loadComments(t.notionId);
+    loadComments(t.notionId);
   }
   function closeDetail() { setSelectedId(null); setEditMode(false); setClaudeOpen(false); }
 
