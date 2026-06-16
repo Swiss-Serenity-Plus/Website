@@ -174,7 +174,7 @@ export default function FormationManager({ onClose }: Props) {
           <div className={styles.detail}>
             {/* Lien vers la route dédiée de la ressource (slug = identifiant Notion) */}
             <a
-              href={`/formation/${selected.id}`}
+              href={`/admin/formation/${selected.id}`}
               target="_blank"
               rel="noopener noreferrer"
               className={styles.routeLink}
@@ -201,7 +201,6 @@ export default function FormationManager({ onClose }: Props) {
                   ref={bodyRef}
                   className={styles.bodyContent}
                   // Contenu Notion admin uniquement, jamais soumis par des visiteurs
-                  // eslint-disable-next-line react/no-danger
                   dangerouslySetInnerHTML={{ __html: bodyHtml }}
                 />
               )}

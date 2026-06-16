@@ -1,11 +1,11 @@
 "use client";
 
-// Vue d'une ressource de formation sur sa route dédiée /formation/[id].
+// Vue d'une ressource de formation sur sa route dédiée /admin/formation/[id].
 // Réutilise les styles de FormationManager (vidéo Tella + corps HTML Notion) et
 // la délégation des boutons « Copier » injectés via dangerouslySetInnerHTML.
 import { useEffect, useRef, useState } from "react";
 import { ArrowLeft, ExternalLink } from "lucide-react";
-import fm from "../../admin/_components/FormationManager.module.css";
+import fm from "../../_components/FormationManager.module.css";
 import styles from "./resource.module.css";
 
 interface Props {

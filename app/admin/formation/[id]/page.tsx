@@ -1,4 +1,4 @@
-// Route dédiée d'une ressource de formation : /formation/[id]
+// Route dédiée d'une ressource de formation : /admin/formation/[id]
 //
 // Le contenu de formation est réservé à l'admin : on lit le cookie de session
 // (même mécanisme que /admin) et on affiche l'écran de connexion si la session
@@ -7,9 +7,9 @@
 // sert de slug.
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
-import { ADMIN_COOKIE, isValidSession } from "../../lib/adminAuth";
-import { getTrainingResource } from "../../lib/training";
-import AdminLogin from "../../admin/_components/AdminLogin";
+import { ADMIN_COOKIE, isValidSession } from "../../../lib/adminAuth";
+import { getTrainingResource } from "../../../lib/training";
+import AdminLogin from "../../_components/AdminLogin";
 import FormationResourceView from "./FormationResourceView";
 
 export const metadata = {
