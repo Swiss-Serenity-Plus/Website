@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SITE_URL, OG_IMAGE, OG_DEFAULTS } from "./lib/seo";
+import PreviewHighlightLoader from "./components/PreviewHighlight/PreviewHighlightLoader";
 import "./globals.css";
 
 const LOGO_URL = "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/photos-site/Logo%20Serenity%20Plus.png";
@@ -99,6 +100,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body>
         {children}
+        <PreviewHighlightLoader />
       </body>
     </html>
   );
