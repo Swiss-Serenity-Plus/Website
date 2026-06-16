@@ -1,131 +1,59 @@
-// OG image générée — recréation du hero desktop (1200x630) pour les partages
-// sur les réseaux sociaux. La photo paysage R2 est embarquée à la génération
-// (côté Vercel, où R2 est accessible) ; si elle n'est pas joignable, on rend
-// une carte de marque sobre en repli (le build ne casse jamais).
+// OG image (1200x630) pour les partages sur les réseaux sociaux.
+// Image fournie par la cliente (MIR-402), hébergée sur R2 : on la récupère et on
+// la sert telle quelle. Si elle n'est pas joignable, repli sur une carte de
+// marque sobre générée (le build ne casse jamais). twitter-image.tsx réutilise
+// ce module.
 import { ImageResponse } from "next/og";
 
-export const alt = "Swiss Serenity Plus — Sérénité · Succès · Performance";
+export const alt = "Swiss Serenity Plus — Accompagnement pour PME et particuliers";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
-const HERO_PHOTO =
-  "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/Paysage%20-%20Swiss%20Serenity%20Plus%20-%20Mireille%20Dayer.png";
+// Image OG fournie par la cliente (uploadée via la console de retours sur R2).
+const OG_IMAGE =
+  "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/feedback/1781615857957-swiss-serenity-plus-mireille-dayer-accompagnements-pour-pme-.png";
 
 const CREAM = "#f7f5f1";
 const NAVY = "#062445";
-const MUTED = "#4a5a6f";
 const TAUPE = "#977b57";
 
 export default async function Image() {
-  let photoSrc: string | null = null;
+  // On sert l'image fournie telle quelle.
   try {
-    const res = await fetch(HERO_PHOTO, { cache: "no-store" });
+    const res = await fetch(OG_IMAGE, { cache: "no-store" });
     if (res.ok) {
       const buf = Buffer.from(await res.arrayBuffer());
-      photoSrc = `data:image/png;base64,${buf.toString("base64")}`;
+      return new Response(buf, {
+        headers: {
+          "Content-Type": res.headers.get("content-type") ?? "image/png",
+          "Cache-Control": "public, max-age=86400, immutable",
+        },
+      });
     }
   } catch {
-    photoSrc = null;
+    /* repli ci-dessous */
   }
 
+  // Repli : carte de marque minimale si l'image n'est pas joignable.
   return new ImageResponse(
     (
       <div
         style={{
-          position: "relative",
           width: "100%",
           height: "100%",
           display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
           backgroundColor: CREAM,
           fontFamily: "sans-serif",
         }}
       >
-        {photoSrc && (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={photoSrc}
-            alt=""
-            width={780}
-            height={630}
-            style={{
-              position: "absolute",
-              top: 0,
-              right: 0,
-              width: "52%",
-              height: "100%",
-              objectFit: "cover",
-              objectPosition: "60% 50%",
-            }}
-          />
-        )}
-
-        {/* Fondu crème large : la colonne crème (gauche) reste opaque bien
-            au-delà du texte pour garantir la lisibilité, puis se dissout en
-            douceur dans la photo. */}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            display: "flex",
-            backgroundImage: `linear-gradient(102deg, ${CREAM} 0%, ${CREAM} 52%, rgba(247,245,241,0.7) 59%, rgba(247,245,241,0.3) 66%, rgba(247,245,241,0) 78%)`,
-          }}
-        />
-
-        {/* Bloc texte (gauche) entierement pose sur le creme opaque */}
-        <div
-          style={{
-            position: "relative",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            height: "100%",
-            padding: "0 72px",
-            maxWidth: 600,
-          }}
-        >
-          <div
-            style={{
-              display: "flex",
-              color: TAUPE,
-              fontSize: 22,
-              letterSpacing: 3,
-              textTransform: "uppercase",
-              fontWeight: 600,
-              marginBottom: 24,
-            }}
-          >
-            Votre partenaire de confiance
-          </div>
-          <div
-            style={{
-              display: "flex",
-              color: NAVY,
-              fontSize: 54,
-              fontWeight: 700,
-              lineHeight: 1.1,
-              letterSpacing: -1,
-            }}
-          >
-            Sérénité · Succès · Performance
-          </div>
-          <div
-            style={{
-              display: "flex",
-              color: MUTED,
-              fontSize: 25,
-              lineHeight: 1.45,
-              marginTop: 26,
-              maxWidth: 460,
-            }}
-          >
-            Bras droit business externalisé pour dirigeants, PME et particuliers en Suisse romande.
-          </div>
-          <div style={{ display: "flex", alignItems: "center", marginTop: 42 }}>
-            <div style={{ display: "flex", width: 44, height: 3, backgroundColor: TAUPE, marginRight: 18 }} />
-            <div style={{ display: "flex", color: NAVY, fontSize: 25, fontWeight: 600 }}>
-              Swiss Serenity Plus®
-            </div>
-          </div>
+        <div style={{ display: "flex", color: NAVY, fontSize: 64, fontWeight: 700, letterSpacing: -1 }}>
+          Swiss Serenity Plus®
+        </div>
+        <div style={{ display: "flex", color: TAUPE, fontSize: 28, marginTop: 20 }}>
+          Sérénité · Succès · Performance
         </div>
       </div>
     ),

@@ -168,6 +168,8 @@ export async function PATCH(request: NextRequest) {
     properties["Files & media"] = url
       ? { files: [{ type: "external", name: url.split("/").pop() || "image", external: { url } }] }
       : { files: [] };
+    // Garde la propriété texte « URL Fichiers » synchronisée avec l'image jointe.
+    properties["URL Fichiers"] = { rich_text: url ? [{ text: { content: url } }] : [] };
   }
 
   if (Object.keys(properties).length === 0) {

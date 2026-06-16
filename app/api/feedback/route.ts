@@ -153,6 +153,9 @@ export async function POST(request: NextRequest) {
             external: { url: fb.imageUrl },
           }],
         },
+        // URL publique R2 du fichier (propriété texte) — alimente la vue
+        // « Banque d'images » et garde une trace directe du lien.
+        "URL Fichiers": { rich_text: [{ text: { content: fb.imageUrl } }] },
       } : {}),
     };
   }
