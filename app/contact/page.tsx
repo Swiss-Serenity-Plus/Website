@@ -86,9 +86,7 @@ export default function ContactPage() {
           </Container>
         </section>
         <Quote>
-          Chaque priorité étant unique, nous prenons le temps d&rsquo;échanger
-          ensemble autour de votre projet, de vos priorités et des solutions
-          les plus adaptées à votre situation.
+          Parce que chaque situation mérite une attention particulière, nous prenons le temps d&rsquo;échanger avec vous afin de définir les solutions les plus adaptées à vos besoins.
         </Quote>
       </main>
       <Footer />
