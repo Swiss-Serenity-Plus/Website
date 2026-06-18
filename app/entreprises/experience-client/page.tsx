@@ -43,7 +43,7 @@ export default function ExperienceClientPage() {
     <ServicePageTemplate
       eyebrow="Entreprises"
       title="Expérience client & Fidélisation"
-      subtitle="Renforcer la satisfaction et la fidélisation de vos clients en structurant une expérience cohérente, professionnelle et mémorable."
+      subtitle="Renforcer la satisfaction de vos clients et encourager leur fidélisation grâce à une expérience attentive, cohérente et professionnelle."
       breadcrumbs={[
         { label: "Accueil", href: "/" },
         { label: "Entreprises", href: "/#services" },
