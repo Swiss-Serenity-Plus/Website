@@ -73,7 +73,7 @@ export default function AccompagnementAdministratifPage() {
           "Organisation et classement de vos documents importants",
           "Explication et simplification des démarches administratives complexes",
           "Coordination avec les différents interlocuteurs",
-          "Soutien organisationnel et administratif lors d'étapes importantes de la vie (retraite, entrée en EMS, hospitalisation...)",
+          "Accompagnement dans les situations administratives nécessitant un suivi renforcé",
         ],
       }}
       values={{
