@@ -40,7 +40,7 @@ export default function HomePage() {
           id="services"
           eyebrow="Domaines d'intervention"
           title="Un accompagnement sur mesure pour chaque besoin"
-          intro="Cinq piliers de service pour les dirigeants d'entreprise et les particuliers en Suisse romande."
+          intro="Au service des Professionnels, des Institutions et des Particuliers, avec rigueur et proximité."
           cards={ALL_SERVICES}
         />
         <AboutTeaser />
