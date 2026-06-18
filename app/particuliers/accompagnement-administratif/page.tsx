@@ -44,7 +44,7 @@ export default function AccompagnementAdministratifPage() {
   return (
     <ServicePageTemplate
       eyebrow="Particuliers"
-      title="Un accompagnement personnalisé"
+      title="Une approche humaine et sur mesure"
       subtitle="Un soutien bienveillant et discret pour simplifier vos démarches administratives et vous accompagner dans les étapes importantes de votre vie."
       breadcrumbs={[
         { label: "Accueil", href: "/" },
