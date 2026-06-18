@@ -43,7 +43,7 @@ export default function StructurationPage() {
     <ServicePageTemplate
       eyebrow="Entreprises"
       title="Coordination & Performance opérationnelle"
-      subtitle="Fluidifier les échanges et structurer votre organisation pour vous permettre de vous recentrer sur l'essentiel : votre activité et son développement."
+      subtitle="Renforcer la collaboration entre les différents intervenants, assurer un suivi rigoureux des dossiers et favoriser une organisation plus fluide et efficace."
       breadcrumbs={[
         { label: "Accueil", href: "/" },
         { label: "Entreprises", href: "/#services" },
