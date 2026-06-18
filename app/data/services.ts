@@ -9,7 +9,7 @@ export const ALL_SERVICES = [
   },
   {
     title: "Développement commercial",
-    shortDescription: "Animation et optimisation de votre activité au quotidien avec continuité et précision.",
+    shortDescription: "Soutenir vos actions commerciales et renforcer la qualité de vos relations clients.",
     href: "/entreprises/suivi-optimisation",
     iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/IconPerformance-removebg-preview.png",
     iconScale: 1.2,
