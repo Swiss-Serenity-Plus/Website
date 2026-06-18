@@ -59,7 +59,7 @@ export default function ExperienceClientPage() {
           "PME, Commerces et Restaurants — Souhaitant renforcer la satisfaction et la fidélisation de leur clientèle.",
           "EMS, Institutions et lieux d'accueil — Souhaitant améliorer le parcours, l'accompagnement et la qualité de prise en charge des résidents, des bénéficiaires et des visiteurs.",
           "Entreprises souhaitant renforcer leur image de marque — Grâce à une expérience client soignée et cohérente.",
-          "Toute structure souhaitant améliorer la qualité de ses échanges — Et renforcer la confiance de sa clientèle, de ses partenaires ou de son public.",
+          "Toute structure souhaitant améliorer la qualité de ses échanges et renforcer la confiance de sa clientèle, de ses partenaires ou de son public.",
         ],
       }}
       deliverables={{
