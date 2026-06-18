@@ -68,7 +68,7 @@ export default function AccompagnementAdministratifPage() {
         eyebrow: "Accompagnement administratif personnalisé en Valais et dans toute la Suisse romande",
         title: "Un soutien concret au quotidien",
         items: [
-          "Gestion et suivi de vos courriers administratifs",
+          "Gestion et suivi de vos courriers et démarches administratives",
           "Soutien dans vos échanges avec les organismes et administrations (AVS, AI, Caisses maladie, Home, EMS, Assurances...)",
           "Organisation et classement de vos documents importants",
           "Aide à la compréhension des démarches et procédures complexes",
