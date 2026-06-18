@@ -69,7 +69,7 @@ export default function AccompagnementAdministratifPage() {
         title: "Un soutien concret au quotidien",
         items: [
           "Gestion et suivi de vos courriers et démarches administratives",
-          "Soutien dans vos échanges avec les organismes et administrations (AVS, AI, Caisses maladie, Home, EMS, Assurances...)",
+          "Accompagnement dans vos échanges avec les administrations et organismes (AVS, AI, caisses maladie, assurances, homes, EMS…)",
           "Organisation et classement de vos documents importants",
           "Aide à la compréhension des démarches et procédures complexes",
           "Coordination avec les différents interlocuteurs",
