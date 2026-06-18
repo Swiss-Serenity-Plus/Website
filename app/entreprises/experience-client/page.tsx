@@ -57,7 +57,7 @@ export default function ExperienceClientPage() {
         image: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/blog-covers/1780841740690-a969a7bc-f04e-43d8-9833-f5f6023b668c.png",
         profiles: [
           "PME, Commerces et Restaurants — Souhaitant renforcer la satisfaction et la fidélisation de leur clientèle.",
-          "EMS, Institutions et lieux d'accueil — Souhaitant améliorer le parcours, le confort et la qualité perçue par les usagers et visiteurs.",
+          "EMS, Institutions et lieux d'accueil — Souhaitant améliorer le parcours, l'accompagnement et la qualité de prise en charge des résidents, bénéficiaires et visiteurs.",
           "Entreprises en montée en gamme — Souhaitant valoriser leur image à travers une expérience client plus cohérente et professionnelle.",
           "Toute structure souhaitant professionnaliser son suivi relationnel — Mise en place d'échanges plus fluides, cohérents et personnalisés avec leurs clients ou usagers.",
         ],
