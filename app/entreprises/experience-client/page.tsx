@@ -42,7 +42,7 @@ export default function ExperienceClientPage() {
   return (
     <ServicePageTemplate
       eyebrow="Entreprises"
-      title="Expérience client & Suivi relationnel"
+      title="Expérience client & Fidélisation"
       subtitle="Renforcer la satisfaction et la fidélisation de vos clients en structurant une expérience cohérente, professionnelle et mémorable."
       breadcrumbs={[
         { label: "Accueil", href: "/" },
