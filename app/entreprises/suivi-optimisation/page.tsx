@@ -43,7 +43,7 @@ export default function SuiviOptimisationPage() {
     <ServicePageTemplate
       eyebrow="Entreprises"
       title="Pilotage & Développement commercial"
-      subtitle="Une présence fiable pour faire avancer les projets, assurer les relances et maintenir le lien avec vos clients et partenaires."
+      subtitle="Une présence fiable pour faire avancer les projets, assurer les relances et maintenir le lien avec vos clients et vos partenaires."
       breadcrumbs={[
         { label: "Accueil", href: "/" },
         { label: "Entreprises", href: "/#services" },
