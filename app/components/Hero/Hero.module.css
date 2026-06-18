@@ -217,14 +217,14 @@
 }
 
 .ctas .heroCtaPrimary {
-  background: var(--c-accent-secondary);
-  border-color: var(--c-accent-secondary);
+  background: #c8922a;
+  border-color: #c8922a;
   color: #ffffff;
 }
 
 .ctas .heroCtaPrimary:hover {
-  background: #7d6347;
-  border-color: #7d6347;
+  background: #a87520;
+  border-color: #a87520;
   color: #ffffff;
 }
 
