@@ -60,7 +60,7 @@ export default function AccompagnementAdministratifPage() {
         profiles: [
           "Seniors souhaitant un soutien administratif et organisationnel pour leurs démarches, leur maintien à domicile ou leur entrée en EMS.",
           "Expatriés et frontaliers confrontés aux démarches administratives suisses, françaises ou transfrontalières.",
-          "Toute personne confrontée à une étape importante de la vie nécessitant organisation et accompagnement (Retraite, déménagement, entrée en EMS...)",
+          "Toute personne confrontée à une étape importante de la vie nécessitant organisation et coordination (retraite, déménagement, entrée en EMS, changement de situation familiale…).",
           "Celui ou Celle\nà la recherche d'une meilleure qualité de vie et de plus de sérénité face aux démarches administratives.",
         ],
       }}
