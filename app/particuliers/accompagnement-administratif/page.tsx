@@ -72,7 +72,7 @@ export default function AccompagnementAdministratifPage() {
           "Accompagnement dans vos échanges avec les administrations et organismes (AVS, AI, caisses maladie, assurances, homes, EMS…)",
           "Organisation et classement de vos documents importants",
           "Explication et simplification des démarches administratives complexes",
-          "Coordination avec les différents interlocuteurs",
+          "Mise en relation, facilitation des échanges et coordination avec les administrations, les assurances et les autres services administratifs",
           "Prise en charge des situations administratives nécessitant un suivi renforcé",
         ],
       }}
