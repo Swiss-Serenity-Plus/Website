@@ -65,7 +65,7 @@ export default function AccompagnementAdministratifPage() {
         ],
       }}
       deliverables={{
-        eyebrow: "Un soutien adapté à chaque besoin",
+        eyebrow: "Accompagnement administratif personnalisé en Valais et dans toute la Suisse romande",
         title: "Un soutien concret au quotidien",
         items: [
           "Gestion et suivi de vos courriers administratifs",
