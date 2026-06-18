@@ -33,7 +33,7 @@ export const ALL_SERVICES = [
   },
   {
     title: "Accompagnement aux Particuliers",
-    shortDescription: "Un soutien discret et bienveillant dans vos démarches administratives et étapes clés.",
+    shortDescription: "Vous aider à avancer sereinement dans vos démarches administratives et vos projets de vie.",
     href: "/particuliers/accompagnement-administratif",
     iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20%22Accomapgnemnt%20au%20particulier%22.png",
     iconScale: 1.6,
