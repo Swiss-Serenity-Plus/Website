@@ -73,7 +73,7 @@ export default function AccompagnementAdministratifPage() {
           "Organisation et classement de vos documents importants",
           "Explication et simplification des démarches administratives complexes",
           "Coordination avec les différents interlocuteurs",
-          "Accompagnement dans les situations administratives nécessitant un suivi renforcé",
+          "Prise en charge des situations administratives nécessitant un suivi renforcé",
         ],
       }}
       values={{
