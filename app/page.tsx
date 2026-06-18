@@ -38,7 +38,7 @@ export default function HomePage() {
         <ValueProp3Col />
         <ServiceSection
           id="services"
-          eyebrow="Nos services"
+          eyebrow="Domaines d'intervention"
           title="Un accompagnement sur mesure pour chaque besoin"
           intro="Cinq piliers de service pour les dirigeants d'entreprise et les particuliers en Suisse romande."
           cards={ALL_SERVICES}
