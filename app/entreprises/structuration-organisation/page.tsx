@@ -55,7 +55,7 @@ export default function StructurationPage() {
       targetAudience={{
         eyebrow: null,
         title: "Contextes d'intervention",
-        description: "Un accompagnement pensé pour les structures souhaitant améliorer la coordination entre les différents intervenants internes, renforcer leur organisation et gagner en efficacité au quotidien.",
+        description: "Un soutien organisationnel pensé pour les entreprises, institutions, EMS, cabinets médicaux, PPE et structures indépendantes qui souhaitent améliorer leur coordination administrative, fluidifier les échanges entre les intervenants et gagner en efficacité au quotidien.",
         image: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/blog-covers/1780938538070-47268df5-dd80-4927-8a18-41b72cb9daa9.png",
         profiles: [
           "Communes, Institutions ou EMS souhaitant améliorer la circulation des informations et la coordination administrative au quotidien.",
