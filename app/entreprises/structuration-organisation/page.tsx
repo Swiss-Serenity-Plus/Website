@@ -72,7 +72,7 @@ export default function StructurationPage() {
           "Structuration des suivis, des demandes et des priorités quotidiennes",
           "Soutien dans la gestion administrative et le suivi opérationnel",
           "Mise en place d'outils simples et adaptés pour faciliter les suivis et les échanges",
-          "Coordination des informations, des tâches et des échanges entre les différents intervenants",
+          "Coordination administrative des informations, des tâches, des demandes et des échanges entre les différents intervenants",
           "Accompagnement personnalisé selon les besoins et le fonctionnement de votre structure",
         ],
       }}
