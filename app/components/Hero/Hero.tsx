@@ -69,7 +69,7 @@ export default function Hero() {
             Sérénité · Succès · Performance
           </h1>
           <p className={styles.subtitle}>
-            Swiss Serenity Plus® accompagne les Entreprises, les Indépendants, les Institutions, les PPE ainsi que les Particuliers en Valais et en Suisse romande dans leur organisation administrative, leur assistance commerciale, le développement de leur activité, l'amélioration de leur efficacité et la coordination de leurs démarches.
+            Swiss Serenity Plus® accompagne les PME, les Indépendants, les Institutions, les PPE ainsi que les Particuliers en Valais et en Suisse romande avec des solutions sur mesure visant à renforcer leur organisation, gagner en efficacité, soutenir la croissance de leurs activités et avancer avec sérénité dans leurs projets.
           </p>
           <div className={styles.ctas}>
             <Button href="/contact" variant="primary" size="lg" className={styles.heroCtaPrimary} id="b-hero-cta-contact" fbLabel="Bouton « Parlons de votre projet »">
