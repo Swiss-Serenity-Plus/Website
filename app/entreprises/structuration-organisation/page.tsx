@@ -61,7 +61,7 @@ export default function StructurationPage() {
           "Communes, Institutions, EMS, cabinets médicaux ou établissements de santé souhaitant améliorer la circulation des informations, le suivi administratif et la coordination entre les différents intervenants.",
           "Dirigeants ou Indépendants souhaitant alléger leur gestion quotidienne et bénéficier d'un soutien fiable dans la coordination de leurs activités.",
           "PME ou structures en développement souhaitant renforcer leur organisation et harmoniser leur fonctionnement interne.",
-          "PPE et autres activités recherchant un appui dans l'organisation de leurs échanges, le suivi des demandes et leur gestion administrative courante.",
+          "PPE, Associations, Fondations et autres Structures recherchant un appui dans l'organisation de leurs échanges, le suivi des demandes, la coordination des intervenants et leur gestion administrative courante en Suisse romande.",
         ],
       }}
       deliverables={{
