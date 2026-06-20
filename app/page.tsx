@@ -40,7 +40,7 @@ export default function HomePage() {
           id="services"
           eyebrow="Domaines d'intervention"
           title="Un accompagnement sur mesure pour chaque besoin"
-          intro="Au service des Professionnels, des Institutions et des Particuliers, avec rigueur et proximité."
+          intro="Au service des Professionnels, des Institutions, des PPE et des Particuliers en Valais et en Suisse romande, avec rigueur et proximité."
           cards={ALL_SERVICES}
         />
         <AboutTeaser />
