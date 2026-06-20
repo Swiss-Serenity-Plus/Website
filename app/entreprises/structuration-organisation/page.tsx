@@ -42,7 +42,7 @@ export default function StructurationPage() {
   return (
     <ServicePageTemplate
       eyebrow="Entreprises"
-      title="Coordination & Performance opérationnelle"
+      title="Coordination administrative & Performance opérationnelle"
       subtitle="Renforcer la collaboration entre les différents intervenants, assurer un suivi rigoureux des dossiers et favoriser une organisation plus fluide et efficace."
       breadcrumbs={[
         { label: "Accueil", href: "/" },
