@@ -71,7 +71,7 @@ export default function StructurationPage() {
           "Analyse et clarification des échanges, des rôles et des responsabilités",
           "Structuration des suivis, des demandes et des priorités quotidiennes",
           "Soutien dans la gestion administrative et le suivi opérationnel",
-          "Mise en place d'outils simples et adaptés pour faciliter les suivis et les échanges",
+          "Mise en place d'outils simples et adaptés pour faciliter le suivi des demandes, les relances et les échanges entre les intervenants",
           "Coordination administrative des informations, des tâches, des demandes et des échanges entre les différents intervenants",
           "Accompagnement personnalisé selon les besoins et le fonctionnement de votre structure",
         ],
