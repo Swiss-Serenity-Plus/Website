@@ -204,6 +204,10 @@
   margin-top: var(--sp-1);
 }
 
+.subtitle p + p {
+  margin-top: 0.75em;
+}
+
 @media (min-width: 1024px) {
   .subtitle { font-size: 18px; margin-top: 0; }
 }
