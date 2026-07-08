@@ -71,7 +71,7 @@ export default function Hero() {
           <div className={styles.subtitle}>
             <p>Swiss Serenity Plus® intervient en Valais et en Suisse romande comme bras droit stratégique externalisé, pour aider les Professionnels à accélérer leur développement commercial, structurer leur organisation et assurer le suivi des priorités et des relations.</p>
             <p>Les Particuliers peuvent, quant à eux, compter sur un soutien personnalisé pour les démarches administratives et celles liées à leurs projets de vie.</p>
-            <p>Swiss Serenity Plus® apporte également son expertise aux entreprises françaises et européennes qui souhaitent développer leur présence sur le marché suisse.</p>
+            <p>Swiss Serenity Plus® accompagne également les entreprises françaises et européennes qui souhaitent développer leur présence sur le marché suisse, en leur apportant un soutien opérationnel de proximité.</p>
           </div>
           <div className={styles.ctas}>
             <Button href="/contact" variant="primary" size="lg" className={styles.heroCtaPrimary} id="b-hero-cta-contact" fbLabel="Bouton « Parlons de votre projet »">
