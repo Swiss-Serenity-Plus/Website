@@ -69,7 +69,7 @@ export default function Hero() {
             Sérénité · Succès · Performance
           </h1>
           <div className={styles.subtitle}>
-            <p>Swiss Serenity Plus® intervient en Valais et en Suisse romande comme bras droit stratégique externalisé, pour aider les Professionnels à accélérer leur développement commercial, structurer leur organisation et assurer le suivi des priorités et des relations.</p>
+            <p>Swiss Serenity Plus® intervient en Valais et en Suisse romande comme bras droit stratégique externalisé, pour aider les Professionnels à accélérer leur développement commercial, structurer leur organisation et assurer le suivi de leurs priorités et des relations clés.</p>
             <p>Les Particuliers peuvent, quant à eux, compter sur un soutien personnalisé pour les démarches administratives et celles liées à leurs projets de vie.</p>
             <p>Swiss Serenity Plus® accompagne également les entreprises françaises et européennes qui souhaitent développer leur présence sur le marché suisse, en leur apportant un soutien opérationnel de proximité.</p>
           </div>
