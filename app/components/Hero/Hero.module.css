@@ -221,15 +221,15 @@
 }
 
 .ctas .heroCtaPrimary {
-  background: var(--c-text);
+  background: var(--c-accent-secondary);
   border-color: var(--c-accent-secondary);
-  color: #ffffff;
+  color: var(--c-text);
 }
 
 .ctas .heroCtaPrimary:hover {
-  background: #0a3260;
-  border-color: var(--c-accent-secondary);
-  color: #ffffff;
+  background: #82694a;
+  border-color: #82694a;
+  color: var(--c-text);
 }
 
 /* Mobile : le CTA principal en taille lg est trop imposant dans le hero.
