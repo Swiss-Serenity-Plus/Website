@@ -74,7 +74,7 @@ export default function Hero() {
             <p>Swiss Serenity Plus® accompagne également les entreprises françaises et européennes qui souhaitent développer leur présence sur le marché suisse, en leur apportant un soutien opérationnel de proximité.</p>
           </div>
           <div className={styles.ctas}>
-            <Button href="/contact" variant="primary" size="lg" className={styles.heroCtaPrimary} id="b-hero-cta-contact" fbLabel="Bouton « Parlons de votre projet »">
+            <Button href="/contact" variant="dark" size="lg" className={styles.heroCtaPrimary} id="b-hero-cta-contact" fbLabel="Bouton « Parlons de votre projet »">
               Parlons de votre projet
             </Button>
             <Button href="/#services" variant="secondary" size="lg" className={styles.heroCtaSecondary} id="b-hero-cta-services" fbLabel="Bouton « Nos domaines d'intervention »">
