@@ -77,8 +77,8 @@ export default function Hero() {
             <Button href="/contact" variant="primary" size="lg" className={styles.heroCtaPrimary} id="b-hero-cta-contact" fbLabel="Bouton « Parlons de votre projet »">
               Parlons de votre projet
             </Button>
-            <Button href="/#services" variant="ghost" size="lg" className={styles.heroCtaSecondary} id="b-hero-cta-services" fbLabel="Bouton « Découvrir notre accompagnement »">
-              Découvrir notre accompagnement
+            <Button href="/#services" variant="ghost" size="lg" className={styles.heroCtaSecondary} id="b-hero-cta-services" fbLabel="Bouton « Nos domaines d'intervention »">
+              Nos domaines d'intervention
             </Button>
           </div>
         </div>
