@@ -16,19 +16,19 @@ const PORTRAIT_SRC = "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/image.
 const PAGE_URL = `${SITE_URL}/a-propos`;
 
 export const metadata: Metadata = {
-  title: "Mireille Dayer — Bras droit externalisé à Sion, Valais — Swiss Serenity Plus",
+  title: "Mireille Dayer ⎜ Bras droit externalisé à Sion, Valais ⎜ Swiss Serenity Plus",
   description: "Mireille Dayer, bras droit externalisé à Sion. Fondatrice de Swiss Serenity Plus — parcours, valeurs, engagement. Accompagnement dirigeants et particuliers en Valais.",
   alternates: { canonical: PAGE_URL },
   openGraph: {
     ...OG_DEFAULTS,
-    title: "Mireille Dayer — Bras droit externalisé à Sion, Valais",
+    title: "Mireille Dayer ⎜ Bras droit externalisé à Sion, Valais",
     description: "Fondatrice de Swiss Serenity Plus. Parcours, valeurs et engagement au service des dirigeants et particuliers en Suisse romande.",
     url: PAGE_URL,
     images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Mireille Dayer — Bras droit externalisé à Sion — Swiss Serenity Plus",
+    title: "Mireille Dayer ⎜ Bras droit externalisé à Sion ⎜ Swiss Serenity Plus",
     description: "Fondatrice de Swiss Serenity Plus. Parcours, valeurs et engagement en Suisse romande.",
     images: [OG_IMAGE.url],
   },

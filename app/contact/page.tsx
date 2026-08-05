@@ -13,19 +13,19 @@ import { SITE_URL, OG_IMAGE, OG_DEFAULTS } from "../lib/seo";
 const PAGE_URL = `${SITE_URL}/contact`;
 
 export const metadata: Metadata = {
-  title: "Contact — Bras droit externalisé Sion, Valais — Swiss Serenity Plus",
+  title: "Contact ⎜ Bras droit externalisé Sion, Valais ⎜ Swiss Serenity Plus",
   description: "Prenez contact avec Mireille Dayer pour un échange confidentiel. Bras droit externalisé à Sion, Valais. Sur mesure, sans engagement. Réponse rapide garantie.",
   alternates: { canonical: PAGE_URL },
   openGraph: {
     ...OG_DEFAULTS,
-    title: "Contact — Swiss Serenity Plus, bras droit externalisé à Sion",
+    title: "Contact ⎜ Swiss Serenity Plus, bras droit externalisé à Sion",
     description: "Prenez contact avec Mireille Dayer pour un échange confidentiel. Bras droit externalisé à Sion, Valais. Sur mesure, sans engagement.",
     url: PAGE_URL,
     images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Contact — Swiss Serenity Plus, Sion Valais",
+    title: "Contact ⎜ Swiss Serenity Plus, Sion Valais",
     description: "Échange confidentiel avec Mireille Dayer, bras droit externalisé à Sion.",
     images: [OG_IMAGE.url],
   },

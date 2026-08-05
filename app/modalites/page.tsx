@@ -13,13 +13,13 @@ import { SITE_URL, OG_IMAGE, OG_DEFAULTS } from "../lib/seo";
 const PAGE_URL = `${SITE_URL}/modalites`;
 
 export const metadata: Metadata = {
-  title: "Modalités d'intervention — Swiss Serenity Plus",
+  title: "Modalités d'intervention ⎜ Swiss Serenity Plus",
   description:
     "Découvrez les modalités d'accompagnement de Swiss Serenity Plus : formule au forfait ou à l'heure, intervention ponctuelle ou régulière. Premier échange offert, sans engagement.",
   alternates: { canonical: PAGE_URL },
   openGraph: {
     ...OG_DEFAULTS,
-    title: "Modalités d'intervention — Swiss Serenity Plus",
+    title: "Modalités d'intervention ⎜ Swiss Serenity Plus",
     description:
       "Formule au forfait ou à l'heure, ponctuelle ou régulière. Premier échange offert, en toute confidentialité et sans engagement.",
     url: PAGE_URL,
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Modalités d'intervention — Swiss Serenity Plus",
+    title: "Modalités d'intervention ⎜ Swiss Serenity Plus",
     description: "Premier échange offert, sans engagement. Formule adaptée à votre situation.",
     images: [OG_IMAGE.url],
   },

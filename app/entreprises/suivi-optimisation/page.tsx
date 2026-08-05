@@ -6,19 +6,19 @@ import { SITE_URL, OG_IMAGE, OG_DEFAULTS } from "../../lib/seo";
 const PAGE_URL = `${SITE_URL}/entreprises/suivi-optimisation`;
 
 export const metadata: Metadata = {
-  title: "Support Opérationnel Externalisé PME — Suivi & Optimisation — Swiss Serenity Plus",
+  title: "Support Opérationnel Externalisé PME ⎜ Suivi & Optimisation ⎜ Swiss Serenity Plus",
   description: "Suivi opérationnel externalisé pour PME en Suisse romande : relance client, contenus, fournisseurs. Continuité et rigueur sans ressource interne dédiée. Valais.",
   alternates: { canonical: PAGE_URL },
   openGraph: {
     ...OG_DEFAULTS,
-    title: "Suivi & Optimisation externalisé — PME & Indépendants en Suisse romande",
+    title: "Suivi & Optimisation externalisé ⎜ PME & Indépendants en Suisse romande",
     description: "Support opérationnel externalisé : suivi clients, contenus, fournisseurs. Rigueur et continuité sans charge salariale. Basé à Sion, Valais.",
     url: PAGE_URL,
     images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Suivi & Optimisation externalisé — Swiss Serenity Plus",
+    title: "Suivi & Optimisation externalisé ⎜ Swiss Serenity Plus",
     description: "Support opérationnel externalisé pour PME en Suisse romande.",
     images: [OG_IMAGE.url],
   },

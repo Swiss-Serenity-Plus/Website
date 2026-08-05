@@ -21,12 +21,12 @@ export async function generateMetadata(
   const { slug } = await params;
   const post = await getPostBySlug(slug);
   if (!post) {
-    return { title: "Article introuvable — Swiss Serenity Plus", robots: { index: false } };
+    return { title: "Article introuvable ⎜ Swiss Serenity Plus", robots: { index: false } };
   }
   const description = post.metaDescription || post.excerpt;
   const url = `${SITE_URL}/blog/${post.slug}`;
   return {
-    title: `${post.title} — Swiss Serenity Plus`,
+    title: `${post.title} ⎜ Swiss Serenity Plus`,
     description,
     alternates: { canonical: url },
     openGraph: {

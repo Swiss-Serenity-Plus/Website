@@ -6,7 +6,7 @@ import Container from "../components/Container/Container";
 import styles from "./page.module.css";
 
 export const metadata: Metadata = {
-  title: "Mentions légales — Swiss Serenity Plus",
+  title: "Mentions légales ⎜ Swiss Serenity Plus",
   description: "Mentions légales et informations juridiques du site Swiss Serenity Plus, raison individuelle basée à Sion en Valais.",
 };
 

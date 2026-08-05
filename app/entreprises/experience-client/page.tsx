@@ -6,19 +6,19 @@ import { SITE_URL, OG_IMAGE, OG_DEFAULTS } from "../../lib/seo";
 const PAGE_URL = `${SITE_URL}/entreprises/experience-client`;
 
 export const metadata: Metadata = {
-  title: "Amélioration Expérience Client PME — Swiss Serenity Plus",
+  title: "Amélioration Expérience Client PME ⎜ Swiss Serenity Plus",
   description: "Structurer votre expérience client pour renforcer fidélisation et image de marque. Accueil, suivi relationnel et parcours client externalisés en Suisse romande.",
   alternates: { canonical: PAGE_URL },
   openGraph: {
     ...OG_DEFAULTS,
-    title: "Expérience client & Suivi relationnel externalisé — Suisse romande",
+    title: "Expérience client & Suivi relationnel externalisé ⎜ Suisse romande",
     description: "Structurer et améliorer le parcours client pour renforcer satisfaction et fidélisation. Qualité, professionnalisme et sens du détail. PME en Suisse romande.",
     url: PAGE_URL,
     images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Amélioration expérience client PME — Swiss Serenity Plus",
+    title: "Amélioration expérience client PME ⎜ Swiss Serenity Plus",
     description: "Expérience client et suivi relationnel externalisés pour PME en Suisse romande.",
     images: [OG_IMAGE.url],
   },
