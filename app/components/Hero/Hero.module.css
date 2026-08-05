@@ -234,6 +234,18 @@
   box-shadow: 0 0 0 1px rgba(151, 123, 87, 0.55), 0 10px 28px rgba(151, 123, 87, 0.5);
 }
 
+.ctas .heroCtaSecondary {
+  background: var(--c-accent-primary);
+  border-color: var(--c-accent-secondary);
+  color: #ffffff;
+}
+
+.ctas .heroCtaSecondary:hover {
+  background: #9a2523;
+  border-color: var(--c-accent-secondary);
+  color: #ffffff;
+}
+
 /* Mobile : le CTA principal en taille lg est trop imposant dans le hero.
    La double classe (.ctas .heroCtaXxx) surclasse le padding/font de
    Button.module .lg sans dépendre de l'ordre d'import. */
