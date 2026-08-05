@@ -11,7 +11,7 @@ import styles from "./page.module.css";
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
-  title: "Blog — Actualités & Conseils — Swiss Serenity Plus",
+  title: "Blog ⎜ Actualités & Conseils ⎜ Swiss Serenity Plus",
   description:
     "Conseils pratiques pour dirigeants de PME et particuliers en Suisse romande : structuration, organisation, bras droit externalisé, gestion administrative et performance.",
   keywords: [
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     "partenaire stratégique externalisé",
   ].join(", "),
   openGraph: {
-    title: "Blog — Swiss Serenity Plus",
+    title: "Blog ⎜ Swiss Serenity Plus",
     description: "Insights et conseils pour entrepreneurs exigeants en Suisse romande.",
     type: "website",
   },

@@ -6,19 +6,19 @@ import { SITE_URL, OG_IMAGE, OG_DEFAULTS } from "../../lib/seo";
 const PAGE_URL = `${SITE_URL}/entreprises/sourcing-partenaires`;
 
 export const metadata: Metadata = {
-  title: "Sourcing Partenaires & Fournisseurs Suisse — Swiss Serenity Plus",
+  title: "Sourcing Partenaires & Fournisseurs Suisse ⎜ Swiss Serenity Plus",
   description: "Recherche, sélection et coordination de partenaires et fournisseurs pour PME en Suisse. Sourcing stratégique externalisé depuis Sion, Valais. Sélection rigoureuse.",
   alternates: { canonical: PAGE_URL },
   openGraph: {
     ...OG_DEFAULTS,
-    title: "Sourcing & Gestion des partenaires commerciaux — Suisse romande",
+    title: "Sourcing & Gestion des partenaires commerciaux ⎜ Suisse romande",
     description: "Identifier, sélectionner et coordonner les bons partenaires pour vos PME en Suisse romande. Sourcing stratégique externalisé, approche de confiance.",
     url: PAGE_URL,
     images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sourcing partenaires & fournisseurs — Swiss Serenity Plus",
+    title: "Sourcing partenaires & fournisseurs ⎜ Swiss Serenity Plus",
     description: "Sourcing stratégique externalisé pour PME en Suisse romande.",
     images: [OG_IMAGE.url],
   },

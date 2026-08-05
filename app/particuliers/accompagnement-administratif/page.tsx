@@ -8,19 +8,19 @@ import { SITE_URL, OG_IMAGE, OG_DEFAULTS } from "../../lib/seo";
 const PAGE_URL = `${SITE_URL}/particuliers/accompagnement-administratif`;
 
 export const metadata: Metadata = {
-  title: "Aide Administrative Valais — Seniors & Particuliers — Swiss Serenity Plus",
+  title: "Aide Administrative Valais ⎜ Seniors & Particuliers ⎜ Swiss Serenity Plus",
   description: "Aide administrative pour particuliers, seniors et retraités en Valais. Démarches AVS, caisse maladie, succession, déménagement. Discrétion et bienveillance garanties.",
   alternates: { canonical: PAGE_URL },
   openGraph: {
     ...OG_DEFAULTS,
-    title: "Accompagnement administratif des particuliers — Valais & Suisse romande",
+    title: "Accompagnement administratif des particuliers ⎜ Valais & Suisse romande",
     description: "Aide dans les démarches administratives du quotidien pour seniors, expatriés et particuliers en Valais. AVS, caisse maladie, étapes de vie. Confidentialité absolue.",
     url: PAGE_URL,
     images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Aide administrative Valais — seniors & particuliers — Swiss Serenity Plus",
+    title: "Aide administrative Valais ⎜ seniors & particuliers ⎜ Swiss Serenity Plus",
     description: "Accompagnement administratif pour particuliers et seniors en Valais.",
     images: [OG_IMAGE.url],
   },

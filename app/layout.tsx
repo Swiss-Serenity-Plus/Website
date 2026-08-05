@@ -7,7 +7,7 @@ const LOGO_URL = "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/photos-sit
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: "Swiss Serenity Plus — Bras droit externalisé en Suisse romande",
+  title: "Swiss Serenity Plus ⎜ Bras droit externalisé en Suisse romande",
   description: "Bras droit externalisé haut de gamme pour entrepreneurs et PME en Suisse romande.",
   icons: {
     icon: [{ url: LOGO_URL, type: "image/png" }],
@@ -16,13 +16,13 @@ export const metadata: Metadata = {
   },
   openGraph: {
     ...OG_DEFAULTS,
-    title: "Swiss Serenity Plus — Bras droit externalisé en Suisse romande",
+    title: "Swiss Serenity Plus ⎜ Bras droit externalisé en Suisse romande",
     description: "Bras droit externalisé haut de gamme pour entrepreneurs et PME en Suisse romande.",
     url: SITE_URL,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Swiss Serenity Plus — Bras droit externalisé en Suisse romande",
+    title: "Swiss Serenity Plus ⎜ Bras droit externalisé en Suisse romande",
     description: "Bras droit externalisé haut de gamme pour entrepreneurs et PME en Suisse romande.",
   },
 };
@@ -89,6 +89,14 @@ const jsonLd = {
   "description": "Bras droit business et commercial externalisé pour dirigeants de PME et particuliers en Suisse romande. Office management stratégique depuis Sion, Valais.",
 };
 
+const websiteJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${SITE_URL}/#website`,
+  "name": "Swiss Serenity Plus",
+  "url": SITE_URL,
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr">
@@ -96,6 +104,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
         />
       </head>
       <body>

@@ -6,7 +6,7 @@ import AdminLogin from "../_components/AdminLogin";
 import AdminConsole from "../_components/AdminConsole";
 
 export const metadata = {
-  title: "Console de retours — Swiss Serenity Plus",
+  title: "Console de retours ⎜ Swiss Serenity Plus",
   robots: { index: false, follow: false },
 };
 

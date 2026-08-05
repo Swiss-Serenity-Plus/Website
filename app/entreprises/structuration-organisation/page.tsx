@@ -6,19 +6,19 @@ import { SITE_URL, OG_IMAGE, OG_DEFAULTS } from "../../lib/seo";
 const PAGE_URL = `${SITE_URL}/entreprises/structuration-organisation`;
 
 export const metadata: Metadata = {
-  title: "Office Manager Externalisé Valais — Structuration & Organisation — Swiss Serenity Plus",
+  title: "Office Manager Externalisé Valais ⎜ Structuration & Organisation ⎜ Swiss Serenity Plus",
   description: "Office manager externalisé à Sion — audit organisationnel, procédures, outils de suivi adaptés. Fluidifiez votre fonctionnement sans recruter. Valais, Suisse romande.",
   alternates: { canonical: PAGE_URL },
   openGraph: {
     ...OG_DEFAULTS,
-    title: "Structuration & Organisation externalisée — Valais & Suisse romande",
+    title: "Structuration & Organisation externalisée ⎜ Valais & Suisse romande",
     description: "Office manager externalisé pour PME et indépendants en Valais. Audit, procédures, outils de suivi. Fluidité opérationnelle sans charge salariale.",
     url: PAGE_URL,
     images: [OG_IMAGE],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Structuration & Organisation externalisée — Swiss Serenity Plus",
+    title: "Structuration & Organisation externalisée ⎜ Swiss Serenity Plus",
     description: "Office manager externalisé pour PME et indépendants en Valais.",
     images: [OG_IMAGE.url],
   },
