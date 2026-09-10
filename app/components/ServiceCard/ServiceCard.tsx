@@ -60,7 +60,9 @@ export default function ServiceCard({
         </span>
       </div>
       <h3 className={styles.title}>{title}</h3>
-      <p className={styles.desc}>{shortDescription}</p>
+      {shortDescription.split("\n\n").map((paragraph, i) => (
+        <p key={i} className={styles.desc}>{paragraph}</p>
+      ))}
       <span className={styles.cta} data-fb-label={`Bouton « ${cta} »`}>
         {cta} <ArrowRight size={15} className={styles.arrow} aria-hidden="true" strokeWidth={2} />
       </span>
