@@ -44,7 +44,7 @@ export const ALL_SERVICES = [
   },
   {
     title: "Le Fil Conducteur : Seniors & Familles",
-    shortDescription: "Entre vos obligations professionnelles et familiales, il est difficile de tout gérer pour un parent qui vieillit. Un interlocuteur unique vous accompagne à chaque étape, avec un espace de suivi personnalisé pour rester informé en toute sérénité.",
+    shortDescription: "Vous manquez de temps pour accompagner un parent qui vieillit ? Vous culpabilisez de ne pas pouvoir vous en occuper vous-même ?\n\nLe Fil Conducteur vous offre un interlocuteur unique, du premier bilan jusqu'au suivi de votre proche.\n\nVous retrouvez l'esprit tranquille, en sachant votre proche bien entouré, bien suivi, dans un cadre sécurisé et adapté à ses besoins.",
     href: "/particuliers/accompagnement-administratif#fil-conducteur",
     slug: "fil-conducteur-seniors-familles",
     Icon: HeartHandshake,
