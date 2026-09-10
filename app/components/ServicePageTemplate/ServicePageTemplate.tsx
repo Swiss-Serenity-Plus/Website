@@ -52,6 +52,7 @@ interface ServicePageTemplateProps {
   };
   ctaTitle?: string;
   ctaSubtitle?: string;
+  afterHero?: ReactNode;
   afterTargetAudience?: ReactNode;
   afterProcess?: ReactNode;
   /** Décor montagnes atmosphérique (même effet que le corps de la home). */
@@ -74,6 +75,7 @@ export default function ServicePageTemplate({
   results,
   ctaTitle,
   ctaSubtitle,
+  afterHero,
   afterTargetAudience,
   afterProcess,
   mountainDecor,
@@ -104,6 +106,7 @@ export default function ServicePageTemplate({
           subtitle={subtitle}
           breadcrumbs={breadcrumbs}
         />
+        {afterHero}
         <TargetAudience
           eyebrow={targetAudience.eyebrow}
           title={targetAudience.title}
