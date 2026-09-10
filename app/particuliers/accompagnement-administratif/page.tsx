@@ -87,7 +87,7 @@ export default function AccompagnementAdministratifPage() {
           { title: "Rigueur", text: "Chaque démarche est conduite avec soin pour que rien ne soit oublié et que tout soit fait dans les règles.", image: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/IconPre%CC%81cision-removebg-preview.png" },
         ],
       }}
-      afterHero={
+      afterTargetAudience={
         <HighlightBlock
           id="fil-conducteur"
           eyebrow="Un accompagnement dédié"
