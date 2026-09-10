@@ -42,3 +42,16 @@
 .text + .text {
   margin-top: 1em;
 }
+
+.subSection {
+  margin-top: var(--sp-4);
+  text-align: left;
+}
+
+.subHeading {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--c-text);
+  margin-bottom: var(--sp-1);
+}
