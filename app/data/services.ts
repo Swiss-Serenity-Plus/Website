@@ -44,7 +44,7 @@ export const ALL_SERVICES = [
   },
   {
     title: "Le Fil Conducteur : Seniors & Familles",
-    shortDescription: "Vous manquez de temps pour accompagner un parent qui vieillit ? Vous culpabilisez de ne pas pouvoir vous en occuper vous-même ? Le Fil Conducteur vous offre un interlocuteur unique, du premier bilan jusqu'au suivi après l'installation : recherche de solutions adaptées, montage complet du dossier administratif, coordination de l'entrée en EMS ou à domicile, puis suivi régulier à 1, 3 et 6 mois. Un accompagnement structuré et rassurant, pour que votre parent soit bien entouré, et vous, l'esprit tranquille.",
+    shortDescription: "Entre vos obligations professionnelles et familiales, il est difficile de tout gérer pour un parent qui vieillit. Un interlocuteur unique vous accompagne à chaque étape, avec un espace de suivi personnalisé pour rester informé en toute sérénité.",
     href: "/particuliers/accompagnement-administratif#fil-conducteur",
     slug: "fil-conducteur-seniors-familles",
     Icon: HeartHandshake,
