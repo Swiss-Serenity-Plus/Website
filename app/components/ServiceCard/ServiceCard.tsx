@@ -14,6 +14,8 @@ interface ServiceCardProps {
   iconScale?: number;
   audience: "pro" | "perso";
   cta?: string;
+  /** Identifiant court explicite, pour distinguer deux cartes qui pointent vers la même page. */
+  slug?: string;
 }
 
 export default function ServiceCard({
@@ -25,8 +27,9 @@ export default function ServiceCard({
   iconScale,
   audience,
   cta = "En savoir plus",
+  slug: slugProp,
 }: ServiceCardProps) {
-  const slug = href.split("/").filter(Boolean).pop() ?? fbSlug(title);
+  const slug = slugProp ?? href.split("/").filter(Boolean).pop() ?? fbSlug(title);
   return (
     <Link
       href={href}

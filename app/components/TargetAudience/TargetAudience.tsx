@@ -7,6 +7,7 @@ import styles from "./TargetAudience.module.css";
 type Profile = string | { title: string; text: string };
 
 interface TargetAudienceProps {
+  id?: string;
   eyebrow?: string | null;
   title?: string;
   description: string;
@@ -15,6 +16,7 @@ interface TargetAudienceProps {
 }
 
 export default function TargetAudience({
+  id,
   eyebrow,
   title = "À qui s'adresse ce service ?",
   description,
@@ -42,7 +44,7 @@ export default function TargetAudience({
 
   if (image) {
     return (
-      <section className={styles.section} data-fb-container="Section Clientèle cible">
+      <section id={id} className={styles.section} data-fb-container="Section Clientèle cible">
         <Container>
           <div className={`${styles.inner} ${styles.innerPhoto}`}>
             <div className={styles.left}>

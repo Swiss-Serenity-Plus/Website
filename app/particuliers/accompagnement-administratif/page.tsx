@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { BadgeCheck, Users } from "lucide-react";
 import ServicePageTemplate from "../../components/ServicePageTemplate/ServicePageTemplate";
 import OfferModalities from "../../components/OfferModalities/OfferModalities";
+import HighlightBlock from "../../components/HighlightBlock/HighlightBlock";
 import LotusIcon from "../../components/icons/LotusIcon";
 import { SITE_URL, OG_IMAGE, OG_DEFAULTS } from "../../lib/seo";
 
@@ -54,6 +55,7 @@ export default function AccompagnementAdministratifPage() {
       currentHref="/particuliers/accompagnement-administratif"
       schema={serviceSchema}
       targetAudience={{
+        id: "profils-particuliers",
         eyebrow: null,
         image: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/blog-covers/1779635065199-2abda4e7-22d7-4f8b-a1dc-79ef1d49bdc3.png",
         description: "Pensé pour les personnes souhaitant gagner en sérénité face à des démarches administratives ou des situations de vie nécessitant soutien et organisation.",
@@ -86,6 +88,18 @@ export default function AccompagnementAdministratifPage() {
           { title: "Rigueur", text: "Chaque démarche est conduite avec soin pour que rien ne soit oublié et que tout soit fait dans les règles.", image: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/IconPre%CC%81cision-removebg-preview.png" },
         ],
       }}
+      afterTargetAudience={
+        <HighlightBlock
+          id="fil-conducteur"
+          eyebrow="Un accompagnement dédié"
+          title="Le Fil Conducteur : Seniors & Familles"
+          paragraphs={[
+            "Vous manquez de temps pour accompagner un parent qui vieillit ? Vous culpabilisez de ne pas pouvoir vous en occuper vous-même ?",
+            "Le Fil Conducteur vous offre un interlocuteur unique, du premier bilan jusqu'au suivi après l'installation : recherche de solutions adaptées, montage complet du dossier administratif, coordination de l'entrée en EMS ou à domicile, puis suivi régulier à 1, 3 et 6 mois.",
+            "Un accompagnement structuré et rassurant, pour que votre parent soit bien entouré, et vous, l'esprit tranquille.",
+          ]}
+        />
+      }
       afterProcess={<OfferModalities />}
       process={{
         eyebrow: "Notre prise en charge",

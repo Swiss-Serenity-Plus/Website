@@ -49,13 +49,8 @@
     gap: var(--sp-6);
   }
 
-  /* 3 premières cards : 2 colonnes chacune → 3 par ligne */
-  .grid > *:nth-child(-n+3) {
+  /* 6 cards : 2 colonnes chacune → 3 par ligne, 2 lignes */
+  .grid > * {
     grid-column: span 2;
-  }
-
-  /* Cards 4 et 5 : 3 colonnes chacune → 2 par ligne, centrées */
-  .grid > *:nth-child(n+4) {
-    grid-column: span 3;
   }
 }

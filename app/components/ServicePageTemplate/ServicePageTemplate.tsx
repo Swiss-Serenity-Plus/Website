@@ -20,6 +20,7 @@ interface ServicePageTemplateProps {
   currentHref: string;
   schema?: object;
   targetAudience: {
+    id?: string;
     eyebrow?: string | null;
     title?: string;
     description: string;
@@ -52,6 +53,8 @@ interface ServicePageTemplateProps {
   };
   ctaTitle?: string;
   ctaSubtitle?: string;
+  afterHero?: ReactNode;
+  afterTargetAudience?: ReactNode;
   afterProcess?: ReactNode;
   /** Décor montagnes atmosphérique (même effet que le corps de la home). */
   mountainDecor?: boolean;
@@ -73,6 +76,8 @@ export default function ServicePageTemplate({
   results,
   ctaTitle,
   ctaSubtitle,
+  afterHero,
+  afterTargetAudience,
   afterProcess,
   mountainDecor,
 }: ServicePageTemplateProps) {
@@ -102,13 +107,16 @@ export default function ServicePageTemplate({
           subtitle={subtitle}
           breadcrumbs={breadcrumbs}
         />
+        {afterHero}
         <TargetAudience
+          id={targetAudience.id}
           eyebrow={targetAudience.eyebrow}
           title={targetAudience.title}
           description={targetAudience.description}
           profiles={targetAudience.profiles}
           image={targetAudience.image}
         />
+        {afterTargetAudience}
         <DeliverablesList
           eyebrow={deliverables.eyebrow}
           title={deliverables.title}
