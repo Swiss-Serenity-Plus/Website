@@ -91,12 +91,23 @@ export default function AccompagnementAdministratifPage() {
       afterTargetAudience={
         <HighlightBlock
           id="fil-conducteur"
-          eyebrow="Un accompagnement dédié"
-          title="Le Fil Conducteur : Seniors & Familles"
+          title="Le Fil Conducteur : Un accompagnement dédié aux seniors et à leurs familles"
           paragraphs={[
-            "Vous manquez de temps pour accompagner un parent qui vieillit ? Vous culpabilisez de ne pas pouvoir vous en occuper vous-même ?",
-            "Le Fil Conducteur vous offre un interlocuteur unique, du premier bilan jusqu'au suivi après l'installation : recherche de solutions adaptées, montage complet du dossier administratif, coordination de l'entrée en EMS ou à domicile, puis suivi régulier à 1, 3 et 6 mois.",
-            "Un accompagnement structuré et rassurant, pour que votre parent soit bien entouré, et vous, l'esprit tranquille.",
+            "Beaucoup de proches n'ont simplement plus le temps de s'occuper des démarches liées au vieillissement d'un parent, et vivent parfois cette situation avec un sentiment de culpabilité. Le Fil Conducteur répond à ce double besoin : vous décharger concrètement, et vous offrir la tranquillité d'esprit de savoir votre parent accompagné avec attention par un service premium et humain.",
+          ]}
+          sections={[
+            {
+              heading: "Un interlocuteur unique, du début à la fin",
+              text: "De la recherche de solutions adaptées jusqu'au suivi après l'installation, une seule personne connaît votre dossier et reste à votre écoute : recherche et comparatif d'EMS ou de services à domicile, montage complet des démarches administratives, coordination de l'installation.",
+            },
+            {
+              heading: "Un portail de suivi partagé",
+              text: "Chaque famille dispose d'un espace personnel et confidentiel, accessible à plusieurs proches à la fois, pour suivre en temps réel l'avancement du dossier : documents transmis, rendez-vous, prochaines étapes.",
+            },
+            {
+              heading: "Un accompagnement qui se poursuit dans la durée",
+              text: "Le suivi ne s'arrête pas à l'installation : des points réguliers à 1, 3 et 6 mois garantissent que la situation reste adaptée aux besoins de votre parent.",
+            },
           ]}
         />
       }
