@@ -20,6 +20,7 @@ interface ServicePageTemplateProps {
   currentHref: string;
   schema?: object;
   targetAudience: {
+    id?: string;
     eyebrow?: string | null;
     title?: string;
     description: string;
@@ -108,6 +109,7 @@ export default function ServicePageTemplate({
         />
         {afterHero}
         <TargetAudience
+          id={targetAudience.id}
           eyebrow={targetAudience.eyebrow}
           title={targetAudience.title}
           description={targetAudience.description}
