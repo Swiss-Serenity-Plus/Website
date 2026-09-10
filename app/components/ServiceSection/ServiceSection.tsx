@@ -13,6 +13,7 @@ interface ServiceCardData {
   iconImage?: string;
   audience: "pro" | "perso";
   cta?: string;
+  slug?: string;
 }
 
 interface ServiceSectionProps {
@@ -46,7 +47,7 @@ export default function ServiceSection({
         </div>
         <div className={styles.grid}>
           {cards.map((card) => (
-            <ServiceCard key={card.href} {...card} />
+            <ServiceCard key={card.slug ?? card.href} {...card} />
           ))}
         </div>
       </Container>

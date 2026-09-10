@@ -1,3 +1,5 @@
+import { HeartHandshake } from "lucide-react";
+
 export const ALL_SERVICES = [
   {
     title: "Coordination & Optimisation",
@@ -37,6 +39,14 @@ export const ALL_SERVICES = [
     href: "/particuliers/accompagnement-administratif",
     iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20%22Accomapgnemnt%20au%20particulier%22.png",
     iconScale: 1.6,
+    audience: "perso" as const,
+  },
+  {
+    title: "Le Fil Conducteur : Seniors & Familles",
+    shortDescription: "Vous manquez de temps pour accompagner un parent qui vieillit ? Vous culpabilisez de ne pas pouvoir vous en occuper vous-même ? Le Fil Conducteur vous offre un interlocuteur unique, du premier bilan jusqu'au suivi après l'installation : recherche de solutions adaptées, montage complet du dossier administratif, coordination de l'entrée en EMS ou à domicile, puis suivi régulier à 1, 3 et 6 mois. Un accompagnement structuré et rassurant, pour que votre parent soit bien entouré, et vous, l'esprit tranquille.",
+    href: "/particuliers/accompagnement-administratif",
+    slug: "fil-conducteur-seniors-familles",
+    Icon: HeartHandshake,
     audience: "perso" as const,
   },
 ];
