@@ -70,7 +70,7 @@ export default function Hero() {
           </h1>
           <div className={styles.subtitle}>
             <p>Swiss Serenity Plus® met son savoir-faire au service des Particuliers, pour les accompagner dans leurs démarches administratives et celles liées à leurs projets de vie, avec un service premium dédié aux familles confrontées au vieillissement d'un proche.</p>
-            <p>L'expertise de Swiss Serenity Plus® est également proposée aux Entreprises pour dynamiser leur développement commercial. Elle intervient en tant que partenaire stratégique, orienté résultats, pour augmenter leur chiffre d'affaires, structurer leur organisation et piloter leurs priorités et leurs relations clés.</p>
+            <p>L'expertise de Swiss Serenity Plus® est également proposée aux Entreprises pour dynamiser leur développement commercial. Elle intervient en tant que partenaire stratégique, orienté résultats, pour booster le chiffre d'affaires, cibler les priorités et améliorer la Relation Clients.</p>
             <p>Les Entreprises françaises et européennes, qui souhaitent développer leur présence sur le marché suisse, peuvent aussi bénéficier des services de Swiss Serenity Plus®, avec un soutien opérationnel de proximité.</p>
           </div>
           <div className={styles.ctas}>
