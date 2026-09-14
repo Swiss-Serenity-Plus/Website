@@ -66,6 +66,15 @@
   border: 1px solid rgba(180, 44, 42, 0.3);
 }
 
+.tagCustom {
+  /* Étiquette longue : on autorise le retour à la ligne, sinon elle déborde
+     de la carte (le libellé d'audience par défaut, lui, tient sur une ligne). */
+  white-space: normal;
+  text-align: right;
+  max-width: 190px;
+  line-height: 1.35;
+}
+
 .tagPerso {
   background: rgba(6, 36, 69, 0.08);
   color: var(--c-text);

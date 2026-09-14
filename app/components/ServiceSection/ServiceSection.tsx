@@ -13,6 +13,7 @@ interface ServiceCardData {
   iconImage?: string;
   audience: "pro" | "perso";
   cta?: string;
+  tag?: string;
   slug?: string;
 }
 

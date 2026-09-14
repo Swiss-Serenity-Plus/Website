@@ -14,6 +14,8 @@ interface ServiceCardProps {
   iconScale?: number;
   audience: "pro" | "perso";
   cta?: string;
+  /** Étiquette personnalisée, à la place du libellé d'audience par défaut. */
+  tag?: string;
   /** Identifiant court explicite, pour distinguer deux cartes qui pointent vers la même page. */
   slug?: string;
 }
@@ -27,9 +29,11 @@ export default function ServiceCard({
   iconScale,
   audience,
   cta = "En savoir plus",
+  tag,
   slug: slugProp,
 }: ServiceCardProps) {
   const slug = slugProp ?? href.split("/").filter(Boolean).pop() ?? fbSlug(title);
+  const tagLabel = tag ?? (audience === "pro" ? "Entreprises" : "Particuliers");
   return (
     <Link
       href={href}
@@ -55,8 +59,11 @@ export default function ServiceCard({
             )}
           </div>
         )}
-        <span className={`${styles.tag} ${audience === "perso" ? styles.tagPerso : styles.tagPro}`} data-fb-label={`Étiquette « ${audience === "pro" ? "Entreprises" : "Particuliers"} »`}>
-          {audience === "pro" ? "Entreprises" : "Particuliers"}
+        <span
+          className={`${styles.tag} ${audience === "perso" ? styles.tagPerso : styles.tagPro} ${tag ? styles.tagCustom : ""}`}
+          data-fb-label={`Étiquette « ${tagLabel} »`}
+        >
+          {tagLabel}
         </span>
       </div>
       <h3 className={styles.title}>{title}</h3>
