@@ -70,12 +70,12 @@ export default function Hero() {
             Sérénité · Succès · Performance
           </h1>
           <div className={styles.subtitle}>
-            <p>Swiss Serenity Plus® met son savoir-faire au service des Particuliers, pour les accompagner dans leurs démarches administratives et celles liées à leurs projets de vie, avec un service premium dédié aux familles et aux aidants qui prennent soin d'un proche.</p>
+            <p>Swiss Serenity Plus® met son savoir-faire au service des Particuliers, pour les accompagner dans leurs démarches administratives et celles liées à leurs projets de vie, avec un service premium dédié aux familles et aux aidants confrontés au vieillissement ou à la perte d'autonomie d'un proche.</p>
             <p className={styles.premiumLink} data-fb-label="Lien « LE FIL CONDUCTEUR »">
               <Link href="/particuliers/accompagnement-administratif#fil-conducteur" id="b-hero-fil-conducteur" className={styles.premiumLinkLabel}>
                 Le Fil Conducteur
               </Link>
-              <span className={styles.premiumLinkNote}>anticiper et organiser le vieillissement ou la perte d'autonomie, pour mieux les vivre</span>
+              <span className={styles.premiumLinkNote}>anticiper et organiser, pour que cette étape soit bien vécue</span>
             </p>
             <p>L'expertise de Swiss Serenity Plus® est également proposée aux Entreprises pour dynamiser leur développement commercial. Elle intervient en tant que partenaire stratégique, orienté résultats, pour booster le chiffre d'affaires, cibler les priorités et améliorer la Relation Clients.</p>
             <p>Les Entreprises françaises et européennes, qui souhaitent développer leur présence sur le marché suisse, peuvent aussi bénéficier des services de Swiss Serenity Plus®, avec un soutien opérationnel de proximité.</p>
