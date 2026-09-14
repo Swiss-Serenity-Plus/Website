@@ -34,6 +34,7 @@ export default function ServiceCard({
 }: ServiceCardProps) {
   const slug = slugProp ?? href.split("/").filter(Boolean).pop() ?? fbSlug(title);
   const tagLabel = tag ?? (audience === "pro" ? "Entreprises" : "Particuliers");
+  const tagFbLabel = tagLabel.replace(/\n/g, " ");
   return (
     <Link
       href={href}
@@ -61,7 +62,7 @@ export default function ServiceCard({
         )}
         <span
           className={`${styles.tag} ${audience === "perso" ? styles.tagPerso : styles.tagPro} ${tag ? styles.tagCustom : ""}`}
-          data-fb-label={`Étiquette « ${tagLabel} »`}
+          data-fb-label={`Étiquette « ${tagFbLabel} »`}
         >
           {tagLabel}
         </span>
