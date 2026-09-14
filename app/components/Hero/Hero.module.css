@@ -265,30 +265,47 @@
   }
 }
 
-/* CTA mis en avant « Le Fil Conducteur », entre le titre et le sous-titre.
-   Bordeaux plein (couleur d'action) pour être immédiatement repérable, mais
-   en taille md pour ne pas concurrencer le h1 ni la rangée de CTA du bas. */
+/* Ligne d'orientation « Le Fil Conducteur », entre le titre et le sous-titre.
+   Contour bleu nuit : le bordeaux reste réservé aux boutons d'action du bas.
+   La phrase en italique porte le sens, le bouton reste discret. */
 .featuredCta {
   display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-2);
   margin-top: var(--sp-2);
+  max-width: 520px;
 }
 
 .featuredCta .heroCtaFeatured {
-  background: var(--c-accent-primary);
-  border-color: var(--c-accent-secondary);
-  color: #ffffff;
-  box-shadow: 0 0 0 1px rgba(151, 123, 87, 0.35), 0 6px 20px rgba(180, 44, 42, 0.3);
+  background: transparent;
+  border-color: var(--c-text);
+  color: var(--c-text);
 }
 
 .featuredCta .heroCtaFeatured:hover {
-  background: #9a2523;
+  background: var(--c-text);
   border-color: var(--c-accent-secondary);
   color: #ffffff;
-  box-shadow: 0 0 0 1px rgba(151, 123, 87, 0.55), 0 10px 28px rgba(180, 44, 42, 0.42);
+}
+
+.featuredCtaNote {
+  font-size: 15px;
+  font-style: italic;
+  color: var(--c-text-muted);
+  line-height: 1.5;
 }
 
 @media (max-width: 767px) {
+  .featuredCta {
+    gap: var(--sp-1);
+  }
+
   .featuredCta .heroCtaFeatured {
-    font-size: 15px;
+    font-size: 14px;
+  }
+
+  .featuredCtaNote {
+    font-size: 14px;
   }
 }
