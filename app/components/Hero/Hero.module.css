@@ -264,3 +264,32 @@
     font-size: 14px;
   }
 }
+
+/* Lien « Accompagnement premium » sous le 1er paragraphe du sous-titre. */
+.premiumLink {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.premiumLinkLabel {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--c-accent-primary);
+  border-bottom: 1px solid transparent;
+  align-self: flex-start;
+  transition: border-color var(--transition-fast);
+}
+
+.premiumLinkLabel:hover {
+  border-bottom-color: var(--c-accent-primary);
+}
+
+.premiumLinkNote {
+  font-size: 15px;
+  font-style: italic;
+  color: var(--c-text-muted);
+}

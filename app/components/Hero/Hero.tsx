@@ -1,5 +1,6 @@
 // Hero — photo paysage R2 droite (incrustation premium) + montagnes SVG décoratives.
 import Image from "next/image";
+import Link from "next/link";
 import Button from "../Button/Button";
 import styles from "./Hero.module.css";
 
@@ -70,6 +71,12 @@ export default function Hero() {
           </h1>
           <div className={styles.subtitle}>
             <p>Swiss Serenity Plus® met son savoir-faire au service des Particuliers, pour les accompagner dans leurs démarches administratives et celles liées à leurs projets de vie, avec un service premium dédié aux familles et aux aidants confrontés au vieillissement ou à la perte d'autonomie d'un proche.</p>
+            <p className={styles.premiumLink} data-fb-label="Lien « ACCOMPAGNEMENT PREMIUM »">
+              <Link href="/particuliers/accompagnement-administratif#fil-conducteur" id="b-hero-accompagnement-premium" className={styles.premiumLinkLabel}>
+                Accompagnement premium
+              </Link>
+              <span className={styles.premiumLinkNote}>parce que bien vieillir c'est être accompagné en toute sérénité</span>
+            </p>
             <p>L'expertise de Swiss Serenity Plus® est également proposée aux Entreprises pour dynamiser leur développement commercial. Elle intervient en tant que partenaire stratégique, orienté résultats, pour booster le chiffre d'affaires, cibler les priorités et améliorer la Relation Clients.</p>
             <p>Les Entreprises françaises et européennes, qui souhaitent développer leur présence sur le marché suisse, peuvent aussi bénéficier des services de Swiss Serenity Plus®, avec un soutien opérationnel de proximité.</p>
           </div>
