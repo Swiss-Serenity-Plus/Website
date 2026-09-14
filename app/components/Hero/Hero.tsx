@@ -69,7 +69,7 @@ export default function Hero() {
             Sérénité · Succès · Performance
           </h1>
           <div className={styles.featuredCta}>
-            <Button href="/#b-service-fil-conducteur-seniors-familles" variant="primary" size="md" className={styles.heroCtaFeatured} id="b-hero-cta-fil-conducteur" fbLabel="Bouton « Le Fil Conducteur »">
+            <Button href="/#b-service-accompagnement-administratif" variant="primary" size="md" className={styles.heroCtaFeatured} id="b-hero-cta-fil-conducteur" fbLabel="Bouton « Le Fil Conducteur »">
               Le Fil Conducteur
             </Button>
           </div>
