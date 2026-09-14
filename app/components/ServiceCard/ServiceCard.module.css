@@ -73,12 +73,12 @@
 }
 
 .tagCustom {
-  /* Étiquette de mise en avant : même légèreté que les étiquettes d'audience,
-     mais en doré pour ne pas être confondue avec le rouge des Entreprises. */
-  background: rgba(151, 123, 87, 0.14);
-  color: var(--c-text);
-  border: 1px solid rgba(151, 123, 87, 0.5);
-  font-weight: 600;
+  /* Étiquette de mise en avant : mêmes couleurs que les étiquettes Entreprises,
+     mais en gras et avec un liseré plus marqué pour qu'elle ressorte. */
+  background: rgba(180, 44, 42, 0.12);
+  color: var(--c-accent-primary);
+  border: 1.5px solid rgba(180, 44, 42, 0.55);
+  font-weight: 700;
 }
 
 .title {
