@@ -1,6 +1,5 @@
 // Hero — photo paysage R2 droite (incrustation premium) + montagnes SVG décoratives.
 import Image from "next/image";
-import Link from "next/link";
 import Button from "../Button/Button";
 import styles from "./Hero.module.css";
 
@@ -71,12 +70,6 @@ export default function Hero() {
           </h1>
           <div className={styles.subtitle}>
             <p>Swiss Serenity Plus® met son savoir-faire au service des Particuliers, pour les accompagner dans leurs démarches administratives et celles liées à leurs projets de vie, avec un service premium dédié aux familles et aux aidants confrontés au vieillissement ou à la perte d'autonomie d'un proche.</p>
-            <p className={styles.premiumLink} data-fb-label="Lien « LE FIL CONDUCTEUR »">
-              <Link href="/particuliers/accompagnement-administratif#fil-conducteur" id="b-hero-fil-conducteur" className={styles.premiumLinkLabel}>
-                Le Fil Conducteur
-              </Link>
-              <span className={styles.premiumLinkNote}>anticiper et organiser, pour que cette étape soit bien vécue</span>
-            </p>
             <p>L'expertise de Swiss Serenity Plus® est également proposée aux Entreprises pour dynamiser leur développement commercial. Elle intervient en tant que partenaire stratégique, orienté résultats, pour booster le chiffre d'affaires, cibler les priorités et améliorer la Relation Clients.</p>
             <p>Les Entreprises françaises et européennes, qui souhaitent développer leur présence sur le marché suisse, peuvent aussi bénéficier des services de Swiss Serenity Plus®, avec un soutien opérationnel de proximité.</p>
           </div>
@@ -86,6 +79,9 @@ export default function Hero() {
             </Button>
             <Button href="/#services" variant="secondary" size="lg" className={styles.heroCtaSecondary} id="b-hero-cta-services" fbLabel="Bouton « Nos domaines d'intervention »">
               Nos domaines d'intervention
+            </Button>
+            <Button href="/particuliers/accompagnement-administratif" variant="secondary" size="lg" className={styles.heroCtaTertiary} id="b-hero-cta-fil-conducteur" fbLabel="Bouton « Le Fil Conducteur »">
+              Le Fil Conducteur
             </Button>
           </div>
         </div>

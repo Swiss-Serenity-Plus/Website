@@ -265,31 +265,22 @@
   }
 }
 
-/* Lien « Accompagnement premium » sous le 1er paragraphe du sous-titre. */
-.premiumLink {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+/* 3e CTA « Le Fil Conducteur » : contour bleu nuit, plus discret que les deux
+   premiers, pour garder la hiérarchie du hero. */
+.ctas .heroCtaTertiary {
+  background: transparent;
+  border-color: var(--c-text);
+  color: var(--c-text);
 }
 
-.premiumLinkLabel {
-  font-family: var(--font-body);
-  font-size: 13px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--c-accent-primary);
-  border-bottom: 1px solid transparent;
-  align-self: flex-start;
-  transition: border-color var(--transition-fast);
+.ctas .heroCtaTertiary:hover {
+  background: var(--c-text);
+  border-color: var(--c-accent-secondary);
+  color: #ffffff;
 }
 
-.premiumLinkLabel:hover {
-  border-bottom-color: var(--c-accent-primary);
-}
-
-.premiumLinkNote {
-  font-size: 15px;
-  font-style: italic;
-  color: var(--c-text-muted);
+@media (max-width: 767px) {
+  .ctas .heroCtaTertiary {
+    font-size: 14px;
+  }
 }
