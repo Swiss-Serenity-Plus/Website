@@ -278,20 +278,23 @@
 }
 
 .featuredCta .heroCtaFeatured {
-  background: transparent;
-  border-color: var(--c-text);
+  background: var(--c-surface);
+  border-color: var(--c-accent-secondary);
   color: var(--c-text);
+  box-shadow: 0 0 0 1px rgba(151, 123, 87, 0.2), 0 4px 14px rgba(13, 42, 79, 0.1);
 }
 
 .featuredCta .heroCtaFeatured:hover {
   background: var(--c-text);
   border-color: var(--c-accent-secondary);
   color: #ffffff;
+  box-shadow: 0 0 0 1px rgba(151, 123, 87, 0.45), 0 8px 22px rgba(13, 42, 79, 0.22);
 }
 
 .featuredCtaNote {
   font-size: 15px;
   font-style: italic;
+  font-weight: 600;
   color: var(--c-text-muted);
   line-height: 1.5;
 }
