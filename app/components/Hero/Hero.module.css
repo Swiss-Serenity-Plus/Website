@@ -265,22 +265,30 @@
   }
 }
 
-/* 3e CTA « Le Fil Conducteur » : contour bleu nuit, plus discret que les deux
-   premiers, pour garder la hiérarchie du hero. */
-.ctas .heroCtaTertiary {
-  background: transparent;
-  border-color: var(--c-text);
-  color: var(--c-text);
+/* CTA mis en avant « Le Fil Conducteur », entre le titre et le sous-titre.
+   Bordeaux plein (couleur d'action) pour être immédiatement repérable, mais
+   en taille md pour ne pas concurrencer le h1 ni la rangée de CTA du bas. */
+.featuredCta {
+  display: flex;
+  margin-top: var(--sp-2);
 }
 
-.ctas .heroCtaTertiary:hover {
-  background: var(--c-text);
+.featuredCta .heroCtaFeatured {
+  background: var(--c-accent-primary);
   border-color: var(--c-accent-secondary);
   color: #ffffff;
+  box-shadow: 0 0 0 1px rgba(151, 123, 87, 0.35), 0 6px 20px rgba(180, 44, 42, 0.3);
+}
+
+.featuredCta .heroCtaFeatured:hover {
+  background: #9a2523;
+  border-color: var(--c-accent-secondary);
+  color: #ffffff;
+  box-shadow: 0 0 0 1px rgba(151, 123, 87, 0.55), 0 10px 28px rgba(180, 44, 42, 0.42);
 }
 
 @media (max-width: 767px) {
-  .ctas .heroCtaTertiary {
-    font-size: 14px;
+  .featuredCta .heroCtaFeatured {
+    font-size: 15px;
   }
 }
