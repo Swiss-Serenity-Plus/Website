@@ -1,4 +1,7 @@
 .card {
+  /* Arrêt net sous l'en-tête fixe quand on arrive sur la carte via un lien
+     d'ancre (même valeur que les sections). */
+  scroll-margin-top: 88px;
   display: flex;
   flex-direction: column;
   gap: var(--sp-3);
