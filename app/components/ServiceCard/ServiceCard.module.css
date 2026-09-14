@@ -73,17 +73,12 @@
 }
 
 .tagCustom {
-  /* Étiquette sur deux lignes, et fond plein pour qu'elle ressorte nettement
-     des étiquettes d'audience, volontairement plus pâles. */
-  white-space: pre-line;
-  text-align: center;
-  line-height: 1.35;
-  font-weight: 500;
-  padding: 6px 12px;
-  border-radius: var(--radius-card);
-  background: var(--c-text);
-  color: #ffffff;
-  border: 1px solid var(--c-accent-secondary);
+  /* Étiquette de mise en avant : même légèreté que les étiquettes d'audience,
+     mais en doré pour ne pas être confondue avec le rouge des Entreprises. */
+  background: rgba(151, 123, 87, 0.14);
+  color: var(--c-text);
+  border: 1px solid rgba(151, 123, 87, 0.5);
+  font-weight: 600;
 }
 
 .title {

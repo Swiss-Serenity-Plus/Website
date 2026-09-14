@@ -47,7 +47,7 @@ export const ALL_SERVICES = [
     shortDescription: "Vous manquez de temps pour accompagner un parent qui vieillit ? Vous culpabilisez de ne pas pouvoir vous en occuper vous-même ?\n\nLe Fil Conducteur vous offre un interlocuteur unique, du premier bilan jusqu'au suivi de votre proche.\n\nVous retrouvez l'esprit tranquille, en sachant votre proche bien entouré, bien suivi, dans un cadre sécurisé et adapté à ses besoins.",
     href: "/particuliers/accompagnement-administratif#fil-conducteur",
     slug: "fil-conducteur-seniors-familles",
-    tag: "Service premium\nSeniors & Aidants",
+    tag: "Service premium",
     Icon: HeartHandshake,
     audience: "perso" as const,
   },
