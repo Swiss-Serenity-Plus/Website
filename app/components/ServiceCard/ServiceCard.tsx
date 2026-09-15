@@ -35,6 +35,8 @@ export default function ServiceCard({
   const slug = slugProp ?? href.split("/").filter(Boolean).pop() ?? fbSlug(title);
   const tagLabel = tag ?? (audience === "pro" ? "Entreprises" : "Particuliers");
   const tagFbLabel = tagLabel.replace(/\n/g, " ");
+  const [titleMain, ...titleRest] = title.split(" : ");
+  const titleSuffix = titleRest.length ? ` : ${titleRest.join(" : ")}` : "";
   return (
     <Link
       href={href}
@@ -68,8 +70,16 @@ export default function ServiceCard({
         </span>
       </div>
       {/* Les cartes portant une étiquette personnalisée sont les cartes mises en
-          avant : leur titre est renforcé pour ressortir dans la grille. */}
-      <h3 className={`${styles.title} ${tag ? styles.titleFeatured : ""}`}>{title}</h3>
+          avant : leur titre est renforcé, et sa partie après « : » passe en doré
+          pour réunir les couleurs de la marque sur la carte. */}
+      {tag ? (
+        <h3 className={`${styles.title} ${styles.titleFeatured}`}>
+          {titleMain}
+          {titleSuffix && <span className={styles.titleSuffix}>{titleSuffix}</span>}
+        </h3>
+      ) : (
+        <h3 className={styles.title}>{title}</h3>
+      )}
       {shortDescription.split("\n\n").map((paragraph, i) => (
         <p key={i} className={styles.desc}>{paragraph}</p>
       ))}

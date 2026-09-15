@@ -91,7 +91,11 @@
 
 .titleFeatured {
   font-weight: 700;
-  color: var(--c-accent-primary);
+  color: var(--c-text);
+}
+
+.titleSuffix {
+  color: var(--c-accent-secondary);
 }
 
 .desc {
