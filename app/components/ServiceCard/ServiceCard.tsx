@@ -67,7 +67,9 @@ export default function ServiceCard({
           {tagLabel}
         </span>
       </div>
-      <h3 className={styles.title}>{title}</h3>
+      {/* Les cartes portant une étiquette personnalisée sont les cartes mises en
+          avant : leur titre est renforcé pour ressortir dans la grille. */}
+      <h3 className={`${styles.title} ${tag ? styles.titleFeatured : ""}`}>{title}</h3>
       {shortDescription.split("\n\n").map((paragraph, i) => (
         <p key={i} className={styles.desc}>{paragraph}</p>
       ))}

@@ -89,6 +89,11 @@
   line-height: 1.2;
 }
 
+.titleFeatured {
+  font-weight: 700;
+  color: var(--c-accent-primary);
+}
+
 .desc {
   font-size: 16px;
   color: var(--c-text-muted);
