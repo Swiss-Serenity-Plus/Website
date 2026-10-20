@@ -91,22 +91,26 @@ export default function AccompagnementAdministratifPage() {
       afterTargetAudience={
         <HighlightBlock
           id="fil-conducteur"
-          title="Le Fil Conducteur : Un accompagnement dédié aux seniors et à leurs familles"
+          title="Le Fil Conducteur : Vie privée & professionnelle"
           paragraphs={[
-            "Beaucoup de proches n'ont simplement plus le temps de s'occuper des démarches liées au vieillissement d'un parent, et vivent parfois cette situation avec un sentiment de culpabilité. Le Fil Conducteur répond à ce double besoin : vous décharger concrètement, et vous offrir la tranquillité d'esprit de savoir votre parent accompagné avec attention par un service premium et humain.",
+            "Le Fil Conducteur est un accompagnement premium, concret et sur mesure, pensé pour celles et ceux qui manquent de temps. Nous prenons en charge vos démarches et vos dossiers de A à Z, dans une relation de confiance et de bienveillance, pour que vous puissiez vous consacrer à l'essentiel.",
           ]}
           sections={[
             {
-              heading: "Un interlocuteur unique, du début à la fin",
-              text: "De la recherche de solutions adaptées jusqu'au suivi après l'installation, une seule personne connaît votre dossier et reste à votre écoute : recherche et comparatif d'EMS ou de services à domicile, montage complet des démarches administratives, coordination de l'installation.",
+              heading: "Pour les chefs d'entreprise et leurs équipes",
+              text: "Profitez d'un bras droit externalisé, sans charges salariales, pour vos tâches administratives, votre développement commercial et votre relation clients. Offrez aussi à vos collaborateurs une banque d'heures : ils l'utilisent pour leurs missions comme pour leurs besoins personnels, en toute confidentialité. Un geste fort pour leur bien-être et leur engagement.",
             },
             {
-              heading: "Un portail de suivi partagé",
-              text: "Chaque famille dispose d'un espace personnel et confidentiel, accessible à plusieurs proches à la fois, pour suivre en temps réel l'avancement du dossier : documents transmis, rendez-vous, prochaines étapes.",
+              heading: "Pour vous et vos proches",
+              text: "Papiers, dossiers, échanges avec l'AVS, l'AI ou votre caisse maladie : nous vous aidons dans toutes vos démarches administratives. Pour un parent âgé, nous recherchons et comparons pour vous les EMS, les résidences seniors, les services à domicile et les aides au quotidien, puis nous coordonnons la mise en place. Nous ne nous contentons pas de vous informer ou de vous orienter : nous agissons pour vous, sur le terrain. Nous constituons les dossiers, prenons les rendez-vous et suivons chaque démarche jusqu'au bout. Des points réguliers à 1, 3 et 6 mois permettent ensuite de s'assurer que tout reste adapté.",
             },
             {
-              heading: "Un accompagnement qui se poursuit dans la durée",
-              text: "Le suivi ne s'arrête pas à l'installation : des points réguliers à 1, 3 et 6 mois garantissent que la situation reste adaptée aux besoins de votre parent.",
+              heading: "Pour un nouveau départ entre la Suisse et la France",
+              text: "Vous vous installez en Suisse, vous partez vivre en France ou vous êtes frontalier ? Quelle que soit la raison de ce nouveau départ, nous vous accompagnons dans les démarches pour qu'il se passe sereinement.",
+            },
+            {
+              heading: "Un suivi au plus près de vous",
+              text: "Sur le terrain, par téléphone, en visioconférence, par email ou par tout autre moyen qui vous convient : nous nous adaptons à votre situation et à vos préférences. Vous recevez des comptes rendus clairs à chaque étape, avec un seul point de contact qui connaît votre dossier.",
             },
           ]}
         />
