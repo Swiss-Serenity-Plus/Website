@@ -5,7 +5,7 @@ import Container from "../Container/Container";
 import Button from "../Button/Button";
 import styles from "./AboutTeaser.module.css";
 
-const PORTRAIT_SRC = "/images/mireille-dayer-portrait.png";
+const PORTRAIT_SRC = "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/image.png";
 
 export default function AboutTeaser() {
   return (
