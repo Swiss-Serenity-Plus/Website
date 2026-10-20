@@ -15,11 +15,9 @@ export default function AboutTeaser() {
       <Container>
         <div className={styles.card}>
           <div className={styles.content}>
-            <p className="eyebrow">À propos</p>
+            <p className="eyebrow">Mireille Dayer, fondatrice de Swiss Serenity Plus®</p>
             <h2 className={styles.title} id="about-teaser-title">
-              Mireille Dayer,
-              <br />
-              un accompagnement sur mesure pour les entreprises et les familles
+              À vos côtés pour vos projets professionnels et personnels
             </h2>
             <p className={styles.text}>
               Valaisanne, ayant étudié et exercé mon activité professionnelle en Suisse et en France, j&rsquo;évolue depuis plus de vingt ans dans des environnements mêlant développement commercial, coordination stratégique et relations clients.
