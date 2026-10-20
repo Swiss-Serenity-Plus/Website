@@ -79,3 +79,15 @@
   font-weight: 500;
   color: var(--c-accent-secondary);
 }
+
+.cta {
+  margin-top: var(--sp-6);
+}
+
+/* Sur petit écran, le libellé du bouton peut passer sur deux lignes plutôt que déborder. */
+.ctaButton {
+  max-width: 100%;
+  white-space: normal;
+  justify-content: center;
+  text-align: center;
+}

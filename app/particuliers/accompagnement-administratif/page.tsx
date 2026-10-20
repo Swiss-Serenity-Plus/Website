@@ -117,6 +117,7 @@ export default function AccompagnementAdministratifPage() {
               text: "Nous intervenons sur le terrain, par téléphone, en visioconférence ou par email, selon ce qui vous convient le mieux. Un seul point de contact connaît votre dossier : **vous n'avez plus à répéter votre situation** à chaque nouvel interlocuteur. Et à chaque étape, vous recevez un compte rendu clair.",
             },
           ]}
+          cta={{ label: "Demander un premier échange", href: "/contact", id: "b-fil-conducteur-cta-contact" }}
         />
       }
       afterProcess={<OfferModalities />}

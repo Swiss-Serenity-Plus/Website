@@ -1,6 +1,7 @@
 // HighlightBlock — bloc de mise en avant autonome (titre + texte), inséré dans une page service pour donner sa propre place à un accompagnement spécifique.
 import { LucideIcon } from "lucide-react";
 import Container from "../Container/Container";
+import Button from "../Button/Button";
 import styles from "./HighlightBlock.module.css";
 
 interface HighlightSection {
@@ -15,6 +16,7 @@ interface HighlightBlockProps {
   title: string;
   paragraphs?: string[];
   sections?: HighlightSection[];
+  cta?: { label: string; href: string; id: string };
 }
 
 // Les passages entourés de ** passent en doré. Les espaces devant : ; ? ! deviennent
@@ -25,7 +27,7 @@ function richText(text: string) {
   );
 }
 
-export default function HighlightBlock({ id, eyebrow, title, paragraphs, sections }: HighlightBlockProps) {
+export default function HighlightBlock({ id, eyebrow, title, paragraphs, sections, cta }: HighlightBlockProps) {
   // Comme sur les cartes mises en avant : la partie après « : » passe en doré, sur sa propre ligne.
   const [titleMain, ...titleRest] = title.split(" : ");
   const titleSuffix = titleRest.join(" : ");
@@ -57,6 +59,13 @@ export default function HighlightBlock({ id, eyebrow, title, paragraphs, section
               ))}
             </div>
           ))}
+          {cta && (
+            <div className={styles.cta}>
+              <Button href={cta.href} variant="primary" size="md" className={styles.ctaButton} id={cta.id} fbLabel={`Bouton « ${cta.label} »`}>
+                {cta.label}
+              </Button>
+            </div>
+          )}
         </div>
       </Container>
     </section>
