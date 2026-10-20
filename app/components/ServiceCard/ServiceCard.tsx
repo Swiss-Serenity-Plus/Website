@@ -36,7 +36,7 @@ export default function ServiceCard({
   const tagLabel = tag ?? (audience === "pro" ? "Entreprises" : "Particuliers");
   const tagFbLabel = tagLabel.replace(/\n/g, " ");
   const [titleMain, ...titleRest] = title.split(" : ");
-  const titleSuffix = titleRest.length ? ` : ${titleRest.join(" : ")}` : "";
+  const titleSuffix = titleRest.join(" : ");
   return (
     <Link
       href={href}
@@ -75,7 +75,12 @@ export default function ServiceCard({
       {tag ? (
         <h3 className={`${styles.title} ${styles.titleFeatured}`}>
           {titleMain}
-          {titleSuffix && <span className={styles.titleSuffix}>{titleSuffix}</span>}
+          {titleSuffix && (
+            <span className={styles.titleSuffix}>
+              {" : "}
+              <span className={styles.titleSuffixText}>{titleSuffix}</span>
+            </span>
+          )}
         </h3>
       ) : (
         <h3 className={styles.title}>{title}</h3>
