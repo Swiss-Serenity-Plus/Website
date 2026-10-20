@@ -76,10 +76,10 @@ export default function ServiceCard({
         <h3 className={`${styles.title} ${styles.titleFeatured}`}>
           {titleMain}
           {titleSuffix && (
-            <span className={styles.titleSuffix}>
+            <>
               {" : "}
-              <span className={styles.titleSuffixText}>{titleSuffix}</span>
-            </span>
+              <span className={`${styles.titleSuffix} ${styles.titleSuffixText}`}>{titleSuffix}</span>
+            </>
           )}
         </h3>
       ) : (

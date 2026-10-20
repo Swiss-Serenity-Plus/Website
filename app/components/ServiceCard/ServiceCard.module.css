@@ -127,7 +127,7 @@
   display: block;
   width: 48px;
   height: 2px;
-  margin-bottom: var(--sp-2);
+  margin: 0 auto var(--sp-2);
   background: var(--c-accent-secondary);
 }
 
