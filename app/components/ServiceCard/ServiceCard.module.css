@@ -111,9 +111,10 @@
   flex: 1;
 }
 
+/* Passages mis en avant : doré, comme la partie après « : » du titre. */
 .descStrong {
-  font-weight: 600;
-  color: var(--c-text);
+  font-weight: 500;
+  color: var(--c-accent-secondary);
 }
 
 .cta {

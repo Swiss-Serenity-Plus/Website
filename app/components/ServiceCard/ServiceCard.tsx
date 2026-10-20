@@ -87,7 +87,7 @@ export default function ServiceCard({
       )}
       {shortDescription.split("\n\n").map((paragraph, i) => (
         <p key={i} className={styles.desc}>
-          {/* Les passages entourés de ** dans le texte de la carte passent en gras. */}
+          {/* Les passages entourés de ** dans le texte de la carte sont mis en avant. */}
           {paragraph.split(/\*\*(.+?)\*\*/).map((part, j) =>
             j % 2 ? <strong key={j} className={styles.descStrong}>{part}</strong> : part
           )}
