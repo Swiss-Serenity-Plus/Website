@@ -11,7 +11,7 @@ import styles from "./page.module.css";
 import { SITE_URL, OG_IMAGE, OG_DEFAULTS } from "../lib/seo";
 import { fbSlug } from "../lib/fbToken";
 
-const PORTRAIT_SRC = "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/image.png";
+const PORTRAIT_SRC = "/images/mireille-dayer-portrait.jpg";
 
 const PAGE_URL = `${SITE_URL}/a-propos`;
 
