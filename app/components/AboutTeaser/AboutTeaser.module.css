@@ -153,6 +153,10 @@
   object-fit: cover;
   object-position: center 14%;
   border-radius: 18px;
+  /* Les bords de la photo se fondent dans le cadre : le fond (lampe, plante)
+     s'efface en douceur, le visage au centre reste intact. */
+  -webkit-mask-image: radial-gradient(ellipse 50% 56% at 50% 42%, #000 50%, transparent 100%);
+  mask-image: radial-gradient(ellipse 50% 56% at 50% 42%, #000 50%, transparent 100%);
 }
 
 @media (min-width: 900px) {
