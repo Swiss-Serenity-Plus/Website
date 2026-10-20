@@ -10,6 +10,7 @@ interface ServiceData {
   href: string;
   Icon?: LucideIcon;
   audience: "pro" | "perso";
+  tag?: string;
 }
 
 interface RelatedServicesProps {
@@ -18,7 +19,12 @@ interface RelatedServicesProps {
 }
 
 export default function RelatedServices({ currentHref, services }: RelatedServicesProps) {
-  const related = services.filter((s) => s.href !== currentHref).slice(0, 4);
+  // Les cartes mises en avant (étiquette personnalisée, ex. Le Fil Conducteur)
+  // apparaissent toujours, en dernière position ; les autres complètent jusqu'à 4.
+  const path = (href: string) => href.split("#")[0];
+  const others = services.filter((s) => path(s.href) !== path(currentHref));
+  const featured = others.filter((s) => s.tag);
+  const related = [...others.filter((s) => !s.tag).slice(0, 4 - featured.length), ...featured];
 
   return (
     <section className={styles.section} aria-labelledby="related-title" data-fb-container="Section Autres services">
