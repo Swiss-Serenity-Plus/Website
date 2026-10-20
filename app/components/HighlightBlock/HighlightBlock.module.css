@@ -55,3 +55,27 @@
   color: var(--c-text);
   margin-bottom: var(--sp-1);
 }
+
+.titleSuffix {
+  color: var(--c-accent-secondary);
+}
+
+.titleSuffixText {
+  display: block;
+}
+
+.subHeading {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+}
+
+.subIcon {
+  flex-shrink: 0;
+  color: var(--c-accent-secondary);
+}
+
+.strong {
+  font-weight: 500;
+  color: var(--c-accent-secondary);
+}

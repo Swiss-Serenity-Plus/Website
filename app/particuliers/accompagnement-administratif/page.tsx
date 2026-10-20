@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { BadgeCheck, Users } from "lucide-react";
+import { BadgeCheck, Briefcase, HeartHandshake, MessageCircle, Route, Users } from "lucide-react";
 import ServicePageTemplate from "../../components/ServicePageTemplate/ServicePageTemplate";
 import OfferModalities from "../../components/OfferModalities/OfferModalities";
 import HighlightBlock from "../../components/HighlightBlock/HighlightBlock";
@@ -91,26 +91,30 @@ export default function AccompagnementAdministratifPage() {
       afterTargetAudience={
         <HighlightBlock
           id="fil-conducteur"
-          title="Le Fil Conducteur : Vie privée & professionnelle"
+          title="Le Fil Conducteur : Votre qualité de vie, notre engagement"
           paragraphs={[
-            "Le Fil Conducteur est un accompagnement premium, concret et sur mesure, pensé pour celles et ceux qui manquent de temps. Nous prenons en charge vos démarches et vos dossiers de A à Z, dans une relation de confiance et de bienveillance, pour que vous puissiez vous consacrer à l'essentiel.",
+            "Le Fil Conducteur est un accompagnement premium, **concret et sur mesure**, pensé pour celles et ceux qui manquent de temps. Nous prenons en charge vos démarches et vos dossiers de A à Z, dans une relation de confiance et de bienveillance, pour que vous puissiez vous consacrer à l'essentiel.",
           ]}
           sections={[
             {
+              Icon: Briefcase,
               heading: "Pour les chefs d'entreprise et leurs équipes",
-              text: "Profitez d'un bras droit externalisé, sans charges salariales, pour vos tâches administratives, votre développement commercial et votre relation clients. Offrez aussi à vos collaborateurs une banque d'heures : ils l'utilisent pour leurs missions comme pour leurs besoins personnels, en toute confidentialité. Un geste fort pour leur bien-être et leur engagement.",
+              text: "Profitez d'un **bras droit externalisé**, sans charges salariales, pour vos tâches administratives, votre développement commercial et votre relation clients. Offrez aussi à vos collaborateurs une **banque d'heures** : ils l'utilisent pour leurs missions comme pour leurs besoins personnels, en toute confidentialité. Un geste fort pour leur bien-être et leur engagement.",
             },
             {
+              Icon: HeartHandshake,
               heading: "Pour vous et vos proches",
-              text: "Papiers, dossiers, échanges avec l'AVS, l'AI ou votre caisse maladie : nous vous aidons dans toutes vos démarches administratives. Pour un parent âgé, nous recherchons et comparons pour vous les EMS, les résidences seniors, les services à domicile et les aides au quotidien, puis nous coordonnons la mise en place. Nous ne nous contentons pas de vous informer ou de vous orienter : nous agissons pour vous, sur le terrain. Nous constituons les dossiers, prenons les rendez-vous et suivons chaque démarche jusqu'au bout. Des points réguliers à 1, 3 et 6 mois permettent ensuite de s'assurer que tout reste adapté.",
+              text: "Papiers, dossiers, échanges avec l'AVS, l'AI ou votre caisse maladie : nous vous aidons dans toutes vos démarches administratives. Lorsqu'un proche perd en autonomie, nous recherchons et comparons pour vous les différentes solutions, du maintien à domicile à l'entrée en EMS ou en résidence seniors, en passant par les services et les aides au quotidien. Nous vous accompagnons dans votre choix, puis coordonnons la mise en place.\n\nNous ne nous contentons pas de vous informer ou de vous orienter : **nous agissons pour vous, sur le terrain**. Nous constituons les dossiers, prenons les rendez-vous et suivons chaque démarche jusqu'au bout, en vous associant à chaque décision. Des points de suivi réguliers permettent ensuite de vérifier que la solution choisie vous convient toujours.",
             },
             {
+              Icon: Route,
               heading: "Pour un nouveau départ entre la Suisse et la France",
               text: "Vous vous installez en Suisse, vous partez vivre en France ou vous êtes frontalier ? Quelle que soit la raison de ce nouveau départ, nous vous accompagnons dans les démarches pour qu'il se passe sereinement.",
             },
             {
+              Icon: MessageCircle,
               heading: "Un suivi au plus près de vous",
-              text: "Sur le terrain, par téléphone, en visioconférence, par email ou par tout autre moyen qui vous convient : nous nous adaptons à votre situation et à vos préférences. Vous recevez des comptes rendus clairs à chaque étape, avec un seul point de contact qui connaît votre dossier.",
+              text: "Nous intervenons sur le terrain, par téléphone, en visioconférence ou par email, selon ce qui vous convient le mieux. Un seul point de contact connaît votre dossier : **vous n'avez plus à répéter votre situation** à chaque nouvel interlocuteur. Et à chaque étape, vous recevez un compte rendu clair.",
             },
           ]}
         />
