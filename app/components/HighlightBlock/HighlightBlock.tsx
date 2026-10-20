@@ -37,10 +37,10 @@ export default function HighlightBlock({ id, eyebrow, title, paragraphs, section
           <h2 className={styles.title}>
             {titleMain}
             {titleSuffix && (
-              <span className={styles.titleSuffix}>
+              <>
                 {" : "}
-                <span className={styles.titleSuffixText}>{titleSuffix}</span>
-              </span>
+                <span className={`${styles.titleSuffix} ${styles.titleSuffixText}`}>{titleSuffix}</span>
+              </>
             )}
           </h2>
           {paragraphs?.map((p, i) => (
