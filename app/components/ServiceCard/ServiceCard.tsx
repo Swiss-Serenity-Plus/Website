@@ -85,14 +85,19 @@ export default function ServiceCard({
       ) : (
         <h3 className={styles.title}>{title}</h3>
       )}
-      {shortDescription.split("\n\n").map((paragraph, i) => (
-        <p key={i} className={styles.desc}>
-          {/* Les passages entourés de ** dans le texte de la carte sont mis en avant. */}
-          {paragraph.split(/\*\*(.+?)\*\*/).map((part, j) =>
-            j % 2 ? <strong key={j} className={styles.descStrong}>{part}</strong> : part
-          )}
-        </p>
-      ))}
+      {shortDescription.split("\n\n").map((paragraph, i) => {
+        // Un paragraphe entouré de _ passe en italique ; les passages entourés
+        // de ** sont mis en avant.
+        const italic = /^_.*_$/.test(paragraph);
+        const text = italic ? paragraph.slice(1, -1) : paragraph;
+        return (
+          <p key={i} className={`${styles.desc} ${italic ? styles.descItalic : ""}`}>
+            {text.split(/\*\*(.+?)\*\*/).map((part, j) =>
+              j % 2 ? <strong key={j} className={styles.descStrong}>{part}</strong> : part
+            )}
+          </p>
+        );
+      })}
       <span className={styles.cta} data-fb-label={`Bouton « ${cta} »`}>
         {cta} <ArrowRight size={15} className={styles.arrow} aria-hidden="true" strokeWidth={2} />
       </span>

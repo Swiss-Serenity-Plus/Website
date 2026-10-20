@@ -117,6 +117,10 @@
   color: var(--c-accent-secondary);
 }
 
+.descItalic {
+  font-style: italic;
+}
+
 .cta {
   display: inline-flex;
   align-items: center;
