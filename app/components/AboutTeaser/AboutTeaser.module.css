@@ -160,7 +160,7 @@
     order: 0;
     position: absolute;
     right: var(--sp-8);
-    top: -56px;
+    top: 0;
     bottom: 0;
     left: auto;
     width: 30%;
@@ -169,24 +169,36 @@
     margin: 0;
   }
 
-  /* Pas de fondu bas en desktop : l'image est collée au bas du cadre */
-  .portraitWrap::after { display: none; }
+  /* Voile doux aux tons du cadre autour du visage : éclaircit le fond de la
+     photo sans toucher au centre de l'image. */
+  .portraitWrap::after {
+    top: 0;
+    height: auto;
+    border-radius: 20px;
+    background: radial-gradient(ellipse 58% 46% at 50% 40%, transparent 45%, rgba(247, 245, 241, 0.6) 100%);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
 
   .portraitWrap::before { inset: -16% -12%; }
 
-  /* Incrustation progressive : les bords gauche ET bas de l'image se fondent
-     dans le cadre (intersection des deux dégradés) — aucun bord brut. */
+  /* Incrustation progressive : les bords gauche, haut ET bas de l'image se
+     fondent dans le cadre (intersection des dégradés) — aucun bord brut. */
   .portrait {
     /* Cadrage centré sur le visage, légèrement à gauche de la photo. */
     object-position: 42% 0%;
     border-radius: 20px;
     -webkit-mask-image:
       linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 14%, #000 34%),
-      linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.6) 18%, #000 42%);
+      linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.6) 18%, #000 42%),
+      linear-gradient(to bottom, transparent 0%, #000 14%);
     -webkit-mask-composite: source-in;
     mask-image:
       linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 14%, #000 34%),
-      linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.6) 18%, #000 42%);
+      linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.6) 18%, #000 42%),
+      linear-gradient(to bottom, transparent 0%, #000 14%);
     mask-composite: intersect;
   }
 }
