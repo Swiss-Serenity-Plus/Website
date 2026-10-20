@@ -19,7 +19,7 @@ export default function AboutTeaser() {
             <h2 className={styles.title} id="about-teaser-title">
               Mireille Dayer,
               <br />
-              votre bras droit stratégique
+              un accompagnement sur mesure pour les entreprises et les familles
             </h2>
             <p className={styles.text}>
               Valaisanne, ayant étudié et exercé mon activité professionnelle en Suisse et en France, j&rsquo;évolue depuis plus de vingt ans dans des environnements mêlant développement commercial, coordination stratégique et relations clients.
