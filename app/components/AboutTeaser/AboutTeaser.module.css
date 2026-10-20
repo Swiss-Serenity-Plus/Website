@@ -177,7 +177,8 @@
   /* Incrustation progressive : les bords gauche ET bas de l'image se fondent
      dans le cadre (intersection des deux dégradés) — aucun bord brut. */
   .portrait {
-    object-position: center 8%;
+    /* Cadrage décalé vers la droite de la photo pour que le visage ne soit pas coupé. */
+    object-position: 60% 8%;
     border-radius: 20px;
     -webkit-mask-image:
       linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 14%, #000 34%),
