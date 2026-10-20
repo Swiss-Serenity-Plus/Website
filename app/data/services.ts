@@ -44,7 +44,7 @@ export const ALL_SERVICES = [
   },
   {
     title: "Le Fil Conducteur : Vie privée & professionnelle",
-    shortDescription: "Dirigeant, collaborateur, famille ou nouvel arrivant en Suisse : vous manquez de temps pour vos tâches administratives, votre développement commercial, votre relation clients ou pour accompagner un proche ?\n\nLe Fil Conducteur vous apporte un soutien unique et sur mesure en Valais et en Suisse romande : un bras droit externalisé pour votre entreprise, sans charges salariales, et un accompagnement premium pour votre vie privée.\n\nChefs d'entreprise, offrez à vos équipes une banque d'heures pour leurs besoins professionnels et personnels, en toute confidentialité.\n\nLibérez votre temps, retrouvez votre sérénité : nous nous occupons du reste.",
+    shortDescription: "Vous manquez de temps au bureau comme à la maison ou vous préparez une installation entre la Suisse et la France ?\n\nLe Fil Conducteur, c'est un accompagnement concret et sur mesure : nous agissons pour vous de A à Z dans une relation de confiance et de bienveillance.\n\nChefs d'entreprise, profitez d'un bras droit externalisé sans charges salariales. Offrez aussi à vos équipes une banque d'heures pour leurs besoins professionnels et un accompagnement premium pour leur vie privée en toute confidentialité.\n\nLibérez votre temps, retrouvez votre sérénité : nous nous occupons du reste.",
     href: "/particuliers/accompagnement-administratif#fil-conducteur",
     slug: "fil-conducteur-seniors-familles",
     tag: "Service premium",
