@@ -41,3 +41,10 @@
   max-width: 720px;
   margin: var(--sp-4) auto 0;
 }
+
+/* Carte large : passages mis en avant ramenés au texte courant, sauf dans la
+   phrase de conclusion (dernier paragraphe), pour une lecture plus calme. */
+.featured p:not(:last-of-type) strong {
+  color: inherit;
+  font-weight: inherit;
+}
