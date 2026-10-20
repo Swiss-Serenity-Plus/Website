@@ -102,7 +102,7 @@
 
 .cta { margin-top: var(--sp-2); }
 
-/* ---- Portrait : sort du cadre en haut, collé en bas ----------------------- */
+/* ---- Portrait : bords fondus dans le cadre --------------------------------- */
 .portraitWrap {
   order: -1;
   position: relative;
@@ -110,7 +110,7 @@
   width: 70%;
   max-width: 260px;
   height: 280px;
-  margin: -40px auto 0;
+  margin: 0 auto;
 }
 
 /* Halo lumineux derrière l'image */
@@ -124,26 +124,15 @@
   pointer-events: none;
 }
 
-/* Transition floutée entre le bas de l'image et le texte (mobile) */
+/* Voile doux aux tons du cadre autour du visage : éclaircit le fond de la
+   photo sans toucher au centre de l'image. */
 .portraitWrap::after {
   content: "";
   position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 30%;
+  inset: 0;
   z-index: 2;
-  border-radius: 0 0 18px 18px;
-  background: linear-gradient(
-    to top,
-    var(--c-bg) 10%,
-    rgba(247, 245, 241, 0.45) 45%,
-    transparent 100%
-  );
-  backdrop-filter: blur(2.5px);
-  -webkit-backdrop-filter: blur(2.5px);
-  -webkit-mask-image: linear-gradient(to top, #000 30%, transparent 100%);
-  mask-image: linear-gradient(to top, #000 30%, transparent 100%);
+  border-radius: 18px;
+  background: radial-gradient(ellipse 58% 46% at 50% 40%, transparent 45%, rgba(247, 245, 241, 0.6) 100%);
   pointer-events: none;
 }
 
@@ -153,10 +142,34 @@
   object-fit: cover;
   object-position: center 14%;
   border-radius: 18px;
-  /* Les bords de la photo se fondent dans le cadre : le fond (lampe, plante)
-     s'efface en douceur, le visage au centre reste intact. */
-  -webkit-mask-image: radial-gradient(ellipse 50% 56% at 50% 42%, #000 50%, transparent 100%);
-  mask-image: radial-gradient(ellipse 50% 56% at 50% 42%, #000 50%, transparent 100%);
+  /* Incrustation progressive : les bords gauche, haut ET bas de l'image se
+     fondent dans le cadre (intersection des dégradés) — aucun bord brut. */
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 14%, #000 34%),
+    linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.6) 18%, #000 42%),
+    linear-gradient(to bottom, transparent 0%, #000 14%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 14%, #000 34%),
+    linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.6) 18%, #000 42%),
+    linear-gradient(to bottom, transparent 0%, #000 14%);
+  mask-composite: intersect;
+}
+
+/* Sur téléphone, la photo est centrée : le bord droit se fond aussi. */
+@media (max-width: 899px) {
+  .portrait {
+    -webkit-mask-image:
+      linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 14%, #000 34%),
+      linear-gradient(to left, transparent 0%, rgba(0, 0, 0, 0.5) 14%, #000 34%),
+      linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.6) 18%, #000 42%),
+      linear-gradient(to bottom, transparent 0%, #000 14%);
+    mask-image:
+      linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 14%, #000 34%),
+      linear-gradient(to left, transparent 0%, rgba(0, 0, 0, 0.5) 14%, #000 34%),
+      linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.6) 18%, #000 42%),
+      linear-gradient(to bottom, transparent 0%, #000 14%);
+  }
 }
 
 @media (min-width: 900px) {
@@ -173,36 +186,13 @@
     margin: 0;
   }
 
-  /* Voile doux aux tons du cadre autour du visage : éclaircit le fond de la
-     photo sans toucher au centre de l'image. */
-  .portraitWrap::after {
-    top: 0;
-    height: auto;
-    border-radius: 20px;
-    background: radial-gradient(ellipse 58% 46% at 50% 40%, transparent 45%, rgba(247, 245, 241, 0.6) 100%);
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
-    -webkit-mask-image: none;
-    mask-image: none;
-  }
+  .portraitWrap::after { border-radius: 20px; }
 
   .portraitWrap::before { inset: -16% -12%; }
 
-  /* Incrustation progressive : les bords gauche, haut ET bas de l'image se
-     fondent dans le cadre (intersection des dégradés) — aucun bord brut. */
   .portrait {
     /* Cadrage centré sur le visage, légèrement à gauche de la photo. */
     object-position: 42% 0%;
     border-radius: 20px;
-    -webkit-mask-image:
-      linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 14%, #000 34%),
-      linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.6) 18%, #000 42%),
-      linear-gradient(to bottom, transparent 0%, #000 14%);
-    -webkit-mask-composite: source-in;
-    mask-image:
-      linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 14%, #000 34%),
-      linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.6) 18%, #000 42%),
-      linear-gradient(to bottom, transparent 0%, #000 14%);
-    mask-composite: intersect;
   }
 }
