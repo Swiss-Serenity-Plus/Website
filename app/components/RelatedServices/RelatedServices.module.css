@@ -30,3 +30,14 @@
 @media (min-width: 1024px) {
   .grid { grid-template-columns: repeat(4, 1fr); }
 }
+
+/* Avec une carte mise en avant : 3 cartes par ligne, et la carte mise en avant
+   centrée seule en dessous, à une largeur confortable pour la lecture. */
+@media (min-width: 1024px) {
+  .gridThree { grid-template-columns: repeat(3, 1fr); }
+}
+
+.featured {
+  max-width: 720px;
+  margin: var(--sp-4) auto 0;
+}

@@ -20,11 +20,12 @@ interface RelatedServicesProps {
 
 export default function RelatedServices({ currentHref, services }: RelatedServicesProps) {
   // Les cartes mises en avant (étiquette personnalisée, ex. Le Fil Conducteur)
-  // apparaissent toujours, en dernière position ; les autres complètent jusqu'à 4.
+  // apparaissent toujours, seules sur une ligne sous les autres ; les autres
+  // complètent jusqu'à 4 cartes au total.
   const path = (href: string) => href.split("#")[0];
   const others = services.filter((s) => path(s.href) !== path(currentHref));
   const featured = others.filter((s) => s.tag);
-  const related = [...others.filter((s) => !s.tag).slice(0, 4 - featured.length), ...featured];
+  const related = others.filter((s) => !s.tag).slice(0, 4 - featured.length);
 
   return (
     <section className={styles.section} aria-labelledby="related-title" data-fb-container="Section Autres services">
@@ -33,11 +34,16 @@ export default function RelatedServices({ currentHref, services }: RelatedServic
           <p className="eyebrow">Nos autres services</p>
           <h2 className={styles.title} id="related-title">Découvrir l'ensemble de nos accompagnements</h2>
         </div>
-        <div className={styles.grid}>
+        <div className={`${styles.grid} ${featured.length ? styles.gridThree : ""}`}>
           {related.map((s) => (
             <ServiceCard key={s.href} {...s} />
           ))}
         </div>
+        {featured.map((s) => (
+          <div key={s.href} className={styles.featured}>
+            <ServiceCard {...s} />
+          </div>
+        ))}
       </Container>
     </section>
   );
