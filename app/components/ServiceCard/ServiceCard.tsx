@@ -87,14 +87,16 @@ export default function ServiceCard({
       )}
       {shortDescription.split("\n\n").map((paragraph, i) => {
         // Un paragraphe entouré de _ passe en italique ; les passages entourés
-        // de ** sont mis en avant.
+        // de ** sont mis en avant, et ceux entourés de *** le sont en gras.
         const italic = /^_.*_$/.test(paragraph);
         const text = italic ? paragraph.slice(1, -1) : paragraph;
         return (
           <p key={i} className={`${styles.desc} ${italic ? styles.descItalic : ""}`}>
-            {text.split(/\*\*(.+?)\*\*/).map((part, j) =>
-              j % 2 ? <strong key={j} className={styles.descStrong}>{part}</strong> : part
-            )}
+            {text.split(/(\*\*\*.+?\*\*\*|\*\*.+?\*\*)/).map((part, j) => {
+              if (part.startsWith("***")) return <strong key={j} className={`${styles.descStrong} ${styles.descBold}`}>{part.slice(3, -3)}</strong>;
+              if (part.startsWith("**")) return <strong key={j} className={styles.descStrong}>{part.slice(2, -2)}</strong>;
+              return part;
+            })}
           </p>
         );
       })}

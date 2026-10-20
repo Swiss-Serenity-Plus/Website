@@ -44,7 +44,7 @@ export const ALL_SERVICES = [
   },
   {
     title: "Le Fil Conducteur : Vie privée & professionnelle",
-    shortDescription: "Vous manquez de temps au bureau comme à la maison ou vous préparez une installation entre la Suisse et la France ?\n\n**Le Fil Conducteur**, c'est un accompagnement concret et sur mesure : **nous agissons pour vous** de A à Z dans une relation de confiance et de bienveillance.\n\n**Chefs d'entreprise**, profitez d'un bras droit externalisé sans charges salariales. **Offrez aussi à vos équipes une banque d'heures** pour les soulager dans leurs missions comme dans leur vie personnelle en toute confidentialité.\n\n_**Libérez votre temps, retrouvez votre sérénité : nous nous occupons du reste.**_",
+    shortDescription: "Vous manquez de temps au bureau comme à la maison ou vous préparez une installation entre la Suisse et la France ?\n\n**Le Fil Conducteur**, c'est un accompagnement concret et sur mesure : ***nous agissons pour vous*** de A à Z dans une relation de confiance et de bienveillance.\n\n**Chefs d'entreprise**, profitez d'un bras droit externalisé sans charges salariales. ***Offrez aussi à vos équipes une banque d'heures*** pour les soulager dans leurs missions comme dans leur vie personnelle en toute confidentialité.\n\n_***Libérez votre temps, retrouvez votre sérénité : nous nous occupons du reste !***_",
     href: "/particuliers/accompagnement-administratif#fil-conducteur",
     slug: "fil-conducteur-seniors-familles",
     tag: "Service premium",
