@@ -49,7 +49,7 @@ export default function HighlightBlock({ id, eyebrow, title, paragraphs, section
           {sections?.map((s, i) => (
             <div key={i} className={styles.subSection}>
               <h3 className={styles.subHeading}>
-                {s.Icon && <s.Icon size={20} strokeWidth={1.5} className={styles.subIcon} aria-hidden="true" />}
+                {s.Icon && <s.Icon size={22} strokeWidth={2.25} className={styles.subIcon} aria-hidden="true" />}
                 {s.heading}
               </h3>
               {s.text.split("\n\n").map((p, j) => (
