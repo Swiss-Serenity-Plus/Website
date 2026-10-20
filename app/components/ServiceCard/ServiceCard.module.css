@@ -117,8 +117,18 @@
   color: var(--c-accent-secondary);
 }
 
+/* Phrase de conclusion : italique, détachée par un fin trait doré. */
 .descItalic {
   font-style: italic;
+}
+
+.descItalic::before {
+  content: "";
+  display: block;
+  width: 48px;
+  height: 2px;
+  margin-bottom: var(--sp-2);
+  background: var(--c-accent-secondary);
 }
 
 .descBold {
