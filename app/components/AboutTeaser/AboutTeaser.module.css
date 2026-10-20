@@ -156,18 +156,33 @@
   mask-composite: intersect;
 }
 
-/* Sur téléphone, la photo est centrée : le bord droit se fond aussi. */
+.portraitDesktop { display: none; }
+
+@media (min-width: 900px) {
+  .portraitDesktop { display: block; }
+  .portraitMobile { display: none; }
+}
+
+/* Sur téléphone, la photo est centrée et un peu plus haute : les quatre bords
+   se fondent, avec un fondu bas plus court pour ne pas voiler le visage. */
 @media (max-width: 899px) {
+  .portraitWrap { height: 340px; }
+
+  /* Voile plus large que sur ordinateur, pour qu'il n'atteigne pas le visage. */
+  .portraitWrap::after {
+    background: radial-gradient(ellipse 75% 62% at 50% 42%, transparent 60%, rgba(247, 245, 241, 0.6) 100%);
+  }
+
   .portrait {
     -webkit-mask-image:
-      linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 14%, #000 34%),
-      linear-gradient(to left, transparent 0%, rgba(0, 0, 0, 0.5) 14%, #000 34%),
-      linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.6) 18%, #000 42%),
+      linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 10%, #000 24%),
+      linear-gradient(to left, transparent 0%, rgba(0, 0, 0, 0.5) 10%, #000 24%),
+      linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.6) 12%, #000 28%),
       linear-gradient(to bottom, transparent 0%, #000 14%);
     mask-image:
-      linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 14%, #000 34%),
-      linear-gradient(to left, transparent 0%, rgba(0, 0, 0, 0.5) 14%, #000 34%),
-      linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.6) 18%, #000 42%),
+      linear-gradient(to right, transparent 0%, rgba(0, 0, 0, 0.5) 10%, #000 24%),
+      linear-gradient(to left, transparent 0%, rgba(0, 0, 0, 0.5) 10%, #000 24%),
+      linear-gradient(to top, transparent 0%, rgba(0, 0, 0, 0.6) 12%, #000 28%),
       linear-gradient(to bottom, transparent 0%, #000 14%);
   }
 }

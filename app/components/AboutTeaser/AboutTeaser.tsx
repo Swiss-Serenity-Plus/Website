@@ -6,6 +6,8 @@ import Button from "../Button/Button";
 import styles from "./AboutTeaser.module.css";
 
 const PORTRAIT_SRC = "/images/mireille-dayer-accueil.jpg";
+// Sur téléphone : même photo, cadrée plus serrée sur le visage (comme sur ordinateur).
+const PORTRAIT_MOBILE_SRC = "/images/mireille-dayer-accueil-mobile.jpg";
 
 export default function AboutTeaser() {
   return (
@@ -40,8 +42,16 @@ export default function AboutTeaser() {
               src={PORTRAIT_SRC}
               alt="Mireille Dayer, fondatrice de Swiss Serenity Plus"
               fill
-              sizes="(max-width: 899px) 70vw, 32vw"
-              className={styles.portrait}
+              sizes="32vw"
+              className={`${styles.portrait} ${styles.portraitDesktop}`}
+              priority
+            />
+            <Image
+              src={PORTRAIT_MOBILE_SRC}
+              alt="Mireille Dayer, fondatrice de Swiss Serenity Plus"
+              fill
+              sizes="70vw"
+              className={`${styles.portrait} ${styles.portraitMobile}`}
               priority
             />
           </div>
