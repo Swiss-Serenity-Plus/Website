@@ -86,7 +86,12 @@ export default function ServiceCard({
         <h3 className={styles.title}>{title}</h3>
       )}
       {shortDescription.split("\n\n").map((paragraph, i) => (
-        <p key={i} className={styles.desc}>{paragraph}</p>
+        <p key={i} className={styles.desc}>
+          {/* Les passages entourés de ** dans le texte de la carte passent en gras. */}
+          {paragraph.split(/\*\*(.+?)\*\*/).map((part, j) =>
+            j % 2 ? <strong key={j} className={styles.descStrong}>{part}</strong> : part
+          )}
+        </p>
       ))}
       <span className={styles.cta} data-fb-label={`Bouton « ${cta} »`}>
         {cta} <ArrowRight size={15} className={styles.arrow} aria-hidden="true" strokeWidth={2} />

@@ -111,6 +111,11 @@
   flex: 1;
 }
 
+.descStrong {
+  font-weight: 600;
+  color: var(--c-text);
+}
+
 .cta {
   display: inline-flex;
   align-items: center;
