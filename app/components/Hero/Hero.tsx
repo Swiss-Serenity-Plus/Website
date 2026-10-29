@@ -76,9 +76,9 @@ export default function Hero() {
           </div>
           <div className={styles.subtitle}>
             <p>Sur le terrain et en toute confidentialité, nous menons vos démarches jusqu'à leur aboutissement.</p>
-            <p>Particuliers : EMS, situation de handicap, AVS, AI, expatriés et frontaliers, avec une double expertise Suisse-France.</p>
-            <p>Entreprises : soutenez vos collaborateurs dans leurs démarches privées et réduisez l'absentéisme.</p>
-            <p>Dirigeants : votre assistance de direction externalisée.</p>
+            <p><strong>Particuliers&nbsp;:</strong> EMS, situation de handicap, AVS, AI, expatriés et frontaliers, avec une double expertise Suisse-France.</p>
+            <p><strong>Entreprises&nbsp;:</strong> soutenez vos collaborateurs dans leurs démarches privées, favorisez le bien-être au travail et réduisez l'absentéisme.</p>
+            <p><strong>Dirigeants&nbsp;:</strong> votre assistance de direction externalisée.</p>
           </div>
           <div className={styles.ctas}>
             <Button href="/contact" variant="dark" size="lg" className={styles.heroCtaPrimary} id="b-hero-cta-contact" fbLabel="Bouton « Parlons de votre projet »">
