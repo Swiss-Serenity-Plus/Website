@@ -66,7 +66,7 @@ export default function Hero() {
         <div className={styles.content}>
           <p className="eyebrow">Votre tiers de confiance au&nbsp;quotidien</p>
           <h1 className={styles.title}>
-            Au-delà du conseil&nbsp;: vos démarches réalisées à votre place, sur le terrain
+            Au-delà du conseil, nous agissons à votre place
           </h1>
           <div className={styles.featuredCta}>
             <Button href="/#b-service-accompagnement-administratif" variant="secondary" size="md" className={styles.heroCtaFeatured} id="b-hero-cta-fil-conducteur" fbLabel="Bouton « Le Fil Conducteur »">
