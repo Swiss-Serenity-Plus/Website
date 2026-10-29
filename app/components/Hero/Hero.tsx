@@ -76,7 +76,8 @@ export default function Hero() {
           </div>
           <div className={styles.subtitle}>
             <p>Pour vous, pour un proche ou pour vos collaborateurs, Swiss Serenity Plus® intervient en Tiers de confiance indépendant, à Sion, en Valais et en Suisse romande. Nous prenons en charge l'intégralité de vos démarches administratives et en assurons le suivi, avec un compte rendu à chaque étape.</p>
-            <p>L'expertise de Swiss Serenity Plus® est également proposée aux Entreprises pour dynamiser leur développement commercial. Elle intervient en tant que partenaire stratégique, orienté résultats, pour booster le chiffre d'affaires, cibler les priorités et améliorer la Relation Clients.</p>
+            <p>Entreprises : offrez à vos collaborateurs un bien-être au travail concret. En toute confidentialité, nous réalisons à leur place les démarches de leur vie privée : un parent âgé, un enfant en situation de handicap, des formalités de frontalier, des dossiers administratifs. Charge mentale allégée, absentéisme réduit : vous fidélisez vos talents et renforcez votre attractivité.</p>
+            <p>Dirigeants : bénéficiez d'une assistance de direction externalisée, orientée résultats, sans recrutement ni charges salariales.</p>
             <p>Les Entreprises françaises et européennes, qui souhaitent développer leur présence sur le marché suisse, peuvent aussi bénéficier des services de Swiss Serenity Plus®, avec un soutien opérationnel de proximité.</p>
           </div>
           <div className={styles.ctas}>
