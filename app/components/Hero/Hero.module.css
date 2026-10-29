@@ -186,14 +186,12 @@
 }
 
 .title {
-  /* MIR-354 : « Sérénité · Succès · Performance » sur une seule ligne.
-     nowrap + clamp garantissent une ligne unique qui s'adapte à la largeur
-     (de la mobile au grand écran) sans jamais déborder. */
+  /* MIR-470 : titre long, réparti sur plusieurs lignes équilibrées. */
   font-size: clamp(20px, 5.8vw, 46px);
   font-weight: 600;
   line-height: 1.1;
   color: var(--c-text);
-  white-space: nowrap;
+  text-wrap: balance;
 }
 
 .subtitle {
