@@ -66,13 +66,13 @@ export default function Hero() {
         <div className={styles.content}>
           <p className="eyebrow">Votre tiers de confiance au&nbsp;quotidien</p>
           <h1 className={styles.title}>
-            Au-delà du conseil, nous agissons à votre place
+            Plus qu'un conseil,<br /> une prise en charge complète
           </h1>
           <div className={styles.featuredCta}>
             <Button href="/#b-service-accompagnement-administratif" variant="secondary" size="md" className={styles.heroCtaFeatured} id="b-hero-cta-fil-conducteur" fbLabel="Bouton « Le Fil Conducteur »">
               Le Fil Conducteur
             </Button>
-            <span className={styles.featuredCtaNote}>Du temps gagné pour mieux vivre</span>
+            <span className={styles.featuredCtaNote}>Vos démarches réalisées à votre place, sur le terrain, avec efficacité.</span>
           </div>
           <div className={styles.subtitle}>
             <p>Swiss Serenity Plus® met son savoir-faire au service des Particuliers, pour les accompagner dans leurs démarches administratives et celles liées à leurs projets de vie, avec un service premium dédié aux familles et aux aidants confrontés au vieillissement ou à la perte d'autonomie d'un proche.</p>
