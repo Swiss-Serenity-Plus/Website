@@ -8,7 +8,7 @@ const LOGO_URL = "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/photos-sit
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: "Swiss Serenity Plus ⎜ Bras droit externalisé en Suisse romande",
-  description: "Bras droit externalisé haut de gamme pour entrepreneurs et PME en Suisse romande.",
+  description: "Offrez à vos salariés plus qu’une écoute : un tiers de confiance qui fait leurs démarches à leur place. Réduisez l’absentéisme et la charge mentale.",
   icons: {
     icon: [{ url: LOGO_URL, type: "image/png" }],
     shortcut: [{ url: LOGO_URL, type: "image/png" }],
@@ -17,13 +17,13 @@ export const metadata: Metadata = {
   openGraph: {
     ...OG_DEFAULTS,
     title: "Swiss Serenity Plus ⎜ Bras droit externalisé en Suisse romande",
-    description: "Bras droit externalisé haut de gamme pour entrepreneurs et PME en Suisse romande.",
+    description: "Offrez à vos salariés plus qu’une écoute : un tiers de confiance qui fait leurs démarches à leur place. Réduisez l’absentéisme et la charge mentale.",
     url: SITE_URL,
   },
   twitter: {
     card: "summary_large_image",
     title: "Swiss Serenity Plus ⎜ Bras droit externalisé en Suisse romande",
-    description: "Bras droit externalisé haut de gamme pour entrepreneurs et PME en Suisse romande.",
+    description: "Offrez à vos salariés plus qu’une écoute : un tiers de confiance qui fait leurs démarches à leur place. Réduisez l’absentéisme et la charge mentale.",
   },
 };
 

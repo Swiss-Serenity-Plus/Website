@@ -13,18 +13,18 @@ import { SITE_URL, OG_DEFAULTS } from "./lib/seo";
 
 export const metadata: Metadata = {
   title: "Swiss Serenity Plus ⎜ Bras droit externalisé pour dirigeants en Suisse romande",
-  description: "Bras droit business externalisé pour entrepreneurs et PME en Suisse romande. Structuration, suivi, expérience client et accompagnement particuliers. Sion, Valais.",
+  description: "Offrez à vos salariés plus qu’une écoute : un tiers de confiance qui fait leurs démarches à leur place. Réduisez l’absentéisme et la charge mentale.",
   alternates: { canonical: SITE_URL },
   openGraph: {
     ...OG_DEFAULTS,
     title: "Swiss Serenity Plus ⎜ Bras droit externalisé pour dirigeants en Suisse romande",
-    description: "Bras droit business externalisé pour entrepreneurs et PME en Suisse romande. Structuration, suivi, expérience client et accompagnement particuliers. Sion, Valais.",
+    description: "Offrez à vos salariés plus qu’une écoute : un tiers de confiance qui fait leurs démarches à leur place. Réduisez l’absentéisme et la charge mentale.",
     url: SITE_URL,
   },
   twitter: {
     card: "summary_large_image",
     title: "Swiss Serenity Plus ⎜ Bras droit externalisé pour dirigeants en Suisse romande",
-    description: "Bras droit business externalisé pour entrepreneurs et PME en Suisse romande. Sion, Valais.",
+    description: "Offrez à vos salariés plus qu’une écoute : un tiers de confiance qui fait leurs démarches à leur place. Réduisez l’absentéisme et la charge mentale.",
   },
 };
 
