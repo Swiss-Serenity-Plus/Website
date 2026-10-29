@@ -75,10 +75,9 @@ export default function Hero() {
             <span className={styles.featuredCtaNote}>Sérénité chez soi, Performance au travail</span>
           </div>
           <div className={styles.subtitle}>
-            <p>Pour vous, pour un proche ou pour vos collaborateurs, Swiss Serenity Plus® intervient en Tiers de confiance indépendant, à Sion, en Valais et en Suisse romande. Nous prenons en charge l'intégralité de vos démarches administratives et en assurons le suivi, avec un compte rendu à chaque étape.</p>
-            <p>Entreprises : offrez à vos collaborateurs un bien-être au travail concret. En toute confidentialité, nous réalisons à leur place les démarches de leur vie privée : un parent âgé, un enfant en situation de handicap, des formalités de frontalier, des dossiers administratifs. Charge mentale allégée, absentéisme réduit : vous fidélisez vos talents et renforcez votre attractivité.</p>
-            <p>Dirigeants : bénéficiez d'une assistance de direction externalisée, orientée résultats, sans recrutement ni charges salariales.</p>
-            <p>Les Entreprises françaises et européennes, qui souhaitent développer leur présence sur le marché suisse, peuvent aussi bénéficier des services de Swiss Serenity Plus®, avec un soutien opérationnel de proximité.</p>
+            <p>Pour vous, un proche ou vos collaborateurs, Swiss Serenity Plus®, Tiers de confiance indépendant en Suisse romande, prend en charge l'intégralité de vos démarches.</p>
+            <p>Entreprises : allégez la charge mentale de vos équipes et réduisez l'absentéisme.</p>
+            <p>Dirigeants : une assistance de direction externalisée, sans charges salariales.</p>
           </div>
           <div className={styles.ctas}>
             <Button href="/contact" variant="dark" size="lg" className={styles.heroCtaPrimary} id="b-hero-cta-contact" fbLabel="Bouton « Parlons de votre projet »">
