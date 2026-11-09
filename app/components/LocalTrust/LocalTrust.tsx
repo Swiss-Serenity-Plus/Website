@@ -12,7 +12,7 @@ export default function LocalTrust() {
               <p className="eyebrow">Localisation</p>
               <h2 className={styles.title}>Swiss Serenity Plus<sup style={{ fontSize: "0.45em", lineHeight: 0 }}>®</sup>, le Tiers de confiance basé à Sion, actif en Suisse romande et en région franco‑suisse</h2>
               <p className={styles.text}>
-                Swiss Serenity Plus® accompagne les Professionnels et les Particuliers dans toute la Suisse romande.<br />Selon vos besoins, les prestations peuvent être réalisées à distance, dans vos locaux ou à votre domicile.
+                Sur le terrain ou à distance, en toute confidentialité&nbsp;: démarches administratives réalisées à votre place et appui sur mesure à votre entreprise pour renforcer son efficacité commerciale.<br />Moins de charge mentale, davantage de temps et de bien‑être.
               </p>
             </div>
             <div className={styles.mapWrap}>
