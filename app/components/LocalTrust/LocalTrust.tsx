@@ -10,9 +10,9 @@ export default function LocalTrust() {
           <div className={styles.inner}>
             <div className={styles.content}>
               <p className="eyebrow">Localisation</p>
-              <h2 className={styles.title}>Swiss Serenity Plus<sup style={{ fontSize: "0.45em", lineHeight: 0 }}>®</sup>, le Tiers de confiance basé à Sion, actif en Suisse romande et en région franco‑suisse</h2>
+              <h2 className={styles.title}>Swiss Serenity Plus<sup style={{ fontSize: "0.45em", lineHeight: 0 }}>®</sup>, le Tiers de confiance basé à Sion, actif en Suisse romande et en France voisine</h2>
               <p className={styles.text}>
-                Sur le terrain ou à distance et en toute confidentialité&nbsp;:<br />Vos démarches administratives, réalisées à votre place.<br />Un partenaire stratégique pour renforcer votre efficacité commerciale.<br />Moins de charge mentale, davantage de temps et de bien‑être.
+                Sur le terrain ou à distance et en toute confidentialité&nbsp;:<br />Vos démarches administratives, réalisées à votre place.<br />Un appui opérationnel, dans vos locaux ou externalisé, pour renforcer votre efficacité commerciale.<br />Moins de charge mentale, davantage de temps et de bien‑être.
               </p>
             </div>
             <div className={styles.mapWrap}>
