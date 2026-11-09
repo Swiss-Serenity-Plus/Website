@@ -10,7 +10,7 @@ export default function LocalTrust() {
           <div className={styles.inner}>
             <div className={styles.content}>
               <p className="eyebrow">Localisation</p>
-              <h2 className={styles.title}>Swiss Serenity Plus®, Tiers de confiance basé à Sion, intervient en Suisse romande et dans la région frontalière franco‑suisse</h2>
+              <h2 className={styles.title}>Le Tiers de confiance basé à Sion et en région frontalière franco‑suisse</h2>
               <p className={styles.text}>
                 Swiss Serenity Plus® accompagne les Professionnels et les Particuliers dans toute la Suisse romande.<br />Selon vos besoins, les prestations peuvent être réalisées à distance, dans vos locaux ou à votre domicile.
               </p>
