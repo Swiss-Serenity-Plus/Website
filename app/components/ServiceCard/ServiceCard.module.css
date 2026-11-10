@@ -108,7 +108,6 @@
   font-size: 16px;
   color: var(--c-text-muted);
   line-height: 1.7;
-  flex: 1;
 }
 
 /* Passages mis en avant : doré, comme la partie après « : » du titre. */
