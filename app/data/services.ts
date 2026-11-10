@@ -47,7 +47,7 @@ export const ALL_SERVICES = [
     shortDescription: "Vous manquez de temps pour vos démarches administratives, pour accompagner un proche âgé, malade ou en situation de handicap, ou pour préparer un changement de pays entre la Suisse et la France ?\n\n**Le Fil Conducteur**, c'est un accompagnement concret et sur mesure : ***nous agissons pour vous*** de A à Z dans une relation de confiance et de bienveillance.\n\n**Chefs d'entreprise**, profitez d'un bras droit externalisé, sollicité uniquement quand vous en avez besoin : ni salaire fixe, ni charges sociales. ***Offrez aussi à vos équipes une banque d'heures*** pour que leurs démarches privées soient réalisées à leur place, en toute confidentialité : des collaborateurs plus présents et un engagement concret pour leur bien-être au travail.\n\n_***Libérez votre temps, retrouvez votre sérénité : nous nous occupons du reste !***_",
     href: "/particuliers/accompagnement-administratif#fil-conducteur",
     slug: "fil-conducteur-seniors-familles",
-    tag: "Service premium",
+    tag: "Tiers de confiance",
     Icon: HeartHandshake,
     audience: "perso" as const,
   },
