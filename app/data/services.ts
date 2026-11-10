@@ -27,7 +27,7 @@ export const ALL_SERVICES = [
   },
   {
     title: "Expérience client",
-    shortDescription: "***Chaque client compte***\n\nAccueil, aménagement de vos espaces, signalétique, suivi des demandes, gestion des réclamations : chaque point de contact est repensé pour refléter l'excellence de votre image de marque.\n\nVos clients se sentent écoutés et reconnus, vos équipes se concentrent sur leur cœur de métier.\n\n_***Des clients qui reviennent, une réputation qui rayonne***_",
+    shortDescription: "***Chaque client compte***\n\nAccueil, relation client, suivi des demandes et des réclamations, aménagement des espaces, signalétique : tous vos points de contact sont repensés pour refléter l'excellence de votre image de marque.\n\nVos interlocuteurs se sentent écoutés et reconnus, vos équipes se concentrent sur leur cœur de métier.\n\n_***Une fidélité durable, une réputation qui rayonne***_",
     href: "/entreprises/experience-client",
     iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20%3A%20Exp%C3%A9rience%20Client%20%3A%20Swiss%20Serenity%20Plus.png",
     iconScale: 1.2,
@@ -35,7 +35,7 @@ export const ALL_SERVICES = [
   },
   {
     title: "Accompagnement aux Particuliers",
-    shortDescription: "***Chaque étape de vie, en toute sérénité***\n\nEntrée en EMS, perte d'autonomie d'un proche, installation entre la Suisse et la France, dossiers AVS, AI ou caisse maladie : un accompagnement sur le terrain, de la première démarche à la solution en place.\n\nVous décidez, nous nous chargeons du reste.\n\n_***Votre sérénité, notre engagement***_",
+    shortDescription: "***Les grandes étapes de la vie, en toute sérénité***\n\nEntrée en EMS, perte d'autonomie d'un proche, installation entre la Suisse et la France, dossiers AVS, AI ou caisse maladie : un accompagnement sur le terrain, de la première démarche à la solution en place.\n\nEn tiers de confiance, nous agissons sur place pour vous : vous décidez, vous suivez l'avancement, nous menons tout à bien.\n\n_***Votre confiance, notre engagement***_",
     href: "/particuliers/accompagnement-administratif#profils-particuliers",
     slug: "accompagnement-administratif",
     iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20%22Accomapgnemnt%20au%20particulier%22.png",
@@ -44,7 +44,7 @@ export const ALL_SERVICES = [
   },
   {
     title: "Le Fil Conducteur",
-    shortDescription: "***À titre privé***, vous manquez de temps pour vos démarches administratives, pour accompagner un proche âgé, malade ou en situation de handicap, ou pour préparer un changement de pays entre la Suisse et la France ?\n\nBien plus qu'une simple aide administrative, le **Fil Conducteur** est ***votre tiers de confiance sur le terrain***. Il mène chaque démarche jusqu'au bout à votre place, sans que vous ayez à vous déplacer, et vous gardez la main sur chaque décision.\n\n***Chefs d'entreprise***, profitez d'un bras droit externalisé, sans salaire fixe ni charges sociales, et ***offrez à vos équipes une banque d'heures*** pour leurs démarches privées, en toute confidentialité : plus de présence, plus de bien-être au travail.\n\n_***Du temps gagné, la sérénité en plus***_",
+    shortDescription: "***À titre privé***, vous manquez de temps pour vos démarches administratives, pour accompagner un proche âgé, malade ou en situation de handicap, ou pour préparer un changement de pays entre la Suisse et la France ?\n\nBien plus qu'une simple aide administrative, le **Fil Conducteur** est ***votre tiers de confiance sur le terrain***. Il mène chaque démarche jusqu'au bout à votre place, sans que vous ayez à vous déplacer, et vous gardez la main sur chaque décision.\n\n***Chefs d'entreprise***, profitez d'un bras droit externalisé, sans salaire fixe ni charges sociales, et ***offrez à vos équipes une banque d'heures*** pour leurs démarches privées, en toute confidentialité : moins d'absentéisme, davantage de présence et de bien-être au travail.\n\n_***Du temps gagné, la sérénité en plus***_",
     href: "/particuliers/accompagnement-administratif#fil-conducteur",
     slug: "fil-conducteur-seniors-familles",
     tag: "Tiers de confiance",

@@ -122,12 +122,16 @@
 }
 
 .descItalic::before {
-  content: "";
+  content: "✦";
   display: block;
-  width: 48px;
-  height: 2px;
+  width: 140px;
   margin: 0 auto var(--sp-2);
-  background: var(--c-accent-secondary);
+  font-style: normal;
+  font-size: 11px;
+  line-height: 1;
+  text-align: center;
+  color: var(--c-accent-secondary);
+  background: linear-gradient(to right, transparent, var(--c-accent-secondary) 40%, transparent 40%, transparent 60%, var(--c-accent-secondary) 60%, transparent) center / 100% 1px no-repeat;
 }
 
 .descBold {
