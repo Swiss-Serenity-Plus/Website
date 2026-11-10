@@ -27,15 +27,15 @@ export const ALL_SERVICES = [
   },
   {
     title: "Expérience client",
-    shortDescription: "***Chaque client compte***\n\nAccueil, relation client, suivi des demandes et des réclamations, aménagement des espaces, signalétique : tous vos points de contact sont repensés pour refléter l'excellence de votre image de marque.\n\nVos interlocuteurs se sentent écoutés et reconnus, vos équipes se concentrent sur leur cœur de métier.\n\n_***Une fidélité durable, une réputation qui rayonne***_",
+    shortDescription: "***Chaque client compte***\n\nAccueil, relation client, suivi des demandes et des réclamations, aménagement des espaces, signalétique : tous vos points de contact sont repensés pour refléter l'excellence de votre image de marque.\n\nVos interlocuteurs se sentent écoutés et reconnus, vos équipes se concentrent sur leur cœur de métier.\n\n_***Des clients fidèles qui reviennent, une réputation qui rayonne***_",
     href: "/entreprises/experience-client",
     iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20%3A%20Exp%C3%A9rience%20Client%20%3A%20Swiss%20Serenity%20Plus.png",
     iconScale: 1.2,
     audience: "pro" as const,
   },
   {
-    title: "Accompagnement aux Particuliers",
-    shortDescription: "***Les grandes étapes de la vie, en toute sérénité***\n\nEntrée en EMS, perte d'autonomie d'un proche, installation entre la Suisse et la France, dossiers AVS, AI ou caisse maladie : un accompagnement sur le terrain, de la première démarche à la solution en place.\n\nEn tiers de confiance, nous agissons sur place pour vous : vous décidez, vous suivez l'avancement, nous menons tout à bien.\n\n_***Votre confiance, notre engagement***_",
+    title: "Accompagnement privé",
+    shortDescription: "***Du simple dossier aux grandes étapes de la vie***\n\nFormalités administratives, dossiers AVS, AI ou caisse maladie, entrée en EMS, perte d'autonomie d'un proche, installation entre la Suisse et la France : un accompagnement sur le terrain, de la première démarche à la solution en place.\n\nEn tiers de confiance, Swiss Serenity Plus agit à votre place : vous décidez, vous suivez l'avancement, tout est conduit jusqu'au bout.\n\n_***Votre confiance, un engagement sans faille***_",
     href: "/particuliers/accompagnement-administratif#profils-particuliers",
     slug: "accompagnement-administratif",
     iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20%22Accomapgnemnt%20au%20particulier%22.png",
