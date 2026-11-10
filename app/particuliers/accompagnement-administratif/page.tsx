@@ -93,7 +93,7 @@ export default function AccompagnementAdministratifPage() {
           id="fil-conducteur"
           title="Le Fil Conducteur : Votre qualité de vie, notre engagement"
           paragraphs={[
-            "Le Fil Conducteur est un accompagnement premium, **concret et sur mesure**, pensé pour celles et ceux qui manquent de temps. Nous prenons en charge vos démarches et vos dossiers de A à Z, dans une relation de confiance et de bienveillance, pour que vous puissiez vous consacrer à l'essentiel.",
+            "Le Fil Conducteur est un accompagnement premium **concret et sur mesure**, pensé pour celles et ceux qui manquent de temps. En tiers de confiance, il prend en charge démarches et dossiers de A à Z, à votre place et sur le terrain, pour que chacun puisse se consacrer à l'essentiel.",
           ]}
           sections={[
             {
