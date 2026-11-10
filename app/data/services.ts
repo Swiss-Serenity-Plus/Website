@@ -27,7 +27,7 @@ export const ALL_SERVICES = [
   },
   {
     title: "Expérience client",
-    shortDescription: "***Chaque client compte.***\n\nSuivi des demandes, relances, gestion des réclamations, enquêtes de satisfaction : la relation avec vos clients est prise en charge avec rigueur et sens du détail. Vos clients se sentent écoutés, vos équipes se concentrent sur leur cœur de métier.\n\n_***Des clients fidèles, une réputation renforcée***_",
+    shortDescription: "***Chaque client compte***\n\nAccueil, aménagement de vos espaces, signalétique, suivi des demandes, gestion des réclamations : chaque point de contact est repensé pour refléter l'excellence de votre image de marque.\n\nVos clients se sentent écoutés et reconnus, vos équipes se concentrent sur leur cœur de métier.\n\n_***Des clients qui reviennent, une réputation qui rayonne***_",
     href: "/entreprises/experience-client",
     iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20%3A%20Exp%C3%A9rience%20Client%20%3A%20Swiss%20Serenity%20Plus.png",
     iconScale: 1.2,
@@ -35,7 +35,7 @@ export const ALL_SERVICES = [
   },
   {
     title: "Accompagnement aux Particuliers",
-    shortDescription: "***Vos papiers ne sont plus une charge.***\n\nAVS, AI, caisse maladie, déclaration d'impôts, courriers officiels : vos dossiers sont pris en charge, classés et suivis, sans stress ni retard. Un proche entre en EMS ou perd en autonomie ? Vous préparez un projet de vie entre la Suisse et la France ? Un accompagnement clair, à chaque étape.\n\n_***L'esprit libre, vos démarches en ordre***_",
+    shortDescription: "***Chaque étape de vie, en toute sérénité***\n\nEntrée en EMS, perte d'autonomie d'un proche, installation entre la Suisse et la France, dossiers AVS, AI ou caisse maladie : un accompagnement sur le terrain, de la première démarche à la solution en place.\n\nVous décidez, nous nous chargeons du reste.\n\n_***Votre sérénité, notre engagement***_",
     href: "/particuliers/accompagnement-administratif#profils-particuliers",
     slug: "accompagnement-administratif",
     iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20%22Accomapgnemnt%20au%20particulier%22.png",
