@@ -99,7 +99,7 @@ export default function AccompagnementAdministratifPage() {
             {
               Icon: Briefcase,
               heading: "Pour les chefs d'entreprise et leurs équipes",
-              text: "Profitez d'un **bras droit externalisé**, sans charges salariales, pour vos tâches administratives, votre développement commercial et votre relation clients. Offrez aussi à vos collaborateurs une **banque d'heures** : ils l'utilisent pour leurs missions comme pour leurs besoins personnels, en toute confidentialité. Un geste fort pour leur bien-être et leur engagement.",
+              text: "Profitez d'un **bras droit externalisé** pour vos tâches administratives et commerciales : suivi de dossiers, relation clients, relation fournisseurs. Ni salaire fixe, ni charges sociales. Offrez aussi à vos collaborateurs une **banque d'heures** : ils l'utilisent pour leurs missions comme pour leurs besoins personnels, en toute confidentialité. Un geste fort pour leur bien-être et leur engagement.",
             },
             {
               Icon: HeartHandshake,
