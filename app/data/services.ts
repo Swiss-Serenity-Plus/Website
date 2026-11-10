@@ -27,7 +27,7 @@ export const ALL_SERVICES = [
   },
   {
     title: "Expérience client",
-    shortDescription: "Renforcer la satisfaction et la fidélisation de vos clients avec rigueur et sens du détail.",
+    shortDescription: "***Chaque contact compte.*** Suivi des demandes, relances, gestion des réclamations, enquêtes de satisfaction : la relation avec vos clients est prise en charge avec rigueur et sens du détail. Vos clients se sentent écoutés, vos équipes se concentrent sur leur cœur de métier. ***Des clients fidèles, une réputation renforcée.***",
     href: "/entreprises/experience-client",
     iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20%3A%20Exp%C3%A9rience%20Client%20%3A%20Swiss%20Serenity%20Plus.png",
     iconScale: 1.2,
@@ -35,7 +35,7 @@ export const ALL_SERVICES = [
   },
   {
     title: "Accompagnement aux Particuliers",
-    shortDescription: "Vous aider à avancer sereinement dans vos démarches administratives et vos projets de vie.",
+    shortDescription: "***AVS, AI, caisse maladie, courriers officiels :*** vos papiers et vos dossiers sont pris en charge, classés et suivis, sans stress ni retard. Un proche entre en EMS ou perd en autonomie ? Vous préparez un projet de vie entre la Suisse et la France ? Un accompagnement clair, à chaque étape. ***L'esprit libre, vos démarches en ordre.***",
     href: "/particuliers/accompagnement-administratif#profils-particuliers",
     slug: "accompagnement-administratif",
     iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20%22Accomapgnemnt%20au%20particulier%22.png",
