@@ -18,18 +18,18 @@ const pillars: Pillar[] = [
   {
     iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20%3A%20Une%20pr%C3%A9sence%20proactive%20%3A%20Swiss%20Serenity%20Plus.png",
     iconScale: 2,
-    title: "Une présence proactive",
-    text: "Une approche proactive pensée pour développer votre activité, fluidifier votre organisation et simplifier votre quotidien.",
+    title: "Dirigeants et RH",
+    text: "Une prestation externalisée qui prend en charge les démarches privées de vos collaborateurs : moins d'absences, des équipes plus disponibles, un atout pour votre politique RH et RSE.",
   },
   {
     iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/image-removebg-preview%20(1).png",
-    title: "Confiance, discrétion & rigueur",
-    text: "Discrétion, rigueur et professionnalisme au cœur de chaque mission. Votre confiance est la base de notre partenariat.",
+    title: "Salariés et proches aidants",
+    text: "Dossiers AVS ou AI, entrée en EMS d'un parent : tout est mené à votre place, en toute confidentialité vis-à-vis de l'employeur.",
   },
   {
     iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20%22Solutions%20sur%20mesure%22.png",
-    title: "Solutions sur mesure",
-    text: "Une collaboration efficace, souple et adaptée à vos besoins, sans les contraintes d'un poste interne.",
+    title: "Particuliers, en Suisse et en France",
+    text: "Retraités, familles, personnes qui s'installent en Suisse ou partent vivre en France : formalités, installation, recherche d'emploi, chaque étape est organisée et suivie avec soin.",
   },
 ];
 
