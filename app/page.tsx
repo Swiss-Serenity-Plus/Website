@@ -39,8 +39,8 @@ export default function HomePage() {
         <ServiceSection
           id="services"
           eyebrow="Domaines d'intervention"
-          title="Un tiers de confiance qui mène chaque dossier jusqu'au bout"
-          intro="Particuliers, entreprises et institutions : un appui administratif et commercial sur le terrain, dans toute la Suisse romande et en France voisine."
+          title="Du quotidien privé au développement de votre entreprise"
+          intro="Démarches administratives, relation client, sourcing et coordination : des prestations de services sur mesure, pour gagner du temps et l'esprit libre."
           cards={[...ALL_SERVICES.slice(3), ...ALL_SERVICES.slice(0, 3)]}
         />
         <AboutTeaser />
