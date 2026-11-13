@@ -39,8 +39,8 @@ export default function HomePage() {
         <ServiceSection
           id="services"
           eyebrow="Domaines d'intervention"
-          title="Vos démarches et votre activité, prises en charge jusqu'au bout"
-          intro="Démarches administratives, relation client et fournisseurs : un appui sur le terrain pour les particuliers, les entreprises et les institutions, en Valais, en Suisse romande et dans le bassin genevois franco-suisse."
+          title="Un tiers de confiance qui mène chaque dossier jusqu'au bout"
+          intro="Particuliers, entreprises et institutions : un appui administratif et commercial sur le terrain, dans toute la Suisse romande et en France voisine."
           cards={[...ALL_SERVICES.slice(3), ...ALL_SERVICES.slice(0, 3)]}
         />
         <AboutTeaser />
