@@ -39,8 +39,8 @@ export default function HomePage() {
         <ServiceSection
           id="services"
           eyebrow="Domaines d'intervention"
-          title="Du quotidien privé au développement de votre entreprise"
-          intro="Démarches administratives, relation client, sourcing et coordination : des prestations de services sur mesure, pour gagner du temps et l'esprit libre."
+          title="Un tiers de confiance à vos côtés, à titre privé comme professionnel"
+          intro="Basée en Valais, Swiss Serenity Plus intervient dans toute la Suisse romande et jusqu'aux régions françaises frontalières : démarches administratives, relation client, recherche de fournisseurs, sur mesure et en toute confidentialité."
           cards={[...ALL_SERVICES.slice(3), ...ALL_SERVICES.slice(0, 3)]}
         />
         <AboutTeaser />
