@@ -11,7 +11,7 @@ export const ALL_SERVICES = [
   },
   {
     title: "Développement commercial",
-    shortDescription: "***De nouvelles perspectives pour votre activité***\n\nAnalyse de l'existant, repérage des leviers de croissance, nouvelles offres, partenariats et marchés à conquérir, outils de suivi commercial : votre développement est structuré et piloté avec méthode.\n\nUn appui expérimenté, aux côtés de la direction, pour transformer les opportunités en résultats.\n\n_***Un cap clair, une croissance solide***_",
+    shortDescription: "***De nouvelles perspectives pour votre activité***\n\nAnalyse de l'existant, repérage des leviers de croissance, nouvelles offres, partenariats et marchés à conquérir, outils de suivi commercial : votre développement est structuré et piloté avec méthode.\n\nUn appui expérimenté aux côtés de la direction, sans recrutement ni charges salariales, pour transformer les opportunités en résultats.\n\n_***Un cap clair, une croissance solide***_",
     href: "/entreprises/suivi-optimisation",
     iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/IconPerformance-removebg-preview.png",
     iconScale: 1.2,
@@ -35,7 +35,7 @@ export const ALL_SERVICES = [
   },
   {
     title: "Démarches & projets de vie",
-    shortDescription: "***Tout est pris en charge, de A à Z***\n\nFormalités administratives, dossiers AVS, AI ou caisse maladie, préparation de la retraite, entrée en EMS, installation entre la Suisse et la France : un accompagnement sur le terrain, de la première démarche à la solution en place.\n\nEn tiers de confiance, Swiss Serenity Plus agit à votre place : vous décidez, vous suivez l'avancement, tout est conduit jusqu'au bout.\n\n_***Du quotidien aux étapes clés de la vie***_",
+    shortDescription: "***Tout est pris en charge, de A à Z***\n\nFormalités administratives, dossiers AVS, AI ou caisse maladie, préparation de la retraite, entrée en EMS, installation entre la Suisse et la France : un accompagnement sur le terrain, de la première démarche à la solution en place.\n\nPour un dossier précis ou une étape de vie, Swiss Serenity Plus® intervient à la demande : vous décidez, vous suivez l'avancement.\n\n_***Du quotidien aux étapes clés de la vie***_",
     href: "/particuliers/accompagnement-administratif#profils-particuliers",
     slug: "accompagnement-administratif",
     iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20%22Accomapgnemnt%20au%20particulier%22.png",
@@ -44,7 +44,7 @@ export const ALL_SERVICES = [
   },
   {
     title: "Le Fil Conducteur",
-    shortDescription: "***Votre tiers de confiance sur le terrain***\n\nÀ titre privé, démarches administratives, accompagnement d'un proche en perte d'autonomie ou en situation de handicap, changement de pays entre la Suisse et la France : chaque dossier est mené jusqu'au bout à votre place, et vous gardez la main sur chaque décision.\n\nChefs d'entreprise, profitez d'un bras droit externalisé et offrez à vos équipes une banque d'heures pour leurs démarches privées, en toute confidentialité : des absences évitées, des collaborateurs disponibles, un avantage social tangible pour votre politique RH et RSE.\n\n_***Du temps gagné, la sérénité en plus***_",
+    shortDescription: "***Votre tiers de confiance sur le terrain***\n\nÀ titre privé, un interlocuteur attitré suit votre situation dans la durée : démarches, accompagnement d'un proche en perte d'autonomie ou en situation de handicap, changement de pays, chaque dossier est mené jusqu'au bout à votre place.\n\nChefs d'entreprise, profitez d'un bras droit externalisé et offrez à vos équipes une banque d'heures pour leurs démarches privées, en toute confidentialité : des absences évitées, des collaborateurs disponibles, un avantage social tangible pour votre politique RH et RSE.\n\n_***Du temps gagné, la sérénité en plus***_",
     href: "/particuliers/accompagnement-administratif#fil-conducteur",
     slug: "fil-conducteur-seniors-familles",
     tag: "Tiers de confiance",
