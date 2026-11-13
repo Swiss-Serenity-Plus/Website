@@ -58,7 +58,7 @@ export default function AccompagnementAdministratifPage() {
         id: "profils-particuliers",
         eyebrow: null,
         image: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/blog-covers/1779635065199-2abda4e7-22d7-4f8b-a1dc-79ef1d49bdc3.png",
-        description: "Aide administrative sur mesure, formalités, caisse maladie : en tiers de confiance, tout est pris en charge sur le terrain, à votre place, de Sion à toute la Suisse romande et jusqu'en Haute-Savoie.",
+        description: "Plus qu'une aide administrative : en tiers de confiance, formalités, caisse maladie et dossiers complexes sont pris en charge sur le terrain, à votre place, de Sion à toute la Suisse romande et jusqu'en Haute-Savoie.",
         profiles: [
           "Seniors et leurs proches souhaitant un soutien pour leurs démarches, le maintien à domicile ou l'entrée en EMS.",
           "Expatriés, frontaliers et personnes qui s'installent en Suisse ou partent vivre en France : démarches suisses, françaises ou transfrontalières, et accompagnement dans la recherche d'emploi.",
