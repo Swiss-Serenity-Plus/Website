@@ -76,8 +76,8 @@ export default function Hero() {
           </div>
           <div className={styles.subtitle}>
             <p>Sur le terrain et en toute confidentialité, nous menons vos démarches jusqu'à leur aboutissement.</p>
-            <p><strong>Particuliers&nbsp;:</strong> EMS, situation de handicap, AVS, AI, expatriés et frontaliers, avec une double expertise Suisse-France.</p>
-            <p><strong>Entreprises&nbsp;:</strong> soutenez vos collaborateurs dans leurs démarches privées, favorisez le bien-être au travail et réduisez l'absentéisme.</p>
+            <p><strong>Particuliers&nbsp;:</strong> Retraite, AVS, AI, entrée en EMS, installation en Suisse ou en France, avec une double expertise Suisse-France.</p>
+            <p><strong>Entreprises&nbsp;:</strong> soutenez vos équipes, salariés aidants compris, dans leurs démarches privées : plus de qualité de vie au travail, moins d'absentéisme.</p>
             <p><strong>Dirigeants&nbsp;:</strong> votre assistance de direction externalisée.</p>
           </div>
           <div className={styles.ctas}>
