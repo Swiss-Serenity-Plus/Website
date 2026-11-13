@@ -39,8 +39,8 @@ export default function HomePage() {
         <ServiceSection
           id="services"
           eyebrow="Domaines d'intervention"
-          title="Moins de charge mentale, grâce à un tiers de confiance qui agit pour vous"
-          intro="Démarches privées, relation client, fournisseurs : vos dossiers sont traités, vos salariés soulagés, l'absentéisme réduit. En Suisse romande et en zone frontalière."
+          title="Un tiers de confiance qui agit à votre place"
+          intro="Pour vous, un proche, vos collaborateurs ou votre entreprise : dossiers AVS, AI ou EMS, grandes étapes de vie, démarches entre la Suisse et la France, appui à la direction. Une prise en charge complète, en Suisse romande et en Haute-Savoie."
           cards={[...ALL_SERVICES.slice(3), ...ALL_SERVICES.slice(0, 3)]}
         />
         <AboutTeaser />
