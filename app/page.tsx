@@ -39,8 +39,8 @@ export default function HomePage() {
         <ServiceSection
           id="services"
           eyebrow="Domaines d'intervention"
-          title="Un tiers de confiance qui agit à votre place"
-          intro="Pour vous, un proche, vos collaborateurs ou votre entreprise : dossiers AVS, AI ou EMS, grandes étapes de vie, démarches entre la Suisse et la France, assistance de direction externalisée. Une prise en charge complète, en Suisse romande et en Haute-Savoie."
+          title="Six domaines, un interlocuteur unique"
+          intro="Une prestation sur mesure, du dossier privé au développement de votre entreprise, en Suisse romande et en Haute-Savoie."
           cards={[...ALL_SERVICES.slice(3), ...ALL_SERVICES.slice(0, 3)]}
         />
         <AboutTeaser />

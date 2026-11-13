@@ -41,8 +41,8 @@ export default function ValueProp3Col() {
       <AtmosphericAccent side="right" tone="cool" intensity="subtle" />
       <Container>
         <div className={styles.header}>
-          <p className="eyebrow">Pour chaque situation</p>
-          <h2 className={styles.title}>L&rsquo;Esprit Swiss Serenity Plus<span className={styles.reg}>&reg;</span></h2>
+          <p className="eyebrow">L&rsquo;Esprit Swiss Serenity Plus&reg;</p>
+          <h2 className={styles.title}>Une réponse pour chaque situation</h2>
         </div>
         <div className={styles.grid}>
           {pillars.map((p) => {
