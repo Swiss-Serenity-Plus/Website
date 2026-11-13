@@ -57,14 +57,14 @@ export default function AccompagnementAdministratifPage() {
       targetAudience={{
         id: "profils-particuliers",
         eyebrow: null,
-        title: "À qui s'adresse cet accompagnement ?",
+        title: "Un accompagnement pensé pour vous",
         image: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/blog-covers/1779635065199-2abda4e7-22d7-4f8b-a1dc-79ef1d49bdc3.png",
         description: "Plus qu'une aide administrative : en tiers de confiance, formalités, caisse maladie et dossiers complexes sont pris en charge sur le terrain, à votre place, de Sion à toute la Suisse romande et jusqu'en Haute-Savoie.",
         profiles: [
           "Seniors et leurs proches : organisation du maintien à domicile ou de l'entrée en EMS, choix d'un établissement, inscriptions et démarches auprès des communes, du canton et des organismes d'aide…",
           "Expatriés, frontaliers et personnes qui s'installent en Suisse ou partent vivre en France : installation, permis, assurances, projet de travailler en Suisse et recherche d'emploi…",
-          "Toute personne qui traverse une étape de vie : fin de carrière, entrée en maison de retraite, déménagement, changement de situation familiale, succession…",
-          "Salariés aidants qui, en plus de leur travail, prennent soin au quotidien d'un membre de leur famille et ne trouvent plus le temps de tout gérer.",
+          "Toute personne qui traverse une étape de vie : déménagement, changement de situation familiale, fin de carrière, entrée en maison de retraite…",
+          "Salariés aidants qui, en plus de leur travail, prennent soin au quotidien d'un membre de leur famille en perte d'autonomie ou en situation de handicap, et ne trouvent plus le temps de tout gérer.",
         ],
       }}
       deliverables={{
