@@ -41,7 +41,7 @@ export default function HomePage() {
           eyebrow="Domaines d'intervention"
           title="Six domaines, un interlocuteur unique"
           intro="Une prestation sur mesure, du dossier privé au développement de votre entreprise, en Suisse romande et en Haute-Savoie."
-          cards={[...ALL_SERVICES.slice(3), ...ALL_SERVICES.slice(0, 3)]}
+          cards={[ALL_SERVICES[4], ALL_SERVICES[5], ALL_SERVICES[3], ...ALL_SERVICES.slice(0, 3)]}
         />
         <AboutTeaser />
         <LocalTrust />
