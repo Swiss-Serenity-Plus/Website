@@ -179,4 +179,10 @@
   .title {
     min-height: 2.4em;
   }
+
+  /* L'accroche (premier paragraphe) réserve aussi deux lignes : le texte qui
+     suit commence au même niveau dans toutes les cartes d'une rangée. */
+  .title + .desc {
+    min-height: calc(2 * 1.7em);
+  }
 }
