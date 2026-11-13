@@ -161,3 +161,22 @@
 .card:hover .arrow {
   transform: translateX(4px);
 }
+
+/* Alignement des cartes d'une même rangée : la phrase de conclusion (avec son
+   losange doré) descend au même niveau dans toutes les cartes, juste au-dessus
+   du lien « En savoir plus ». */
+.descItalic {
+  margin-top: auto;
+}
+
+.descItalic ~ .cta {
+  margin-top: 0;
+}
+
+/* Sur écran large (3 cartes par rangée), le titre réserve la hauteur de deux
+   lignes : l'accroche commence ainsi au même niveau dans toutes les cartes. */
+@media (min-width: 768px) {
+  .title {
+    min-height: 2.4em;
+  }
+}
