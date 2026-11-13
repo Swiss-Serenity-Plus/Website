@@ -4,6 +4,7 @@ import Container from "../Container/Container";
 import AtmosphericAccent from "../AtmosphericAccent/AtmosphericAccent";
 import styles from "./ValueProp3Col.module.css";
 import type { LucideIcon } from "lucide-react";
+import { HeartHandshake } from "lucide-react";
 import { fbSlug } from "../../lib/fbToken";
 
 interface Pillar {
@@ -16,18 +17,19 @@ interface Pillar {
 
 const pillars: Pillar[] = [
   {
-    iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20%3A%20Une%20pr%C3%A9sence%20proactive%20%3A%20Swiss%20Serenity%20Plus.png",
-    iconScale: 2,
+    iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20%3A%20Coordination%20%26%20Optimisation%20%3A%20Swiss%20Serenity%20Plus.png",
+    iconScale: 1.5,
     title: "Dirigeants et RH",
     text: "Une prestation externalisée qui prend en charge les démarches privées de vos collaborateurs : moins d'absences, des équipes plus disponibles, un atout pour votre politique RH et RSE.",
   },
   {
-    iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/image-removebg-preview%20(1).png",
+    icon: HeartHandshake,
     title: "Salariés et proches aidants",
     text: "Dossiers AVS ou AI, entrée en EMS d'un parent : tout est mené à votre place, en toute confidentialité vis-à-vis de l'employeur.",
   },
   {
-    iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20%22Solutions%20sur%20mesure%22.png",
+    iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20%22Accomapgnemnt%20au%20particulier%22.png",
+    iconScale: 1.6,
     title: "Particuliers, en Suisse et en France",
     text: "Retraités, familles, personnes qui s'installent en Suisse ou partent vivre en France : formalités, installation, recherche d'emploi, chaque étape est organisée et suivie avec soin.",
   },
@@ -39,7 +41,7 @@ export default function ValueProp3Col() {
       <AtmosphericAccent side="right" tone="cool" intensity="subtle" />
       <Container>
         <div className={styles.header}>
-          <p className="eyebrow">Notre engagement</p>
+          <p className="eyebrow">Pour chaque situation</p>
           <h2 className={styles.title}>L&rsquo;Esprit Swiss Serenity Plus<span className={styles.reg}>&reg;</span></h2>
         </div>
         <div className={styles.grid}>
