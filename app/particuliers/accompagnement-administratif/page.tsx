@@ -57,13 +57,14 @@ export default function AccompagnementAdministratifPage() {
       targetAudience={{
         id: "profils-particuliers",
         eyebrow: null,
+        title: "À qui s'adresse cet accompagnement ?",
         image: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/blog-covers/1779635065199-2abda4e7-22d7-4f8b-a1dc-79ef1d49bdc3.png",
         description: "Plus qu'une aide administrative : en tiers de confiance, formalités, caisse maladie et dossiers complexes sont pris en charge sur le terrain, à votre place, de Sion à toute la Suisse romande et jusqu'en Haute-Savoie.",
         profiles: [
-          "Seniors et leurs proches : organisation du maintien à domicile ou de l'entrée en EMS, recherche de solutions, inscriptions et coordination avec les services d'aide.",
-          "Expatriés, frontaliers et personnes qui s'installent en Suisse ou partent vivre en France : démarches suisses, françaises ou transfrontalières, et accompagnement dans la recherche d'emploi.",
-          "Toute personne qui traverse une étape de vie : départ à la retraite, préparation d'une entrée en home, déménagement, séparation, succession.",
-          "Salariés aidants qui gèrent, en plus de leur travail, la situation administrative d'un membre de leur famille âgé, malade ou en situation de handicap.",
+          "Seniors et leurs proches : organisation du maintien à domicile ou de l'entrée en EMS, choix d'un établissement, inscriptions et démarches auprès des communes, du canton et des organismes d'aide…",
+          "Expatriés, frontaliers et personnes qui s'installent en Suisse ou partent vivre en France : installation, permis, assurances, projet de travailler en Suisse et recherche d'emploi…",
+          "Toute personne qui traverse une étape de vie : fin de carrière, entrée en maison de retraite, déménagement, changement de situation familiale, succession…",
+          "Salariés aidants qui, en plus de leur travail, prennent soin au quotidien d'un membre de leur famille et ne trouvent plus le temps de tout gérer.",
         ],
       }}
       deliverables={{
