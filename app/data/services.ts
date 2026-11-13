@@ -3,7 +3,7 @@ import { HeartHandshake } from "lucide-react";
 export const ALL_SERVICES = [
   {
     title: "Coordination & Optimisation",
-    shortDescription: "Fluidifier les échanges, structurer les processus et améliorer la coordination administrative et opérationnelle entre les différents intervenants.",
+    shortDescription: "***Une organisation qui tourne, même en votre absence***\n\nCirculation de l'information, procédures, outils de suivi, lien entre les différents intervenants : la coordination administrative et opérationnelle de votre structure est clarifiée et tenue à jour.\n\nLes relances inutiles et les doublons disparaissent, chacun sait qui fait quoi.\n\n_***Une structure fluide, l'esprit libre***_",
     href: "/entreprises/structuration-organisation",
     iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20%3A%20Coordination%20%26%20Optimisation%20%3A%20Swiss%20Serenity%20Plus.png",
     iconScale: 1.5,
@@ -11,7 +11,7 @@ export const ALL_SERVICES = [
   },
   {
     title: "Développement commercial",
-    shortDescription: "Renforcer vos actions commerciales, développer vos relations clients et soutenir la croissance de votre activité.",
+    shortDescription: "***De nouvelles perspectives pour votre activité***\n\nAnalyse de l'existant, repérage des leviers de croissance, nouvelles offres, partenariats et marchés à conquérir, outils de suivi commercial : votre développement est structuré et piloté avec méthode.\n\nUn appui expérimenté, aux côtés de la direction, pour transformer les opportunités en résultats.\n\n_***Une stratégie claire, une croissance maîtrisée***_",
     href: "/entreprises/suivi-optimisation",
     iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/IconPerformance-removebg-preview.png",
     iconScale: 1.2,
@@ -19,7 +19,7 @@ export const ALL_SERVICES = [
   },
   {
     title: "Sourcing & Partenaires",
-    shortDescription: "Identifier et coordonner les bons partenaires pour gagner en efficacité et en qualité.",
+    shortDescription: "***Les bons partenaires, au bon moment***\n\nRecherche de fournisseurs et de nouveaux produits, comparaison des offres, sélection selon vos critères, mise en relation et suivi des collaborations.\n\nDes heures de recherche épargnées, et des partenaires fiables pour travailler en confiance.\n\n_***Des collaborations solides, une qualité maîtrisée***_",
     href: "/entreprises/sourcing-partenaires",
     iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20%3A%20Sourcing%20%26%20Partenaires%20%3A%20Swiss%20Serenity%20Plus.png",
     iconScale: 1.5,
