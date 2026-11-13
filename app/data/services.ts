@@ -35,7 +35,7 @@ export const ALL_SERVICES = [
   },
   {
     title: "Démarches & projets de vie",
-    shortDescription: "***Tout est pris en charge, de A à Z***\n\nFormalités administratives, dossiers AVS, AI ou caisse maladie, entrée en EMS, perte d'autonomie d'un proche, installation entre la Suisse et la France : un accompagnement sur le terrain, de la première démarche à la solution en place.\n\nEn tiers de confiance, Swiss Serenity Plus agit à votre place : vous décidez, vous suivez l'avancement, tout est conduit jusqu'au bout.\n\n_***Du quotidien aux étapes clés de la vie***_",
+    shortDescription: "***Tout est pris en charge, de A à Z***\n\nFormalités administratives, dossiers AVS, AI ou caisse maladie, préparation de la retraite, entrée en EMS, installation entre la Suisse et la France : un accompagnement sur le terrain, de la première démarche à la solution en place.\n\nEn tiers de confiance, Swiss Serenity Plus agit à votre place : vous décidez, vous suivez l'avancement, tout est conduit jusqu'au bout.\n\n_***Du quotidien aux étapes clés de la vie***_",
     href: "/particuliers/accompagnement-administratif#profils-particuliers",
     slug: "accompagnement-administratif",
     iconImage: "https://pub-b61ce5a39cc042cabc94943b3c8f74b4.r2.dev/icons/Icon%20%22Accomapgnemnt%20au%20particulier%22.png",
