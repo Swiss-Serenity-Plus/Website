@@ -39,8 +39,8 @@ export default function HomePage() {
         <ServiceSection
           id="services"
           eyebrow="Domaines d'intervention"
-          title="Un tiers de confiance à vos côtés, à titre privé comme professionnel"
-          intro="Basée en Valais, Swiss Serenity Plus intervient dans toute la Suisse romande et jusqu'aux régions françaises frontalières : démarches administratives, relation client, recherche de fournisseurs, sur mesure et en toute confidentialité."
+          title="Moins de charge mentale, grâce à un tiers de confiance qui agit pour vous"
+          intro="Démarches privées, relation client, fournisseurs : vos dossiers sont traités, vos salariés soulagés, l'absentéisme réduit. En Suisse romande et en zone frontalière."
           cards={[...ALL_SERVICES.slice(3), ...ALL_SERVICES.slice(0, 3)]}
         />
         <AboutTeaser />
